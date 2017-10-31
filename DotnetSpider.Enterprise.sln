@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise", "src\DotnetSpider.Enterprise\DotnetSpider.Enterprise.csproj", "{EDD46943-5918-497D-9693-422AB88594B1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{420BCCA4-2759-4EAC-90B0-F97CA854C0A4}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Scheduler", "src\DotnetSpider.Enterprise.Scheduler\DotnetSpider.Enterprise.Scheduler.csproj", "{AFFF9881-150A-4F56-BD6B-B0CA84A96C89}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Agent", "src\DotnetSpider.Enterprise.Agent\DotnetSpider.Enterprise.Agent.csproj", "{413A3EDA-3BBD-461B-BF96-A63FC3D3F7C3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Common", "src\DotnetSpider.Enterprise.Common\DotnetSpider.Enterprise.Common.csproj", "{C34F898A-A9C9-4FC5-9AFD-8441E1D61B31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetSpider.Enterprise.Builder", "src\DotnetSpider.Enterprise.Builder\DotnetSpider.Enterprise.Builder.csproj", "{9F80C79C-9D4E-4EB1-846A-537429F5A66E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Builder", "src\DotnetSpider.Enterprise.Builder\DotnetSpider.Enterprise.Builder.csproj", "{9F80C79C-9D4E-4EB1-846A-537429F5A66E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetSpider.Enterprise", "src\DotnetSpider.Enterprise\DotnetSpider.Enterprise.csproj", "{B4973CD4-BBEA-4522-B50C-F5B2297B191E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetSpider.Enterprise.Scheduler", "src\DotnetSpider.Enterprise.Scheduler\DotnetSpider.Enterprise.Scheduler.csproj", "{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EDD46943-5918-497D-9693-422AB88594B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDD46943-5918-497D-9693-422AB88594B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDD46943-5918-497D-9693-422AB88594B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDD46943-5918-497D-9693-422AB88594B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFFF9881-150A-4F56-BD6B-B0CA84A96C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFFF9881-150A-4F56-BD6B-B0CA84A96C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFFF9881-150A-4F56-BD6B-B0CA84A96C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFFF9881-150A-4F56-BD6B-B0CA84A96C89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{413A3EDA-3BBD-461B-BF96-A63FC3D3F7C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{413A3EDA-3BBD-461B-BF96-A63FC3D3F7C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{413A3EDA-3BBD-461B-BF96-A63FC3D3F7C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +37,14 @@ Global
 		{9F80C79C-9D4E-4EB1-846A-537429F5A66E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F80C79C-9D4E-4EB1-846A-537429F5A66E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F80C79C-9D4E-4EB1-846A-537429F5A66E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4973CD4-BBEA-4522-B50C-F5B2297B191E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4973CD4-BBEA-4522-B50C-F5B2297B191E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4973CD4-BBEA-4522-B50C-F5B2297B191E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4973CD4-BBEA-4522-B50C-F5B2297B191E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
