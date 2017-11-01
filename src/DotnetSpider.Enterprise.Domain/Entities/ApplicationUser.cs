@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DotnetSpider.Enterprise.Domain.Entities
 {
-	public class ApplicationUser : IdentityDbContext<long>, IAuditedEntity
+	public class ApplicationUser : IdentityUser<long>, IAuditedEntity
 	{
 		public virtual DateTime? LastModificationTime { get; set; }
 		public virtual long? LastModifierUserId { get; set; }
