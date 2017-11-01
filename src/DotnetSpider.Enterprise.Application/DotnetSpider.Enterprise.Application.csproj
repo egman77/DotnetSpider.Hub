@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0" />
+    <PackageReference Include="StackExchange.Redis" Version="1.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotnetSpider.Enterprise.Domain\DotnetSpider.Enterprise.Domain.csproj" />
+    <ProjectReference Include="..\DotnetSpider.Enterprise.EntityFrameworkCore\DotnetSpider.Enterprise.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+</Project>

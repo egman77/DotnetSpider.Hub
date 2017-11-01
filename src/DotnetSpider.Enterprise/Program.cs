@@ -10,16 +10,26 @@ using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            BuildWebHost(args).Run();
-        }
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			string hostUrl = "http://*:5000";
+			if (File.Exists("host.url"))
+			{
+				hostUrl = File.ReadAllLines("host.url")[0];
+			}
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
-    }
+			var host = new WebHostBuilder()
+				.UseKestrel()
+				.UseContentRoot(Directory.GetCurrentDirectory())
+				.UseIISIntegration()
+				.UseStartup<Startup>()
+				.UseApplicationInsights()
+				.UseUrls(hostUrl)
+				.Build();
+
+			host.Run();
+		}
+	}
 }
