@@ -202,3 +202,7 @@ FakesAssemblies/
 *.opt
 
 /src/DotnetSpider.Test/Example/TestExample.cs
+/src/DotnetSpider.Enterprise.Common/Entities/RestProperties.cs
+/src/DotnetSpider.Enterprise.Common/Utils/HttpUtil.cs
+/src/DotnetSpider.Enterprise.Common/Utils/RestConnection.cs
+/src/DotnetSpider.Enterprise.Common/Entities/HttpContentTypes.cs
