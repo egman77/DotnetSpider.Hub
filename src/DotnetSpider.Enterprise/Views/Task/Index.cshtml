@@ -56,7 +56,7 @@
                                         <span class="pull-left">Search:</span>
                                         <input id="queryKeyword" type="search" v-model="keyword" v-on:keypress="onKeyPress($event)" class="form-control input-sm pull-left" placeholder="">
                                     </div>
-                                </div>*@
+                              </div>*@
                             <table class="table table-bordered table-striped table-hover no-footer">
                                 <thead>
                                     <tr role="row">
@@ -124,96 +124,107 @@
                 </div>
                 <div class="modal-body">
                     <form id="form_validation" method="POST" novalidate="novalidate">
-                        @*<div class="form-group form-float">
+                      @*<div class="form-group form-float">
+                            <div class="form-line">
+                                <input type="text" id="spider" data-toggle="modal" v-model="selSpiderName" data-target="#VersionSelectModal" class="form-control" name="name" required="" aria-required="true">
+                                <label class="form-label">Spider</label>
+                            </div>
+                        </div>*@
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input name="framework" type="radio" id="Net45" value="Net45" v-model="newTask.framework" />
+                                <label for="Net45">Net45</label>
+                                <input name="framework" type="radio" id="NetCore" value="NetCore" v-model="newTask.framework" />
+                                <label for="NetCore">NetCore</label>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="checkbox" id="checkbox" :checked="newTask.isEnabled" name="checkbox">
+                                <label for="checkbox">Enable</label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
                                 <div class="form-line">
-                                    <input type="text" id="spider" data-toggle="modal" v-model="selSpiderName" data-target="#VersionSelectModal" class="form-control" name="name" required="" aria-required="true">
-                                    <label class="form-label">Spider</label>
+                                    <input type="text" class="form-control" name="name" v-model="newTask.name" placeholder="Display name" required="" aria-required="true">
                                 </div>
-                            </div>*@
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="version" v-model="newTask.version" placeholder="Git version" required="" aria-required="true">
+                                </div>
+                            </div>
+                       </div>
 
-                        <div class="form-group form-float">
-                            <div :class="['form-line',{'focused':newTask.name!=''}]">
-                                <input type="text" class="form-control" name="name" v-model="newTask.name" placeholder="" required="" aria-required="true">
-                                <label class="form-label">Task's display name</label>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <div :class="['form-line',{'success':assemblyNameValidator ,'error':!assemblyNameValidator}]">
+                                    <input type="text" class="form-control" name="assemblyName" id="assemblyName" v-model="newTask.assemblyName" placeholder="Executing assembly name" required="" aria-required="true">
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group form-float">
-                            <div :class="['form-line',{'focused':newTask.version!=''}]">
-                                <input type="text" class="form-control" name="version" v-model="newTask.version" placeholder="" required="" aria-required="true">
-                                <label class="form-label">Git version</label>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <div :class="['form-line',{'focused':newTask.taskName!=''}]">
+                                    <input type="text" class="form-control" name="taskName" v-model="newTask.taskName" placeholder="Full class name/TaskNameAttribute name" required="" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="surname" v-model="newTask.extraArguments" required="" placeholder="Extra arguments(eg: -a:1,2,3)" aria-required="true">
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group form-float">
-                            <input name="framework" type="radio" id="Net45" value="Net45" v-model="newTask.framework" />
-                            <label for="Net45">Net45</label>
-                            <input name="framework" type="radio" id="NetCore" value="NetCore" v-model="newTask.framework" />
-                            <label for="NetCore">NetCore</label>
-                        </div>
-
-                        <div class="form-group form-float">
-                            <div :class="['form-line',{'focused':newTask.assemblyName!=''}]">
-                                <input type="text" class="form-control" name="assemblyName" id="assemblyName" @@blur="leave($event)" v-model="newTask.assemblyName" placeholder="" required="" aria-required="true">
-                                <label class="form-label">Executing assembly name</label>
+                        @*<div class="form-row">
+                            <div class="form-group col-md-12">
+                                <div class="form-line">
+                                    <input type="text" v-model="newTask.cron" class="form-control" name="cron" required="" placeholder="Trigger(Cron Expression)" aria-required="true">
+                                </div>
+                            </div>
+                        </div>*@
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <select class="form-control show-tick" v-model="newTask.nodesCount">
+                                    <option value="1">1 Node</option>
+                                    <option value="2">2 Nodes</option>
+                                    <option value="3">3 Nodes</option>
+                                    <option value="4">4 Nodes</option>
+                                    <option value="5">5 Nodes</option>
+                                    <option value="6">6 Nodes</option>
+                                    <option value="7">7 Nodes</option>
+                                    <option value="8">8 Nodes</option>
+                                    <option value="9">9 Nodes</option>
+                                    <option value="10">10 Nodes</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="form-line">
+                                    <input type="text" v-model="newTask.cron" class="form-control" name="cron" required="" placeholder="Trigger(Cron Expression)" aria-required="true">
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group form-float">
-                            <div :class="['form-line',{'focused':newTask.assemblyName!=''}]">
-                                <input type="text" class="form-control" name="taskName" v-model="newTask.taskName" placeholder="" required="" aria-required="true">
-                                <label class="form-label">Full class name or TaskNameAttribute name</label>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="client" v-model="newTask.client" placeholder="Client" required="" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="executive" v-model="newTask.executive" placeholder="Executive" required="" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" name="programmer" v-model="newTask.programmer" placeholder="Programmer" required="" aria-required="true">
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-group form-float">
-                            <div :class="['form-line',{'focused':newTask.assemblyName!=''}]">
-                                <input type="text" class="form-control" name="surname" v-model="newTask.extraArguments" required="" aria-required="true">
-                                <label class="form-label">Extra arguments(eg: -a:1,2,3)</label>
-                            </div>
-                        </div>
-                        <div class="form-group form-float">
-                            <div :class="['form-line',{'focused':newTask.assemblyName!=''}]">
-                                <input type="text" v-model="newTask.cron" class="form-control" name="cron" required="" aria-required="true">
-                                <label class="form-label">Trigger(Cron Expression)</label>
-                            </div>
-                        </div>
-                        <div class="form-group form-float">
-                            <select class="form-control show-tick" v-model="newTask.nodesCount">
-                                <option value="1">1 Node</option>
-                                <option value="2">2 Nodes</option>
-                                <option value="3">3 Nodes</option>
-                                <option value="4">4 Nodes</option>
-                                <option value="5">5 Nodes</option>
-                                <option value="6">6 Nodes</option>
-                                <option value="7">7 Nodes</option>
-                                <option value="8">8 Nodes</option>
-                                <option value="9">9 Nodes</option>
-                                <option value="10">10 Nodes</option>
-                            </select>
-                        </div>
-                        <div class="form-group form-float">
-                            <div  :class="['form-line',{'focused':newTask.client!=''}]">
-                                <input type="text" class="form-control" name="client" v-model="newTask.client" placeholder="" required="" aria-required="true">
-                                <label class="form-label">Client</label>
-                            </div>
-                        </div>
-                        <div class="form-group form-float">
-                            <div  :class="['form-line',{'focused':newTask.executive!=''}]">
-                                <input type="text" class="form-control" name="executive" v-model="newTask.executive" placeholder="" required="" aria-required="true">
-                                <label class="form-label">Executive</label>
-                            </div>
-                        </div>
-                        <div class="form-group form-float">
-                            <div  :class="['form-line',{'focused':newTask.assemblyName!=''}]">
-                                <input type="text" class="form-control" name="programmer" v-model="newTask.programmer" placeholder="" required="" aria-required="true">
-                                <label class="form-label">Programmer</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="checkbox" id="checkbox" :checked="newTask.isEnabled" name="checkbox">
-                            <label for="checkbox">Enable</label>
-                        </div>
+                        
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-link waves-effect" @@click="saveSpider()">SUBMIT</button>
-                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                            <button type="button" class="btn bg-light-green btn-link waves-effect" @@click="saveSpider()">SUBMIT</button>
+                            <button type="button" class="btn bg-grey btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                         </div>
                     </form>
                 </div>

@@ -1,26 +1,42 @@
 ﻿$(function () {
 	//setMenuActive('tasks');
-	function appendError(id, target, error) {
-		var el = $(target).parent();
-		el.addClass("error");
-		if ($("#" + id + "-error").length) {
-			$("#" + id + "-error").text(error);
-		}
-		else {
-			el.parent().append('<label id="' + id + '-error" class="error" for="email">' + error + '</label>');
+	function appendError(id, error) {
+		var el = $("#" + id).parent();
+		//el.addClass("focused");
+		//el.removeClass("success");
+		//el.addClass("error");
+		if (error) {
+			if ($("#" + id + "-error").length) {
+				$("#" + id + "-error").text(error);
+			}
+			else {
+				el.parent().append('<label id="' + id + '-error" class="error">' + error + '</label>');
+			}
 		}
 	}
-	function removeError(id, target) {
-		$(target).parent().removeClass("error");
+	function addSucess(id) {
+		var el = $("#" + id).parent();
+		//el.removeClass("error");
+		//el.addClass("focused");
+		//el.addClass("success");
 		$("#" + id + "-error").remove();
 	}
+
 	var validator = {
 		assemblyName:  function (target,value) {
 			if ($.trim(value) == '') {
-				appendError('assemblyName', target, 'Assembly name can not be empty.');
+				//appendError('assemblyName', target);
 				return false;
 			}
-			removeError('assemblyName', target);
+			else if (value.length > 100) {
+				appendError('assemblyName', target, 'Less than 100 characters.');
+				return false;
+			}
+			else if (!/^([a-zA-Z0-9]+\.){1,}(exe|dll)$/.test(value)) {
+				appendError('assemblyName', target, 'Assembly name is not valid. eg: Xbjrkj.DataCollection.Apps.dll');
+				return false;
+			}
+			addSucess('assemblyName', target);
 			return true;
 		}
 	};
@@ -50,7 +66,7 @@
 				name:'',
 				version: '',
 				framework:'NetCore',
-				assemblyName:'',
+				assemblyName: 'Xbjrkj.DataCollection.Apps.dll',
 				taskName: '',
 				projectId: 0,
 				isEnabled: true,
@@ -70,6 +86,23 @@
 			loadTasks(this);
 		},
 		computed: {
+			assemblyNameValidator: function () {
+				var value = this.newTask.assemblyName;
+				if ($.trim(value) == '') {
+					//appendError('assemblyName', target);
+					return false;
+				}
+				else if (value.length > 100) {
+					appendError('assemblyName', 'Less than 100 characters.');
+					return false;
+				}
+				else if (!/^([a-zA-Z0-9]+\.){1,}(exe|dll)$/.test(value)) {
+					appendError('assemblyName', 'Assembly name is not valid. eg: Xbjrkj.DataCollection.Apps.dll');
+					return false;
+				}
+				addSucess('assemblyName');
+				return true;
+			}
 			//selSpiderName: {
 			//	get: function () {
 			//		if (this.newTask.spiderName == '') return '';

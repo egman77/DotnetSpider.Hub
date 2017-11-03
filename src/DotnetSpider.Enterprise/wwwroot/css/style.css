@@ -5028,9 +5028,12 @@ section.content {
 
 .form-horizontal .form-group {
   margin-bottom: 0; }
-
+.form-row {
+    width: 100%;
+    border: none;
+    float:left;
+}
 .form-group {
-  width: 100%;
   margin-bottom: 25px; }
   .form-group .form-control {
     width: 100%;

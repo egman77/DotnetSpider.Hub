@@ -20,14 +20,14 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		protected readonly IAppSession Session;
 		protected readonly ILogger Logger;
 		protected readonly ICommonConfiguration Configuration;
-		protected readonly IApplicationLogAppService ExceptionService;
+		//protected readonly IApplicationLogAppService ExceptionService;
 
 		public AppControllerBase()
 		{
 			Session = DI.IocManager.GetRequiredService<IAppSession>();
 			Logger = DI.IocManager.GetRequiredService<ILoggerFactory>().CreateLogger(GetType());
 			Configuration = DI.IocManager.GetRequiredService<ICommonConfiguration>();
-			ExceptionService = DI.IocManager.GetRequiredService<IApplicationLogAppService>();
+			//ExceptionService = DI.IocManager.GetRequiredService<IApplicationLogAppService>();
 		}
 
 		protected string GetModelStateError()
@@ -187,19 +187,19 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 
 		protected void LogException(Exception e)
 		{
-			try
-			{
-				ExceptionService.Log(new Domain.Entities.Logs.Exception
-				{
-					CreationTime = DateTime.Now,
-					Message = e.ToString(),
-					Path = HttpContext.Request.Path,
-					QueryString = HttpContext.Request.QueryString.ToString(),
-					UserId = Session.UserId,
-					SessionId = HttpContext.Session.Id
-				});
-			}
-			catch { }
+			//try
+			//{
+			//	ExceptionService.Log(new Domain.Entities.Logs.Exception
+			//	{
+			//		CreationTime = DateTime.Now,
+			//		Message = e.ToString(),
+			//		Path = HttpContext.Request.Path,
+			//		QueryString = HttpContext.Request.QueryString.ToString(),
+			//		UserId = Session.UserId,
+			//		SessionId = HttpContext.Session.Id
+			//	});
+			//}
+			//catch { }
 		}
 	}
 }
