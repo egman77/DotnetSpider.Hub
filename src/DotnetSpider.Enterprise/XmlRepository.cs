@@ -12,12 +12,12 @@ namespace DotnetSpider.Enterprise.Web
 	public class XmlRepository : IXmlRepository
 	{
 		private readonly string _filePath;
-		private readonly ICommonConfiguration _pa1PaConfiguration;
+		private readonly ICommonConfiguration _config;
 
-		public XmlRepository(ICommonConfiguration pa1PaConfiguration)
+		public XmlRepository(ICommonConfiguration config)
 		{
-			_pa1PaConfiguration = pa1PaConfiguration;
-			_filePath = _pa1PaConfiguration.XmlKeyPath;
+			_config = config;
+			_filePath = _config.XmlKeyPath;
 		}
 
 		public virtual IReadOnlyCollection<XElement> GetAllElements()

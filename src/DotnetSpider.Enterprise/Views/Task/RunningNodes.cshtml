@@ -1,0 +1,128 @@
+﻿@{
+
+}
+@section styles{
+    <environment names="Development">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <style type="text/css">
+        #spiderNameList li {
+            float: left;
+            width: 150px;
+            list-style: none;
+            list-style-type: none;
+        }
+
+            #spiderNameList li label {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+        td {
+            word-break: break-all;
+        }
+
+            td i {
+                cursor: pointer;
+            }
+
+        .logWarnning {
+            color: #ff9800;
+        }
+
+        .logError {
+            color: red;
+        }
+    </style>
+}
+
+<div id="taskContent" class="container-fluid">
+    <!-- Tasks -->
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header" style="border-bottom:none;">
+                    <h2 class="pull-left">
+                        RUNNING STATUS
+                    </h2>
+                    <button type="button" class="pull-right btn btn-link waves-effect" @@click="stopTask()" v-show="isRunning&&stopable" style="color:red;" title="stop"><i class="material-icons">stop</i></button>
+                    <button type="button" class="pull-right btn btn-link waves-effect" @@click="continueTask()" v-show="isRunning&&continueable" title="resume"><i class="material-icons">play_arrow</i></button>
+                    <button type="button" class="pull-right btn btn-link waves-effect" @@click="pauseTask()" v-show="isRunning&&pauseable" title="pause"><i class="material-icons">pause</i></button>
+                </div>
+                <div class="body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div id="tasksVIEW" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <table class="table table-bordered table-striped table-hover no-footer">
+                                <thead>
+                                    <tr role="row">
+                                        <th>#</th>
+                                        <th>NODE</th>
+                                        <th>TIME</th>
+                                        <th>STATUS</th>
+                                        <th>THREAD</th>
+                                        <th>LEFT</th>
+                                        <th>SUCCESS</th>
+                                        <th>ERROR</th>
+                                        <th>TOTAL</th>
+                                        <th>AVG DOWNLOAD</th>
+                                        <th>AVG PROCESS</th>
+                                        <th>AVG PIPELINE</th>
+                                        <th>
+                                            @*<button @@click="viewBatchLogs()">Logs</button>*@
+                                            <a target="_blank" :href="'/task/runninglogs?identity='+identity"><i title="logs" class="material-icons">event_note</i></a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-show="nodes.length==0">
+                                        <td colspan="13">
+                                            No data to display...
+                                        </td>
+                                    </tr>
+                                    <tr role="row" v-for="(node,index) in nodes">
+                                        <td v-text="index+1"></td>
+                                        <td v-text="node.node"></td>
+                                        <td v-text="node.logged"></td>
+                                        <td v-text="node.status" :style="{'color':node.status=='Running'?'green':'#000'}"></td>
+                                        <td v-text="node.thread"></td>
+                                        <td v-text="node.left"></td>
+                                        <td v-text="node.success"></td>
+                                        <td v-text="node.error"></td>
+                                        <td v-text="node.total"></td>
+                                        <td v-text="node.avgDownloadSpeed"></td>
+                                        <td v-text="node.avgProcessSpeed"></td>
+                                        <td v-text="node.avgPipelineSpeed"></td>
+                                        @*<td><i title="node log" class="material-icons" @@click="viewLogs(node.node)" style="cursor: pointer;">more</i></td>*@
+                                        <td><a target="_blank" :href="'/task/runninglogs?identity='+node.identity+'&node='+node.node"><i title="node log" class="material-icons">event_note</i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Tasks -->
+</div>
+
+@section scripts{
+    <environment names="Development">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
+        <script src="~/js/tasks/runningNodes.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+        <script src="~/js/tasks/runningNodes.min.js" asp-append-version="true"></script>
+    </environment>
+}

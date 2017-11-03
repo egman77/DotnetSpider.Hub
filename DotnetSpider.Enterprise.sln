@@ -3,27 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{420BCCA4-2759-4EAC-90B0-F97CA854C0A4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Solution items", "00. Solution items", "{420BCCA4-2759-4EAC-90B0-F97CA854C0A4}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Agent", "src\DotnetSpider.Enterprise.Agent\DotnetSpider.Enterprise.Agent.csproj", "{413A3EDA-3BBD-461B-BF96-A63FC3D3F7C3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise", "src\DotnetSpider.Enterprise\DotnetSpider.Enterprise.csproj", "{B4973CD4-BBEA-4522-B50C-F5B2297B191E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Scheduler", "src\DotnetSpider.Enterprise.Scheduler\DotnetSpider.Enterprise.Scheduler.csproj", "{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.EntityFrameworkCore", "Src\DotnetSpider.Enterprise.EntityFrameworkCore\DotnetSpider.Enterprise.EntityFrameworkCore.csproj", "{98AE3526-8BBF-499F-94F3-A20F6F2E4AD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetSpider.Enterprise.NodeService", "src\DotnetSpider.Enterprise.NodeService\DotnetSpider.Enterprise.NodeService.csproj", "{896F8BDE-28BD-4CCB-A83B-85816C1653D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Core", "Src\DotnetSpider.Enterprise.Core\DotnetSpider.Enterprise.Core.csproj", "{CB03DA98-5831-4F74-B6CD-1092927EFE52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetSpider.Enterprise.EntityFrameworkCore", "Src\DotnetSpider.Enterprise.EntityFrameworkCore\DotnetSpider.Enterprise.EntityFrameworkCore.csproj", "{98AE3526-8BBF-499F-94F3-A20F6F2E4AD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Domain", "Src\DotnetSpider.Enterprise.Domain\DotnetSpider.Enterprise.Domain.csproj", "{CF4AC8C4-5695-49B5-8C40-0E7DE7BE398D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetSpider.Enterprise.Core", "Src\DotnetSpider.Enterprise.Core\DotnetSpider.Enterprise.Core.csproj", "{CB03DA98-5831-4F74-B6CD-1092927EFE52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Application", "Src\DotnetSpider.Enterprise.Application\DotnetSpider.Enterprise.Application.csproj", "{30651031-D2EE-4DAA-90EB-CF890CDAE8E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetSpider.Enterprise.Domain", "Src\DotnetSpider.Enterprise.Domain\DotnetSpider.Enterprise.Domain.csproj", "{CF4AC8C4-5695-49B5-8C40-0E7DE7BE398D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Web", "01. Web", "{88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetSpider.Enterprise.Application", "Src\DotnetSpider.Enterprise.Application\DotnetSpider.Enterprise.Application.csproj", "{30651031-D2EE-4DAA-90EB-CF890CDAE8E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetSpider.EnterPrise.Web", "Src\DotnetSpider.EnterPrise.Web\DotnetSpider.EnterPrise.Web.csproj", "{9B12E30D-06A6-470F-A8FC-80AFA5155751}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Agent", "02. Agent", "{B7CF429F-1FA2-4A20-B117-FBC76731327F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Agent", "src\DotnetSpider.Enterprise.Agent\DotnetSpider.Enterprise.Agent.csproj", "{16C021E2-E907-4A01-B56A-D5F420F31993}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,22 +33,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{413A3EDA-3BBD-461B-BF96-A63FC3D3F7C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{413A3EDA-3BBD-461B-BF96-A63FC3D3F7C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{413A3EDA-3BBD-461B-BF96-A63FC3D3F7C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{413A3EDA-3BBD-461B-BF96-A63FC3D3F7C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B4973CD4-BBEA-4522-B50C-F5B2297B191E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B4973CD4-BBEA-4522-B50C-F5B2297B191E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4973CD4-BBEA-4522-B50C-F5B2297B191E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4973CD4-BBEA-4522-B50C-F5B2297B191E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF4DECC4-26F1-43C0-A8BD-69635BFD9E74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{896F8BDE-28BD-4CCB-A83B-85816C1653D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{896F8BDE-28BD-4CCB-A83B-85816C1653D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{896F8BDE-28BD-4CCB-A83B-85816C1653D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{896F8BDE-28BD-4CCB-A83B-85816C1653D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98AE3526-8BBF-499F-94F3-A20F6F2E4AD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98AE3526-8BBF-499F-94F3-A20F6F2E4AD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98AE3526-8BBF-499F-94F3-A20F6F2E4AD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,9 +53,26 @@ Global
 		{30651031-D2EE-4DAA-90EB-CF890CDAE8E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30651031-D2EE-4DAA-90EB-CF890CDAE8E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30651031-D2EE-4DAA-90EB-CF890CDAE8E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B12E30D-06A6-470F-A8FC-80AFA5155751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B12E30D-06A6-470F-A8FC-80AFA5155751}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B12E30D-06A6-470F-A8FC-80AFA5155751}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B12E30D-06A6-470F-A8FC-80AFA5155751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16C021E2-E907-4A01-B56A-D5F420F31993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C021E2-E907-4A01-B56A-D5F420F31993}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C021E2-E907-4A01-B56A-D5F420F31993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C021E2-E907-4A01-B56A-D5F420F31993}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B4973CD4-BBEA-4522-B50C-F5B2297B191E} = {88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}
+		{98AE3526-8BBF-499F-94F3-A20F6F2E4AD6} = {88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}
+		{CB03DA98-5831-4F74-B6CD-1092927EFE52} = {88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}
+		{CF4AC8C4-5695-49B5-8C40-0E7DE7BE398D} = {88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}
+		{30651031-D2EE-4DAA-90EB-CF890CDAE8E0} = {88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}
+		{9B12E30D-06A6-470F-A8FC-80AFA5155751} = {88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}
+		{16C021E2-E907-4A01-B56A-D5F420F31993} = {B7CF429F-1FA2-4A20-B117-FBC76731327F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31D8D950-D2C2-4BDE-A27E-213F10DA4323}

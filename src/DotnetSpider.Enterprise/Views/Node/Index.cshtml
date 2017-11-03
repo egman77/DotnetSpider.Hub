@@ -1,0 +1,85 @@
+﻿@section styles{
+    <environment names="Development">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    </environment>
+    <environment names="Staging,Production">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
+    </environment>
+}
+@section scripts{
+    <environment names="Development">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/jszip.min.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+    </environment>
+    <script>
+
+    </script>
+
+    <environment names="Development">
+        <script src="~/js/node/index.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/js/node/index.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<div class="container-fluid">
+    <div class="row clearfix">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            AGENT NODES
+                        </h2>
+                        <ul class="header-dropdown m-r--5"></ul>
+                    </div>
+                    <div class="body">
+                        <table class="table table-bordered table-striped table-hover dataTable" id="nodeList">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px">IP</th>
+                                    <th style="width: 50px">CPU(%)</th>
+                                    <th>FREE MEMORY(M)</th>
+                                    <th>TOTAL MEMORY(M)</th>
+                                    <th>RUNNING TASKS</th>
+                                    <th>OS</th>
+                                    <th>NODE VERSION</th>
+                                    <th>ENABLED</th>
+                                    <th>ONLINE</th>
+                                    <th>DASHBOARD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="node in nodes" :agent-id="node.agentId">
+                                    <td><span v-text="node.ip"></span></td>
+                                    <td><span v-text="node.cpuLoad"></span></td>
+                                    <td><span v-text="node.freeMemory"></span></td>
+                                    <td><span v-text="node.totalMemory"></span></td>
+                                    <td><span v-text="node.countOfRunningTasks"></span></td>
+                                    <td><span v-text="node.os"></span></td>
+                                    <td><span v-text="node.version"></span></td>
+                                    <td><span v-text="node.isEnabled"></span></td>
+                                    <td><span v-text="node.isOnline"></span></td>
+                                    <td><a :href="'/Node/Dashboard?id=' + node.agentId" target="_blank">Dashboard</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

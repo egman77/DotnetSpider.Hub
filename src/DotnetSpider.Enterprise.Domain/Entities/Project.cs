@@ -1,27 +1,38 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace DotnetSpider.Enterprise.Domain.Entities
 {
 	public class Project : AuditedEntity<int>
 	{
+		/// <summary>
+		/// 项目名称
+		/// </summary>
 		[Required]
 		[StringLength(100)]
 		public virtual string Name { get; set; }
 
-		[Required]
-		[StringLength(300)]
-		public virtual string GitUrl { get; set; }
-
-		[Required]
-		[StringLength(20)]
-		public virtual string Framework { get; set; }
-
-		[StringLength(200)]
-		public virtual string IntervalPath { get; set; }
-
+		/// <summary>
+		/// 是否启用
+		/// </summary>
 		public virtual bool IsEnabled { get; set; }
 
-		[StringLength(100)]
-		public virtual string EntryProject { get; set; }
+		/// <summary>
+		/// 委托方，客户
+		/// </summary>
+		[StringLength(50)]
+		public virtual string Client { get; set; }
+
+		/// <summary>
+		/// 管理人
+		/// </summary>
+		[StringLength(50)]
+		public virtual string Executive { get; set; }
+
+		/// <summary>
+		/// 备注信息
+		/// </summary>
+		[StringLength(500)]
+		public virtual string Note { get; set; }
 	}
 }

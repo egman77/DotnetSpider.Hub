@@ -1,4 +1,9 @@
 ﻿using DotnetSpider.Enterprise.Application;
+using DotnetSpider.Enterprise.Application.AuthMessage;
+using DotnetSpider.Enterprise.Application.Log;
+using DotnetSpider.Enterprise.Application.Node;
+using DotnetSpider.Enterprise.Application.Project;
+using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Http;
@@ -11,19 +16,18 @@ namespace DotnetSpider.Enterprise.Web
 		public static void Inject(IServiceCollection services)
 		{
 			// Add application services.
-			//services.AddTransient<IEmailSender, AuthMessageAppServices>();
-			//services.AddTransient<ISmsSender, AuthMessageAppServices>();
+			services.AddTransient<IEmailSender, AuthMessageAppServices>();
+			services.AddTransient<ISmsSender, AuthMessageAppServices>();
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 
 			services.AddScoped<IAppSession, AppSession>();
 
-			//services.AddScoped<IPa1PaSession, Pa1PaSession>();
 			services.AddSingleton<ICommonConfiguration, CommonConfiguration>();
-			//services.AddScoped<IApplicationLogAppService, ApplicationLogAppService>();
-			//services.AddScoped<IProjectAppService, ProjectAppService>();
-			//services.AddScoped<ITaskAppService, TaskAppService>();
-			//services.AddScoped<INodeAppService, NodeAppService>();
+			services.AddScoped<IApplicationLogAppService, ApplicationLogAppService>();
+			services.AddScoped<IProjectAppService, ProjectAppService>();
+			services.AddScoped<ITaskAppService, TaskAppService>();
+			services.AddScoped<INodeAppService, NodeAppService>();
 		}
 	}
 }

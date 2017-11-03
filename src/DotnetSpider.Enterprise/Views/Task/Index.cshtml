@@ -1,0 +1,362 @@
+﻿@section styles{
+    <environment names="Development">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <style type="text/css">
+        #spiderNameList li {
+            float: left;
+            width: 150px;
+            list-style: none;
+            list-style-type: none;
+        }
+
+            #spiderNameList li label {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+        td {
+            word-break: break-all;
+        }
+
+            td i {
+                cursor: pointer;
+            }
+    </style>
+}
+<div id="taskContent" class="container-fluid">
+    <!-- Tasks -->
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        TASKS
+                    </h2>
+                    <button class="pull-right btn bg-blue btn-lg waves-effect waves-float" data-toggle="modal" data-target="#CreateNewTaskModal">New task</button>
+                </div>
+                <div class="body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div id="tasksVIEW" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            @*<div class="dataTables_filter">
+                                    <div class="col-md-2">
+                                        <select class="form-control show-tick">
+                                            <option>Solution1</option>
+                                            <option>Solution2</option>
+                                            <option>Solution3</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="pull-left">Search:</span>
+                                        <input id="queryKeyword" type="search" v-model="keyword" v-on:keypress="onKeyPress($event)" class="form-control input-sm pull-left" placeholder="">
+                                    </div>
+                                </div>*@
+                            <table class="table table-bordered table-striped table-hover no-footer">
+                                <thead>
+                                    <tr role="row">
+                                        <th>#</th>
+                                        <th>NAME</th>
+                                        <th>TASK NAME</th>
+                                        <th>FRAMEWORK</th>
+                                        <th>ASSEMBLY</th>
+                                        <th>NODES</th>
+                                        <th>CRON</th>
+                                        <th>CLIENT</th>
+                                        <th>EXECUTIVE</th>
+                                        <th>PROGRAMMER</th>
+                                        <th>CREATION TIME</th>
+                                        <th>ENABLE</th>
+                                        <th>VERSION</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-show="tasks.length==0">
+                                        <td colspan="9">
+                                            No tasks to display...
+                                        </td>
+                                    </tr>
+                                    <tr role="row" v-for="(task,index) in tasks">
+                                        <td v-text="index+1"></td>
+                                        <td v-text="task.name"></td>
+                                        <td v-text="task.taskName"></td>
+                                        <td v-text="task.framework"></td>
+                                        <td v-text="task.assemblyName"></td>
+                                        <td v-text="task.nodesCount"></td>
+                                        <td v-text="task.cron"></td>
+                                        <td v-text="task.client"></td>
+                                        <td v-text="task.executive"></td>
+                                        <td v-text="task.programmer"></td>
+                                        <td v-text="task.creationTime"></td>
+                                        <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
+                                        <td v-text="task.version"></td>
+                                        <td>
+                                            <i class="material-icons" title="backdate version" @@click.stop="backdateVersion(task)">history</i>
+                                            <i class="material-icons" title="delete task" @@click.stop="deleteTask(task)">delete_forever</i>
+                                            <a :href="'batches?taskId='+ task.id" target="_blank"><i class="material-icons" title="running history">view_list</i></a>
+                                            <i class="material-icons" v-show="!task.running" title="run task" @@click.stop="run(task)">play_circle_outline</i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div v-show="total>size" class="dataTables_info">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
+                            <div v-show="total>size" class="dataTables_paginate paging_simple_numbers" id="pagination">
+                                <ul class="pagination"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Tasks -->
+    <div class="modal fade" id="CreateNewTaskModal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Create new task</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form_validation" method="POST" novalidate="novalidate">
+                        @*<div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="spider" data-toggle="modal" v-model="selSpiderName" data-target="#VersionSelectModal" class="form-control" name="name" required="" aria-required="true">
+                                    <label class="form-label">Spider</label>
+                                </div>
+                            </div>*@
+
+                        <div class="form-group form-float">
+                            <div :class="['form-line',{'focused':newTask.name!=''}]">
+                                <input type="text" class="form-control" name="name" v-model="newTask.name" placeholder="" required="" aria-required="true">
+                                <label class="form-label">Task's display name</label>
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div :class="['form-line',{'focused':newTask.version!=''}]">
+                                <input type="text" class="form-control" name="version" v-model="newTask.version" placeholder="" required="" aria-required="true">
+                                <label class="form-label">Git version</label>
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <input name="framework" type="radio" id="Net45" value="Net45" v-model="newTask.framework" />
+                            <label for="Net45">Net45</label>
+                            <input name="framework" type="radio" id="NetCore" value="NetCore" v-model="newTask.framework" />
+                            <label for="NetCore">NetCore</label>
+                        </div>
+
+                        <div class="form-group form-float">
+                            <div :class="['form-line',{'focused':newTask.assemblyName!=''}]">
+                                <input type="text" class="form-control" name="assemblyName" id="assemblyName" @@blur="leave($event)" v-model="newTask.assemblyName" placeholder="" required="" aria-required="true">
+                                <label class="form-label">Executing assembly name</label>
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div :class="['form-line',{'focused':newTask.assemblyName!=''}]">
+                                <input type="text" class="form-control" name="taskName" v-model="newTask.taskName" placeholder="" required="" aria-required="true">
+                                <label class="form-label">Full class name or TaskNameAttribute name</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-float">
+                            <div :class="['form-line',{'focused':newTask.assemblyName!=''}]">
+                                <input type="text" class="form-control" name="surname" v-model="newTask.extraArguments" required="" aria-required="true">
+                                <label class="form-label">Extra arguments(eg: -a:1,2,3)</label>
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div :class="['form-line',{'focused':newTask.assemblyName!=''}]">
+                                <input type="text" v-model="newTask.cron" class="form-control" name="cron" required="" aria-required="true">
+                                <label class="form-label">Trigger(Cron Expression)</label>
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <select class="form-control show-tick" v-model="newTask.nodesCount">
+                                <option value="1">1 Node</option>
+                                <option value="2">2 Nodes</option>
+                                <option value="3">3 Nodes</option>
+                                <option value="4">4 Nodes</option>
+                                <option value="5">5 Nodes</option>
+                                <option value="6">6 Nodes</option>
+                                <option value="7">7 Nodes</option>
+                                <option value="8">8 Nodes</option>
+                                <option value="9">9 Nodes</option>
+                                <option value="10">10 Nodes</option>
+                            </select>
+                        </div>
+                        <div class="form-group form-float">
+                            <div  :class="['form-line',{'focused':newTask.client!=''}]">
+                                <input type="text" class="form-control" name="client" v-model="newTask.client" placeholder="" required="" aria-required="true">
+                                <label class="form-label">Client</label>
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div  :class="['form-line',{'focused':newTask.executive!=''}]">
+                                <input type="text" class="form-control" name="executive" v-model="newTask.executive" placeholder="" required="" aria-required="true">
+                                <label class="form-label">Executive</label>
+                            </div>
+                        </div>
+                        <div class="form-group form-float">
+                            <div  :class="['form-line',{'focused':newTask.assemblyName!=''}]">
+                                <input type="text" class="form-control" name="programmer" v-model="newTask.programmer" placeholder="" required="" aria-required="true">
+                                <label class="form-label">Programmer</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" id="checkbox" :checked="newTask.isEnabled" name="checkbox">
+                            <label for="checkbox">Enable</label>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link waves-effect" @@click="saveSpider()">SUBMIT</button>
+                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div id="VersionSelectModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <span>SELECT VERSION...</span>
+                        </h4>
+                    </div>
+                    <div class="modal-body" style="min-height:500px;">
+                        <div style="margin-bottom:10px;">
+                            Release Time: <input id="startDate" type="text" onClick="WdatePicker()" />-<input id="endDate" type="text" onClick="WdatePicker()" />
+                            Description: <input id="description" type="text" value="" />
+                            <input type="button" @@click="searchResults()" value="OK" />
+                        </div>
+
+                        <table class="table table-bordered table-striped table-hover no-footer">
+                            <thead>
+                                <tr role="row">
+                                    <th>#</th>
+                                    <th>VERSION</th>
+                                    <th>RELEASE TIME</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr role="row" v-for="(item,index) in projVersion">
+                                    <td v-text="index+1"></td>
+                                    <td v-text="item.version"></td>
+                                    <td v-text="item.publishTime"></td>
+                                    <td v-text="item.tags"></td>
+                                    <td>
+                                        @*<i class="material-icons" style="cursor:pointer;color:green;" data-toggle="modal" data-dismiss="modal" data-target="#NameSelectModal" @@click="selectModalVersion(item)" title="select">check</i>
+                                        <input type="button" class="btn btn-success waves-effect" data-toggle="modal" data-dismiss="modal" data-target="#NameSelectModal" @@click="selectModalVersion(item)" value="apply" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" v-show="version.total>version.size">
+                            <div class="dataTables_info pull-left">Showing <span v-text="version.page"></span> to <span v-text="version.size"></span> of <span v-text="version.total"></span> entries</div>
+                            <div class="dataTables_paginate paging_simple_numbers pull-right" id="versionPage">
+                                <ul class="versionPagination"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CANCEL</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+    @*<div id="NameSelectModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <span>SELECT SPIDER...</span>
+                        </h4>
+                    </div>
+                    <div class="modal-body row" style="min-height:450px;">
+                        <ul id="spiderNameList">
+                            <li v-for="item in templateVersion.spiderNames">
+                                <input type="radio" :id="'check' + item" :value="item" name="radiobox" :checked="newTask.spiderName==item">
+                                <label :for="'check' + item" :title="item">{{ item }}</label>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link waves-effect" @@click="selectSpider()" data-dismiss="modal">OK</button>
+                        <button type="button" class="btn btn-link waves-effect" data-target="#VersionSelectModal" data-dismiss="modal">CANCEL</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+    @*<div id="VersionModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            <span>TASK VERSION...</span>
+                        </h4>
+                    </div>
+                    <div class="modal-body" style="height:500px;">
+                        <p>current version: {{ currentVersion }}</p>
+                        <table id="dataTable" class="table table-bordered table-striped table-hover dataTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>VERSION</th>
+                                    <th>PUBLISH TIME</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(obj,index) in versions">
+                                    <td v-text="index + 1"></td>
+                                    <td v-text="obj.version"></td>
+                                    <td v-text="obj.publishTime"></td>
+                                    <td v-text="obj.tags"></td>
+                                    <td>
+                                        <input type="button" v-show="currentVersion != obj.version" class="btn btn-success waves-effect" @@click="setVersion(obj.version)" value="apply" />
+                                        <i class="material-icons" v-show="currentVersion == obj.version" style="cursor:pointer;color:green;">check</i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" v-show="historyVersion.total>historyVersion.size">
+                            <div class="dataTables_info pull-left">Showing <span v-text="historyVersion.page"></span> to <span v-text="historyVersion.size"></span> of <span v-text="historyVersion.total"></span> entries</div>
+                            <div class="dataTables_paginate paging_simple_numbers pull-right" id="versionPage">
+                                <ul class="historyVersionPagination"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</div>
+@section scripts{
+    <environment names="Development">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
+        <script src="~/js/tasks/index.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+        <script src="~/js/tasks/index.min.js" asp-append-version="true"></script>
+    </environment>
+    <script src="~/lib/My97DatePicker/WdatePicker.js"></script>
+}

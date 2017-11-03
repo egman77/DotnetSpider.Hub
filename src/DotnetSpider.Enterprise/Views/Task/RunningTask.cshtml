@@ -1,0 +1,226 @@
+﻿@{
+
+}
+@section styles{
+    <environment names="Development">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <style type="text/css">
+        td {word-break: break-all;}
+        td i {cursor:pointer;}
+        .logWarnning {
+            color: #ff9800;
+        }
+
+        .logError {
+            color: red;
+        }
+    </style>
+}
+<div id="taskContent" class="container-fluid">
+    <!-- Tasks -->
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        RUNNING TASKS
+                    </h2>
+                </div>
+                <div class="body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div id="tasksVIEW" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <table class="table table-bordered table-striped table-hover no-footer">
+                                <thead>
+                                    <tr role="row">
+                                        <th>#</th>
+                                        <th>NAME</th>
+                                        <th>BEGIN TIME</th>
+                                        <th>ARGUMENTS</th>
+                                        <th>NODES</th>
+                                        <th>CRON</th>
+                                        <th>CREATION TIME</th>
+                                        <th>VERSION</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-show="tasks.length==0">
+                                        <td colspan="9">
+                                            No tasks to display...
+                                        </td>
+                                    </tr>
+                                    <tr role="row" v-for="(task,index) in tasks">
+                                        <td v-text="index+1"></td>
+                                        <td v-text="task.name"></td>
+                                        <td v-text="task.cDate"></td>
+                                        <td v-text="task.arguments"></td>
+                                        <td v-text="task.countOfNodes"></td>
+                                        <td v-text="task.cron"></td>
+                                        <td v-text="task.creationTime"></td>
+                                        <td v-text="task.version"></td>
+                                        <td>
+                                            @*<i class="material-icons" title="running state" @@click.stop="viewNodes(task.identity)">view_list</i>*@
+                                            <a target="_blank" :href="'/task/RunningNodes?identity='+task.identity"><i title="view task status" class="material-icons">view_list</i></a>
+                                            <a target="_blank" :href="'/task/runninglogs?identity='+task.identity"><i title="logs" class="material-icons">event_note</i></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="NodesModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
+        <div class="modal-dialog" style="width:90%;min-height:700px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>RUNNING NODES...</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="height:500px;">
+                    <table class="table table-bordered table-striped table-hover no-footer">
+                        <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>NODE</th>
+                                <th>TIME</th>
+                                <th>STATUS</th>
+                                <th>THREAD</th>
+                                <th>LEFT</th>
+                                <th>SUCCESS</th>
+                                <th>ERROR</th>
+                                <th>TOTAL</th>
+                                <th>AVG DOWNLOAD</th>
+                                <th>AVG PROCESS</th>
+                                <th>AVG PIPELINE</th>
+                                <th>@*<button @@click="viewBatchLogs()">Logs</button>*@
+                                    <a target="_blank" :href="'/task/runninglogs?identity='+identity"><i title="logs" class="material-icons">event_note</i></a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-show="nodes.length==0">
+                                <td colspan="13">
+                                    No data to display...
+                                </td>
+                            </tr>
+                            <tr role="row" v-for="(node,index) in nodes">
+                                <td v-text="index+1"></td>
+                                <td v-text="node.node"></td>
+                                <td v-text="node.logged"></td>
+                                <td v-text="node.status" :style="{'color':node.status=='Running'?'green':'#000'}"></td>
+                                <td v-text="node.thread"></td>
+                                <td v-text="node.left"></td>
+                                <td v-text="node.success"></td>
+                                <td v-text="node.error"></td>
+                                <td v-text="node.total"></td>
+                                <td v-text="node.avgDownloadSpeed"></td>
+                                <td v-text="node.avgProcessSpeed"></td>
+                                <td v-text="node.avgPipelineSpeed"></td>
+                                @*<td><i title="node log" class="material-icons" @@click="viewLogs(node.node)" style="cursor: pointer;">more</i></td>*@
+                                <td><a target="_blank" :href="'/task/runninglogs?identity='+node.identity+'&node='+node.node"><i title="node log" class="material-icons">event_note</i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link waves-effect" @@click="continueTask()" v-show="continueable" title="resume"><i class="material-icons">play_arrow</i></button>
+                    <button type="button" class="btn btn-link waves-effect" @@click="pauseTask()" v-show="pauseable" title="pause"><i class="material-icons">pause</i></button>
+                    <button type="button" class="btn btn-link waves-effect" @@click="stopTask()" v-show="stopable" title="stop"><i class="material-icons" >stop</i></button>
+                    <button type="button" class="btn btn-link waves-effect" @@click="clearIntervalStatus()" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="LogsModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
+        <div class="modal-dialog" style="width:90%;min-height:700px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>VIEW LOGS...</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-bottom:10px;">
+                        Time: <input id="startDate" type="text" onClick="WdatePicker()" />-<input id="endDate" type="text" onClick="WdatePicker()" />
+                        Level:
+                        <select id="logType">
+                            <option value="">All</option>
+                            <option value="Info">Info</option>
+                            <option value="Warn">Warn</option>
+                            <option value="Error">Error</option>
+                        </select>
+                        <input type="button" @@click="searchResults()" value="OK" />
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover no-footer">
+                        <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>NODE</th>
+                                <th>LOG TIME</th>
+                                <th>LEVEL</th>
+                                <th>MESSAGE</th>
+                                <th>SOURCE</th>
+                                <th>EXCEPTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-show="logs.length==0">
+                                <td colspan="13">
+                                    No data to display...
+                                </td>
+                            </tr>
+                            <tr role="row" v-for="(item,index) in logs">
+                                <td v-text="index+1"></td>
+                                <td v-text="item.node"></td>
+                                <td v-text="item.logged"></td>
+                                <td v-text="item.level" :class="{'logWarnning':item.level=='Warn','logError':item.level=='Error'}"></td>
+                                <td v-text="item.message" :class="{'logWarnning':item.level=='Warn','logError':item.level=='Error'}"></td>
+                                <td v-text="item.callSite"></td>
+                                <td v-text="item.exception"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row" style="margin-left:0;margin-right:0;">
+                        <div class="dataTables_info" style="float:left;">Showing <span v-text="logsPaging.page"></span> to <span v-text="logsPaging.size"></span> of <span v-text="logsPaging.total"></span> entries</div>
+                        <div class="dataTables_paginate paging_simple_numbers" id="logsPagination" style="float:right;">
+                            <ul class="pagination"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Tasks -->
+</div>
+@section scripts{
+    <environment names="Development">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
+        <script src="~/js/tasks/RunningTask.js" asp-append-version="true"></script>
+        <script src="~/lib/My97DatePicker/WdatePicker.js"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+        <script src="~/js/tasks/RunningTask.min.js" asp-append-version="true"></script>
+        <script src="~/lib/My97DatePicker/WdatePicker.js"></script>
+    </environment>
+}

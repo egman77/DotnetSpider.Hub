@@ -19,6 +19,9 @@ using Microsoft.Extensions.Logging;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Application;
 using DotnetSpider.Enterprise.Web.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using DotnetSpider.Enterprise.Domain;
 
 namespace DotnetSpider.Enterprise
 {
@@ -68,62 +71,62 @@ namespace DotnetSpider.Enterprise
 				.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.UseRowNumberForPaging()));
 
 			
-			services.AddIdentity<ApplicationUser, IdentityRole<long>>(options =>
+			services.AddIdentity<ApplicationUser, ApplicationRole>()
+				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddDefaultTokenProviders()
+				.AddErrorDescriber<CustomIdentityErrorDescriber>();
+
+			services.Configure<IdentityOptions>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
-				//options.SignIn.RequireConfirmedEmail = true;
+				// Password settings
+				options.Password.RequireDigit = false;
+				options.Password.RequiredLength = 6;
+				options.Password.RequireNonAlphanumeric = false;
+				options.Password.RequireUppercase = false;
+				options.Password.RequireLowercase = false;
+				options.Password.RequiredUniqueChars = 6;
 
-				// 配置身份选项
-				// 密码配置
-				options.Password.RequireDigit = false;//是否需要数字(0-9).
-				options.Password.RequiredLength = 6;//设置密码长度最小为6
-				options.Password.RequireNonAlphanumeric = false;//是否包含非字母或数字字符。
-				options.Password.RequireUppercase = false;//是否需要大写字母(A-Z).
-				options.Password.RequireLowercase = false;//是否需要小写字母(a-z).
+				// Lockout settings
+				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+				options.Lockout.MaxFailedAccessAttempts = 10;
+				options.Lockout.AllowedForNewUsers = true;
 
-				// 锁定设置
-				options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);//账户锁定时长30分钟
-				options.Lockout.MaxFailedAccessAttempts = 10;//10次失败的尝试将账户锁定
-				// 用户设置
-				options.User.RequireUniqueEmail = true; //是否Email地址必须唯一
-			})
-			.AddEntityFrameworkStores<ApplicationDbContext>()
-			.AddDefaultTokenProviders().AddErrorDescriber<CustomIdentityErrorDescriber>();
-		
+				// User settings
+				options.User.RequireUniqueEmail = true;
+			});
+
 			services.ConfigureApplicationCookie(options => 
 			{
-				options.ExpireTimeSpan = TimeSpan.FromDays(150);//Cookie 保持有效的时间150天。
 				options.LoginPath = "/Account/LogIn";
-				options.LogoutPath = "/Account/LogOff";//在进行注销时自动重定向。
-
-				//cookie扩展设置（通常不用）
-				options.Cookie.Domain = "DotnetSpider.Enterprise";//用于保持身份的 Cookie 名称。 默认值为“.AspNet.Cookies”。 
+				options.LogoutPath = "/Account/LogOff";
+				options.ExpireTimeSpan = TimeSpan.FromDays(150);//Cookie 保持有效的时间150天。
+																//cookie扩展设置（通常不用）
+				//options.Cookie.Domain = "DotnetSpider.Enterprise";//用于保持身份的 Cookie 名称。 默认值为“.AspNet.Cookies”。 
 				options.AccessDeniedPath = "/Account/AccessDenied";//被拒绝访问或路径无效后的重定向。
 				options.ReturnUrlParameter = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.ReturnUrlParameter;//登陆或退出后执行动作返回到原来的地址。
 			});
+
 			// Add framework services.
 			services.AddMvc();
 
 			DependencyInjectionConfig.Inject(services);
 		
-			var redisHost = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisHost);
-			var redisPort = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisPort);
-			var redisPassword = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisPassword);
+			//var redisHost = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisHost);
+			//var redisPort = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisPort);
+			//var redisPassword = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisPassword);
 
-			services.AddSingleton<IDistributedCache>(
-				serviceProvider =>
-					new RedisCache(new RedisCacheOptions
-					{
-						Configuration = $"{redisHost}:{redisPort},password={redisPassword}",
-						InstanceName = "DotnetSpiderEnterprise-Web-Session:"
-					})
-				);
+			//services.AddSingleton<IDistributedCache>(
+			//	serviceProvider =>
+			//		new RedisCache(new RedisCacheOptions
+			//		{
+			//			Configuration = $"{redisHost}:{redisPort},password={redisPassword}",
+			//			InstanceName = "DotnetSpiderEnterprise-Web-Session:"
+			//		})
+			//	);
 
 			//Session服务
 			services.AddSession();
-
-			//Localization
-			//Pa1PaCultureConfigurer.Init();
 		}
 
 		public IConfigurationRoot Configuration { get; }
@@ -133,8 +136,8 @@ namespace DotnetSpider.Enterprise
 		{
 			DI.IocManager = app.ApplicationServices;
 
-			var pa1paConfiguration = app.ApplicationServices.GetRequiredService<ICommonConfiguration>();
-			pa1paConfiguration.AppConfiguration = Configuration;
+			var config = app.ApplicationServices.GetRequiredService<ICommonConfiguration>();
+			config.AppConfiguration = Configuration;
 
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
@@ -153,15 +156,11 @@ namespace DotnetSpider.Enterprise
 			AuthConfigure.Configure(app, Configuration);
 
 			app.UseStaticFiles();
-			//app.UseDeveloperExceptionPage();
-			//app.UseIdentity();
-			app.UseAuthentication();
 
-			// Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+			app.UseAuthentication();
 
 			//Session
 			app.UseSession();
-
 
 			app.UseMvc(routes =>
 			{

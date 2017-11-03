@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  dotnetspider.enterprise.web:
+    image: dotnetspider.enterprise.web
+    build:
+      context: ./Src/DotnetSpider.EnterPrise.Web
+      dockerfile: Dockerfile

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace DotnetSpider.Enterprise.Domain.Entities
 {
-	public class NodeStatus
+	public class NodeStatus : AuditedEntity<long>
 	{
+		[Required]
+		[StringLength(20)]
 		public virtual string Identity { get; set; }
 		public virtual DateTime Logged { get; set; }
 		public virtual string Status { get; set; }

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
@@ -25,29 +26,68 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AgentId");
+                    b.Property<string>("AgentId")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
                     b.Property<int>("CountOfRunningTasks");
 
                     b.Property<int>("CpuLoad");
 
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
                     b.Property<long>("FreeMemory");
 
-                    b.Property<string>("Ip");
+                    b.Property<string>("Ip")
+                        .HasMaxLength(20);
 
                     b.Property<bool>("IsEnabled");
 
-                    b.Property<string>("Os");
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("Os")
+                        .HasMaxLength(20);
 
                     b.Property<long>("Timestamp");
 
                     b.Property<long>("TotalMemory");
 
-                    b.Property<string>("Version");
+                    b.Property<string>("Version")
+                        .HasMaxLength(5);
 
                     b.HasKey("Id");
 
                     b.ToTable("Agent_HeartBeats");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
                 });
 
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", b =>
@@ -56,6 +96,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<long?>("ApplicationRoleId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -100,6 +142,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationRoleId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
@@ -109,102 +153,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.BuildHistory", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long>("BuildId");
-
-                    b.Property<string>("GitVersion")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("PublishTime");
-
-                    b.Property<long>("SolutionId");
-
-                    b.Property<string>("Spiders");
-
-                    b.Property<string>("Tags")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Build_Histories");
-                });
-
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.BuildLog", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long>("BuildId");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<string>("LogType")
-                        .HasMaxLength(32);
-
-                    b.Property<string>("Message")
-                        .HasMaxLength(2000);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Build_Logs");
-                });
-
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.BuildStatus", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<string>("FilePath")
-                        .HasMaxLength(500);
-
-                    b.Property<long>("SolutionId");
-
-                    b.Property<string>("Status")
-                        .HasMaxLength(32);
-
-                    b.Property<bool>("Succeeded");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Build_Statuses");
-                });
-
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ExecuteLog", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CommandId")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<string>("LogType")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Message")
-                        .HasMaxLength(2000);
-
-                    b.Property<string>("NodeId")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("NodeIp")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("TaskId")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Execute_Logs");
                 });
 
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Logs.Exception", b =>
@@ -234,54 +182,14 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<string>("EntryProject")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Framework")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.Property<string>("GitUrl")
-                        .IsRequired()
-                        .HasMaxLength(300);
-
-                    b.Property<string>("IntervalPath")
-                        .HasMaxLength(200);
-
-                    b.Property<bool>("IsEnabled");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Task", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Arguments")
-                        .HasMaxLength(200);
-
-                    b.Property<int>("CountOfNodes");
+                    b.Property<string>("Client")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
 
-                    b.Property<string>("Cron")
+                    b.Property<string>("Executive")
                         .HasMaxLength(50);
 
                     b.Property<bool>("IsEnabled");
@@ -294,9 +202,64 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
+                    b.Property<string>("Note")
+                        .HasMaxLength(500);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Task", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AssemblyName")
+                        .HasMaxLength(100);
+
+                    b.Property<DateTime>("BuildTime");
+
+                    b.Property<string>("Client")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<string>("Cron")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Executive")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("ExtraArguments")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Framework")
+                        .HasMaxLength(20);
+
+                    b.Property<bool>("IsEnabled");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<int>("NodesCount");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Programmer")
+                        .HasMaxLength(50);
+
                     b.Property<int>("ProjectId");
 
-                    b.Property<string>("SpiderName")
+                    b.Property<string>("TaskName")
                         .HasMaxLength(100);
 
                     b.Property<string>("Version")
@@ -307,51 +270,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Tasks");
-                });
-
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.TaskBatch", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Batch");
-
-                    b.Property<string>("Identity");
-
-                    b.Property<string>("Name");
-
-                    b.Property<long>("TaskId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TaskId", "Batch")
-                        .IsUnique();
-
-                    b.ToTable("Task_Batches");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<long>", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -381,13 +299,16 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<string>("ClaimValue");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<long>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("AspNetUserClaims");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserClaim<long>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
@@ -396,15 +317,18 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<string>("ProviderKey");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("ProviderDisplayName");
 
                     b.Property<long>("UserId");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("AspNetUserLogins");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserLogin<long>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
@@ -413,11 +337,16 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<long>("RoleId");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<long>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
@@ -435,6 +364,50 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserClaim", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>");
+
+                    b.Property<long?>("ApplicationRoleId");
+
+                    b.HasIndex("ApplicationRoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ApplicationUserClaim");
+
+                    b.HasDiscriminator().HasValue("ApplicationUserClaim");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserLogin", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>");
+
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ApplicationUserLogin");
+
+                    b.HasDiscriminator().HasValue("ApplicationUserLogin");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<long>");
+
+
+                    b.ToTable("ApplicationUserRole");
+
+                    b.HasDiscriminator().HasValue("ApplicationUserRole");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole")
+                        .WithMany("Users")
+                        .HasForeignKey("ApplicationRoleId");
+                });
+
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Task", b =>
                 {
                     b.HasOne("DotnetSpider.Enterprise.Domain.Entities.Project", "Project")
@@ -445,38 +418,17 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>")
+                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
-                {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
-                {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>")
+                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -484,6 +436,34 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 {
                     b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser")
                         .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserClaim", b =>
+                {
+                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole")
+                        .WithMany("Claims")
+                        .HasForeignKey("ApplicationRoleId");
+
+                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("Claims")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserLogin", b =>
+                {
+                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("Logins")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserRole", b =>
+                {
+                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

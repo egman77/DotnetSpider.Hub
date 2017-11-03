@@ -1,0 +1,133 @@
+﻿@section styles{
+    <environment names="Development">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    </environment>
+    <environment names="Staging,Production">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    </environment>
+    <style type="text/css">
+        td {
+            word-break: break-all;
+        }
+    </style>
+}
+
+<div id="container" class="container-fluid">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card dataTables_wrapper">
+                    <div class="header">
+                        <h2>
+                            PROJECT
+                            @*<small>My project list.</small>*@
+                        </h2>
+                        <div class="pull-right">
+                            <button type="button" @@click.stop="addProject()" class="btn btn-primary waves-effect">New Project</button>
+                        </div>
+                    </div>
+                    <div class="body">
+
+                        <table id="dataTable" class="table table-bordered table-striped table-hover dataTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>PROJECT NAME</th>
+                                    <th>CLIENT</th>
+                                    <th>EXECUTIVE</th>
+                                    <th>ENABLE</th>
+                                    <th>NOTE</th>
+                                    <th>MANAGE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(proj,index) in projects">
+                                    <td v-text="index + 1"></td>
+                                    <td v-text="proj.name"></td>
+                                    <td v-text="proj.client"></td>
+                                    <td v-text="proj.executive"></td>
+                                    <td v-text="proj.isEnabled" :style="{'color':proj.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
+                                    <td v-text="proj.note"></td>
+                                    <td>
+                                        <i class="material-icons" style="cursor:pointer;" title="edit project" @@click.stop="editProject(proj)">edit</i>
+                                        <i class="material-icons" style="cursor:pointer;" title="remove project" @@click.stop="removeProject(proj)">delete_forever</i>
+                                        <i class="material-icons" style="cursor:pointer;color:orange" title="disable project" v-show="proj.isEnabled" @@click.stop="disableProject(proj)">block</i>
+                                        <i class="material-icons" style="cursor:pointer;color:green" title="enable project" v-show="!proj.isEnabled" @@click.stop="enableProject(proj)">undo</i>
+                                        <i class="material-icons" style="cursor:pointer;" title="publish project" @@click.stop="publishProject(proj)">publish</i>
+                                        <a :href="'/Task/index?proj='+proj.id"><i class="material-icons" style="cursor:pointer;" title="tasks">widgets</i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="NewRoleModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>PROJECT</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group form-float">
+                        <div :class="['form-line',{'focused':current.name!=''}]">
+                            <input type="text" class="form-control" id="name" v-model="current.name" name="name" placeholder="name">
+                        </div>
+                    </div>
+                    <div class="form-group form-float">
+                        <div :class="['form-line',{'focused':current.client!=''}]">
+                            <input type="text" class="form-control" v-model="current.client" name="client" placeholder="client">
+                        </div>
+                    </div>
+                    <div class="form-group form-float">
+                        <div :class="['form-line',{'focused':current.executive!=''}]">
+                            <input type="text" class="form-control" v-model="current.executive" name="executive" id="executive" placeholder="user who is in charge">
+                        </div>
+                    </div>
+                    <div class="form-group form-float">
+                        <div :class="['form-line',{'focused':current.note!=''}]">
+                            <textarea class="form-control active" v-model="current.note" name="note" id="note" placeholder="note something for this project"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="enable" name="enable" v-model="current.isEnabled">
+                        <label for="enable">Enabled</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-link waves-effect" @@click.stop="saveProject()">SAVE CHANGES</button>
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <environment names="Development">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
+        <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+        <script src="~/js/Project/project.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/lib/jquery-datatable/jquery.dataTables.js"></script>
+        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+        <script src="~/lib/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
+        <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+        <script src="~/js/Project/project.min.js" asp-append-version="true"></script>
+    </environment>
+}

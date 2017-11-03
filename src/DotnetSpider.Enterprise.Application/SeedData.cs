@@ -37,27 +37,15 @@ namespace DotnetSpider.Enterprise.Application
 		{
 			var project = new Domain.Entities.Project
 			{
-				Framework = ".NET 45",
-				GitUrl = "https://github.com/zlzforever/DotnetSpider.git",
-				IntervalPath = "",
+				Client = "刘菲",
+				CreationTime = DateTime.Now,
+				CreatorUserId = 1,
 				IsEnabled = true,
-				Name = "DotnetSpider"
+				Name = "DotnetSpider",
+				Executive = "沈威",
+				Note = "备注"
 			};
 			context.Projects.Add(project);
-			context.SaveChanges();
-
-			for (int i = 0; i < 23; ++i)
-			{
-				var project1 = new Domain.Entities.Project
-				{
-					Framework = ".NET 45",
-					GitUrl = "https://github.com/zlzforever/DotnetSpider.git" + i,
-					IntervalPath = "",
-					IsEnabled = true,
-					Name = "DotnetSpider" + i
-				};
-				context.Projects.Add(project1);
-			}
 			context.SaveChanges();
 
 			var random = new Random();
@@ -65,11 +53,19 @@ namespace DotnetSpider.Enterprise.Application
 			{
 				Domain.Entities.Task task = new Domain.Entities.Task
 				{
-					Arguments = $"-s:spider{i}",
-					CountOfNodes = random.Next(1, 10),
-					Cron = "",
+					Framework = "NET CORE",
+					AssemblyName = "Xbjrkj.DataCollection.Apps.dll",
+					Cron = "* * * 1 *",
 					IsEnabled = true,
-					Name = $"spider{i}",
+					Programmer = "沈威",
+					Executive = "沈威",
+					ExtraArguments = "-a:1,2",
+					BuildTime = DateTime.Now.AddDays(-1),
+					Client = "",
+					NodesCount = 1,
+					ProjectId = 1,
+					TaskName = "360Index",
+					Name = $"360指数采集",
 					Version = DateTime.Now.ToString("yyyyMMddhhmmss"),
 					Project = project
 				};
@@ -109,15 +105,16 @@ namespace DotnetSpider.Enterprise.Application
 			//增加一个超级管理员用户
 			var superAdmin = new ApplicationUser
 			{
+				IsActive = true,
 				UserName = "service@dotnetspider.com",
 				Email = "service@dotnetspider.com",
 				EmailConfirmed = true,
-				IsActive = true,
-				PhoneNumber = "17701696552",
-				CreationTime = DateTime.Now,
-				CreatorUserId = 0,
+				//IsActive = true,
+				PhoneNumber = "17701696552"//,
+										   //CreationTime = DateTime.Now,
+										   //CreatorUserId = 0,
 			};
-			userManager.CreateAsync(superAdmin, "66666666Rr%").Wait();
+			userManager.CreateAsync(superAdmin, "1qazZAQ!").Wait();
 			context.SaveChanges();
 		}
 	}
