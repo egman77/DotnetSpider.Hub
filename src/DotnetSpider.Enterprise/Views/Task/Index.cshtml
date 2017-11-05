@@ -145,35 +145,40 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" name="name" v-model="newTask.name" placeholder="Display name" required="" aria-required="true">
+                            <div class="form-group form-float col-md-6">
+                                <div :class="['form-line',{'focused':newTask.name!='','error':nameVdt===false, 'success':nameVdt===true}]">
+                                    <input type="text" class="form-control" id="name" name="name" v-model="newTask.name" placeholder="Display name" required="" aria-required="true">
                                 </div>
+                                <label id="name-error" class="error">{{errorText["name"]}}</label>
                             </div>
-                            <div class="form-group col-md-6">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" name="version" v-model="newTask.version" placeholder="Git version" required="" aria-required="true">
+                            <div class="form-group form-float col-md-6">
+                                <div :class="['form-line',{'focused':newTask.version!='','error':versionVdt===false, 'success':versionVdt===true}]">
+                                    <input type="text" class="form-control" id="version" name="version" v-model="newTask.version" placeholder="Git version" required="" aria-required="true">
                                 </div>
+                                <label id="version-error" class="error">{{errorText["version"]}}</label>
                             </div>
                        </div>
 
                         <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <div :class="['form-line',{'success':assemblyNameValidator ,'error':!assemblyNameValidator}]">
+                            <div class="form-group form-float col-md-12">
+                                <div :class="['form-line',{'focused':newTask.assemblyName!='','error':assemblyNameVdt===false, 'success':assemblyNameVdt===true}]">
                                     <input type="text" class="form-control" name="assemblyName" id="assemblyName" v-model="newTask.assemblyName" placeholder="Executing assembly name" required="" aria-required="true">
                                 </div>
+                                <label id="assemblyName-error" class="error">{{errorText["assemblyName"]}}</label>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <div :class="['form-line',{'focused':newTask.taskName!=''}]">
+                            <div class="form-group form-float col-md-6">
+                                <div :class="['form-line',{'focused':newTask.taskName!='','error':taskNameVdt===false, 'success':taskNameVdt===true}]">
                                     <input type="text" class="form-control" name="taskName" v-model="newTask.taskName" placeholder="Full class name/TaskNameAttribute name" required="" aria-required="true">
                                 </div>
+                                <label id="taskName-error" class="error">{{errorText["taskName"]}}</label>
                             </div>
-                            <div class="form-group col-md-6">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" name="surname" v-model="newTask.extraArguments" required="" placeholder="Extra arguments(eg: -a:1,2,3)" aria-required="true">
+                            <div class="form-group form-float col-md-6">
+                                <div :class="['form-line',{'focused':newTask.extraArguments!='','error':extraArgumentsVdt===false, 'success':extraArgumentsVdt===true}]">
+                                    <input type="text" class="form-control" name="extraArguments" v-model="newTask.extraArguments" required="" placeholder="Extra arguments(eg: -a:1,2,3)" aria-required="true">
                                 </div>
+                                <label id="extraArguments-error" class="error">{{errorText["extraArguments"]}}</label>
                             </div>
                         </div>
                         @*<div class="form-row">
@@ -184,7 +189,7 @@
                             </div>
                         </div>*@
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group form-float col-md-6">
                                 <select class="form-control show-tick" v-model="newTask.nodesCount">
                                     <option value="1">1 Node</option>
                                     <option value="2">2 Nodes</option>
@@ -198,24 +203,25 @@
                                     <option value="10">10 Nodes</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <div class="form-line">
-                                    <input type="text" v-model="newTask.cron" class="form-control" name="cron" required="" placeholder="Trigger(Cron Expression)" aria-required="true">
+                            <div class="form-group form-float col-md-6">
+                                <div :class="['form-line',{'focused':newTask.cron!='','error':cronVdt===false, 'success':cronVdt===true}]">
+                                    <input id="CronValue" type="text" @@click="onTriggerClick($event)" v-model="newTask.cron" class="form-control" name="cron" required="" placeholder="Trigger(Cron Expression)" aria-required="true">
                                 </div>
+                                <label id="cron-error" class="error">{{errorText["cron"]}}</label>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group orm-float col-md-4">
                                 <div class="form-line">
                                     <input type="text" class="form-control" name="client" v-model="newTask.client" placeholder="Client" required="" aria-required="true">
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group form-float col-md-4">
                                 <div class="form-line">
                                     <input type="text" class="form-control" name="executive" v-model="newTask.executive" placeholder="Executive" required="" aria-required="true">
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group form-float col-md-4">
                                 <div class="form-line">
                                     <input type="text" class="form-control" name="programmer" v-model="newTask.programmer" placeholder="Programmer" required="" aria-required="true">
                                 </div>
@@ -231,6 +237,27 @@
             </div>
         </div>
     </div>
+
+
+    <div id="SchedulerModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
+        <div class="modal-dialog" role="document" style="min-width:800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>Set Trigger</span>
+                    </h4>
+                </div>
+                <div class="modal-body" style="min-height:300px;">
+                    <div id="cron1"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="saveTrigger" type="button" class="btn bg-light-green btn-link waves-effect">OK</button>
+                    <button type="button" class="btn bg-grey btn-link waves-effect" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     @*<div id="VersionSelectModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
             <div class="modal-dialog modal-lg" role="document">
@@ -361,12 +388,14 @@
         <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
+        <script src="~/lib/CronScheduler/web/js/msCron.js" asp-append-version="true"></script>
         <script src="~/js/tasks/index.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+        <script src="~/js/views-resources/Task/scheduler.min.js" asp-append-version="true"></script>
         <script src="~/js/tasks/index.min.js" asp-append-version="true"></script>
     </environment>
     <script src="~/lib/My97DatePicker/WdatePicker.js"></script>

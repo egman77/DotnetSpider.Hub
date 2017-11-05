@@ -270,6 +270,7 @@ $.AdminBSB.input = {
 			var $this = $(this);
 			if ($this.parents('.form-group').hasClass('form-float')) {
 				if ($this.val() == '') { $this.parents('.form-line').removeClass('focused'); }
+				//else if (!$(this).parent().hasClass('focused')) $(this).parent().addClass('focused');
 			}
 			else {
 				$this.parents('.form-line').removeClass('focused');

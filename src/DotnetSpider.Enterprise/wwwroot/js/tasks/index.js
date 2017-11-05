@@ -1,46 +1,6 @@
 ﻿$(function () {
 	//setMenuActive('tasks');
-	function appendError(id, error) {
-		var el = $("#" + id).parent();
-		//el.addClass("focused");
-		//el.removeClass("success");
-		//el.addClass("error");
-		if (error) {
-			if ($("#" + id + "-error").length) {
-				$("#" + id + "-error").text(error);
-			}
-			else {
-				el.parent().append('<label id="' + id + '-error" class="error">' + error + '</label>');
-			}
-		}
-	}
-	function addSucess(id) {
-		var el = $("#" + id).parent();
-		//el.removeClass("error");
-		//el.addClass("focused");
-		//el.addClass("success");
-		$("#" + id + "-error").remove();
-	}
-
-	var validator = {
-		assemblyName:  function (target,value) {
-			if ($.trim(value) == '') {
-				//appendError('assemblyName', target);
-				return false;
-			}
-			else if (value.length > 100) {
-				appendError('assemblyName', target, 'Less than 100 characters.');
-				return false;
-			}
-			else if (!/^([a-zA-Z0-9]+\.){1,}(exe|dll)$/.test(value)) {
-				appendError('assemblyName', target, 'Assembly name is not valid. eg: Xbjrkj.DataCollection.Apps.dll');
-				return false;
-			}
-			addSucess('assemblyName', target);
-			return true;
-		}
-	};
-
+	var cron;
 	var proj = queryString("proj");
 	var interval = null;
 	var tasksVUE = new Vue({
@@ -51,21 +11,11 @@
 			size: 10,
 			keyword: '',
 			page: 1,
-			version: {
-				page: 1,
-				size: 10,
-				total: 0
-			},
-			historyVersion: {
-				page: 1,
-				size: 10,
-				total: 0
-			},
 			newTask: {
 				id: 0,
-				name:'',
+				name: '',
 				version: '',
-				framework:'NetCore',
+				framework: 'NetCore',
 				assemblyName: 'Xbjrkj.DataCollection.Apps.dll',
 				taskName: '',
 				projectId: 0,
@@ -73,6 +23,9 @@
 				cron: '',
 				nodesCount: 1,
 				extraArguments: ''
+			},
+			errorText: {
+
 			},
 			//projVersion: [],
 			//templateVersion: {},
@@ -86,23 +39,56 @@
 			loadTasks(this);
 		},
 		computed: {
-			assemblyNameValidator: function () {
-				var value = this.newTask.assemblyName;
-				if ($.trim(value) == '') {
-					//appendError('assemblyName', target);
-					return false;
+			nameVdt: function () {
+				return this.validateEmpty(this, 'name', true);
+			},
+			versionVdt: function () {
+				return this.validateEmpty(this, 'version', true);
+			},
+			taskNameVdt: function () {
+				return this.validateEmpty(this, 'taskName', true);
+			},
+			extraArgumentsVdt: function () {
+				var value = this.newTask['extraArguments'];
+				if (this.validateEmpty(this, 'extraArguments', false)) {
+					if (value.indexOf('-s:')>=0 || value.indexOf('-i:')>=0) {
+						this.errorText["extraArguments"] = 'Arguments can not be -s or -i';
+						return false;
+					}
+					delete this.errorText["extraArguments"];
+					return true;
 				}
-				else if (value.length > 100) {
-					appendError('assemblyName', 'Less than 100 characters.');
-					return false;
+				return false;
+			},
+			assemblyNameVdt: function () {
+				var value = this.newTask['assemblyName'];
+				if (this.validateEmpty(this, 'assemblyName', false)) {
+					if (value.length > 100) {
+						this.errorText["assemblyName"] = 'Less than 100 characters.';
+						return false;
+					}
+					else if (!/^([a-zA-Z0-9]+\.){1,}(exe|dll)$/.test(value)) {
+						this.errorText["assemblyName"] = 'Assembly name is not valid. eg: Xbjrkj.DataCollection.Apps.dll';
+						return false;
+					}
+					delete this.errorText["assemblyName"];
+					return true;
 				}
-				else if (!/^([a-zA-Z0-9]+\.){1,}(exe|dll)$/.test(value)) {
-					appendError('assemblyName', 'Assembly name is not valid. eg: Xbjrkj.DataCollection.Apps.dll');
-					return false;
+				return false;
+			},
+			cronVdt: function () {
+				var value = this.newTask['cron'];
+				if (this.validateEmpty(this, 'cron', false)) {
+					if (!/^([a-zA-Z0-9]+\.){1,}(exe|dll)$/.test(value)) {
+						this.errorText["cron"] = '';
+						return false;
+					}
+					delete this.errorText["cron"];
+					return true;
 				}
-				addSucess('assemblyName');
-				return true;
+				return false;
 			}
+
 			//selSpiderName: {
 			//	get: function () {
 			//		if (this.newTask.spiderName == '') return '';
@@ -111,6 +97,27 @@
 			//}
 		},
 		methods: {
+			onTriggerClick: function (event) {
+				var _$modal = $('#SchedulerModal');
+				cron = $("#cron1").msCron();
+				cronId = null;
+				_$modal.modal('show');
+			},
+			validateEmpty: function (vue, v, remove) {
+				var value = this.newTask[v];
+				if (value === '') {
+					vue.errorText[v] = '';
+					return null;
+				}
+				else if ($.trim(value) === '') {
+					vue.errorText[v] = 'Value can not be empty.';
+					return false;
+				}
+				if (remove) {
+					vue.errorText[v];
+				}
+				return true;
+			},
 			leave: function (evt) {
 				if (validator[evt.target.name] && !validator[evt.target.name](evt.target, this.newTask[evt.target.name])) {
 					return;
@@ -122,18 +129,18 @@
 				loadTasks(tasksVUE);
 			},
 			onKeyPress: function (evt) {
-				if (evt.charCode == 13) {
+				if (evt.charCode === 13) {
 					this["query"]();
 				}
 			},
 			//backdateVersion: function (task) {
-				//if (this.taskId != task.id || this.versions.length == 0) {
-				//	this.currentVersion = task.version;
-				//	this.taskId = task.id;
-				//	this.versions = [];
-				//	loadVersions(this);
-				//}
-				//$("#VersionModal").modal("show");
+			//if (this.taskId != task.id || this.versions.length == 0) {
+			//	this.currentVersion = task.version;
+			//	this.taskId = task.id;
+			//	this.versions = [];
+			//	loadVersions(this);
+			//}
+			//$("#VersionModal").modal("show");
 			//},
 			//setVersion: function (version) {
 			//	var that = this;
@@ -212,9 +219,16 @@
 		}
 	});
 
+	$("#saveTrigger").bind("click", function () {
+		var info = cron.getCron();
+		var _$modal = $('#SchedulerModal');
+		_$modal.modal('hide');
+		tasksVUE.$data.newTask.cron = info.info;
+	});
+
 	function queryString(name) {
 		var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
-		if (result == null || result.length < 1) {
+		if (result === null || result.length < 1) {
 			return "";
 		}
 		return result[1];
