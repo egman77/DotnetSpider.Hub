@@ -22,10 +22,13 @@
 				isEnabled: true,
 				cron: '',
 				nodesCount: 1,
-				extraArguments: ''
+				extraArguments: '',
+				programmer: '',
+				client: '',
+				executive:''
 			},
 			errorText: {
-
+				name: '', version: '', taskName: '', extraArguments: '', programmer:'',client:'',executive:''
 			},
 			//projVersion: [],
 			//templateVersion: {},
@@ -39,6 +42,9 @@
 			loadTasks(this);
 		},
 		computed: {
+			buttonState:function(){
+				return this.nameVdt && this.validateEmpty && this.versionVdt && this.extraArgumentsVdt && this.assemblyNameVdt && this.cronVdt && this.programmerVdt && this.executiveVdt && this.clientVdt;
+			},
 			nameVdt: function () {
 				return this.validateEmpty(this, 'name', true);
 			},
@@ -77,24 +83,17 @@
 				return false;
 			},
 			cronVdt: function () {
-				var value = this.newTask['cron'];
-				if (this.validateEmpty(this, 'cron', false)) {
-					if (!/^([a-zA-Z0-9]+\.){1,}(exe|dll)$/.test(value)) {
-						this.errorText["cron"] = '';
-						return false;
-					}
-					delete this.errorText["cron"];
-					return true;
-				}
-				return false;
+				return this.validateEmpty(this, 'cron', true);
+			},
+			programmerVdt: function () {
+				return this.validateEmpty(this, 'programmer', true);
+			},
+			executiveVdt: function () {
+				return this.validateEmpty(this, 'executive', true);
+			},
+			clientVdt: function () {
+				return this.validateEmpty(this, 'client', true);
 			}
-
-			//selSpiderName: {
-			//	get: function () {
-			//		if (this.newTask.spiderName == '') return '';
-			//		return this.newTask.spiderName + '-[' + this.newTask.version + ']';
-			//	}
-			//}
 		},
 		methods: {
 			onTriggerClick: function (event) {
@@ -114,7 +113,7 @@
 					return false;
 				}
 				if (remove) {
-					vue.errorText[v];
+					delete vue.errorText[v];
 				}
 				return true;
 			},
@@ -177,14 +176,8 @@
 			//	this.newTask.spiderName = $("input[name='radiobox']:checked").val() || $("input[name='radiobox']").val();
 			//},
 			saveSpider: function () {
-				var that = this;
 
-				if (this.newTask.name == '') {
-					swal('Choose spider first!'); return;
-				}
-				if (this.newTask.name == '') {
-					swal('Name can not be empty!'); return;
-				}
+				if (Object.getOwnPropertyNames(this.errorText).length > 1) return;
 
 				dsApp.post("/task/addTask", this.newTask, function () {
 					$("#CreateNewTaskModal").modal("hide");
@@ -223,7 +216,7 @@
 		var info = cron.getCron();
 		var _$modal = $('#SchedulerModal');
 		_$modal.modal('hide');
-		tasksVUE.$data.newTask.cron = info.info;
+		tasksVUE.$data.newTask.cron = info.cron;
 	});
 
 	function queryString(name) {

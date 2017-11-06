@@ -70,7 +70,6 @@
                                         <th>CLIENT</th>
                                         <th>EXECUTIVE</th>
                                         <th>PROGRAMMER</th>
-                                        <th>CREATION TIME</th>
                                         <th>ENABLE</th>
                                         <th>VERSION</th>
                                         <th>ACTION</th>
@@ -93,11 +92,10 @@
                                         <td v-text="task.client"></td>
                                         <td v-text="task.executive"></td>
                                         <td v-text="task.programmer"></td>
-                                        <td v-text="task.creationTime"></td>
                                         <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
                                         <td v-text="task.version"></td>
                                         <td>
-                                            <i class="material-icons" title="backdate version" @@click.stop="backdateVersion(task)">history</i>
+                                            @*<i class="material-icons" title="backdate version" @@click.stop="backdateVersion(task)">history</i>*@
                                             <i class="material-icons" title="delete task" @@click.stop="deleteTask(task)">delete_forever</i>
                                             <a :href="'batches?taskId='+ task.id" target="_blank"><i class="material-icons" title="running history">view_list</i></a>
                                             <i class="material-icons" v-show="!task.running" title="run task" @@click.stop="run(task)">play_circle_outline</i>
@@ -116,7 +114,7 @@
         </div>
     </div>
     <!-- #END# Tasks -->
-    <div class="modal fade" id="CreateNewTaskModal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal fade" id="CreateNewTaskModal" tabindex="-1"  data-backdrop="static" role="dialog" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -145,20 +143,25 @@
                         </div>
 
                         <div class="form-row">
-                            <div class="form-group form-float col-md-6">
+                            <div class="form-group form-float col-md-5">
                                 <div :class="['form-line',{'focused':newTask.name!='','error':nameVdt===false, 'success':nameVdt===true}]">
                                     <input type="text" class="form-control" id="name" name="name" v-model="newTask.name" placeholder="Display name" required="" aria-required="true">
                                 </div>
                                 <label id="name-error" class="error">{{errorText["name"]}}</label>
                             </div>
-                            <div class="form-group form-float col-md-6">
+                            <div class="form-group form-float col-md-5">
                                 <div :class="['form-line',{'focused':newTask.version!='','error':versionVdt===false, 'success':versionVdt===true}]">
                                     <input type="text" class="form-control" id="version" name="version" v-model="newTask.version" placeholder="Git version" required="" aria-required="true">
                                 </div>
                                 <label id="version-error" class="error">{{errorText["version"]}}</label>
                             </div>
-                       </div>
-
+                            <div class="form-group form-float col-md-2">
+                                <div>
+                                    <a href="http://nasabigdata.com:30012/contents/crawler_release/" target="_blank">查看版本</a>
+                                </div>
+                                
+                            </div>
+                        </div>
                         <div class="form-row">
                             <div class="form-group form-float col-md-12">
                                 <div :class="['form-line',{'focused':newTask.assemblyName!='','error':assemblyNameVdt===false, 'success':assemblyNameVdt===true}]">
@@ -190,18 +193,20 @@
                         </div>*@
                         <div class="form-row">
                             <div class="form-group form-float col-md-6">
-                                <select class="form-control show-tick" v-model="newTask.nodesCount">
-                                    <option value="1">1 Node</option>
-                                    <option value="2">2 Nodes</option>
-                                    <option value="3">3 Nodes</option>
-                                    <option value="4">4 Nodes</option>
-                                    <option value="5">5 Nodes</option>
-                                    <option value="6">6 Nodes</option>
-                                    <option value="7">7 Nodes</option>
-                                    <option value="8">8 Nodes</option>
-                                    <option value="9">9 Nodes</option>
-                                    <option value="10">10 Nodes</option>
-                                </select>
+                                <div class="form-line focused success">
+                                    <select class="form-control show-tick" v-model="newTask.nodesCount">
+                                        <option value="1">1 Node</option>
+                                        <option value="2">2 Nodes</option>
+                                        <option value="3">3 Nodes</option>
+                                        <option value="4">4 Nodes</option>
+                                        <option value="5">5 Nodes</option>
+                                        <option value="6">6 Nodes</option>
+                                        <option value="7">7 Nodes</option>
+                                        <option value="8">8 Nodes</option>
+                                        <option value="9">9 Nodes</option>
+                                        <option value="10">10 Nodes</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group form-float col-md-6">
                                 <div :class="['form-line',{'focused':newTask.cron!='','error':cronVdt===false, 'success':cronVdt===true}]">
@@ -211,25 +216,28 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group orm-float col-md-4">
-                                <div class="form-line">
+                            <div class="form-group form-float col-md-4">
+                                <div :class="['form-line',{'focused':newTask.client!='','error':clientVdt===false, 'success':clientVdt===true}]">
                                     <input type="text" class="form-control" name="client" v-model="newTask.client" placeholder="Client" required="" aria-required="true">
                                 </div>
+                                <label id="client-error" class="error">{{errorText["client"]}}</label>
                             </div>
                             <div class="form-group form-float col-md-4">
-                                <div class="form-line">
+                                <div :class="['form-line',{'focused':newTask.executive!='','error':executiveVdt===false, 'success':executiveVdt===true}]">
                                     <input type="text" class="form-control" name="executive" v-model="newTask.executive" placeholder="Executive" required="" aria-required="true">
                                 </div>
+                                <label id="executive-error" class="error">{{errorText["executive"]}}</label>
                             </div>
                             <div class="form-group form-float col-md-4">
-                                <div class="form-line">
+                                <div :class="['form-line',{'focused':newTask.programmer!='','error':programmerVdt===false, 'success':programmerVdt===true}]">
                                     <input type="text" class="form-control" name="programmer" v-model="newTask.programmer" placeholder="Programmer" required="" aria-required="true">
                                 </div>
+                                <label id="programmer-error" class="error">{{errorText["programmer"]}}</label>
                             </div>
                         </div>
                         
                         <div class="modal-footer">
-                            <button type="button" class="btn bg-light-green btn-link waves-effect" @@click="saveSpider()">SUBMIT</button>
+                            <button type="button" :class="['btn','bg-light-green','btn-link','waves-effect',{'disabled':!buttonState}]" @@click="saveSpider()">SUBMIT</button>
                             <button type="button" class="btn bg-grey btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                         </div>
                     </form>
