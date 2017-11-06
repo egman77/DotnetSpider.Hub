@@ -14,5 +14,11 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		{
 			return View();
 		}
-	}
+
+        [HttpPost]
+        public IActionResult Index(int i)
+        {
+            return View();
+        }
+    }
 }

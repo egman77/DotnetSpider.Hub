@@ -3,10 +3,11 @@ using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Node.Dto;
 using DotnetSpider.Enterprise.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DotnetSpider.Enterprise.Web.Controllers
 {
-	public class NodeController : AppControllerBase
+    public class NodeController : AppControllerBase
 	{
 		private readonly INodeAppService _nodeAppService;
 
@@ -16,32 +17,37 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpGet]
+        [AllowAnonymous]
 		public IActionResult Index()
 		{
 			return View();
 		}
 
 		[HttpGet]
-		public IActionResult Dashboard(string id)
+        [AllowAnonymous]
+        public IActionResult Dashboard(string id)
 		{
 			ViewBag.AgentId = id;
 			return View();
 		}
 
 		[HttpPost]
-		public IActionResult GetCurrentNodeInfo()
+        [AllowAnonymous]
+        public IActionResult GetCurrentNodeInfo()
 		{
 			return ActionResult(() => _nodeAppService.GetCurrentNodeInfo());
 		}
 
 		[HttpPost]
-		public IActionResult GetNodeDetail(string id)
+        [AllowAnonymous]
+        public IActionResult GetNodeDetail(string id)
 		{
 			return ActionResult(() => _nodeAppService.GetNodeDetail(id));
 		}
 
 		[HttpPost]
-		public IActionResult EnableNode(NodeEnable input)
+        [AllowAnonymous]
+        public IActionResult EnableNode(NodeEnable input)
 		{
 			if (ModelState.IsValid)
 			{
@@ -54,7 +60,8 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult GetLog(GetLogInput input)
+        [AllowAnonymous]
+        public IActionResult GetLog(GetLogInput input)
 		{
 			if (ModelState.IsValid)
 			{
