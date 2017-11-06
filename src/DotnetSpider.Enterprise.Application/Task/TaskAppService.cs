@@ -66,7 +66,10 @@ namespace DotnetSpider.Enterprise.Application.Task
 		{
 			var proj = Mapper.Map<Domain.Entities.Task>(item);
 			DbContext.Tasks.Update(proj);
-			DbContext.SaveChanges();
+			if (DbContext.SaveChanges() > 0)
+			{
+				//notify scheduler center
+			}
 		}
 
 		public List<RunningTaskDto> GetRunningTasks()
@@ -190,22 +193,22 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void RemoveTask(long taskId)
 		{
-			//var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
-			//if (task != null)
-			//{
-			//	DbContext.Tasks.Remove(task);
-			//	DbContext.SaveChanges();
-			//}
+			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
+			if (task != null)
+			{
+				DbContext.Tasks.Remove(task);
+				DbContext.SaveChanges();
+			}
 		}
 
-		public void GetVersions(QueryTaskVersionInputDto input)
-		{
-			throw new NotImplementedException();
-		}
+		//public void GetVersions(QueryTaskVersionInputDto input)
+		//{
+		//	throw new NotImplementedException();
+		//}
 
-		public void SetVersion(long taskId, string version)
-		{
-			throw new NotImplementedException();
-		}
+		//public void SetVersion(long taskId, string version)
+		//{
+		//	throw new NotImplementedException();
+		//}
 	}
 }

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>msCron | GET CRON</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bootstrap.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-center text-info">Getting the CRON Expression..!</h1>
+            <div id="cron1"></div>
+
+            <div class="row" style="padding-top: 30px;">
+                <div class="col-sm-3"><button id="myButton" class="btn btn-info">GET CRON</button></div>
+                <div class="col-sm-3"><input type="text" class="form-control" id="myCronValue"> </div>
+            </div>
+        </div>
+
+
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/msCron.min.js"></script>
+        <script>
+            var cron = $("#cron1").msCron();
+            $(document).on("click", "#myButton", function () {
+                $("#myCronValue").val(cron.getCron);
+
+            });
+
+
+        </script>
+    </body>
+</html>

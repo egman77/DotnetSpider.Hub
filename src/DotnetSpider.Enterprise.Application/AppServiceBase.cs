@@ -32,18 +32,18 @@ namespace DotnetSpider.Enterprise.Application
 		{
 			ICommonConfiguration configuration = DI.IocManager.GetRequiredService<ICommonConfiguration>();
 
-			var conn = ConnectionMultiplexer.Connect(new ConfigurationOptions()
-			{
-				ServiceName = "Token",
-				Password = configuration.RedisPassword,
-				ConnectTimeout = 5000,
-				KeepAlive = 8,
-				EndPoints =
-				{
-					{ configuration.RedisHost,configuration.RedisPort }
-				}
-			});
-			var db = conn.GetDatabase(configuration.RedisDb);
+			//var conn = ConnectionMultiplexer.Connect(new ConfigurationOptions()
+			//{
+			//	ServiceName = "Token",
+			//	Password = configuration.RedisPassword,
+			//	ConnectTimeout = 5000,
+			//	KeepAlive = 8,
+			//	EndPoints =
+			//	{
+			//		{ configuration.RedisHost,configuration.RedisPort }
+			//	}
+			//});
+			//var db = conn.GetDatabase(configuration.RedisDb);
 			//TokenDb = new AppRedisDb(configuration.RedisTokenNamespace, db);
 			//ConnectionDb = new AppRedisDb(configuration.RedisConnectionNamespace, db);
 			//RunningDb = new AppRedisDb(configuration.RedisRunningTaskNamespace, db);
