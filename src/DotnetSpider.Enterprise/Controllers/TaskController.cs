@@ -35,18 +35,18 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			return DataResult(result);
 		}
 
-		[HttpPost]
-		public IActionResult GetVersions(QueryTaskVersionInputDto input)
-		{
-			input.Sort = "desc";
-			return ActionResult(() => _taskAppService.GetVersions(input));
-		}
+		//[HttpPost]
+		//public IActionResult GetVersions(QueryTaskVersionInputDto input)
+		//{
+		//	input.Sort = "desc";
+		//	return ActionResult(() => _taskAppService.GetVersions(input));
+		//}
 
-		[HttpPost]
-		public IActionResult SetVersion(long taskId, string version)
-		{
-			return ActionResult(() => _taskAppService.SetVersion(taskId, version));
-		}
+		//[HttpPost]
+		//public IActionResult SetVersion(long taskId, string version)
+		//{
+		//	return ActionResult(() => _taskAppService.SetVersion(taskId, version));
+		//}
 
 		[HttpPost]
 		public IActionResult AddTask(TaskDto item)
