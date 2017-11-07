@@ -1,7 +1,10 @@
 ﻿using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
+using DotnetSpider.Enterprise.Core.Configuration;
+using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
 namespace DotnetSpider.Enterprise.Web.Controllers
@@ -10,7 +13,8 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 	{
 		private readonly ITaskAppService _taskAppService;
 
-		public TaskController(ITaskAppService taskAppService)
+		public TaskController(ITaskAppService taskAppService, IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
+			: base(appSession, loggerFactory, commonConfiguration)
 		{
 			_taskAppService = taskAppService;
 		}
@@ -137,7 +141,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[HttpPost]
 		public IActionResult TaskRunning(string identity)
 		{
-			return ActionResult(_taskAppService.TaskRunning,identity);
+			return ActionResult(_taskAppService.TaskRunning, identity);
 		}
 	}
 }

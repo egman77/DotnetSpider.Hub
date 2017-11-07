@@ -20,14 +20,12 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		protected readonly IAppSession Session;
 		protected readonly ILogger Logger;
 		protected readonly ICommonConfiguration Configuration;
-		//protected readonly IApplicationLogAppService ExceptionService;
 
-		public AppControllerBase()
+		public AppControllerBase(IAppSession appSession, ILoggerFactory loggerFactory,ICommonConfiguration commonConfiguration)
 		{
-			Session = DI.IocManager.GetRequiredService<IAppSession>();
-			Logger = DI.IocManager.GetRequiredService<ILoggerFactory>().CreateLogger(GetType());
-			Configuration = DI.IocManager.GetRequiredService<ICommonConfiguration>();
-			//ExceptionService = DI.IocManager.GetRequiredService<IApplicationLogAppService>();
+			Session = appSession;
+			Logger = loggerFactory.CreateLogger(GetType());
+			Configuration = commonConfiguration;
 		}
 
 		protected string GetModelStateError()

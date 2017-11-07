@@ -10,6 +10,8 @@ using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.Web.Models.AccountViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using DotnetSpider.Enterprise.Domain;
+using DotnetSpider.Enterprise.Core.Configuration;
 
 namespace DotnetSpider.Enterprise.Web.Controllers
 {
@@ -22,13 +24,14 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 
 		public AccountController(
 			UserManager<ApplicationUser> userManager,
-			SignInManager<ApplicationUser> signInManager
-			)
+			SignInManager<ApplicationUser> signInManager,
+			IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
+			: base(appSession, loggerFactory, commonConfiguration)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
 		}
-		
+
 		//public IActionResult Index()
 		//{
 		//	return View();
@@ -70,7 +73,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 					}
 					else
 					{
-						var result = await  _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
+						var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
 						if (result.Succeeded)
 						{
 							return Json(new { Success = true, ReturnUrl = "/Home" });

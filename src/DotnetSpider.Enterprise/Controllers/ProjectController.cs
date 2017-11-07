@@ -7,19 +7,18 @@ using Newtonsoft.Json;
 using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.Application.Project;
 using DotnetSpider.Enterprise.Application.Project.Dtos;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using DotnetSpider.Enterprise.Domain;
+using Microsoft.Extensions.Logging;
+using DotnetSpider.Enterprise.Core.Configuration;
 
 namespace DotnetSpider.Enterprise.Web.Controllers
 {
 	public class ProjectController : AppControllerBase
 	{
-
 		private readonly IProjectAppService _projectService;
 
-		public ProjectController(
-			IProjectAppService projectService
-			)
+		public ProjectController(IProjectAppService projectService, IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
+			: base(appSession, loggerFactory, commonConfiguration)
 		{
 			_projectService = projectService;
 		}
@@ -68,12 +67,10 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			}
 		}
 
-		
-
 		[HttpPost]
 		public IActionResult GetStatusAndLogs(long buildId)
 		{
-			return ActionResult(_projectService.GetStatusAndLogs,buildId);
+			return ActionResult(_projectService.GetStatusAndLogs, buildId);
 		}
 
 		[HttpPost]
