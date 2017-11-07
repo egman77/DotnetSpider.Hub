@@ -9,18 +9,13 @@
     <PackageReference Include="MailKit" Version="1.20.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0" />
     <PackageReference Include="MimeKit" Version="1.20.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="StackExchange.Redis" Version="1.2.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DotnetSpider.Enterprise.Domain\DotnetSpider.Enterprise.Domain.csproj" />
     <ProjectReference Include="..\DotnetSpider.Enterprise.EntityFrameworkCore\DotnetSpider.Enterprise.EntityFrameworkCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\10.0.1\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
