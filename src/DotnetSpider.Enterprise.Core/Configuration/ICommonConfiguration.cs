@@ -5,7 +5,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 	public interface ICommonConfiguration
 	{
 		IConfigurationRoot AppConfiguration { get; set; }
-
+		string LogMongoConnectionString { get; }
 		string MsSqlConnectionString { get; }
 		string RedisHost { get; }
 		int RedisPort { get; }

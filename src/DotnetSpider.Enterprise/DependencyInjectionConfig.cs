@@ -24,7 +24,7 @@ namespace DotnetSpider.Enterprise.Web
 			services.AddScoped<IAppSession, AppSession>();
 
 			services.AddSingleton<ICommonConfiguration, CommonConfiguration>();
-			services.AddScoped<IApplicationLogAppService, ApplicationLogAppService>();
+			services.AddScoped<ILogAppService, LogAppService>();
 			services.AddScoped<IProjectAppService, ProjectAppService>();
 			services.AddScoped<ITaskAppService, TaskAppService>();
 			services.AddScoped<INodeAppService, NodeAppService>();

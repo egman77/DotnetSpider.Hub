@@ -77,6 +77,5 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 				throw new AppException("Invalid Params.");
 			}
 		}
-
 	}
 }

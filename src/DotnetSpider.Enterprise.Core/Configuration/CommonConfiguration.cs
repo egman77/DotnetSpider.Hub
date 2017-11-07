@@ -66,7 +66,16 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 			get
 			{
 				var connectionStrings = AppConfiguration.GetSection("ConnectionStrings");
-				return connectionStrings.GetValue<string>(ConfigurationConsts.ConnectionStringName);
+				return connectionStrings.GetValue<string>(ConfigurationConsts.ConnectionName);
+			}
+		}
+
+		public string LogMongoConnectionString
+		{
+			get
+			{
+				var logMongoConnectionString = AppConfiguration.GetSection("ConnectionStrings");
+				return logMongoConnectionString.GetValue<string>(ConfigurationConsts.LogMongoConnectionName);
 			}
 		}
 
@@ -75,7 +84,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 			get
 			{
 				var connectionStrings = AppConfiguration.GetSection("ConnectionStrings");
-				return connectionStrings.GetValue<string>(ConfigurationConsts.MySqlConnectionStringName);
+				return connectionStrings.GetValue<string>(ConfigurationConsts.MySqlConnectionName);
 			}
 		}
 

@@ -7,8 +7,9 @@ namespace DotnetSpider.Enterprise.Core
 		public const string LocalizationSourceName = "DotnetSpider.Enterprise";
 		public const string DefaultSetting = "DotnetSpider.Enterprise";
 		public const string DefaultTenantIdSetting = "Abp.Tenant.DefaultId";
-		public const string ConnectionStringName = "DefaultConnection";
-		public const string MySqlConnectionStringName = "MysqlConnection";
+		public const string ConnectionName = "DefaultConnection";
+		public const string LogMongoConnectionName = "LogMongoConnection";
+		public const string MySqlConnectionName = "MySqlConnection";
 		public const string DataSizeCollectionName = "data_size";
 		public const string DataHubName = "websocket.latestHub";
 		public const string RedisDb = "redis.db";
