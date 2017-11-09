@@ -189,12 +189,18 @@ namespace DotnetSpider.Enterprise.Agent
 			{
 				case Command.RunName:
 					{
-						Task.Factory.StartNew(() => { Run(command); });
+						lock (this)
+						{
+							Run(command);
+						}
 						break;
 					}
 				case Command.CanleName:
 					{
-						Canle(command);
+						lock (this)
+						{
+							Canle(command);
+						}
 						break;
 					}
 			}
@@ -202,16 +208,17 @@ namespace DotnetSpider.Enterprise.Agent
 
 		private void Canle(Command command)
 		{
-			if (!Processes.ContainsKey(command.Task))
-			{
-				Logger.Warn($"Task {command.Task} is not running");
-				return;
-			}
 			if (command.AngentId != AgentConsts.AgentId)
 			{
 				Logger.Error($"Pemission denied.");
 				return;
 			}
+			if (!Processes.ContainsKey(command.Task))
+			{
+				Logger.Warn($"Task {command.Task} is not running");
+				return;
+			}
+
 			Process process;
 			if (Processes.TryGetValue(command.Task, out process))
 			{
@@ -224,9 +231,15 @@ namespace DotnetSpider.Enterprise.Agent
 			}
 		}
 
-
 		private void Run(Command command)
 		{
+			if (command.AngentId != AgentConsts.AgentId)
+			{
+				Logger.Error($"Pemission denied.");
+				return;
+			}
+			string workingDirectory;
+
 			if (Processes.ContainsKey(command.Task))
 			{
 				Logger.Error($"Task {command.Task} is already running");
@@ -246,7 +259,7 @@ namespace DotnetSpider.Enterprise.Agent
 				Logger.Info("Create task folder success.");
 			}
 
-			var workingDirectory = Path.Combine(directory, command.Version);
+			workingDirectory = Path.Combine(directory, command.Version);
 			if (!Directory.Exists(workingDirectory))
 			{
 				try
@@ -269,6 +282,8 @@ namespace DotnetSpider.Enterprise.Agent
 				Process p;
 				Processes.TryRemove(command.Task, out p);
 			});
+
+
 			Processes.TryAdd(command.Task, process);
 		}
 
@@ -283,7 +298,8 @@ namespace DotnetSpider.Enterprise.Agent
 						CreateNoWindow = false,
 						WorkingDirectory = workingDirectory,
 						Arguments = arguments
-					}
+					},
+				EnableRaisingEvents = true
 			};
 
 			process.Start();

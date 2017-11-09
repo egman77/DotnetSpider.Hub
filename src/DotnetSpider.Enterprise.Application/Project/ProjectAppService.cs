@@ -7,7 +7,6 @@ using System.Linq;
 using DotnetSpider.Enterprise.Application.Project.Dtos;
 using StackExchange.Redis;
 using Newtonsoft.Json;
-using DotnetSpider.Enterprise.Application.Dto;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
 using DotnetSpider.Enterprise.Domain;
 using System.Linq.Expressions;

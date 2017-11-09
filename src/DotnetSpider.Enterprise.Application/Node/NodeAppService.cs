@@ -7,7 +7,6 @@ using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Newtonsoft.Json;
-using DotnetSpider.Enterprise.Application.Dto;
 using DotnetSpider.Enterprise.Domain.Entities;
 using AutoMapper;
 
@@ -180,11 +179,24 @@ namespace DotnetSpider.Enterprise.Application.Node
 			//return r;
 		}
 
-		public void Heartbeat(NodeHeartbeatInputDto input)
+		public List<AgentCommandOutputDto> Heartbeat(NodeHeartbeatInputDto input)
 		{
 			var heartbeat = Mapper.Map<NodeHeartBeat>(input);
 			DbContext.NodeHeartBeats.Add(heartbeat);
 			DbContext.SaveChanges();
+
+			return new List<AgentCommandOutputDto>
+			{
+				new AgentCommandOutputDto
+				{
+					AngentId="3c8c7065bfe744aabdb9f8e5e11c9ae6",
+					Application="dotnet",
+					Arguments="Xbjrkj.DataCollection.Startup.dll -s:Xbjrkj.DataCollection.Apps.BaiduSearchSpider -i:guid -tid:1 -a:abcd",
+					Name="RUN",
+					Task ="test",
+					Version="55d21fb6e864b4a0378a2c88e55a72503f4dd9a4"
+				}
+			};
 		}
 	}
 }

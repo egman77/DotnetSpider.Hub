@@ -24,8 +24,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[AllowAnonymous]
 		public IActionResult Heartbeat([FromBody]NodeHeartbeatInputDto input)
 		{
-			_nodeAppService.Heartbeat(input);
-			return Ok();
+			return new JsonResult(_nodeAppService.Heartbeat(input));
 		}
 
 		[HttpGet]

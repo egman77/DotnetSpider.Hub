@@ -12,7 +12,6 @@ using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Application.Project.Dtos;
 using System.Data;
 using DotnetSpider.Enterprise.Domain.Entities;
-using DotnetSpider.Enterprise.Application.Dto;
 using Newtonsoft.Json;
 
 namespace DotnetSpider.Enterprise.Application.Task
