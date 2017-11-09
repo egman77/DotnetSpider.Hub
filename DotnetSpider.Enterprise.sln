@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Solution items", "00. Solution items", "{420BCCA4-2759-4EAC-90B0-F97CA854C0A4}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,10 +20,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Application", "Src\DotnetSpider.Enterprise.Application\DotnetSpider.Enterprise.Application.csproj", "{30651031-D2EE-4DAA-90EB-CF890CDAE8E0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01. Web", "01. Web", "{88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Agent", "02. Agent", "{B7CF429F-1FA2-4A20-B117-FBC76731327F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.Agent", "src\DotnetSpider.Enterprise.Agent\DotnetSpider.Enterprise.Agent.csproj", "{16C021E2-E907-4A01-B56A-D5F420F31993}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +47,6 @@ Global
 		{30651031-D2EE-4DAA-90EB-CF890CDAE8E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30651031-D2EE-4DAA-90EB-CF890CDAE8E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30651031-D2EE-4DAA-90EB-CF890CDAE8E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{16C021E2-E907-4A01-B56A-D5F420F31993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16C021E2-E907-4A01-B56A-D5F420F31993}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16C021E2-E907-4A01-B56A-D5F420F31993}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16C021E2-E907-4A01-B56A-D5F420F31993}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,7 +57,6 @@ Global
 		{CB03DA98-5831-4F74-B6CD-1092927EFE52} = {88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}
 		{CF4AC8C4-5695-49B5-8C40-0E7DE7BE398D} = {88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}
 		{30651031-D2EE-4DAA-90EB-CF890CDAE8E0} = {88DC5E2D-DAF2-42B3-9DA3-3896145C9E3C}
-		{16C021E2-E907-4A01-B56A-D5F420F31993} = {B7CF429F-1FA2-4A20-B117-FBC76731327F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31D8D950-D2C2-4BDE-A27E-213F10DA4323}

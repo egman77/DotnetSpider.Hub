@@ -179,5 +179,12 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 			//return r;
 		}
+
+		public void Heartbeat(NodeHeartbeatInputDto input)
+		{
+			var heartbeat = Mapper.Map<NodeHeartBeat>(input);
+			DbContext.NodeHeartBeats.Add(heartbeat);
+			DbContext.SaveChanges();
+		}
 	}
 }

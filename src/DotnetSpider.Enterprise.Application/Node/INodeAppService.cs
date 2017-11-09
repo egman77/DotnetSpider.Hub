@@ -7,11 +7,12 @@ using DotnetSpider.Enterprise.Domain.Entities;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {
-    public interface INodeAppService
-    {
-	    List<NodeInfoDto> GetCurrentNodeInfo();
+	public interface INodeAppService
+	{
+		List<NodeInfoDto> GetCurrentNodeInfo();
 		NodeDetailDto GetNodeDetail(string id);
-	    NodeEnable EnableNode(NodeEnable input);
-	    PagingQueryOutputDto GetLog(GetLogInput input);
-    }
+		NodeEnable EnableNode(NodeEnable input);
+		PagingQueryOutputDto GetLog(GetLogInput input);
+		void Heartbeat(NodeHeartbeatInputDto input);
+	}
 }

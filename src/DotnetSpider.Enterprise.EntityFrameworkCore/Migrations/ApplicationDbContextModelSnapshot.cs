@@ -21,49 +21,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.AgentHeartBeat", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AgentId")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.Property<int>("CountOfRunningTasks");
-
-                    b.Property<int>("CpuLoad");
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<long>("FreeMemory");
-
-                    b.Property<string>("Ip")
-                        .HasMaxLength(20);
-
-                    b.Property<bool>("IsEnabled");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("Os")
-                        .HasMaxLength(20);
-
-                    b.Property<long>("Timestamp");
-
-                    b.Property<long>("TotalMemory");
-
-                    b.Property<string>("Version")
-                        .HasMaxLength(5);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Agent_HeartBeats");
-                });
-
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole", b =>
                 {
                     b.Property<long>("Id")
@@ -175,6 +132,71 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Exceptions");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Node", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<bool>("IsEnable");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("NodeId")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Nodes");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.NodeHeartBeat", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AgentId")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<int>("CountOfProcess");
+
+                    b.Property<int>("CpuLoad");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long>("FreeMemory");
+
+                    b.Property<string>("Ip")
+                        .HasMaxLength(20);
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("Os")
+                        .HasMaxLength(20);
+
+                    b.Property<long>("Timestamp");
+
+                    b.Property<long>("TotalMemory");
+
+                    b.Property<string>("Version")
+                        .HasMaxLength(12);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NodeHeartBeats");
                 });
 
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Project", b =>

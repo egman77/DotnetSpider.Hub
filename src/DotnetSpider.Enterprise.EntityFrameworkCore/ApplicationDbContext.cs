@@ -24,7 +24,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 		public DbSet<Domain.Entities.Logs.Exception> Exceptions { get; set; }
 		public DbSet<Project> Projects { get; set; }
 		public DbSet<Task> Tasks { get; set; }
-		public DbSet<AgentHeartBeat> Agent_HeartBeats { get; set; }
+		public DbSet<Node> Nodes{ get; set; }
+		public DbSet<NodeHeartBeat> NodeHeartBeats { get; set; }
 
 		private readonly IHttpContextAccessor _accessor;
 

@@ -20,6 +20,14 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			_nodeAppService = nodeAppService;
 		}
 
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult Heartbeat([FromBody]NodeHeartbeatInputDto input)
+		{
+			_nodeAppService.Heartbeat(input);
+			return Ok();
+		}
+
 		[HttpGet]
 		[AllowAnonymous]
 		public IActionResult Index()

@@ -8,32 +8,29 @@ using System.Threading.Tasks;
 
 namespace DotnetSpider.Enterprise.Agent
 {
-    public class Program
-    {
+	public class Program
+	{
 
-        static void Main(string[] args)
-        {
-            Console.Title = $"DotnetSpider.Enterprise.ServerAgent v{NodeStatus.Version}";
-            var agent = new AgentBusiness();
-            agent.CheckUniqueness();
-            using (File.Create(AgentConsts.RunningLockPath))
-            {                
-                agent.CheckConfig();
-                agent.LoadConfig();
-                agent.EnableAgent();
-                agent.ReadAgentId();
-                agent.StartListener();
-                Thread.Sleep(5000);
+		static void Main(string[] args)
+		{
+			Console.Title = $"DotnetSpider Agent v{AgentConsts.Version}";
+			var agent = new AgentService();
+			agent.CheckUniqueness();
+			using (File.Create(AgentConsts.RunningLockPath))
+			{
+				agent.CheckConfig();
+				agent.LoadConfig();
+				agent.Start();
 
-                Console.WriteLine("Enter q: to exit:");
+				Console.WriteLine("Enter q: to exit:");
 
-                while (Console.ReadLine() != "q:")
-                {
-                    Console.WriteLine("Press q: to exit.");
-                }
-            }
-            agent.ExitAgent();
-        }
+				while (Console.ReadLine() != "q:")
+				{
+					Console.WriteLine("Press q: to exit.");
+				}
+			}
+			agent.Exit();
+		}
 
-    }
+	}
 }

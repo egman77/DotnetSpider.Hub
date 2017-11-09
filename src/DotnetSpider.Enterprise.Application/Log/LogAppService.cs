@@ -25,7 +25,7 @@ namespace DotnetSpider.Enterprise.Application.Log
 			var database = client.GetDatabase("dotnetspider");
 			var collection = database.GetCollection<BsonDocument>(input.Identity);
 
-			await collection.InsertOneAsync(BsonDocument.Parse(input.LogInfo));
+			await collection.InsertOneAsync(BsonDocument.Parse(input.LogInfo.ToString()));
 		}
 	}
 }

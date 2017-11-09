@@ -1,17 +1,21 @@
-﻿namespace DotnetSpider.Enterprise.Agent
-{
-    public class Command
-    {
-        public const string Run = "RUN";
-        public const string Publish = "PUBLISH";
-        public const string DeleteProject = "DELETE_PROJECT";
-        public const string DeleteTask = "DELETE_TASK";
-        public const string Enable = "ENABLE";
-        public const string Disable = "DISABLE";
+﻿using NLog;
+using System;
+using System.Collections.Concurrent;
+using System.IO;
+using System.Threading.Tasks;
 
-        public string Id { get; set; }
-        public string Target { get; set; }
-        public string Name { get; set; }
-        public string Data { get; set; }
-    }
+namespace DotnetSpider.Enterprise.Agent
+{
+	public class Command
+	{
+		public const string RunName = "RUN";
+		public const string CanleName = "CANLE";
+
+		public string AngentId { get; set; }
+		public string Task { get; set; }
+		public string Name { get; set; }
+		public string Arguments { get; set; }
+		public string Application { get; set; }
+		public string Version { get; set; }
+	}
 }
