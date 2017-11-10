@@ -18,6 +18,8 @@ namespace DotnetSpider.Enterprise.Application
 				config.CreateMap<Domain.Entities.Project, ProjectDto>();
 				config.CreateMap<Domain.Entities.Task, TaskDto>();
 				config.CreateMap<NodeHeartbeatInputDto, NodeHeartbeat>();
+				config.CreateMap<MessageHistory, Domain.Entities.Message>();
+				config.CreateMap<Domain.Entities.Node, NodeOutputDto>();
 				//config.CreateMap<BuildLog, BuildLogDto>();
 				//config.CreateMap<NodeStatus, NodeStatusDto>();
 				//config.CreateMap<TaskLog, TaskLogDto>();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DotnetSpider.Enterprise.Application.Node.Dto
+namespace DotnetSpider.Enterprise.Application.Message.Dto
 {
 	public class MessageOutputDto
 	{
