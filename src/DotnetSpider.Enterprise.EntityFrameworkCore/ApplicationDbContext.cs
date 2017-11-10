@@ -87,7 +87,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 
 		private void ApplyConcepts()
 		{
-			var value = _accessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+			var value = _accessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 			long? userId = null;
 			long id;
 			if (long.TryParse(value, out id))

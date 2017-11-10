@@ -12,7 +12,6 @@ namespace DotnetSpider.Enterprise.Agent
 		public const string CanleName = "CANLE";
 
 		public virtual string NodeId { get; set; }
-		public virtual string Task { get; set; }
 		public virtual string Name { get; set; }
 		public virtual string Arguments { get; set; }
 		public virtual string ApplicationName { get; set; }

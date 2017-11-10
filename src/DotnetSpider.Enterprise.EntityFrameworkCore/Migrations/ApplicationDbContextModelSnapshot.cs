@@ -161,6 +161,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(32);
 
+                    b.Property<long>("TaskId");
+
                     b.HasKey("Id");
 
                     b.ToTable("Messages");

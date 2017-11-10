@@ -12,7 +12,7 @@ using System;
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171110110210_init")]
+    [Migration("20171110112807_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<string>("NodeId")
                         .IsRequired()
                         .HasMaxLength(32);
+
+                    b.Property<long>("TaskId");
 
                     b.HasKey("Id");
 
