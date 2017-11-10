@@ -13,10 +13,10 @@ namespace DotnetSpider.Enterprise.Agent
 
 		static void Main(string[] args)
 		{
-			Console.Title = $"DotnetSpider Agent v{AgentConsts.Version}";
+			Console.Title = $"DotnetSpider Agent v{Config.Version}";
 			var agent = new AgentService();
 			agent.CheckUniqueness();
-			using (File.Create(AgentConsts.RunningLockPath))
+			using (File.Create(Config.RunningLockPath))
 			{
 				agent.CheckConfig();
 				agent.LoadConfig();

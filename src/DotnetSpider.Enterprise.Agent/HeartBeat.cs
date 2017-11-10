@@ -11,12 +11,12 @@ namespace DotnetSpider.Enterprise.Agent
 {
 	public class HeartBeat
 	{
-		public virtual string AgentId { get; set; }
+		public virtual string NodeId { get; set; }
 		public virtual string Ip { get; set; }
-		public virtual int CpuLoad { get; set; }
+		public virtual int CPULoad { get; set; }
 		public virtual long FreeMemory { get; set; }
 		public virtual long TotalMemory { get; set; }
-		public virtual int CountOfProcess { get; set; }
+		public virtual int ProcessCount { get; set; }
 		public virtual string Os { get; set; }
 		public virtual string Version { get; set; }
 
@@ -24,14 +24,14 @@ namespace DotnetSpider.Enterprise.Agent
 		{
 			var heartBeat = new HeartBeat
 			{
-				AgentId = AgentConsts.AgentId,
-				Ip = AgentConsts.Ip,
-				CpuLoad = Convert.ToInt32(GetCpuLoad()),
-				Os = AgentConsts.Os,
-				Version = AgentConsts.Version
+				NodeId = Config.NodeId,
+				Ip = Config.Ip,
+				CPULoad = Convert.ToInt32(GetCpuLoad()),
+				Os = Config.Os,
+				Version = Config.Version
 			};
 
-			if (AgentConsts.IsRunningOnWindows)
+			if (Config.IsRunningOnWindows)
 			{
 				MEMORYSTATUS mStatus = new MEMORYSTATUS();
 				GlobalMemoryStatus(ref mStatus);
@@ -49,7 +49,7 @@ namespace DotnetSpider.Enterprise.Agent
 
 		private static decimal GetCpuLoad()
 		{
-			if (AgentConsts.IsRunningOnWindows)
+			if (Config.IsRunningOnWindows)
 			{
 				Process process = new Process
 				{

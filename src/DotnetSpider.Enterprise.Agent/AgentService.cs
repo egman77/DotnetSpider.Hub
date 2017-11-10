@@ -17,7 +17,6 @@ namespace DotnetSpider.Enterprise.Agent
 	public class AgentService
 	{
 		private static readonly ConcurrentDictionary<string, Process> Processes = new ConcurrentDictionary<string, Process>();
-		private static IConfigurationRoot _configurationRoot;
 		private static ILogger _logger;
 		private readonly HttpClient httpClient = new HttpClient();
 		private Task _task;
@@ -40,11 +39,11 @@ namespace DotnetSpider.Enterprise.Agent
 		/// </summary>
 		public void CheckUniqueness()
 		{
-			if (File.Exists(AgentConsts.RunningLockPath))
+			if (File.Exists(Config.RunningLockPath))
 			{
 				try
 				{
-					File.Delete(AgentConsts.RunningLockPath);
+					File.Delete(Config.RunningLockPath);
 				}
 				catch (Exception)
 				{
@@ -90,14 +89,7 @@ namespace DotnetSpider.Enterprise.Agent
 			string nlogConfigPath = Path.Combine(AppContext.BaseDirectory, "nlog.config");
 			LogManager.Configuration = new XmlLoggingConfiguration(nlogConfigPath);
 
-			var builder = new ConfigurationBuilder();
-			builder.AddIniFile("config.ini");
-
-			_configurationRoot = builder.Build();
-
-			Config.Load(_configurationRoot);
-
-			AgentConsts.Load();
+			Config.Load();
 
 			Logger.Info($"[{++step}] Load configuration success.");
 		}
@@ -112,7 +104,7 @@ namespace DotnetSpider.Enterprise.Agent
 				while (!_exit)
 				{
 					Heartbeat();
-					Thread.Sleep(Config.Instance.HeartbeatInterval);
+					Thread.Sleep(Config.HeartbeatInterval);
 				}
 			});
 		}
@@ -131,11 +123,11 @@ namespace DotnetSpider.Enterprise.Agent
 				_logger.Info("Wait crawler processes exit.");
 				Thread.Sleep(5000);
 			}
-			if (File.Exists(AgentConsts.RunningLockPath))
+			if (File.Exists(Config.RunningLockPath))
 			{
 				try
 				{
-					File.Delete(AgentConsts.RunningLockPath);
+					File.Delete(Config.RunningLockPath);
 				}
 				catch
 				{
@@ -148,12 +140,12 @@ namespace DotnetSpider.Enterprise.Agent
 		private async void Heartbeat()
 		{
 			var hearbeat = HeartBeat.Create();
-			hearbeat.CountOfProcess = Processes.Count;
+			hearbeat.ProcessCount = Processes.Count;
 			var json = JsonConvert.SerializeObject(hearbeat);
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 			try
 			{
-				var url = Config.Instance.HeartbeatUrl;
+				var url = Config.HeartbeatUrl;
 				await httpClient.PostAsync(url, content).ContinueWith((task) =>
 				{
 					HttpResponseMessage response = task.Result;
@@ -164,7 +156,7 @@ namespace DotnetSpider.Enterprise.Agent
 						var result = response.Content.ReadAsStringAsync().Result;
 						if (!string.IsNullOrEmpty(result))
 						{
-							var commands = JsonConvert.DeserializeObject<Command[]>(result);
+							var commands = JsonConvert.DeserializeObject<Messsage[]>(result);
 							foreach (var command in commands)
 							{
 								Excecute(command); ;
@@ -183,11 +175,11 @@ namespace DotnetSpider.Enterprise.Agent
 			}
 		}
 
-		private void Excecute(Command command)
+		private void Excecute(Messsage command)
 		{
 			switch (command.Name)
 			{
-				case Command.RunName:
+				case Messsage.RunName:
 					{
 						lock (this)
 						{
@@ -195,7 +187,7 @@ namespace DotnetSpider.Enterprise.Agent
 						}
 						break;
 					}
-				case Command.CanleName:
+				case Messsage.CanleName:
 					{
 						lock (this)
 						{
@@ -206,9 +198,9 @@ namespace DotnetSpider.Enterprise.Agent
 			}
 		}
 
-		private void Canle(Command command)
+		private void Canle(Messsage command)
 		{
-			if (command.AngentId != AgentConsts.AgentId)
+			if (command.NodeId != Config.NodeId)
 			{
 				Logger.Error($"Pemission denied.");
 				return;
@@ -231,9 +223,9 @@ namespace DotnetSpider.Enterprise.Agent
 			}
 		}
 
-		private void Run(Command command)
+		private void Run(Messsage command)
 		{
-			if (command.AngentId != AgentConsts.AgentId)
+			if (command.NodeId != Config.NodeId)
 			{
 				Logger.Error($"Pemission denied.");
 				return;
@@ -252,7 +244,7 @@ namespace DotnetSpider.Enterprise.Agent
 				return;
 			}
 
-			var directory = Path.Combine(AgentConsts.ProjectsDirectory, command.Task);
+			var directory = Path.Combine(Config.ProjectsDirectory, command.Task);
 			if (!Directory.Exists(directory))
 			{
 				Directory.CreateDirectory(directory);
@@ -264,8 +256,8 @@ namespace DotnetSpider.Enterprise.Agent
 			{
 				try
 				{
-					var zip = Path.Combine(AgentConsts.PackagesDirectory, "{command.Version}.ZIP");
-					var bytes = httpClient.GetByteArrayAsync($"{Config.Instance.PackageUrl}/{command.Version}.ZIP").Result;
+					var zip = Path.Combine(Config.PackagesDirectory, "{command.Version}.ZIP");
+					var bytes = httpClient.GetByteArrayAsync($"{Config.PackageUrl}/{command.Version}.ZIP").Result;
 					File.WriteAllBytes(zip, bytes);
 					ZipUtil.UnZip(zip, workingDirectory);
 				}
@@ -277,7 +269,7 @@ namespace DotnetSpider.Enterprise.Agent
 			}
 
 
-			var process = Process(command.Application, command.Arguments, workingDirectory, () =>
+			var process = Process(command.ApplicationName, command.Arguments, workingDirectory, () =>
 			{
 				Process p;
 				Processes.TryRemove(command.Task, out p);

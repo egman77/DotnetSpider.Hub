@@ -13,6 +13,6 @@ namespace DotnetSpider.Enterprise.Application.Node
 		NodeDetailDto GetNodeDetail(string id);
 		NodeEnable EnableNode(NodeEnable input);
 		PagingQueryOutputDto GetLog(GetLogInput input);
-		List<AgentCommandOutputDto> Heartbeat(NodeHeartbeatInputDto input);
+		List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input);
 	}
 }

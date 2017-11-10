@@ -179,12 +179,12 @@ namespace DotnetSpider.Enterprise.Application.Node
 			//return r;
 		}
 
-		public List<AgentCommandOutputDto> Heartbeat(NodeHeartbeatInputDto input)
+		public List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input)
 		{
 			var heartbeat = Mapper.Map<NodeHeartbeat>(input);
 			DbContext.NodeHeartbeats.Add(heartbeat);
 
-			var node = DbContext.Nodes.FirstOrDefault(n => n.NodeId == input.AgentId);
+			var node = DbContext.Nodes.FirstOrDefault(n => n.NodeId == input.NodeId);
 			if (node != null)
 			{
 				node.IsOnline = true;
@@ -193,16 +193,16 @@ namespace DotnetSpider.Enterprise.Application.Node
 			DbContext.SaveChanges();
 			var guid = Guid.NewGuid().ToString("N");
 			var task = "test";
-			return new List<AgentCommandOutputDto>
+			return new List<MessageOutputDto>
 			{
-				new AgentCommandOutputDto
+				new MessageOutputDto
 				{
-					AngentId="3c8c7065bfe744aabdb9f8e5e11c9ae6",
-					Application="dotnet",
+					NodeId="3c8c7065bfe744aabdb9f8e5e11c9ae6",
+					ApplicationName="dotnet",
 					Arguments=$"Xbjrkj.DataCollection.Startup.dll -s:Xbjrkj.DataCollection.Apps.BaiduSearchSpider -a:abcd -tid:{task} -i:{guid}",
 					Name="RUN",
-					Task ="test",
-					RunId="",
+					TaskId =1,
+					CreationTime =DateTime.Now,
 					Version="55d21fb6e864b4a0378a2c88e55a72503f4dd9a4"
 				}
 			};

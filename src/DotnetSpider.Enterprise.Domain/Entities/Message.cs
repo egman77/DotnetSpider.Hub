@@ -11,6 +11,9 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		[StringLength(32)]
 		public virtual string NodeId { get; set; }
 
+		[Required]
+		public virtual long TaskId { get; set; }
+
 		[StringLength(100)]
 		public virtual string Name { get; set; }
 
