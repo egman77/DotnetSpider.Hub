@@ -273,13 +273,15 @@ namespace DotnetSpider.Enterprise.Agent
 			{
 				Process p;
 				Processes.TryRemove(command.TaskId, out p);
+				ReportProcessCountChanged(command.TaskId, false);
 			});
 
-
 			Processes.TryAdd(command.TaskId, process);
+
+			ReportProcessCountChanged(command.TaskId, true);
 		}
 
-		public static Process Process(string app, string arguments, string workingDirectory, Action onExited)
+		public Process Process(string app, string arguments, string workingDirectory, Action onExited)
 		{
 			Process process = new Process
 			{
@@ -297,6 +299,30 @@ namespace DotnetSpider.Enterprise.Agent
 			process.Start();
 			process.Exited += (a, b) => { onExited?.Invoke(); };
 			return process;
+		}
+
+		private void ReportProcessCountChanged(long taskId, bool isStart)
+		{
+			var content = new StringContent($"{{'token':'{Config.ApiToken}','taskId':'{taskId}','isStart':'{isStart}',}}", Encoding.UTF8, "application/json");
+
+			for (int i = 0; i < 100; ++i)
+			{
+				try
+				{
+					var url = Config.ProcessCountChangedUrl;
+					httpClient.PostAsync(url, content).ContinueWith((task) =>
+					{
+						HttpResponseMessage response = task.Result;
+						response.EnsureSuccessStatusCode();
+					}).Wait();
+					break;
+				}
+				catch (Exception e)
+				{
+					_logger.Error($"ReportProcessCountChanged failed.: {e}");
+					Thread.Sleep(6000);
+				}
+			}
 		}
 	}
 }

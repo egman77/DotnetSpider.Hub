@@ -175,7 +175,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AvgDownloadSpeed = table.Column<float>(type: "real", nullable: false),
                     AvgPipelineSpeed = table.Column<float>(type: "real", nullable: false),
-                    AvgProccessorSpeed = table.Column<float>(type: "real", nullable: false),
+                    AvgProcessorSpeed = table.Column<float>(type: "real", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
                     Error = table.Column<long>(type: "bigint", nullable: false),

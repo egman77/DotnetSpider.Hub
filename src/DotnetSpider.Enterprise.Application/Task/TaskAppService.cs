@@ -28,6 +28,24 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_projectAppService = projectAppService;
 		}
 
+		public void ProcessCountChanged(long taskId, bool isStart)
+		{
+			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
+			if (task != null)
+			{
+				if (isStart)
+				{
+					task.NodeRunningCount += 1;
+				}
+				else
+				{
+					task.NodeRunningCount -= 1;
+				}
+				task.NodeRunningCount = task.NodeRunningCount < 0 ? 0 : task.NodeRunningCount;
+				DbContext.SaveChanges();
+			}
+		}
+
 		public QueryTaskOutputDto GetList(QueryTaskInputDto input)
 		{
 			input.Init();
@@ -170,7 +188,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			//}
 		}
 
-		
+
 		public void StopTask(string identity)
 		{
 			//using (IDbConnection conn = new MySqlConnection(Configuration.MySqlConnectionString))
@@ -199,15 +217,5 @@ namespace DotnetSpider.Enterprise.Application.Task
 				DbContext.SaveChanges();
 			}
 		}
-
-		//public void GetVersions(QueryTaskVersionInputDto input)
-		//{
-		//	throw new NotImplementedException();
-		//}
-
-		//public void SetVersion(long taskId, string version)
-		//{
-		//	throw new NotImplementedException();
-		//}
 	}
 }

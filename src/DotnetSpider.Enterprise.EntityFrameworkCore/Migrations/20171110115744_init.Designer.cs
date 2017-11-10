@@ -12,7 +12,7 @@ using System;
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171110112807_init")]
+    [Migration("20171110115744_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -394,7 +394,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<float>("AvgPipelineSpeed");
 
-                    b.Property<float>("AvgProccessorSpeed");
+                    b.Property<float>("AvgProcessorSpeed");
 
                     b.Property<DateTime>("CreationTime");
 

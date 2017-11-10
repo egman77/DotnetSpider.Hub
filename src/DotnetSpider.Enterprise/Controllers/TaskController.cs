@@ -3,6 +3,7 @@ using DotnetSpider.Enterprise.Application.Task.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -17,6 +18,15 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			: base(appSession, loggerFactory, commonConfiguration)
 		{
 			_taskAppService = taskAppService;
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult ProcessCountChanged([FromBody]ProcessCountChangedInputDto input)
+		{
+			//string token, long taskId, bool isStart
+			_taskAppService.ProcessCountChanged(input.TaskId, input.IsStart);
+			return Ok();
 		}
 
 		[HttpGet]

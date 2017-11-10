@@ -21,7 +21,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		public virtual long Error { get; set; }
 		public virtual long Total { get; set; }
 		public virtual float AvgDownloadSpeed { get; set; }
-		public virtual float AvgProccessorSpeed { get; set; }
+		public virtual float AvgProcessorSpeed { get; set; }
 		public virtual float AvgPipelineSpeed { get; set; }
 	}
 }

@@ -393,7 +393,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<float>("AvgPipelineSpeed");
 
-                    b.Property<float>("AvgProccessorSpeed");
+                    b.Property<float>("AvgProcessorSpeed");
 
                     b.Property<DateTime>("CreationTime");
 
