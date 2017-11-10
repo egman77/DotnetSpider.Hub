@@ -24,8 +24,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 		public DbSet<Domain.Entities.Logs.Exception> Exceptions { get; set; }
 		public DbSet<Project> Projects { get; set; }
 		public DbSet<Task> Tasks { get; set; }
-		public DbSet<Node> Nodes{ get; set; }
-		public DbSet<NodeHeartBeat> NodeHeartBeats { get; set; }
+		public DbSet<Node> Nodes { get; set; }
+		public DbSet<NodeHeartbeat> NodeHeartBeats { get; set; }
 
 		private readonly IHttpContextAccessor _accessor;
 
@@ -34,10 +34,10 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 		//{
 		//}
 
-		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor accessor)
 			: base(options)
 		{
-			_accessor = DI.IocManager?.GetRequiredService<IHttpContextAccessor>();
+			_accessor = accessor;
 		}
 
 		protected override void OnModelCreating(ModelBuilder builder)
@@ -149,7 +149,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 		{
 			var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 			builder.UseSqlServer("Server=.\\SQLEXPRESS;DataBase=DotnetSpiderEnterprise_Dev;Integrated Security = SSPI;");
-			return new ApplicationDbContext(builder.Options);
+			return new ApplicationDbContext(builder.Options, null);
 		}
 	}
 }

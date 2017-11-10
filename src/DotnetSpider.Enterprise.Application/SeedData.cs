@@ -14,7 +14,7 @@ namespace DotnetSpider.Enterprise.Application
 	{
 		public static void Initialize(IServiceProvider serviceProvider, bool clear = false)
 		{
-			using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
+			using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>(), null))
 			{
 				if (context.Users.Any())
 				{

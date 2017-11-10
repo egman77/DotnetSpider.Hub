@@ -12,5 +12,6 @@ namespace DotnetSpider.Enterprise.Application.Node.Dto
 		public virtual string Arguments { get; set; }
 		public virtual string Application { get; set; }
 		public virtual string Version { get; set; }
+		public virtual string RunId { get; set; }
 	}
 }

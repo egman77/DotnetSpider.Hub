@@ -181,19 +181,28 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public List<AgentCommandOutputDto> Heartbeat(NodeHeartbeatInputDto input)
 		{
-			var heartbeat = Mapper.Map<NodeHeartBeat>(input);
+			var heartbeat = Mapper.Map<NodeHeartbeat>(input);
 			DbContext.NodeHeartBeats.Add(heartbeat);
-			DbContext.SaveChanges();
 
+			var node = DbContext.Nodes.FirstOrDefault(n => n.NodeId == input.AgentId);
+			if (node != null)
+			{
+				node.IsOnline = true;
+			}
+
+			DbContext.SaveChanges();
+			var guid = Guid.NewGuid().ToString("N");
+			var task = "test";
 			return new List<AgentCommandOutputDto>
 			{
 				new AgentCommandOutputDto
 				{
 					AngentId="3c8c7065bfe744aabdb9f8e5e11c9ae6",
 					Application="dotnet",
-					Arguments="Xbjrkj.DataCollection.Startup.dll -s:Xbjrkj.DataCollection.Apps.BaiduSearchSpider -i:guid -tid:1 -a:abcd",
+					Arguments=$"Xbjrkj.DataCollection.Startup.dll -s:Xbjrkj.DataCollection.Apps.BaiduSearchSpider -a:abcd -tid:{task} -i:{guid}",
 					Name="RUN",
 					Task ="test",
+					RunId="",
 					Version="55d21fb6e864b4a0378a2c88e55a72503f4dd9a4"
 				}
 			};

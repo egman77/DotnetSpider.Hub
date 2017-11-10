@@ -12,5 +12,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		public virtual string NodeId { get; set; }
 
 		public virtual bool IsEnable { get; set; }
+
+		public virtual bool IsOnline { get; set; }
 	}
 }
