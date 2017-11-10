@@ -53,20 +53,18 @@ namespace DotnetSpider.Enterprise.Application
 			{
 				Domain.Entities.Task task = new Domain.Entities.Task
 				{
-					Framework = "NET CORE",
-					AssemblyName = "Xbjrkj.DataCollection.Apps.dll",
+					ApplicationName = "Xbjrkj.DataCollection.Apps.dll",
 					Cron = "* * * 1 *",
 					IsEnabled = true,
-					Programmer = "沈威",
-					Executive = "沈威",
-					ExtraArguments = "-a:1,2",
-					BuildTime = DateTime.Now.AddDays(-1),
-					Client = "",
-					NodesCount = 1,
+					Developers = "沈威",
+					Owners = "刘菲",
+					Arguments = "-a:1,2",
+					NodeCount = 1,
+					NodeRunningCount = 0,
+					Analysts = "刘菲",
 					ProjectId = 1,
-					TaskName = "360Index",
 					Name = $"360指数采集",
-					Version = DateTime.Now.ToString("yyyyMMddhhmmss"),
+					Version = "abcd",
 					Project = project
 				};
 				context.Tasks.Add(task);

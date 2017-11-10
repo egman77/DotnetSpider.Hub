@@ -182,7 +182,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 		public List<AgentCommandOutputDto> Heartbeat(NodeHeartbeatInputDto input)
 		{
 			var heartbeat = Mapper.Map<NodeHeartbeat>(input);
-			DbContext.NodeHeartBeats.Add(heartbeat);
+			DbContext.NodeHeartbeats.Add(heartbeat);
 
 			var node = DbContext.Nodes.FirstOrDefault(n => n.NodeId == input.AgentId);
 			if (node != null)

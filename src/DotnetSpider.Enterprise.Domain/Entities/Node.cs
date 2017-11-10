@@ -8,7 +8,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 	public class Node : AuditedEntity<long>
 	{
 		[Required]
-		[StringLength(20)]
+		[StringLength(32)]
 		public virtual string NodeId { get; set; }
 
 		public virtual bool IsEnable { get; set; }

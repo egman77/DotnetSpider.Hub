@@ -22,17 +22,17 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, long>
 	{
 		public DbSet<Domain.Entities.Logs.Exception> Exceptions { get; set; }
+		public DbSet<Message> Messages { get; set; }
+		public DbSet<MessageHistory> MessageHistorys { get; set; }
+		public DbSet<Node> Nodes { get; set; }
+		public DbSet<NodeHeartbeat> NodeHeartbeats { get; set; }
 		public DbSet<Project> Projects { get; set; }
 		public DbSet<Task> Tasks { get; set; }
-		public DbSet<Node> Nodes { get; set; }
-		public DbSet<NodeHeartbeat> NodeHeartBeats { get; set; }
+		public DbSet<TaskHistory> TaskHistorys { get; set; }
+		public DbSet<TaskStatus> TaskStatuses { get; set; }
 
 		private readonly IHttpContextAccessor _accessor;
 
-
-		//public ApplicationDbContext(DbContextOptions options) : base(options)
-		//{
-		//}
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHttpContextAccessor accessor)
 			: base(options)
@@ -50,31 +50,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 			builder.Entity<ApplicationUserClaim>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Claims).HasForeignKey(pt => pt.UserId);
 			builder.Entity<ApplicationUserRole>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Roles).HasForeignKey(pt => pt.UserId);
 			builder.Entity<ApplicationUserLogin>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Logins).HasForeignKey(pt => pt.UserId);
-
-			//builder.Entity<ApplicationUser>()
-			//	.HasMany(e => e.Claims)
-			//	.WithOne()
-			//	.HasForeignKey(e => e.UserId)
-			//	.IsRequired()
-			//	.OnDelete(DeleteBehavior.Cascade);
-
-			//builder.Entity<ApplicationUser>()
-			//	.HasMany(e => e.Logins)
-			//	.WithOne()
-			//	.HasForeignKey(e => e.UserId)
-			//	.IsRequired()
-			//	.OnDelete(DeleteBehavior.Cascade);
-
-			//builder.Entity<ApplicationUser>()
-			//	.HasMany(e => e.Roles)
-			//	.WithOne()
-			//	.HasForeignKey(e => e.UserId)
-			//	.IsRequired()
-			//	.OnDelete(DeleteBehavior.Cascade);
-
-			//builder.Entity<TaskBatch>()
-			//.HasIndex(b => new { b.TaskId, b.Batch })
-			//.IsUnique(true);
 		}
 
 		public void DoWithTransaction(Action action)

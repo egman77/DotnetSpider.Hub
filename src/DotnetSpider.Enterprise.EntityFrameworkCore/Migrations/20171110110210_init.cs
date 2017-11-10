@@ -44,28 +44,67 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NodeHeartBeats",
+                name: "MessageHistorys",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AgentId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    CountOfProcess = table.Column<int>(type: "int", nullable: false),
-                    CpuLoad = table.Column<int>(type: "int", nullable: false),
+                    ApplicationName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Arguments = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    NodeId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageHistorys", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ApplicationName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Arguments = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    NodeId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NodeHeartbeats",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CPULoad = table.Column<int>(type: "int", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
                     FreeMemory = table.Column<long>(type: "bigint", nullable: false),
                     Ip = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
-                    Os = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Timestamp = table.Column<long>(type: "bigint", nullable: false),
+                    NodeId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Os = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ProcessCount = table.Column<int>(type: "int", nullable: false),
                     TotalMemory = table.Column<long>(type: "bigint", nullable: false),
-                    Version = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: true)
+                    Version = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NodeHeartBeats", x => x.Id);
+                    table.PrimaryKey("PK_NodeHeartbeats", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,9 +116,10 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
                     IsEnable = table.Column<bool>(type: "bit", nullable: false),
+                    IsOnline = table.Column<bool>(type: "bit", nullable: false),
                     LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
-                    NodeId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    NodeId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,6 +145,52 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaskHistorys",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    Identity = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    NodeIds = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TaskId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskHistorys", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaskStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AvgDownloadSpeed = table.Column<float>(type: "real", nullable: false),
+                    AvgPipelineSpeed = table.Column<float>(type: "real", nullable: false),
+                    AvgProccessorSpeed = table.Column<float>(type: "real", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    Error = table.Column<long>(type: "bigint", nullable: false),
+                    Identity = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    Left = table.Column<long>(type: "bigint", nullable: false),
+                    NodeId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Success = table.Column<long>(type: "bigint", nullable: false),
+                    Thread = table.Column<int>(type: "int", nullable: false),
+                    Total = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,24 +258,23 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AssemblyName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    BuildTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Client = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Analysts = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ApplicationName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Arguments = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
-                    Cron = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Executive = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    ExtraArguments = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Framework = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Cron = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Developers = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false),
                     IsEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    NodesCount = table.Column<int>(type: "int", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Programmer = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NodeCount = table.Column<int>(type: "int", nullable: false),
+                    NodeRunningCount = table.Column<int>(type: "int", nullable: false),
+                    Owners = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
-                    TaskName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
@@ -374,13 +459,25 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 name: "Exceptions");
 
             migrationBuilder.DropTable(
-                name: "NodeHeartBeats");
+                name: "MessageHistorys");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
+                name: "NodeHeartbeats");
 
             migrationBuilder.DropTable(
                 name: "Nodes");
 
             migrationBuilder.DropTable(
+                name: "TaskHistorys");
+
+            migrationBuilder.DropTable(
                 name: "Tasks");
+
+            migrationBuilder.DropTable(
+                name: "TaskStatuses");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

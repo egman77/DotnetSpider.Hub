@@ -12,7 +12,7 @@ using System;
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171109081622_init")]
+    [Migration("20171110110210_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,6 +135,70 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.ToTable("Exceptions");
                 });
 
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Message", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Arguments")
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("NodeId")
+                        .IsRequired()
+                        .HasMaxLength(32);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.MessageHistory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApplicationName")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Arguments")
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("NodeId")
+                        .IsRequired()
+                        .HasMaxLength(32);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MessageHistorys");
+                });
+
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Node", b =>
                 {
                     b.Property<long>("Id")
@@ -146,31 +210,27 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsEnable");
 
+                    b.Property<bool>("IsOnline");
+
                     b.Property<DateTime?>("LastModificationTime");
 
                     b.Property<long?>("LastModifierUserId");
 
                     b.Property<string>("NodeId")
                         .IsRequired()
-                        .HasMaxLength(20);
+                        .HasMaxLength(32);
 
                     b.HasKey("Id");
 
                     b.ToTable("Nodes");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.NodeHeartBeat", b =>
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.NodeHeartbeat", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AgentId")
-                        .IsRequired()
-                        .HasMaxLength(20);
-
-                    b.Property<int>("CountOfProcess");
-
-                    b.Property<int>("CpuLoad");
+                    b.Property<int>("CPULoad");
 
                     b.Property<DateTime>("CreationTime");
 
@@ -185,19 +245,23 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<long?>("LastModifierUserId");
 
-                    b.Property<string>("Os")
-                        .HasMaxLength(20);
+                    b.Property<string>("NodeId")
+                        .IsRequired()
+                        .HasMaxLength(32);
 
-                    b.Property<long>("Timestamp");
+                    b.Property<string>("Os")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("ProcessCount");
 
                     b.Property<long>("TotalMemory");
 
                     b.Property<string>("Version")
-                        .HasMaxLength(12);
+                        .HasMaxLength(50);
 
                     b.HasKey("Id");
 
-                    b.ToTable("NodeHeartBeats");
+                    b.ToTable("NodeHeartbeats");
                 });
 
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Project", b =>
@@ -238,29 +302,31 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AssemblyName")
+                    b.Property<string>("Analysts")
                         .HasMaxLength(100);
 
-                    b.Property<DateTime>("BuildTime");
+                    b.Property<string>("ApplicationName")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Client")
-                        .HasMaxLength(50);
+                    b.Property<string>("Arguments")
+                        .HasMaxLength(500);
 
                     b.Property<DateTime>("CreationTime");
 
                     b.Property<long?>("CreatorUserId");
 
                     b.Property<string>("Cron")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Executive")
+                        .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("ExtraArguments")
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Developers")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Framework")
-                        .HasMaxLength(20);
+                    b.Property<bool>("IsDelete");
 
                     b.Property<bool>("IsEnabled");
 
@@ -270,20 +336,16 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<int>("NodesCount");
-
-                    b.Property<string>("Note")
-                        .HasMaxLength(500);
-
-                    b.Property<string>("Programmer")
                         .HasMaxLength(50);
 
-                    b.Property<int>("ProjectId");
+                    b.Property<int>("NodeCount");
 
-                    b.Property<string>("TaskName")
+                    b.Property<int>("NodeRunningCount");
+
+                    b.Property<string>("Owners")
                         .HasMaxLength(100);
+
+                    b.Property<int>("ProjectId");
 
                     b.Property<string>("Version")
                         .HasMaxLength(100);
@@ -293,6 +355,77 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.HasIndex("ProjectId");
 
                     b.ToTable("Tasks");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.TaskHistory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<string>("Identity")
+                        .IsRequired()
+                        .HasMaxLength(32);
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("NodeIds");
+
+                    b.Property<long>("TaskId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TaskHistorys");
+                });
+
+            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.TaskStatus", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<float>("AvgDownloadSpeed");
+
+                    b.Property<float>("AvgPipelineSpeed");
+
+                    b.Property<float>("AvgProccessorSpeed");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long>("Error");
+
+                    b.Property<string>("Identity")
+                        .IsRequired()
+                        .HasMaxLength(32);
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<long>("Left");
+
+                    b.Property<string>("NodeId")
+                        .IsRequired()
+                        .HasMaxLength(32);
+
+                    b.Property<string>("Status")
+                        .HasMaxLength(20);
+
+                    b.Property<long>("Success");
+
+                    b.Property<int>("Thread");
+
+                    b.Property<long>("Total");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TaskStatuses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
