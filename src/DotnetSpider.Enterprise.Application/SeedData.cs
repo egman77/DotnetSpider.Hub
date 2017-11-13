@@ -45,7 +45,7 @@ namespace DotnetSpider.Enterprise.Application
 				Executive = "沈威",
 				Note = "备注"
 			};
-			context.Projects.Add(project);
+			context.Project.Add(project);
 			context.SaveChanges();
 
 			var random = new Random();

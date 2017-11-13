@@ -25,7 +25,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public void Enable(string nodeId)
 		{
-			var node = DbContext.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
+			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
 			{
 				node.IsEnable = true;
@@ -35,7 +35,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public void Disable(string nodeId)
 		{
-			var node = DbContext.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
+			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
 			{
 				node.IsEnable = false;
@@ -57,22 +57,22 @@ namespace DotnetSpider.Enterprise.Application.Node
 			{
 				case "enable":
 					{
-						output = DbContext.Nodes.PageList(input, null, d => d.IsEnable);
+						output = DbContext.Node.PageList(input, null, d => d.IsEnable);
 						break;
 					}
 				case "nodeid":
 					{
-						output = DbContext.Nodes.PageList(input, null, d => d.NodeId);
+						output = DbContext.Node.PageList(input, null, d => d.NodeId);
 						break;
 					}
 				case "createtime":
 					{
-						output = DbContext.Nodes.PageList(input, null, d => d.CreationTime);
+						output = DbContext.Node.PageList(input, null, d => d.CreationTime);
 						break;
 					}
 				default:
 					{
-						output = DbContext.Nodes.PageList(input, null, d => d.IsOnline);
+						output = DbContext.Node.PageList(input, null, d => d.IsOnline);
 						break;
 					}
 			}
@@ -85,7 +85,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 				nodeOutput.CreationTime = node.CreationTime;
 				nodeOutput.IsEnable = node.IsEnable;
 				nodeOutput.NodeId = node.NodeId;
-				var lastHeartbeat = DbContext.NodeHeartbeats.FirstOrDefault(h => h.NodeId == node.NodeId && h.CreationTime > timeoutHeartbeat);
+				var lastHeartbeat = DbContext.NodeHeartbeat.FirstOrDefault(h => h.NodeId == node.NodeId && h.CreationTime > timeoutHeartbeat);
 				nodeOutput.IsOnline = lastHeartbeat == null ? false : true;
 				if (lastHeartbeat != null)
 				{
@@ -116,12 +116,12 @@ namespace DotnetSpider.Enterprise.Application.Node
 		private void AddHeartbeat(NodeHeartbeatInputDto input)
 		{
 			var heartbeat = Mapper.Map<NodeHeartbeat>(input);
-			DbContext.NodeHeartbeats.Add(heartbeat);
+			DbContext.NodeHeartbeat.Add(heartbeat);
 		}
 
 		private void RefreshOnlineStatus(string nodeId)
 		{
-			var node = DbContext.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
+			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
 			{
 				node.IsOnline = true;
@@ -135,7 +135,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 				node.IsOnline = true;
 				node.CreationTime = DateTime.Now;
 				node.LastModificationTime = DateTime.Now;
-				DbContext.Nodes.Add(node);
+				DbContext.Node.Add(node);
 			}
 		}
 	}

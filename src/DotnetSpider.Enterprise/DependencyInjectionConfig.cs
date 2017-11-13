@@ -5,6 +5,7 @@ using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Project;
 using DotnetSpider.Enterprise.Application.Task;
+using DotnetSpider.Enterprise.Application.TaskRunning;
 using DotnetSpider.Enterprise.Application.TaskStatus;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
@@ -32,6 +33,7 @@ namespace DotnetSpider.Enterprise.Web
 			services.AddScoped<INodeAppService, NodeAppService>();
 			services.AddScoped<IMessageAppService, MessageAppService>();
 			services.AddScoped<ITaskStatusAppService, TaskStatusAppService>();
+			services.AddScoped<ITaskRunningAppService, TaskRunningAppService>();
 		}
 	}
 }

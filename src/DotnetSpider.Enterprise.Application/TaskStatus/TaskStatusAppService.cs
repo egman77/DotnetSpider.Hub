@@ -24,11 +24,11 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public void AddOrUpdate(AddOrUpdateTaskStatusInputDto input)
 		{
-			var oldRecord = DbContext.TaskStatuses.FirstOrDefault(ts => ts.Identity == input.Identity && ts.NodeId == input.NodeId);
+			var oldRecord = DbContext.TaskStatus.FirstOrDefault(ts => ts.Identity == input.Identity && ts.NodeId == input.NodeId);
 			if (oldRecord == null)
 			{
 				var taskStatus = Mapper.Map<Domain.Entities.TaskStatus>(input);
-				DbContext.TaskStatuses.Add(taskStatus);
+				DbContext.TaskStatus.Add(taskStatus);
 			}
 			else
 			{

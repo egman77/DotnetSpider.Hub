@@ -31,7 +31,7 @@ namespace DotnetSpider.Enterprise.Application.Project
 				IsEnabled = item.IsEnabled,
 				Name = item.Name,
 			};
-			DbContext.Projects.Add(proj);
+			DbContext.Project.Add(proj);
 			DbContext.SaveChanges();
 			item.Id = proj.Id;
 		}
@@ -39,7 +39,7 @@ namespace DotnetSpider.Enterprise.Application.Project
 		public List<ModifyProjectDto> ListProject()
 		{
 			var resultList = new List<ModifyProjectDto>();
-			var list = DbContext.Projects.OrderByDescending(a => a.CreationTime).ToList();
+			var list = DbContext.Project.OrderByDescending(a => a.CreationTime).ToList();
 			list.ForEach(a => resultList.Add(new ModifyProjectDto
 			{
 				Id = a.Id,
@@ -54,14 +54,14 @@ namespace DotnetSpider.Enterprise.Application.Project
 
 		public void ModifyProject(ModifyProjectDto item)
 		{
-			var project = DbContext.Projects.FirstOrDefault(a => a.Id == item.Id);
+			var project = DbContext.Project.FirstOrDefault(a => a.Id == item.Id);
 			project.Note = item.Note;
 			project.Executive = item.Executive;
 			project.Client = item.Client;
 			project.Name = item.Name;
 			project.IsEnabled = item.IsEnabled;
 
-			DbContext.Projects.Update(project);
+			DbContext.Project.Update(project);
 			DbContext.SaveChanges();
 		}
 
@@ -69,10 +69,10 @@ namespace DotnetSpider.Enterprise.Application.Project
 		{
 			DbContext.DoWithTransaction(() =>
 			{
-				var project = DbContext.Projects.FirstOrDefault(a => a.Id == projectId);
+				var project = DbContext.Project.FirstOrDefault(a => a.Id == projectId);
 				if (project != null)
 				{
-					DbContext.Projects.Remove(project);
+					DbContext.Project.Remove(project);
 					var tasks = DbContext.Tasks.Where(t => t.ProjectId == projectId);
 					DbContext.Tasks.RemoveRange(tasks);
 				}
@@ -81,7 +81,7 @@ namespace DotnetSpider.Enterprise.Application.Project
 
 		public List<ProjectDto> GetAll()
 		{
-			var results = DbContext.Projects.ToList();
+			var results = DbContext.Project.ToList();
 			return AutoMapper.Mapper.Map<List<ProjectDto>>(results);
 		}
 
@@ -109,7 +109,7 @@ namespace DotnetSpider.Enterprise.Application.Project
 
 		public void EnableProject(int projectId)
 		{
-			var project = DbContext.Projects.FirstOrDefault(a => a.Id == projectId);
+			var project = DbContext.Project.FirstOrDefault(a => a.Id == projectId);
 			if (project != null && !project.IsEnabled)
 			{
 				project.IsEnabled = true;
@@ -120,7 +120,7 @@ namespace DotnetSpider.Enterprise.Application.Project
 
 		public void DisableProject(int projectId)
 		{
-			var project = DbContext.Projects.FirstOrDefault(a => a.Id == projectId);
+			var project = DbContext.Project.FirstOrDefault(a => a.Id == projectId);
 			if (project != null && project.IsEnabled)
 			{
 				project.IsEnabled = false;
