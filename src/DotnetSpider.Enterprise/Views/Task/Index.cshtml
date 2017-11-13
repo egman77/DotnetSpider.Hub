@@ -83,7 +83,8 @@
                                             <i class="material-icons" title="modify task" @@click.stop="modifyTask(task)">modify_list</i>
                                             <i class="material-icons" title="delete task" @@click.stop="deleteTask(task)">delete_forever</i>
                                             <a :href="'batches?taskId='+ task.id" target="_blank"><i class="material-icons" title="running history">view_list</i></a>
-                                            <i class="material-icons" v-show="!task.running" title="run task" @@click.stop="run(task)">play_circle_outline</i>
+                                            <i class="material-icons" v-show="task.nodeRunningCount<=0" title="run task" @@click.stop="run(task)">play_circle_outline</i>
+                                            <i class="material-icons" v-show="task.nodeRunningCount>0" title="stop task" @@click.stop="run(task)">pause_circle_outline</i>
                                         </td>
                                     </tr>
                                 </tbody>
