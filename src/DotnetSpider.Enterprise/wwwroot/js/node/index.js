@@ -1,7 +1,7 @@
 ﻿$(function () {
     setMenuActive("nodes");
-    nodesVue = new Vue({
-        el: '#nodes',
+    var nodesVue = new Vue({
+        el: '#nodesView',
         data: {
             nodes: [],
             size: 50,
@@ -19,9 +19,8 @@
 
     function loadNodes(vue) {
         var url = '/Node/QueryNodes';
-        var query = new { page: vue.currentPage, size: vue.size, sort: vue.sort };
-        dsApp.post(url, query, function (result) {
-            vue.$data.nodes = result.result;
+        dsApp.post(url, { page: vue.currentPage, size: vue.size, sort: vue.sort }, function (result) {
+            vue.$data.nodes = result.result.result;
             vue.$data.total = result.result.total;
             dsApp.ui.initPagination('#pagination', result.result, function (page) {
                 vue.$data.page = page;

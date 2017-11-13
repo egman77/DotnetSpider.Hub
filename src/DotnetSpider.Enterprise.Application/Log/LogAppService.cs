@@ -13,12 +13,6 @@ namespace DotnetSpider.Enterprise.Application.Log
 
 		}
 
-		public void Log(Domain.Entities.Logs.Exception ex)
-		{
-			DbContext.Exceptions.Add(ex);
-			DbContext.SaveChanges();
-		}
-
 		public async void Sumit(LogInputDto input)
 		{
 			var client = new MongoClient(Configuration.LogMongoConnectionString);

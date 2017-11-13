@@ -52,31 +52,65 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public PagingQueryOutputDto QueryNodes(PagingQueryInputDto input)
 		{
-			PagingQueryOutputDto result = new PagingQueryOutputDto();
+			PagingQueryOutputDto output = new PagingQueryOutputDto();
 			switch (input.SortKey)
 			{
 				case "enable":
 					{
-						result = DbContext.Nodes.PageList(input, null, d => d.IsEnable);
+						output = DbContext.Nodes.PageList(input, null, d => d.IsEnable);
 						break;
 					}
 				case "nodeid":
 					{
-						result = DbContext.Nodes.PageList(input, null, d => d.NodeId);
+						output = DbContext.Nodes.PageList(input, null, d => d.NodeId);
 						break;
 					}
 				case "createtime":
 					{
-						result = DbContext.Nodes.PageList(input, null, d => d.CreationTime);
+						output = DbContext.Nodes.PageList(input, null, d => d.CreationTime);
 						break;
 					}
 				default:
 					{
-						result = DbContext.Nodes.PageList(input, null, d => d.IsOnline);
+						output = DbContext.Nodes.PageList(input, null, d => d.IsOnline);
 						break;
 					}
 			}
-			return result;
+			List<NodeOutputDto> nodeOutputs = new List<NodeOutputDto>();
+			var nodes = output.Result as List<Domain.Entities.Node>;
+			var timeoutHeartbeat = DateTime.Now.AddMinutes(-1);
+			foreach (var node in nodes)
+			{
+				var nodeOutput = new NodeOutputDto();
+				nodeOutput.CreationTime = node.CreationTime;
+				nodeOutput.IsEnable = node.IsEnable;
+				nodeOutput.NodeId = node.NodeId;
+				var lastHeartbeat = DbContext.NodeHeartbeats.FirstOrDefault(h => h.NodeId == node.NodeId && h.CreationTime > timeoutHeartbeat);
+				nodeOutput.IsOnline = lastHeartbeat == null ? false : true;
+				if (lastHeartbeat != null)
+				{
+					nodeOutput.CPULoad = lastHeartbeat.CPULoad;
+					nodeOutput.FreeMemory = lastHeartbeat.FreeMemory;
+					nodeOutput.Ip = lastHeartbeat.Ip;
+					nodeOutput.Os = lastHeartbeat.Os;
+					nodeOutput.ProcessCount = lastHeartbeat.ProcessCount;
+					nodeOutput.TotalMemory = lastHeartbeat.TotalMemory;
+					nodeOutput.Version = lastHeartbeat.Version;
+				}
+				else
+				{
+					nodeOutput.CPULoad = 0;
+					nodeOutput.FreeMemory = 0;
+					nodeOutput.Ip = "UNKONW";
+					nodeOutput.Os = "UNKONW";
+					nodeOutput.ProcessCount = 0;
+					nodeOutput.TotalMemory = 0;
+					nodeOutput.Version = "UNKONW";
+				}
+				nodeOutputs.Add(nodeOutput);
+			}
+			output.Result = nodeOutputs;
+			return output;
 		}
 
 		private void AddHeartbeat(NodeHeartbeatInputDto input)
@@ -96,6 +130,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			else
 			{
 				node = new Domain.Entities.Node();
+				node.NodeId = nodeId;
 				node.IsEnable = true;
 				node.IsOnline = true;
 				node.CreationTime = DateTime.Now;
