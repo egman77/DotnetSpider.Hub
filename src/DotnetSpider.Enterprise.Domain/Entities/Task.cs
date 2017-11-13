@@ -85,10 +85,13 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		[StringLength(100)]
 		public virtual string Version { get; set; }
 
+
 		public virtual bool IsDeleted { get; set; }
 
+		[StringLength(10)]
 		public virtual string Os { get; set;}
 
+		[StringLength(100)]
 		public virtual string Tags { get; set; }
 	}
 }
