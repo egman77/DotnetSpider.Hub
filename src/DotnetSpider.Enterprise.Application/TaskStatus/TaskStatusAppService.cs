@@ -90,7 +90,19 @@ namespace DotnetSpider.Enterprise.Application.Node
 					}
 			}
 			var taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
-			output.Result = Mapper.Map<List<TaskStatusDto>>(taskStatuses);
+			var taskIds = taskStatuses.Select(t => t.TaskId).ToList();
+			var tasks = DbContext.Task.Where(t => taskIds.Contains(t.Id)).ToList();
+			var taskStatusOutputs = Mapper.Map<List<TaskStatusDto>>(taskStatuses);
+			foreach (var taskStatus in taskStatusOutputs)
+			{
+				var taskId = taskStatus.TaskId;
+				var task = tasks.FirstOrDefault(t => t.Id == taskId);
+				if (task != null)
+				{
+					taskStatus.Name = task.Name;
+				}
+			}
+			output.Result = taskStatusOutputs;
 			return output;
 		}
 	}

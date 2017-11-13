@@ -6,6 +6,7 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus.Dtos
 {
 	public class TaskStatusDto
 	{
+		public virtual string Name { get; set; }
 		public virtual string Identity { get; set; }
 		public virtual string NodeId { get; set; }
 		public virtual string Status { get; set; }

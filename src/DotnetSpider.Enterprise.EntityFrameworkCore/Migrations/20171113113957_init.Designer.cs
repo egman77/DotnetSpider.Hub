@@ -12,7 +12,7 @@ using System;
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171113074432_init")]
+    [Migration("20171113113957_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -294,12 +294,14 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<int>("NodeRunningCount");
 
-                    b.Property<string>("Os");
+                    b.Property<string>("Os")
+                        .HasMaxLength(10);
 
                     b.Property<string>("Owners")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Tags");
+                    b.Property<string>("Tags")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Version")
                         .HasMaxLength(100);
@@ -370,6 +372,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                         .HasMaxLength(20);
 
                     b.Property<long>("Success");
+
+                    b.Property<long>("TaskId");
 
                     b.Property<int>("Thread");
 

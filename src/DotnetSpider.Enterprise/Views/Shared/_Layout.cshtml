@@ -304,9 +304,6 @@
                 </div>
                 <div class="info-container">
                     <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@UserManager.GetUserName(User)</div>
-                    <div class="email">
-                        @UserManager.GetUserAsync(User).Result.Email
-                    </div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
@@ -336,20 +333,20 @@
                     </li>
                     <li id="node">
                         <a href="/Node">
-                            <i class="material-icons">cloud</i>
+                            <i class="material-icons">cloud_queue</i>
                             <span>Node</span>
                         </a>
                     </li>
                     <li id="running">
                         <a href="/Task/Running">
-                            <i class="material-icons">swap_calls</i>
+                            <i class="material-icons">directions_bike</i>
                             <span>Running</span>
                         </a>
                     </li>
                     <li id="taskStatus">
                         <a href="/TaskStatus/Index">
-                            <i class="material-icons">swap_calls</i>
-                            <span>TaskStatus</span>
+                            <i class="material-icons">list</i>
+                            <span>Status</span>
                         </a>
                     </li>
                 </ul>

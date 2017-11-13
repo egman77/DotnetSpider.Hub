@@ -35,5 +35,18 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		{
 			return DataResult(_taskStatusAppService.Query(input));
 		}
+
+
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult AddOrUpdate([FromBody]AddOrUpdateTaskStatusInputDto input)
+		{
+			if (input == null)
+			{
+				return Forbid();
+			}
+			_taskStatusAppService.AddOrUpdate(input);
+			return Ok();
+		}
 	}
 }

@@ -132,9 +132,9 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     NodeCount = table.Column<int>(type: "int", nullable: false),
                     NodeRunningCount = table.Column<int>(type: "int", nullable: false),
-                    Os = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Os = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
                     Owners = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
@@ -180,6 +180,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     NodeId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Success = table.Column<long>(type: "bigint", nullable: false),
+                    TaskId = table.Column<long>(type: "bigint", nullable: false),
                     Thread = table.Column<int>(type: "int", nullable: false),
                     Total = table.Column<long>(type: "bigint", nullable: false)
                 },

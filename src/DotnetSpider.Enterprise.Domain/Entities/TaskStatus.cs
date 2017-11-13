@@ -8,6 +8,8 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 	public class TaskStatus : AuditedEntity<long>
 	{
 		[Required]
+		public virtual long TaskId { get; set; }
+		[Required]
 		[StringLength(32)]
 		public virtual string Identity { get; set; }
 		[Required]
