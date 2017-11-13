@@ -63,7 +63,7 @@
 		else query = lastQuery;
 
 		dsApp.post('/log/querylogs', query, function (result) {
-			logVue.$data.logs = result.result.columns;
+			logVue.$data.columns = result.result.columns;
 			logVue.$data.logs = result.result.values;
 			logVue.$data.logsPaging.total = result.result.total;
 

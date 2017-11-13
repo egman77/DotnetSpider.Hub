@@ -34,18 +34,20 @@ namespace DotnetSpider.Enterprise.Application.Log
 			var result = new PagingLogOutDto
 			{
 				Page = input.Page,
-				Size = input.Size
+				Size = input.Size,
+				Columns = new List<string>(),
+				Values = new List<List<string>>()
 			};
 
 			List<BsonDocument> list = null;
 			if (!string.IsNullOrEmpty(input.Node))
 			{
-				list = collection.Find(new BsonDocument("Node", input.Node)).Skip((input.Page - 1) * input.Size).Limit(input.Size).ToList();
+				list = collection.Find(new BsonDocument("Node", input.Node)).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
 				result.Total = collection.Find(new BsonDocument("Node", input.Node)).Count();
 			}
 			else
 			{
-				list = collection.Find(new BsonDocument()).Skip((input.Page - 1) * input.Size).Limit(input.Size).ToList();
+				list = collection.Find(new BsonDocument()).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
 				result.Total = collection.Find(new BsonDocument()).Count();
 			}
 
@@ -54,14 +56,18 @@ namespace DotnetSpider.Enterprise.Application.Log
 				var head = list.First();
 				foreach (var hi in head.Elements)
 				{
+					if (hi.Name == "_id")
+					{
+						continue;
+					}
 					result.Columns.Add(hi.Name);
 				}
 				foreach (var item in list)
 				{
 					var vlist = new List<string>();
-					foreach (var v in item.Values)
+					foreach (var v in item.Elements.Where(a => a.Name != "_id"))
 					{
-						vlist.Add(v.AsString);
+						vlist.Add(v.Value is BsonNull ? string.Empty : v.Value.ToString());
 					}
 					result.Values.Add(vlist);
 				}
