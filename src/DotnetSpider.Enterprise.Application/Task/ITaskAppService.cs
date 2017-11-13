@@ -15,8 +15,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 		//List<NodeStatusDto> GetNodeStatus(string identity);
 		void StopTask(string identity);
 		void RemoveTask(long taskId);
-		
-		void ProcessCountChanged(long taskId, bool isStart);
 
 		bool Fire(long taskId);
 		bool Disable(long taskId);
@@ -24,5 +22,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		void IncreaseRunning(TaskIdInputDto input);
 		void ReduceRunning(TaskIdInputDto input);
+
+		PagingQueryOutputDto Running(PagingQueryInputDto input);
 	}
 }

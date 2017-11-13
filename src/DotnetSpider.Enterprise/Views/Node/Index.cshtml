@@ -1,32 +1,4 @@
-﻿@section styles{
-    <environment names="Development">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
-    </environment>
-    <environment names="Staging,Production">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
-    </environment>
-}
-@section scripts{
-    <environment names="Development">
-        <script src="~/lib/jquery-datatable/jquery.dataTables.js"></script>
-        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-        <script src="~/lib/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/lib/jquery-datatable/jquery.dataTables.js"></script>
-        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-        <script src="~/lib/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
-        <script src="~/lib/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
-        <script src="~/lib/jquery-datatable/extensions/export/jszip.min.js"></script>
-        <script src="~/lib/jquery-datatable/extensions/export/pdfmake.min.js"></script>
-        <script src="~/lib/jquery-datatable/extensions/export/vfs_fonts.js"></script>
-        <script src="~/lib/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
-        <script src="~/lib/jquery-datatable/extensions/export/buttons.print.min.js"></script>
-    </environment>
-    <script>
-
-    </script>
-
+﻿@section scripts{
     <environment names="Development">
         <script src="~/js/node/index.js" asp-append-version="true"></script>
     </environment>
@@ -50,7 +22,7 @@
                         <table class="table table-bordered table-striped table-hover dataTable" id="nodesView">
                             <thead>
                                 <tr>
-                                    <th style="width: 70px">NODE ID</th>
+                                    <th style="width: 80px">NODE ID</th>
                                     <th>IP</th>
                                     <th>IS ENABLE</th>
                                     <th>IS ONLINE</th>
