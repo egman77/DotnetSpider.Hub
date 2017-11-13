@@ -63,13 +63,7 @@
                             <table class="table table-bordered table-striped table-hover no-footer">
                                 <thead>
                                     <tr role="row">
-                                        @*<th>#</th>*@
-                                        <th>NODE</th>
-                                        <th>LOG TIME</th>
-                                        @*<th>LEVEL</th>*@
-                                        <th>MESSAGE</th>
-                                        <th>SOURCE</th>
-                                        <th>EXCEPTION</th>
+                                        <th v-for="col in columns">{{ col }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -79,13 +73,7 @@
                                         </td>
                                     </tr>
                                     <tr role="row" v-for="(item,index) in logs">
-                                        @*<td v-text="index+1"></td>*@
-                                        <td v-text="item.node"></td>
-                                        <td v-text="item.logged"></td>
-                                        @*<td v-text="item.level" :class="{'logWarnning':item.level=='Warn','logError':item.level=='Error'}"></td>*@
-                                        <td v-text="item.message" :class="{'logWarnning':item.level=='Warn','logError':item.level=='Error'}"></td>
-                                        <td v-text="item.callSite"></td>
-                                        <td v-text="item.exception"></td>
+                                        <td v-text="item"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -107,13 +95,13 @@
         <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
-        <script src="~/js/tasks/runningLogs.js" asp-append-version="true"></script>
+        <script src="~/js/log/log.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
-        <script src="~/js/tasks/runningLogs.min.js" asp-append-version="true"></script>
+        <script src="~/js/log/log.min.js" asp-append-version="true"></script>
     </environment>
     <script src="~/lib/My97DatePicker/WdatePicker.js"></script>
 }

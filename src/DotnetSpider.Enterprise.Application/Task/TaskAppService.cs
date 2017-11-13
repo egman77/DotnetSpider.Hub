@@ -17,6 +17,8 @@ using Newtonsoft.Json.Linq;
 using DotnetSpider.Enterprise.Application.Exceptions;
 using System.IO;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
+using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -424,7 +426,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		}
 
-		public TaskDto GetTask(long taskId)
+		public TaskDto QueryTask(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a=>a.Id == taskId);
 			if (task == null)

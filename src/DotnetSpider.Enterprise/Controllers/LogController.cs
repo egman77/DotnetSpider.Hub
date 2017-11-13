@@ -1,5 +1,6 @@
 ﻿using DotnetSpider.Enterprise.Application.Log;
 using DotnetSpider.Enterprise.Application.Log.Dto;
+using DotnetSpider.Enterprise.Application.Task.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.Web.Controllers;
@@ -33,6 +34,12 @@ namespace DotnetSpider.Enterprise.Controllers
 		{
 			_logAppService.Sumit(input);
 			return Ok();
+		}
+
+		[HttpPost]
+		public IActionResult QueryLogs(PagingLogInputDto input)
+		{
+			return ActionResult(_logAppService.QueryLogs, input);
 		}
 	}
 }

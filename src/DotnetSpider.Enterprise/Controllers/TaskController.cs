@@ -144,9 +144,9 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult GetTask(long taskId)
+		public IActionResult QueryTask(long taskId)
 		{
-			return ActionResult(_taskAppService.GetTask, taskId);
+			return ActionResult(_taskAppService.QueryTask, taskId);
 		}
 
 		#endregion
