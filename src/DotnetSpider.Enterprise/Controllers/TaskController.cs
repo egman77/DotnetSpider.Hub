@@ -143,6 +143,12 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			return Ok();
 		}
 
+		[HttpPost]
+		public IActionResult GetTask(long taskId)
+		{
+			return ActionResult(_taskAppService.GetTask, taskId);
+		}
+
 		#endregion
 	}
 }

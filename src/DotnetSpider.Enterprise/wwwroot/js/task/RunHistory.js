@@ -1,4 +1,6 @@
 ﻿$(function () {
+
+	setMenuActive('task');
     var proj = queryString("taskId");
 
     var batchVue = new Vue({
@@ -10,6 +12,7 @@
             keyword: '',
             page: 1,
             taskId: 0,
+            task:{},
             logs: [],
             logsPaging: {
                 total: 0,
@@ -23,6 +26,7 @@
         mounted: function () {
             this.$data.page = 1;
             this.$data.taskId = proj;
+            loadTask(this);
             loadHistorys(this);
         },
         methods: {
@@ -96,6 +100,14 @@
         });
     }
 
+    function loadTask(batchVue) {
+    	var url = '/Task/GetTask';
+
+    	dsApp.post(url, { taskId: batchVue.$data.taskId }, function (result) {
+    		batchVue.$data.task = result.result;
+    	});
+    }
+
     function loadHistorys(batchVue) {
     	var url = '/Task/QueryRunHistory';
         var keywrod = batchVue.$data.keyword || '';
@@ -112,11 +124,4 @@
             });
         });
     }
-
-    setTimeout(function () {
-        $(".menu li").removeClass("active");
-        $(".menu li a").removeClass("toggled");
-        $(".menu li#tasks").addClass("active");
-        $(".menu li#tasks a").addClass("toggled");
-    }, 50);
 });

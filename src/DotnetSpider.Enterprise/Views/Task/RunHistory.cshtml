@@ -29,7 +29,7 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        RUN HISTORY
+                        RUN HISTORY - {{ task.name }}
                     </h2>
                     @*<button class="pull-right btn bg-blue btn-lg waves-effect waves-float" data-toggle="modal" data-target="#CreateNewTaskModal">New task</button>*@
                 </div>
@@ -61,7 +61,7 @@
                                                     <th>AVG PIPELINE</th>
                                                     <th>
                                                         @*<button @@click="viewBatchLogs(batch.code)">Logs</button>*@
-                                                    <a target="_blank" :href="'/task/runninglogs?identity='+batch.identity"><i title="logs" class="material-icons">event_note</i></a>
+                                                    <a target="_blank" :href="'log?identity='+batch.identity"><i title="logs" class="material-icons">VIEW LOGS</i></a>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -74,7 +74,7 @@
                                             <tr role="row" v-for="(node,index) in batch.statusList">
                                                 <td v-text="index+1"></td>
                                                 <td v-text="node.nodeId"></td>
-                                                <td v-text="node.lastModificationTime? node.lastModificationTime : node.creationTime"></td>
+                                                <td v-text="node.lastModificationTime"></td>
                                                 <td v-text="node.status" :style="{'color':node.status=='Running'?'green':'#000'}"></td>
                                                 <td v-text="node.thread"></td>
                                                 <td v-text="node.left"></td>
@@ -85,7 +85,7 @@
                                                 <td v-text="node.avgProcessorSpeed"></td>
                                                 <td v-text="node.avgPipelineSpeed"></td>
                                                 @*<td><i title="node log" class="material-icons" @@click="viewLogs(batch.code,node.node)" style="cursor: pointer;">more</i></td>*@
-                                                <td><a target="_blank" :href="'/task/runninglogs?identity='+batch.code+'&node='+node.node"><i title="node log" class="material-icons">event_note</i></a></td>
+                                                <td><a target="_blank" :href="'log?identity='+batch.identity+'&node='+node.nodeId"><i title="node log" class="material-icons">VIEW LOGS</i></a></td>
                                             </tr>
                                         </tbody>
                                     </table>

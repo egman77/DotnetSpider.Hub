@@ -423,5 +423,16 @@ namespace DotnetSpider.Enterprise.Application.Task
 			return output;
 
 		}
+
+		public TaskDto GetTask(long taskId)
+		{
+			var task = DbContext.Task.FirstOrDefault(a=>a.Id == taskId);
+			if (task == null)
+			{
+				throw new Exception("任务不存在.");
+			}
+
+			return AutoMapper.Mapper.Map<TaskDto>(task);
+		}
 	}
 }
