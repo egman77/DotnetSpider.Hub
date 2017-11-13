@@ -8,19 +8,6 @@
         <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
     </environment>
     <style type="text/css">
-        #spiderNameList li {
-            float: left;
-            width: 150px;
-            list-style: none;
-            list-style-type: none;
-        }
-
-            #spiderNameList li label {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
         td {
             word-break: break-all;
         }
@@ -45,18 +32,18 @@
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
                         <div id="tasksVIEW" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             @*<div class="dataTables_filter">
-                                    <div class="col-md-2">
-                                        <select class="form-control show-tick">
-                                            <option>Solution1</option>
-                                            <option>Solution2</option>
-                                            <option>Solution3</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <span class="pull-left">Search:</span>
-                                        <input id="queryKeyword" type="search" v-model="keyword" v-on:keypress="onKeyPress($event)" class="form-control input-sm pull-left" placeholder="">
-                                    </div>
-                              </div>*@
+                                      <div class="col-md-2">
+                                          <select class="form-control show-tick">
+                                              <option>Solution1</option>
+                                              <option>Solution2</option>
+                                              <option>Solution3</option>
+                                          </select>
+                                      </div>
+                                      <div class="col-md-3">
+                                          <span class="pull-left">Search:</span>
+                                          <input id="queryKeyword" type="search" v-model="keyword" v-on:keypress="onKeyPress($event)" class="form-control input-sm pull-left" placeholder="">
+                                      </div>
+                                </div>*@
                             <table class="table table-bordered table-striped table-hover no-footer">
                                 <thead>
                                     <tr role="row">
@@ -93,7 +80,6 @@
                                         <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
                                         <td v-text="task.version"></td>
                                         <td>
-                                            @*<i class="material-icons" title="backdate version" @@click.stop="backdateVersion(task)">history</i>*@
                                             <i class="material-icons" title="modify task" @@click.stop="modifyTask(task)">modify_list</i>
                                             <i class="material-icons" title="delete task" @@click.stop="deleteTask(task)">delete_forever</i>
                                             <a :href="'batches?taskId='+ task.id" target="_blank"><i class="material-icons" title="running history">view_list</i></a>
@@ -113,7 +99,7 @@
         </div>
     </div>
     <!-- #END# Tasks -->
-    <div class="modal fade" id="CreateNewTaskModal" tabindex="-1"  data-backdrop="static" role="dialog" style="display: none;">
+    <div class="modal fade" id="CreateNewTaskModal" tabindex="-1" data-backdrop="static" role="dialog" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -121,12 +107,12 @@
                 </div>
                 <div class="modal-body">
                     <form id="form_validation" method="POST" novalidate="novalidate">
-                      @*<div class="form-group form-float">
-                            <div class="form-line">
-                                <input type="text" id="spider" data-toggle="modal" v-model="selSpiderName" data-target="#VersionSelectModal" class="form-control" name="name" required="" aria-required="true">
-                                <label class="form-label">Spider</label>
-                            </div>
-                        </div>*@
+                        @*<div class="form-group form-float">
+                                <div class="form-line">
+                                    <input type="text" id="spider" data-toggle="modal" v-model="selSpiderName" data-target="#VersionSelectModal" class="form-control" name="name" required="" aria-required="true">
+                                    <label class="form-label">Spider</label>
+                                </div>
+                            </div>*@
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -216,7 +202,7 @@
                                 </div>
                                 <label id="developers-error" class="error">{{errorText["developers"]}}</label>
                             </div>
-                            
+
                         </div>
 
                         <div class="form-row">
@@ -233,7 +219,7 @@
 
                             </div>
                         </div>
-                        
+
                         <div class="modal-footer">
                             <button type="button" :class="['btn','bg-light-green','btn-link','waves-effect',{'disabled':!buttonState}]" @@click="saveSpider()">SUBMIT</button>
                             <button type="button" class="btn bg-grey btn-link waves-effect" data-dismiss="modal">CLOSE</button>
@@ -263,146 +249,16 @@
             </div>
         </div>
     </div>
-
-
-    @*<div id="VersionSelectModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            <span>SELECT VERSION...</span>
-                        </h4>
-                    </div>
-                    <div class="modal-body" style="min-height:500px;">
-                        <div style="margin-bottom:10px;">
-                            Release Time: <input id="startDate" type="text" onClick="WdatePicker()" />-<input id="endDate" type="text" onClick="WdatePicker()" />
-                            Description: <input id="description" type="text" value="" />
-                            <input type="button" @@click="searchResults()" value="OK" />
-                        </div>
-
-                        <table class="table table-bordered table-striped table-hover no-footer">
-                            <thead>
-                                <tr role="row">
-                                    <th>#</th>
-                                    <th>VERSION</th>
-                                    <th>RELEASE TIME</th>
-                                    <th>DESCRIPTION</th>
-                                    <th>ACTION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr role="row" v-for="(item,index) in projVersion">
-                                    <td v-text="index+1"></td>
-                                    <td v-text="item.version"></td>
-                                    <td v-text="item.publishTime"></td>
-                                    <td v-text="item.tags"></td>
-                                    <td>
-                                        @*<i class="material-icons" style="cursor:pointer;color:green;" data-toggle="modal" data-dismiss="modal" data-target="#NameSelectModal" @@click="selectModalVersion(item)" title="select">check</i>
-                                        <input type="button" class="btn btn-success waves-effect" data-toggle="modal" data-dismiss="modal" data-target="#NameSelectModal" @@click="selectModalVersion(item)" value="apply" />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="row" v-show="version.total>version.size">
-                            <div class="dataTables_info pull-left">Showing <span v-text="version.page"></span> to <span v-text="version.size"></span> of <span v-text="version.total"></span> entries</div>
-                            <div class="dataTables_paginate paging_simple_numbers pull-right" id="versionPage">
-                                <ul class="versionPagination"></ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CANCEL</button>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-    @*<div id="NameSelectModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            <span>SELECT SPIDER...</span>
-                        </h4>
-                    </div>
-                    <div class="modal-body row" style="min-height:450px;">
-                        <ul id="spiderNameList">
-                            <li v-for="item in templateVersion.spiderNames">
-                                <input type="radio" :id="'check' + item" :value="item" name="radiobox" :checked="newTask.spiderName==item">
-                                <label :for="'check' + item" :title="item">{{ item }}</label>
-                            </li>
-                        </ul>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link waves-effect" @@click="selectSpider()" data-dismiss="modal">OK</button>
-                        <button type="button" class="btn btn-link waves-effect" data-target="#VersionSelectModal" data-dismiss="modal">CANCEL</button>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-    @*<div id="VersionModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            <span>TASK VERSION...</span>
-                        </h4>
-                    </div>
-                    <div class="modal-body" style="height:500px;">
-                        <p>current version: {{ currentVersion }}</p>
-                        <table id="dataTable" class="table table-bordered table-striped table-hover dataTable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>VERSION</th>
-                                    <th>PUBLISH TIME</th>
-                                    <th>DESCRIPTION</th>
-                                    <th>ACTION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(obj,index) in versions">
-                                    <td v-text="index + 1"></td>
-                                    <td v-text="obj.version"></td>
-                                    <td v-text="obj.publishTime"></td>
-                                    <td v-text="obj.tags"></td>
-                                    <td>
-                                        <input type="button" v-show="currentVersion != obj.version" class="btn btn-success waves-effect" @@click="setVersion(obj.version)" value="apply" />
-                                        <i class="material-icons" v-show="currentVersion == obj.version" style="cursor:pointer;color:green;">check</i>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="row" v-show="historyVersion.total>historyVersion.size">
-                            <div class="dataTables_info pull-left">Showing <span v-text="historyVersion.page"></span> to <span v-text="historyVersion.size"></span> of <span v-text="historyVersion.total"></span> entries</div>
-                            <div class="dataTables_paginate paging_simple_numbers pull-right" id="versionPage">
-                                <ul class="historyVersionPagination"></ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                    </div>
-                </div>
-            </div>
-        </div>*@
 </div>
 @section scripts{
     <environment names="Development">
-        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
         <script src="~/lib/CronScheduler/web/js/msCron.js" asp-append-version="true"></script>
-        <script src="~/js/tasks/index.js" asp-append-version="true"></script>
+        <script src="~/js/Task/index.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
         <script src="~/js/views-resources/Task/scheduler.min.js" asp-append-version="true"></script>
-        <script src="~/js/tasks/index.min.js" asp-append-version="true"></script>
+        <script src="~/js/Task/index.min.js" asp-append-version="true"></script>
     </environment>
-    <script src="~/lib/My97DatePicker/WdatePicker.js"></script>
 }

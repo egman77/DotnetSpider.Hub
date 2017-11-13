@@ -1,20 +1,22 @@
-﻿@{ 
-    
-}
+﻿
 @section styles{
-    <environment names="Development">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
-        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
-    <environment names="Staging,Production">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
-        <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
+<environment names="Development">
+    <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
+</environment>
+<environment names="Staging,Production">
+    <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
+</environment>
     <style type="text/css">
-        #spiderNameList li {float: left;width: 150px;list-style: none;list-style-type: none;}
-        #spiderNameList li label {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
-        td {word-break: break-all;}
-        td i {cursor: pointer;}
+        td {
+            word-break: break-all;
+        }
+
+            td i {
+                cursor: pointer;
+            }
+
         .logWarnning {
             color: #ff9800;
         }

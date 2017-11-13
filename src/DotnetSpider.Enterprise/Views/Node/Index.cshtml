@@ -1,12 +1,13 @@
-﻿@section scripts{
+﻿@section styles{
     <environment names="Development">
-        <script src="~/js/node/index.js" asp-append-version="true"></script>
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
     </environment>
     <environment names="Staging,Production">
-        <script src="~/js/node/index.min.js" asp-append-version="true"></script>
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
     </environment>
 }
-
 <div class="container-fluid">
     <div class="row clearfix">
         <div class="row clearfix">
@@ -60,3 +61,11 @@
         </div>
     </div>
 </div>
+@section scripts{
+    <environment names="Development">
+        <script src="~/js/node/index.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/js/node/index.min.js" asp-append-version="true"></script>
+    </environment>
+}

@@ -195,11 +195,6 @@
 		$(tasks).each(function () {
 			ids.push(this.id);
 		});
-		dsApp.post('/Task/IsTaskRunning', { tasks: ids }, function (data) {
-			$(tasks).each(function () {
-				this.running = $.inArray(this.id, data.result) >= 0;
-			});
-		});
 	}
 
 	function loadTasks(vue) {
