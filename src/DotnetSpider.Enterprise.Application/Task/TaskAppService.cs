@@ -149,6 +149,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = Mapper.Map<Domain.Entities.Task>(item);
 
 			var cron = task.Cron;
+			task.Cron = string.Empty;
 			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
