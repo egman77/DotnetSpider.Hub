@@ -28,6 +28,13 @@ namespace DotnetSpider.Enterprise.Controllers
 			_logAppService = logAppService;
 		}
 
+		[HttpGet]
+		public IActionResult Index()
+		{
+			return View();
+		}
+
+
 		[HttpPost]
 		[AllowAnonymous]
 		public IActionResult Submit([FromBody] LogInputDto input)

@@ -101,7 +101,7 @@
     }
 
     function loadTask(batchVue) {
-    	var url = '/Task/GetTask';
+    	var url = '/Task/QueryTask';
 
     	dsApp.post(url, { taskId: batchVue.$data.taskId }, function (result) {
     		batchVue.$data.task = result.result;

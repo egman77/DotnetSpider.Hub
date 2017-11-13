@@ -61,7 +61,7 @@
                                                     <th>AVG PIPELINE</th>
                                                     <th>
                                                         @*<button @@click="viewBatchLogs(batch.code)">Logs</button>*@
-                                                    <a target="_blank" :href="'log?identity='+batch.identity"><i title="logs" class="material-icons">VIEW LOGS</i></a>
+                                                    <a target="_blank" :href="'/log?identity='+batch.identity"><i title="logs">VIEW LOGS</i></a>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -85,7 +85,7 @@
                                                 <td v-text="node.avgProcessorSpeed"></td>
                                                 <td v-text="node.avgPipelineSpeed"></td>
                                                 @*<td><i title="node log" class="material-icons" @@click="viewLogs(batch.code,node.node)" style="cursor: pointer;">more</i></td>*@
-                                                <td><a target="_blank" :href="'log?identity='+batch.identity+'&node='+node.nodeId"><i title="node log" class="material-icons">VIEW LOGS</i></a></td>
+                                                <td><a target="_blank" :href="'/log?identity='+batch.identity+'&node='+node.nodeId"><i title="node log">VIEW LOGS</i></a></td>
                                             </tr>
                                         </tbody>
                                     </table>

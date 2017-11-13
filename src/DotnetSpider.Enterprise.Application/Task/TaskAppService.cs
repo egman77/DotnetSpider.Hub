@@ -147,12 +147,19 @@ namespace DotnetSpider.Enterprise.Application.Task
 		public void Add(TaskDto item)
 		{
 			var task = Mapper.Map<Domain.Entities.Task>(item);
+
+			var cron = task.Cron;
 			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
-			if (!string.IsNullOrEmpty(task.Cron))
+			if (!string.IsNullOrEmpty(cron))
 			{
-				NotifyScheduler(task.Id, task.Cron);
+				if (NotifyScheduler(task.Id, cron))
+				{
+					task.Cron = cron;
+					DbContext.Task.Update(task);
+					DbContext.SaveChanges();
+				}
 			}
 			item.Id = task.Id;
 		}
