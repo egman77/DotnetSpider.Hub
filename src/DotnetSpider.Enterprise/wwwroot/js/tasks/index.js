@@ -1,7 +1,6 @@
 ﻿$(function () {
 	//setMenuActive('tasks');
 	var cron;
-	var proj = queryString("proj");
 	var interval = null;
 	var tasksVUE = new Vue({
 		el: '#taskContent',
@@ -18,7 +17,6 @@
 				framework: 'NetCore',
 				assemblyName: 'Xbjrkj.DataCollection.Apps.dll',
 				taskName: '',
-				projectId: 0,
 				isEnabled: true,
 				cron: '',
 				nodesCount: 1,
@@ -38,7 +36,6 @@
 		},
 		mounted: function () {
 			this.$data.page = 1;
-			this.$data.newTask.projectId = proj;
 			loadTasks(this);
 		},
 		computed: {
@@ -132,49 +129,6 @@
 					this["query"]();
 				}
 			},
-			//backdateVersion: function (task) {
-			//if (this.taskId != task.id || this.versions.length == 0) {
-			//	this.currentVersion = task.version;
-			//	this.taskId = task.id;
-			//	this.versions = [];
-			//	loadVersions(this);
-			//}
-			//$("#VersionModal").modal("show");
-			//},
-			//setVersion: function (version) {
-			//	var that = this;
-			//	swal({
-			//		title: "Are you sure?",
-			//		text: "Set new version for this task!",
-			//		type: "warning",
-			//		showCancelButton: true,
-			//		confirmButtonColor: "#DD6B55",
-			//		confirmButtonText: "Yes, do it!",
-			//		closeOnConfirm: false
-			//	}, function () {
-			//		$("#VersionModal").modal("hide");
-			//		dsApp.post("/Task/SetVersion", { taskId: that.taskId, version: version }, function () {
-			//			swal("Operation Succeed!", "New Version was applied.", "success");
-			//			that.currentVersion = '';
-			//			that.taskId = 0;
-			//			loadTasks(that);
-			//		});
-			//	});
-			//},
-			//onSelectVersion: function () {
-			//	loadProjectVersion(this);
-			//},
-			//searchResults: function () {
-			//	lastQuery = null;
-			//	loadProjectVersion(this);
-			//},
-			//selectModalVersion: function (item) {
-			//	this.templateVersion = item;
-			//},
-			//selectSpider: function () {
-			//	this.newTask.version = this.templateVersion.version;
-			//	this.newTask.spiderName = $("input[name='radiobox']:checked").val() || $("input[name='radiobox']").val();
-			//},
 			saveSpider: function () {
 
 				if (Object.getOwnPropertyNames(this.errorText).length > 1) return;
@@ -227,53 +181,7 @@
 		return result[1];
 	}
 
-	//function loadVersions(vue) {
-	//	var url = '/Task/GetVersions';
-	//	var query = {
-	//		taskId: vue.$data.taskId,
-	//		page: vue.$data.historyVersion.page,
-	//		size: vue.$data.historyVersion.size
-	//	}
-	//	dsApp.post(url, query, function (result) {
-	//		vue.$data.versions = result.result.result;
-	//		vue.$data.historyVersion.total = result.result.total;
-
-	//		dsApp.ui.initPagination('#historyVersionPagination', result.result, function (page) {
-	//			vue.$data.historyVersion.page = page;
-	//			loadVersions(vue);
-	//		});
-	//	});
-	//}
-
 	var lastQuery;
-
-	//function loadProjectVersion(vue) {
-	//	var url = '/Project/GetVersions';
-	//	var query;
-	//	if (!lastQuery) {
-	//		query = {
-	//			solutionId: proj,
-	//			page: vue.$data.version.page,
-	//			size: vue.$data.version.size,
-	//			keyword: $("#description").val(),
-	//			startDate: $("#startDate").val(),
-	//			endDate: $("#endDate").val()
-	//		};
-	//		lastQuery = query;
-	//	}
-	//	else query = lastQuery;
-
-	//	dsApp.post(url, lastQuery, function (result) {
-	//		vue.$data.projVersion = result.result.result;
-	//		vue.$data.version.total = result.result.total;
-
-	//		dsApp.ui.initPagination('#versionPage', result.result, function (page) {
-	//			vue.$data.version.page = page;
-	//			lastQuery.page = page;
-	//			loadProjectVersion(vue);
-	//		});
-	//	});
-	//}
 
 	function loadStatus() {
 		var tasks = tasksVUE.$data.tasks;
@@ -291,7 +199,7 @@
 	function loadTasks(vue) {
 		var url = '/Task/GetList';
 		var keywrod = vue.$data.keyword || '';
-		var query = { solutionId: proj, page: vue.$data.page, size: vue.size, keyword: keywrod };
+		var query = {  page: vue.$data.page, size: vue.size, keyword: keywrod };
 
 		dsApp.post(url, query, function (result) {
 			var rd = result.result.result;
@@ -302,7 +210,6 @@
 
 			vue.$data.tasks = rd;
 			vue.$data.total = result.result.total;
-			vue.$data.solutions = result.projects;
 
 			if (interval) {
 				clearInterval(interval);
@@ -322,7 +229,7 @@
 	setTimeout(function () {
 		$(".menu li").removeClass("active");
 		$(".menu li a").removeClass("toggled");
-		$(".menu li#projects").addClass("active");
-		$(".menu li#projects a").addClass("toggled");
+		$(".menu li#tasks").addClass("active");
+		$(".menu li#tasks a").addClass("toggled");
 	}, 50);
 });

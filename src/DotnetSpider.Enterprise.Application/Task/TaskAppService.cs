@@ -5,11 +5,9 @@ using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
-using DotnetSpider.Enterprise.Application.Project;
 using AutoMapper;
 using System.Linq;
 using DotnetSpider.Enterprise.Core;
-using DotnetSpider.Enterprise.Application.Project.Dtos;
 using System.Data;
 using DotnetSpider.Enterprise.Domain.Entities;
 using Newtonsoft.Json;
@@ -24,13 +22,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 	public class TaskAppService : AppServiceBase, ITaskAppService
 	{
 		private readonly ICommonConfiguration _configuration;
-		private readonly IProjectAppService _projectAppService;
-
-		public TaskAppService(ICommonConfiguration configuration, IProjectAppService projectAppService,
+	
+		public TaskAppService(ICommonConfiguration configuration,
 			ApplicationDbContext dbcontext) : base(dbcontext)
 		{
 			_configuration = configuration;
-			_projectAppService = projectAppService;
 		}
 
 		public void ProcessCountChanged(long taskId, bool isStart)
@@ -76,8 +72,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os == task.Os).ToList();
 			}
-			 
-			 
+			
 			foreach (var node in nodes)
 			{
 				var status = DbContext.NodeHeartbeat.Where(a => a.NodeId == node.NodeId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
@@ -127,7 +122,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 					{
 						TaskId = task.Id,
 						ApplicationName = task.ApplicationName,
-						Name = task.Name,
+						Name = "RUN",
 						NodeId = item.Key,
 						Arguments = string.Concat(task.Arguments, "-i:", identity)
 					};
@@ -150,20 +145,19 @@ namespace DotnetSpider.Enterprise.Application.Task
 			PagingQueryOutputDto result;
 			if (string.IsNullOrWhiteSpace(input.Keyword?.Trim()))
 			{
-				result = DbContext.Tasks.PageList(input, t => t.ProjectId == input.SolutionId, t => t.CreationTime);
+				result = DbContext.Tasks.PageList(input, null, t => t.CreationTime);
 			}
 			else
 			{
-				result = DbContext.Tasks.PageList(input, t => t.ProjectId == input.SolutionId && t.Name.Contains(input.Keyword), t => t.CreationTime);
+				result = DbContext.Tasks.PageList(input, t => t.Name.Contains(input.Keyword), t => t.CreationTime);
 			}
-			var projects = _projectAppService.GetAll();
+
 			QueryTaskOutputDto output = new QueryTaskOutputDto
 			{
 				Page = result.Page,
 				Result = Mapper.Map<List<TaskDto>>(result.Result),
 				Size = result.Size,
-				Total = result.Total,
-				Projects = projects
+				Total = result.Total
 			};
 			return output;
 		}
@@ -213,7 +207,15 @@ namespace DotnetSpider.Enterprise.Application.Task
 			message.Headers.Add("Upgrade-Insecure-Requests", "1");
 			message.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
 
-			var data = Encoding.UTF8.GetBytes($"id={taskId}&cron={cron}");
+			var requestObject = new SchedulerRequestObject
+			{
+				Id = taskId,
+				Cron = cron,
+				Url = _configuration.SchedulerUrl,
+				Data = ""
+			};
+
+			var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(requestObject));
 			message.Content = new StreamContent(new MemoryStream(data));
 			try
 			{
@@ -230,46 +232,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				throw new SchedulerException("调用Scheduler服务异常:" + ex.Message, ex);
 			}
-		}
-
-		public List<RunningTaskDto> GetRunningTasks()
-		{
-			throw new NotSupportedException();
-			//List<RunningTasks> runningTasks = null;
-			//using (IDbConnection conn = new MySqlConnection(Configuration.MySqlConnectionString))
-			//{
-			//	runningTasks = conn.Query<RunningTasks>("select * from `task_running`").ToList();
-			//}
-
-			//var taskIdList = new List<long>();
-			//runningTasks.ForEach(t =>
-			//{
-			//	taskIdList.Add(t.TaskId);
-			//});
-
-			//var taskList = new List<RunningTaskDto>();
-			//var tasks = DbContext.Tasks.Where(a => taskIdList.Contains(a.Id)).ToList();
-			//foreach (var task in tasks)
-			//{
-			//	var runTaskItem = runningTasks.First(a => a.TaskId == task.Id);
-			//	taskList.Add(new RunningTaskDto
-			//	{
-			//		Arguments = task.Arguments,
-			//		CDate = runTaskItem.CDate,
-			//		CountOfNodes = task.CountOfNodes,
-			//		CreationTime = task.CreationTime,
-			//		Cron = task.Cron,
-			//		Id = task.Id,
-			//		IsEnabled = task.IsEnabled,
-			//		Name = task.Name,
-			//		ProjectId = task.ProjectId,
-			//		SpiderName = task.SpiderName,
-			//		Version = task.Version,
-			//		Identity = runTaskItem.Identity
-			//	});
-			//}
-
-			//return taskList.OrderBy(a => a.CDate).ToList();
 		}
 
 		public void RunTask(long taskId)
@@ -312,43 +274,38 @@ namespace DotnetSpider.Enterprise.Application.Task
 			//Subscriber.Publish("DOTNETSPIDER_SCHEDULER", JsonConvert.SerializeObject(cmd));
 		}
 
-		public List<long> IsTaskRunning(long[] tasks)
-		{
-			throw new NotSupportedException();
-			//using (IDbConnection conn = new MySqlConnection(Configuration.MySqlConnectionString))
-			//{
-			//	return conn.Query<long>("select taskId from `task_running` where taskId in @Tasks", new { Tasks = tasks }).ToList();
-			//}
-		}
-
-		public bool TaskRunning(string identity)
-		{
-			throw new NotSupportedException();
-			//using (IDbConnection conn = new MySqlConnection(Configuration.MySqlConnectionString))
-			//{
-			//	var item = conn.ExecuteScalar<string>("select `identity` from `task_running` where identity=@identity", new { identity = identity });
-			//	return item == identity;
-			//}
-		}
-
-
 		public void StopTask(string identity)
 		{
-			//using (IDbConnection conn = new MySqlConnection(Configuration.MySqlConnectionString))
-			//{
-			//	conn.Execute("delete from `task_running` where `identity`=@Identity", new { Identity = identity });
-			//}
-			//Subscriber.Publish(identity, "EXIT");
-		}
+			var runHistory = DbContext.TaskHistorys.FirstOrDefault(a=>a.Identity == identity);
+			if (runHistory == null)
+			{
+				throw new Exception("当前任务没不在运行!");
+			}
 
-		public void PauseTask(string identity)
-		{
-			//Subscriber.Publish(identity, "PAUSE");
-		}
+			var taskStatus = DbContext.TaskStatuses.Where(a => a.Identity == identity).OrderByDescending(a => a.LastModificationTime).ToList();
+			if (taskStatus == null || taskStatus.Count == 0)
+			{
+				throw new Exception("当前任务没有上报状态!");
+			}
 
-		public void ResumeTask(string identity)
-		{
-			//Subscriber.Publish(identity, "CONTINUE");
+			//判断状态，是否需要考虑时间过期的？？如超过5分钟未上报的，是否为在运行中
+			var runningNodes = taskStatus.Where(a => !(a.Status == "Finished" || a.Status == "Exited"));
+			foreach (var status in runningNodes)
+			{
+				var msg = new Domain.Entities.Message
+				{
+					ApplicationName = string.Empty,
+					Arguments = string.Empty,
+					TaskId = runHistory.TaskId,
+					Name = "CANCEL", 
+					NodeId = status.NodeId
+				};
+				DbContext.Messages.Add(msg);
+			}
+			if (runningNodes.Any())
+			{
+				DbContext.SaveChanges();
+			}
 		}
 
 		public void RemoveTask(long taskId)
@@ -356,9 +313,44 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
 			{
+				NotifyScheduler(task.Id, string.Empty);
 				DbContext.Tasks.Remove(task);
 				DbContext.SaveChanges();
 			}
+		}
+
+		public bool Disable(long taskId)
+		{
+			var task = DbContext.Tasks.FirstOrDefault(a=>a.Id == taskId);
+			if (task == null)
+			{
+				throw new Exception("任务不存在!");
+			}
+			task.IsEnabled = false;
+			if (NotifyScheduler(task.Id, string.Empty))
+			{
+				DbContext.Tasks.Update(task);
+				DbContext.SaveChanges();
+			}
+
+			return true;
+		}
+
+		public bool Enable(long taskId)
+		{
+			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
+			if (task == null)
+			{
+				throw new Exception("任务不存在!");
+			}
+			task.IsEnabled = true;
+			if (NotifyScheduler(task.Id, task.Cron))
+			{
+				DbContext.Tasks.Update(task);
+				DbContext.SaveChanges();
+			}
+
+			return true;
 		}
 	}
 }
