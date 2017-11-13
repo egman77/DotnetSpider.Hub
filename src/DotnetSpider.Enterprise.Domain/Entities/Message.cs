@@ -7,6 +7,9 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 {
 	public class Message : AuditedEntity<long>
 	{
+		public const string RunMessageName = "RUN";
+		public const string CanleMessageName = "CANLE";
+
 		[Required]
 		[StringLength(32)]
 		public virtual string NodeId { get; set; }
