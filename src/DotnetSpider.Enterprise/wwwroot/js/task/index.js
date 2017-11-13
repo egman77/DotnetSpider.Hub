@@ -47,8 +47,8 @@
 			argumentsVdt: function () {
 				var value = this.newTask['arguments'];
 				if (this.validateEmpty(this, 'arguments', false)) {
-					if (value.indexOf('-s:') >= 0 || value.indexOf('-i:') >= 0) {
-						this.errorText["arguments"] = 'Arguments can not be -s or -i';
+					if (value.indexOf('-tid:') >= 0 || value.indexOf('-i:') >= 0) {
+						this.errorText["arguments"] = 'Arguments can not be -tid or -i';
 						return false;
 					}
 					delete this.errorText["arguments"];

@@ -101,7 +101,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 						ApplicationName = task.ApplicationName,
 						Name = "RUN",
 						NodeId = item.Key,
-						Arguments = string.Concat(task.Arguments, "-i:", identity)
+						Arguments = string.Concat(task.Arguments, "-tid:", task.Id," ", "-i:", identity)
 					};
 					DbContext.Message.Add(msg);
 				}
