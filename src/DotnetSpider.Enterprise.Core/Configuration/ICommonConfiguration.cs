@@ -29,5 +29,6 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		string XmlKeyPath { get; }
 
 		string SchedulerUrl { get; }
+		string HostUrl { get; set; }
 	}
 }

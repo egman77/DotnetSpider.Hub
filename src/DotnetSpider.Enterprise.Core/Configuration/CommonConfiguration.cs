@@ -1,11 +1,20 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace DotnetSpider.Enterprise.Core.Configuration
 {
 	public class CommonConfiguration : ICommonConfiguration
 	{
 		public IConfigurationRoot AppConfiguration { get; set; }
+
+		public CommonConfiguration()
+		{
+			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "host.url")))
+			{
+				HostUrl = File.ReadAllLines("host.url")[0];
+			}
+		}
 
 		public int PageMaxSize
 		{
@@ -245,5 +254,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 				return section.GetValue<string>(ConfigurationConsts.SchedulerUrl);
 			}
 		}
+
+		public string HostUrl { get; set; }
 	}
 }

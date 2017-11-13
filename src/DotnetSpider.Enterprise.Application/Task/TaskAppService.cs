@@ -185,6 +185,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		/// <param name="cron"></param>
 		private bool NotifyScheduler(long taskId, string cron)
 		{
+			var url = $"{_configuration.SchedulerUrl}api/task";
 			var message = new HttpRequestMessage(HttpMethod.Post, _configuration.SchedulerUrl);
 			message.Headers.Add("Cache-Control", "max-age=0");
 			message.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
@@ -195,7 +196,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				Id = taskId,
 				Cron = cron,
-				Url = _configuration.SchedulerUrl,
+				Url = $"{_configuration.HostUrl}Task/Fire",
 				Data = ""
 			};
 
@@ -242,7 +243,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				return;
 			}
 
-				var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).ToList();
+			var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).ToList();
 			if (taskStatus == null || taskStatus.Count == 0)
 			{
 				throw new Exception("当前任务没有上报状态!");
@@ -391,7 +392,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				Size = input.Size
 			};
 
-			var result =  DbContext.TaskHistory.PageList(input, a => a.TaskId == input.TaskId, t => t.CreationTime);
+			var result = DbContext.TaskHistory.PageList(input, a => a.TaskId == input.TaskId, t => t.CreationTime);
 
 			output.Total = result.Total;
 			var results = result.Result as List<TaskHistory>;
@@ -430,7 +431,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public TaskDto QueryTask(long taskId)
 		{
-			var task = DbContext.Task.FirstOrDefault(a=>a.Id == taskId);
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
 				throw new Exception("任务不存在.");
