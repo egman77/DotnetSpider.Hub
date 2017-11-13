@@ -44,5 +44,54 @@ namespace DotnetSpider.Enterprise.Application.Node
 			}
 			DbContext.SaveChanges();
 		}
+
+		public PagingQueryOutputDto Query(PagingQueryTaskStatusInputDto input)
+		{
+			input.Validate();
+
+			PagingQueryOutputDto output;
+
+			switch (input.Status?.ToLower())
+			{
+				case "finished":
+					{
+						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Finished", d => d.Id);
+						break;
+					}
+				case "init":
+					{
+						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Init", d => d.Id);
+						break;
+					}
+				case "running":
+					{
+						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Running", d => d.Id);
+						break;
+					}
+				case "exited":
+					{
+						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Exited", d => d.Id);
+						break;
+					}
+				case "stopped":
+					{
+						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Stopped", d => d.Id);
+						break;
+					}
+				case "all":
+					{
+						output = DbContext.TaskStatus.PageList(input, null, d => d.Id);
+						break;
+					}
+				default:
+					{
+						output = DbContext.TaskStatus.PageList(input, null, d => d.Id);
+						break;
+					}
+			}
+			var taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
+			output.Result = Mapper.Map<List<TaskStatusDto>>(taskStatuses);
+			return output;
+		}
 	}
 }

@@ -20,40 +20,48 @@
                         <ul class="header-dropdown m-r--5"></ul>
                     </div>
                     <div class="body">
-                        <table class="table table-bordered table-striped table-hover dataTable" id="nodesView">
-                            <thead>
-                                <tr>
-                                    <th style="width: 80px">NODE ID</th>
-                                    <th>IP</th>
-                                    <th>IS ENABLE</th>
-                                    <th>IS ONLINE</th>
-                                    <th>CPU</th>
-                                    <th>FREE MEMORY</th>
-                                    <th>TOTAL MEMORY</th>
-                                    <th>OS</th>
-                                    <th>PROCESS COUNT</th>
-                                    <th>VERSION</th>
-                                    <th>DASHBOARD</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="node in nodes" :node-id="node.nodeId">
-                                    <td><span v-text="node.nodeId"></span></td>
-                                    <td><span v-text="node.ip"></span></td>
-                                    <td><span v-text="node.isEnable"></span></td>
-                                    <td><span v-text="node.isOnline"></span></td>
-                                    <td><span v-text="node.cPULoad"></span></td>
-                                    <td><span v-text="node.freeMemory"></span></td>
-                                    <td><span v-text="node.totalMemory"></span></td>
-                                    <td><span v-text="node.os"></span></td>
-                                    <td><span v-text="node.processCount"></span></td>
-                                    <td><span v-text="node.version"></span></td>
-                                    <td><a :href="'/Node/Dashboard?NodeId=' + node.nodeId" target="_blank">Dashboard</a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div v-show="total>size" class="dataTables_paginate paging_simple_numbers" id="pagination">
-                            <ul class="pagination"></ul>
+                        <div id="nodesView" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <table class="table table-bordered table-striped table-hover dataTable">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 80px">NODE ID</th>
+                                        <th>IP</th>
+                                        <th>IS ENABLE</th>
+                                        <th>IS ONLINE</th>
+                                        <th>CPU</th>
+                                        <th>FREE MEMORY</th>
+                                        <th>TOTAL MEMORY</th>
+                                        <th>OS</th>
+                                        <th>PROCESS COUNT</th>
+                                        <th>VERSION</th>
+                                        <th>DASHBOARD</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-show="nodes.length==0">
+                                        <td colspan="13">
+                                            No data to display...
+                                        </td>
+                                    </tr>
+                                    <tr v-for="node in nodes" :node-id="node.nodeId">
+                                        <td><span v-text="node.nodeId"></span></td>
+                                        <td><span v-text="node.ip"></span></td>
+                                        <td><span v-text="node.isEnable"></span></td>
+                                        <td><span v-text="node.isOnline"></span></td>
+                                        <td><span v-text="node.cPULoad"></span></td>
+                                        <td><span v-text="node.freeMemory"></span></td>
+                                        <td><span v-text="node.totalMemory"></span></td>
+                                        <td><span v-text="node.os"></span></td>
+                                        <td><span v-text="node.processCount"></span></td>
+                                        <td><span v-text="node.version"></span></td>
+                                        <td><a :href="'/Node/Dashboard?NodeId=' + node.nodeId" target="_blank">Dashboard</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div v-show="total>size" class="dataTables_info">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
+                            <div v-show="total>size" class="dataTables_paginate paging_simple_numbers" id="pagination">
+                                <ul class="pagination"></ul>
+                            </div>
                         </div>
                     </div>
                 </div>

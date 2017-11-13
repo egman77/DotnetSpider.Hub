@@ -17,7 +17,7 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus.Dtos
 		public virtual float AvgDownloadSpeed { get; set; }
 		public virtual float AvgProcessorSpeed { get; set; }
 		public virtual float AvgPipelineSpeed { get; set; }
-
+		public virtual DateTime? LastModificationTime { get; set; }
 		public virtual long TaskId { get; set; }
 	}
 }

@@ -20,6 +20,8 @@ namespace DotnetSpider.Enterprise.Application
 				config.CreateMap<Domain.Entities.Node, NodeOutputDto>();
 				config.CreateMap<AddOrUpdateTaskStatusInputDto, Domain.Entities.TaskStatus>();
 				config.CreateMap<Domain.Entities.Task, RunningTaskOutputDto>();
+				config.CreateMap<Domain.Entities.TaskStatus, TaskStatusDto>();
+
 
 			});
 		}
