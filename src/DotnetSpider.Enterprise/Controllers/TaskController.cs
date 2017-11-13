@@ -33,6 +33,12 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			return View();
 		}
 
+		[HttpGet]
+		public IActionResult RunHistory()
+		{
+			return View();
+		}
+
 		#region API
 
 		[HttpPost]
@@ -117,9 +123,8 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		public IActionResult QueryRunHistory(PagingQueryTaskHistoryInputDto input)
 		{
 			input.Sort = "desc";
-			//var result = _taskAppService.QueryRunHistory(input);
-			//return DataResult(result);
-			return null;
+			var result = _taskAppService.QueryRunHistory(input);
+			return DataResult(result);
 		}
 
 		[HttpPost]
