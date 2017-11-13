@@ -52,7 +52,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		/// </summary>
 		public virtual int NodeRunningCount { get; set; }
 
-		[Required]
+		[StringLength(32)]
 		public virtual string LastIdentity { get; set; }
 
 		/// <summary>
