@@ -12,7 +12,7 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		public string Keyword { get; set; }
 	}
 
-	public class PagingQueryTaskVersionInputDto : PagingQueryTaskInputDto
+	public class PagingQueryTaskHistoryInputDto : PagingQueryTaskInputDto
 	{
 		[Required]
 		public long TaskId { get; set; }

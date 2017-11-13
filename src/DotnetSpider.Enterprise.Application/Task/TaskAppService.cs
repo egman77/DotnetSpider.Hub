@@ -16,6 +16,7 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using DotnetSpider.Enterprise.Application.Exceptions;
 using System.IO;
+using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -274,12 +275,12 @@ namespace DotnetSpider.Enterprise.Application.Task
 			//Subscriber.Publish("DOTNETSPIDER_SCHEDULER", JsonConvert.SerializeObject(cmd));
 		}
 
-		public void StopTask(string identity)
+		public void StopTask(long taskId)
 		{
 			var runHistory = DbContext.TaskHistory.FirstOrDefault(a => a.Identity == identity);
 			if (runHistory == null)
 			{
-				throw new Exception("当前任务没不在运行!");
+				throw new Exception("任务不在运行中");
 			}
 
 			var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).OrderByDescending(a => a.LastModificationTime).ToList();

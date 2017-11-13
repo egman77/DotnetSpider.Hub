@@ -1,5 +1,6 @@
 ﻿using DotnetSpider.Enterprise.Application.Task.Dtos;
 using DotnetSpider.Enterprise.Domain;
+using DotnetSpider.Enterprise.Domain.Entities;
 using System.Collections.Generic;
 
 namespace DotnetSpider.Enterprise.Application.Task
@@ -12,7 +13,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		void RunTask(long taskId);
 		//List<NodeStatusDto> GetNodeStatus(string identity);
-		void StopTask(string identity);
+		void StopTask(long taskId);
 		void RemoveTask(long taskId);
 		
 		void ProcessCountChanged(long taskId, bool isStart);

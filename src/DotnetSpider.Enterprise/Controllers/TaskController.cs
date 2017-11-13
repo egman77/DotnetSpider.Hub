@@ -107,10 +107,10 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult QueryRunHistory(PagingQueryTaskInputDto input)
+		public IActionResult QueryRunHistory(PagingQueryTaskHistoryInputDto input)
 		{
 			input.Sort = "desc";
-			var result = _taskAppService.GetList(input);
+			var result = _taskAppService.QueryRunHistory(input);
 			return DataResult(result);
 		}
 
