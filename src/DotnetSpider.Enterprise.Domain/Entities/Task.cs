@@ -90,6 +90,8 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 
 		public virtual bool IsDelete { get; set; }
 
+		public virtual string Os { get; set;}
+
 		[ForeignKey("ProjectId")]
 		public virtual Project Project { get; set; }
 	}

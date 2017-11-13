@@ -23,6 +23,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 		void RemoveTask(long taskId);
 		bool TaskRunning(string identity);
 		void ProcessCountChanged(long taskId, bool isStart);
+
+		bool Fire(long taskId);
+
 		//void GetVersions(QueryTaskVersionInputDto input);
 		//void SetVersion(long taskId, string version);
 	}

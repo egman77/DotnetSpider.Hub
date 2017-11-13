@@ -14,5 +14,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		public virtual bool IsEnable { get; set; }
 
 		public virtual bool IsOnline { get; set; }
+
+		public virtual string Os { get; set; }
 	}
 }

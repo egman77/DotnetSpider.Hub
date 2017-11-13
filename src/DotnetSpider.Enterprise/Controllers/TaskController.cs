@@ -35,10 +35,11 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			return View();
 		}
 
-		[HttpGet]
-		public IActionResult Batches()
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult Fire([FromBody]SchedulerResponseObject response)
 		{
-			return View();
+			return ActionResult(() => { return _taskAppService.Fire(response.Id); });
 		}
 
 		[HttpPost]
@@ -49,21 +50,8 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			return DataResult(result);
 		}
 
-		//[HttpPost]
-		//public IActionResult GetVersions(QueryTaskVersionInputDto input)
-		//{
-		//	input.Sort = "desc";
-		//	return ActionResult(() => _taskAppService.GetVersions(input));
-		//}
-
-		//[HttpPost]
-		//public IActionResult SetVersion(long taskId, string version)
-		//{
-		//	return ActionResult(() => _taskAppService.SetVersion(taskId, version));
-		//}
-
 		[HttpPost]
-		public IActionResult AddTask(TaskDto item)
+		public IActionResult Add(TaskDto item)
 		{
 			if (ModelState.IsValid)
 			{
@@ -76,7 +64,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult ModifyTask(TaskDto item)
+		public IActionResult Modify(TaskDto item)
 		{
 			if (ModelState.IsValid)
 			{
@@ -89,69 +77,47 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult GetRunningTasks()
+		public IActionResult Fire(long id)
 		{
-			return ActionResult(() => _taskAppService.GetRunningTasks());
-		}
-
-		[HttpGet]
-		public IActionResult RunningTask()
-		{
-			return View();
+			return null;
 		}
 
 		[HttpPost]
-		public IActionResult RunTask(long taskId)
+		public IActionResult Run(long taskId)
 		{
 			return ActionResult(() => _taskAppService.RunTask(taskId));
 		}
 
 		[HttpPost]
-		public IActionResult IsTaskRunning(long[] tasks)
-		{
-			return ActionResult(() => _taskAppService.IsTaskRunning(tasks));
-		}
-
-		[HttpPost]
-		public IActionResult StopTask(string identity)
+		public IActionResult Exit(string identity)
 		{
 			return ActionResult(() => { _taskAppService.StopTask(identity); });
 		}
 
 		[HttpPost]
-		public IActionResult PauseTask(string identity)
+		public IActionResult Remove(long id)
 		{
-			return ActionResult(() => { _taskAppService.PauseTask(identity); });
+			return ActionResult(() => { _taskAppService.RemoveTask(id); });
 		}
 
 		[HttpPost]
-		public IActionResult ResumeTask(string identity)
+		public IActionResult Disable(long id)
 		{
-			return ActionResult(() => { _taskAppService.ResumeTask(identity); });
-		}
-
-		[HttpGet]
-		public IActionResult RunningLogs()
-		{
-			return View();
-		}
-
-		[HttpGet]
-		public IActionResult RunningNodes()
-		{
-			return View();
+			return null;
 		}
 
 		[HttpPost]
-		public IActionResult DeleteTask(long taskId)
+		public IActionResult Enable(long id)
 		{
-			return ActionResult(() => { _taskAppService.RemoveTask(taskId); });
+			return null;
 		}
 
 		[HttpPost]
-		public IActionResult TaskRunning(string identity)
+		public IActionResult QueryRunHistory(PagingQueryTaskInputDto input)
 		{
-			return ActionResult(_taskAppService.TaskRunning, identity);
+			input.Sort = "desc";
+			var result = _taskAppService.GetList(input);
+			return DataResult(result);
 		}
 	}
 }

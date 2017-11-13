@@ -236,5 +236,14 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 				return section.GetValue<string>(ConfigurationConsts.RedisNamespace);
 			}
 		}
+
+		public string SchedulerUrl
+		{
+			get
+			{
+				var section = AppConfiguration.GetSection(ConfigurationConsts.SchedulerUrl);
+				return section.GetValue<string>(ConfigurationConsts.SchedulerUrl);
+			}
+		}
 	}
 }
