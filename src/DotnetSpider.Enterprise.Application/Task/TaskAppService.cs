@@ -56,7 +56,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			//判断任务是否在运行中
 			if (task.NodeRunningCount > 0)
 			{
-				var taskStatus = DbContext.TaskStatuses.OrderByDescending(a => a.LastModificationTime).FirstOrDefault();
+				var taskStatus = DbContext.TaskStatus.OrderByDescending(a => a.CreationTime).FirstOrDefault();
 				if ((taskStatus.Status != "Finished" && taskStatus.Status != "Exited") && (DateTime.Now - taskStatus.CreationTime).TotalSeconds < 120)
 				{
 					throw new Exception("任务正在运行中");
@@ -67,16 +67,16 @@ namespace DotnetSpider.Enterprise.Application.Task
 			List<Domain.Entities.Node> nodes = null;
 			if (task.Os == "All")
 			{
-				nodes = DbContext.Nodes.Where(a => a.IsEnable && a.IsOnline).ToList();
+				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline).ToList();
 			}
 			else
 			{
-				nodes = DbContext.Nodes.Where(a => a.IsEnable && a.IsOnline && a.Os == task.Os).ToList();
+				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os == task.Os).ToList();
 			}
 			
 			foreach (var node in nodes)
 			{
-				var status = DbContext.NodeHeartbeats.Where(a => a.NodeId == node.NodeId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
+				var status = DbContext.NodeHeartbeat.Where(a => a.NodeId == node.NodeId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
 				var score = 0;
 				if ((DateTime.Now - status.CreationTime).TotalSeconds < 120)
 				{
@@ -127,9 +127,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 						NodeId = item.Key,
 						Arguments = string.Concat(task.Arguments, "-i:", identity)
 					};
-					DbContext.Messages.Add(msg);
+					DbContext.Message.Add(msg);
 				}
-				DbContext.TaskHistorys.Add(new TaskHistory
+				DbContext.TaskHistory.Add(new TaskHistory
 				{
 					Identity = identity,
 					NodeIds = string.Join("|", list.Take(task.NodeCount).Select(a => a.Key)),
@@ -277,13 +277,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void StopTask(long taskId)
 		{
-			var history = DbContext.TaskHistorys.Where(a => a.TaskId == taskId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
-			if (history == null)
+			var runHistory = DbContext.TaskHistory.FirstOrDefault(a=>a.Identity == identity);
+			if (runHistory == null)
 			{
 				throw new Exception("任务不在运行中");
 			}
 
-			var taskStatus = DbContext.TaskStatuses.Where(a => a.Identity == history.Identity).OrderByDescending(a => a.LastModificationTime).ToList();
+			var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).OrderByDescending(a => a.LastModificationTime).ToList();
 			if (taskStatus == null || taskStatus.Count == 0)
 			{
 				throw new Exception("当前任务没有上报状态!");
@@ -301,7 +301,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 					Name = "CANCEL", 
 					NodeId = status.NodeId
 				};
-				DbContext.Messages.Add(msg);
+				DbContext.Message.Add(msg);
 			}
 			if (runningNodes.Any())
 			{

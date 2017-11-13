@@ -21,13 +21,14 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 {
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, long>
 	{
-		public DbSet<Message> Messages { get; set; }
-		public DbSet<MessageHistory> MessageHistorys { get; set; }
-		public DbSet<Node> Nodes { get; set; }
-		public DbSet<NodeHeartbeat> NodeHeartbeats { get; set; }
+		public DbSet<Message> Message { get; set; }
+		public DbSet<MessageHistory> MessageHistory { get; set; }
+		public DbSet<Node> Node { get; set; }
+		public DbSet<NodeHeartbeat> NodeHeartbeat { get; set; }
 		public DbSet<Task> Tasks { get; set; }
-		public DbSet<TaskHistory> TaskHistorys { get; set; }
-		public DbSet<TaskStatus> TaskStatuses { get; set; }
+		public DbSet<TaskHistory> TaskHistory { get; set; }
+		public DbSet<TaskStatus> TaskStatus { get; set; }
+		public DbSet<TaskRunning> TaskRunning { get; set; }
 
 		private readonly IHttpContextAccessor _accessor;
 

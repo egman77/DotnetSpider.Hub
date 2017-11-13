@@ -17,9 +17,9 @@ namespace DotnetSpider.Enterprise.Application.Message
 
 		public List<MessageOutputDto> QueryMessages(string nodeId)
 		{
-			var messages = DbContext.Messages.Where(m => m.NodeId == nodeId).ToList();
+			var messages = DbContext.Message.Where(m => m.NodeId == nodeId).ToList();
 			var messageHistories = Mapper.Map<List<MessageHistory>>(messages);
-			DbContext.MessageHistorys.AddRange(messageHistories);
+			DbContext.MessageHistory.AddRange(messageHistories);
 			DbContext.SaveChanges();
 			return Mapper.Map<List<MessageOutputDto>>(messages);
 		}
