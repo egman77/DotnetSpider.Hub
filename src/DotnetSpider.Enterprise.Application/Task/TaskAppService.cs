@@ -276,13 +276,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void StopTask(string identity)
 		{
-			var runHistory = DbContext.TaskHistorys.FirstOrDefault(a=>a.Identity == identity);
+			var runHistory = DbContext.TaskHistory.FirstOrDefault(a=>a.Identity == identity);
 			if (runHistory == null)
 			{
 				throw new Exception("当前任务没不在运行!");
 			}
 
-			var taskStatus = DbContext.TaskStatuses.Where(a => a.Identity == identity).OrderByDescending(a => a.LastModificationTime).ToList();
+			var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).OrderByDescending(a => a.LastModificationTime).ToList();
 			if (taskStatus == null || taskStatus.Count == 0)
 			{
 				throw new Exception("当前任务没有上报状态!");
@@ -300,7 +300,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 					Name = "CANCEL", 
 					NodeId = status.NodeId
 				};
-				DbContext.Messages.Add(msg);
+				DbContext.Message.Add(msg);
 			}
 			if (runningNodes.Any())
 			{
