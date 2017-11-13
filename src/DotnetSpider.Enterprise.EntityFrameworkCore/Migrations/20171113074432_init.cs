@@ -126,7 +126,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     Developers = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     IsEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LastIdentity = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastIdentity = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
                     LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),

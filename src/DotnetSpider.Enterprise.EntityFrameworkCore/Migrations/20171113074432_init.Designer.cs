@@ -12,7 +12,7 @@ using System;
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171113073954_init")]
+    [Migration("20171113074432_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -280,7 +280,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<bool>("IsEnabled");
 
                     b.Property<string>("LastIdentity")
-                        .IsRequired();
+                        .HasMaxLength(32);
 
                     b.Property<DateTime?>("LastModificationTime");
 
