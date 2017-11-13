@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DotnetSpider.Enterprise.Domain.Entities
 {
-	public class Project : AuditedEntity<int>
+	public class Project : AuditedEntity<long>
 	{
 		/// <summary>
 		/// 项目名称

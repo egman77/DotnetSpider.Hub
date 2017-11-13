@@ -18,7 +18,7 @@ namespace DotnetSpider.Enterprise.Agent
 	{
 		private static readonly ConcurrentDictionary<long, Process> Processes = new ConcurrentDictionary<long, Process>();
 		private static ILogger _logger;
-		private readonly HttpClient httpClient = new HttpClient();
+		private static readonly HttpClient httpClient = new HttpClient();
 		private Task _task;
 		private int step = 0;
 		private bool _exit;

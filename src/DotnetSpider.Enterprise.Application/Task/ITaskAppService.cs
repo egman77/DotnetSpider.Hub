@@ -6,7 +6,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 {
 	public interface ITaskAppService
 	{
-		QueryTaskOutputDto GetList(QueryTaskInputDto input);
+		QueryTaskOutputDto GetList(PagingQueryTaskInputDto input);
+		//PagingQueryOutputDto GetVersions(QueryTaskVersionInputDto input);
+		//void SetVersion(long taskId, string version);
 		void AddTask(TaskDto item);
 		void ModifyTask(TaskDto item);
 		//PagingQueryOutputDto GetBatches(QueryBatchInputDto input);

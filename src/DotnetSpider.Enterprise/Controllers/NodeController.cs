@@ -34,6 +34,22 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			}
 		}
 
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult Enable(string nodeId)
+		{
+			_nodeAppService.Enable(nodeId);
+			return Ok();
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult Disable(string nodeId)
+		{
+			_nodeAppService.Disable(nodeId);
+			return Ok();
+		}
+
 		[HttpGet]
 		[AllowAnonymous]
 		public IActionResult Index()
@@ -41,55 +57,18 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			return View();
 		}
 
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult QueryNodes(PagingQueryInputDto input)
+		{
+			return new JsonResult(_nodeAppService.QueryNodes(input));
+		}
+
 		[HttpGet]
 		[AllowAnonymous]
-		public IActionResult Dashboard(string id)
+		public IActionResult Dashboard(string nodeId)
 		{
-			ViewBag.AgentId = id;
 			return View();
-		}
-
-		[HttpPost]
-		[AllowAnonymous]
-		public IActionResult GetCurrentNodeInfo()
-		{
-			return ActionResult(() => _nodeAppService.GetCurrentNodeInfo());
-		}
-
-		[HttpPost]
-		[AllowAnonymous]
-		public IActionResult GetNodeDetail(string id)
-		{
-			return ActionResult(() => _nodeAppService.GetNodeDetail(id));
-		}
-
-		[HttpPost]
-		[AllowAnonymous]
-		public IActionResult EnableNode(NodeEnable input)
-		{
-			if (ModelState.IsValid)
-			{
-				return ActionResult(() => _nodeAppService.EnableNode(input));
-			}
-			else
-			{
-				throw new AppException("Invalid Params.");
-			}
-		}
-
-		[HttpPost]
-		[AllowAnonymous]
-		public IActionResult GetLog(GetLogInput input)
-		{
-			if (ModelState.IsValid)
-			{
-				input.Sort = "desc";
-				return ActionResult(() => _nodeAppService.GetLog(input));
-			}
-			else
-			{
-				throw new AppException("Invalid Params.");
-			}
 		}
 	}
 }
