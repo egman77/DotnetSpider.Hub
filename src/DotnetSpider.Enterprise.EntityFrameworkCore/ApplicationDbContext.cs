@@ -21,7 +21,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 {
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, long>
 	{
-		public DbSet<Domain.Entities.Logs.Exception> Exceptions { get; set; }
 		public DbSet<Message> Messages { get; set; }
 		public DbSet<MessageHistory> MessageHistorys { get; set; }
 		public DbSet<Node> Nodes { get; set; }

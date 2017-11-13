@@ -61,7 +61,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[AllowAnonymous]
 		public IActionResult QueryNodes(PagingQueryInputDto input)
 		{
-			return new JsonResult(_nodeAppService.QueryNodes(input));
+			return ActionResult(() => _nodeAppService.QueryNodes(input));
 		}
 
 		[HttpGet]
