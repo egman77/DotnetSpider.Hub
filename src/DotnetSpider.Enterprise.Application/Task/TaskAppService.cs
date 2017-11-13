@@ -22,7 +22,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 	public class TaskAppService : AppServiceBase, ITaskAppService
 	{
 		private readonly ICommonConfiguration _configuration;
-	
+
 		public TaskAppService(ICommonConfiguration configuration,
 			ApplicationDbContext dbcontext) : base(dbcontext)
 		{
@@ -49,7 +49,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public bool Fire(long taskId)
 		{
-			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId && a.IsDelete == false && a.IsEnabled == true);
+			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId && a.IsDeleted == false && a.IsEnabled == true);
 			if (task == null) throw new Exception("任务不存在");
 
 			//判断任务是否在运行中
@@ -72,7 +72,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os == task.Os).ToList();
 			}
-			
+
 			foreach (var node in nodes)
 			{
 				var status = DbContext.NodeHeartbeat.Where(a => a.NodeId == node.NodeId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
@@ -114,7 +114,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 			var list = nodeList.OrderByDescending(a => a.Value);
 			var identity = Guid.NewGuid().ToString("N");
-			DbContext.DoWithTransaction(() => 
+			DbContext.DoWithTransaction(() =>
 			{
 				foreach (var item in list.Take(task.NodeCount))
 				{
@@ -178,7 +178,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		public void ModifyTask(TaskDto item)
 		{
 			var taskObj = Mapper.Map<Domain.Entities.Task>(item);
-			var task = DbContext.Tasks.FirstOrDefault(a=>a.Id == item.Id);
+			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == item.Id);
 			if (task == null) throw new Exception("当前任务不存在.");
 
 			//通知Scheduler
@@ -276,7 +276,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void StopTask(string identity)
 		{
-			var runHistory = DbContext.TaskHistory.FirstOrDefault(a=>a.Identity == identity);
+			var runHistory = DbContext.TaskHistory.FirstOrDefault(a => a.Identity == identity);
 			if (runHistory == null)
 			{
 				throw new Exception("当前任务没不在运行!");
@@ -297,7 +297,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 					ApplicationName = string.Empty,
 					Arguments = string.Empty,
 					TaskId = runHistory.TaskId,
-					Name = "CANCEL", 
+					Name = "CANCEL",
 					NodeId = status.NodeId
 				};
 				DbContext.Message.Add(msg);
@@ -321,7 +321,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public bool Disable(long taskId)
 		{
-			var task = DbContext.Tasks.FirstOrDefault(a=>a.Id == taskId);
+			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
 				throw new Exception("任务不存在!");
@@ -351,6 +351,31 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 
 			return true;
+		}
+
+		public void IncreaseRunning(TaskIdInputDto input)
+		{
+			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == input.TaskId);
+			if (task == null)
+			{
+				throw new Exception("任务不存在!");
+			}
+			task.NodeRunningCount += 1;
+			DbContext.SaveChanges();
+		}
+
+		public void ReduceRunning(TaskIdInputDto input)
+		{
+			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == input.TaskId);
+			if (task == null)
+			{
+				throw new Exception("任务不存在!");
+			}
+			if (task.NodeRunningCount > 0)
+			{
+				task.NodeRunningCount -= 1;
+			}
+			DbContext.SaveChanges();
 		}
 	}
 }

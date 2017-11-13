@@ -28,7 +28,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 		public DbSet<Task> Tasks { get; set; }
 		public DbSet<TaskHistory> TaskHistory { get; set; }
 		public DbSet<TaskStatus> TaskStatus { get; set; }
-		public DbSet<TaskRunning> TaskRunning { get; set; }
 
 		private readonly IHttpContextAccessor _accessor;
 

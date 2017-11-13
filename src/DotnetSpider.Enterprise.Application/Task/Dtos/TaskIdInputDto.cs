@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DotnetSpider.Enterprise.Application.TaskRunning.Dtos
+namespace DotnetSpider.Enterprise.Application.Task.Dtos
 {
-	public class RemoveTaskRunningInputDto
+	public class TaskIdInputDto
 	{
 		public virtual long TaskId { get; set; }
 	}

@@ -49,7 +49,6 @@ namespace DotnetSpider.Enterprise.Application
 					NodeCount = 1,
 					NodeRunningCount = 0,
 					Analysts = "刘菲",
-					ProjectId = 1,
 					Name = $"360指数采集",
 					Version = "abcd"
 				};

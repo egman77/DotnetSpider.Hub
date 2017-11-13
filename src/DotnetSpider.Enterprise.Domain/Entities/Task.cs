@@ -52,6 +52,9 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		/// </summary>
 		public virtual int NodeRunningCount { get; set; }
 
+		[Required]
+		public virtual string LastIdentity { get; set; }
+
 		/// <summary>
 		/// 所需节点数
 		/// </summary>
@@ -82,13 +85,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		[StringLength(100)]
 		public virtual string Version { get; set; }
 
-
-		/// <summary>
-		/// 项目ID
-		/// </summary>
-		public virtual long ProjectId { get; set; }
-
-		public virtual bool IsDelete { get; set; }
+		public virtual bool IsDeleted { get; set; }
 
 		public virtual string Os { get; set;}
 

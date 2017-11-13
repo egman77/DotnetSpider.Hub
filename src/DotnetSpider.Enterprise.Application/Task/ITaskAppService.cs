@@ -21,7 +21,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		bool Disable(long taskId);
 		bool Enable(long taskId);
 
-		//void GetVersions(QueryTaskVersionInputDto input);
-		//void SetVersion(long taskId, string version);
+		void IncreaseRunning(TaskIdInputDto input);
+		void ReduceRunning(TaskIdInputDto input);
 	}
 }

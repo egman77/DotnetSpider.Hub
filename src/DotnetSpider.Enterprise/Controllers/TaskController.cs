@@ -113,5 +113,21 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			var result = _taskAppService.GetList(input);
 			return DataResult(result);
 		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult IncreaseRunning([FromBody]TaskIdInputDto input)
+		{
+			_taskAppService.IncreaseRunning(input);
+			return Ok();
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult ReduceRunning([FromBody]TaskIdInputDto input)
+		{
+			_taskAppService.ReduceRunning(input);
+			return Ok();
+		}
 	}
 }
