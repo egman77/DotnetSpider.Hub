@@ -65,17 +65,13 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		/// </summary>
 		public virtual string Version { get; set; }
 
-
-		/// <summary>
-		/// 项目ID
-		/// </summary>
-		public virtual long ProjectId { get; set; }
-
 		public virtual bool IsDelete { get; set; }
 
 		public virtual string Os { get; set; }
 
 		public virtual string Tags { get; set; }
+
+		public virtual string LastIdentity { get; set; }
 	}
 
 	public class RunningTaskDto: TaskDto

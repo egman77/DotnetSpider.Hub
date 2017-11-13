@@ -138,7 +138,6 @@
 				if (task.running) return;
 				dsApp.post("/task/run", { taskId: task.id }, function () {
 					swal("Operation Succeed!", "Task is prepare to run.", "success");
-					//setTimeout(loadStatus, 3000);
 				});
 			},
 			deleteTask: function (task) {
@@ -189,19 +188,6 @@
 
 	var lastQuery;
 
-	function loadStatus() {
-		var tasks = tasksVUE.$data.tasks;
-		var ids = [];
-		$(tasks).each(function () {
-			ids.push(this.id);
-		});
-		dsApp.post('/Task/IsTaskRunning', { tasks: ids }, function (data) {
-			$(tasks).each(function () {
-				this.running = $.inArray(this.id, data.result) >= 0;
-			});
-		});
-	}
-
 	function loadTasks(vue) {
 		var url = '/Task/GetList';
 		var keywrod = vue.$data.keyword || '';
@@ -216,13 +202,6 @@
 
 			vue.$data.tasks = rd;
 			vue.$data.total = result.result.total;
-
-			if (interval) {
-				clearInterval(interval);
-			}
-			if (result.result.result.length > 0) {
-				loadStatus();
-			}
 
 			dsApp.ui.initPagination('#pagination', result.result, function (page) {
 				vue.$data.page = page;

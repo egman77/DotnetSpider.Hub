@@ -130,5 +130,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			_taskAppService.ReduceRunning(input);
 			return Ok();
 		}
+
+
 	}
 }

@@ -97,6 +97,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os == task.Os).ToList();
 			}
 
+			if (nodes.Count == 0)
+			{
+				throw new Exception("没有可运行的节点服务器.");
+			}
+
 			foreach (var node in nodes)
 			{
 				var status = DbContext.NodeHeartbeat.Where(a => a.NodeId == node.NodeId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
@@ -265,8 +270,12 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void RunTask(long taskId)
 		{
-			var task = ValidateTaskRunningState(taskId);
-			DispatchTaskToNodes(task);
+			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && a.Name == "RUN");
+			if (msg == null)
+			{
+				var task = ValidateTaskRunningState(taskId);
+				DispatchTaskToNodes(task);
+			}
 		}
 
 		public void StopTask(string identity)
@@ -277,7 +286,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new Exception("任务不在运行中.");
 			}
 
-			var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).ToList();
+			var cancelMsg = DbContext.Message.FirstOrDefault(a => a.TaskId == task.Id && a.Name == "CANCEL");
+			if (cancelMsg != null)
+			{
+				return;
+			}
+
+				var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).ToList();
 			if (taskStatus == null || taskStatus.Count == 0)
 			{
 				throw new Exception("当前任务没有上报状态!");
