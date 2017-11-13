@@ -48,21 +48,44 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public bool Fire(long taskId)
+		/// <summary>
+		/// 判断任务状态
+		/// 若任务无效、已删除、或在运行中，则抛出异常
+		/// </summary>
+		/// <param name="taskId">任务ID</param>
+		/// <returns>任务对象</returns>
+		private Domain.Entities.Task ValidateTaskRunningState(long taskId)
 		{
-			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId && a.IsDeleted == false && a.IsEnabled == true);
-			if (task == null) throw new Exception("任务不存在");
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
+			if (task == null || task.IsDeleted)
+			{
+				throw new AppException("任务不存在");
+			}
+			if (!task.IsEnabled)
+			{
+				throw new AppException("任务已被禁用");
+			}
 
-			//判断任务是否在运行中
 			if (task.NodeRunningCount > 0)
 			{
-				var taskStatus = DbContext.TaskStatus.OrderByDescending(a => a.CreationTime).FirstOrDefault();
-				if ((taskStatus.Status != "Finished" && taskStatus.Status != "Exited") && (DateTime.Now - taskStatus.CreationTime).TotalSeconds < 120)
+				throw new Exception("任务正在运行中");
+			}
+
+			if (!string.IsNullOrEmpty(task.LastIdentity))
+			{
+				var statusList = DbContext.TaskStatus.Where(a => a.Identity == task.LastIdentity);
+				if (statusList.Any(a => a.Status != "Exited" && a.Status != "Finished"
+					&& a.LastModificationTime.HasValue
+					&& (DateTime.Now - a.LastModificationTime).Value.TotalSeconds < 120))
 				{
 					throw new Exception("任务正在运行中");
 				}
 			}
+			return task;
+		}
 
+		private void DispatchTaskToNodes(Domain.Entities.Task task)
+		{
 			var nodeList = new Dictionary<string, int>();
 			List<Domain.Entities.Node> nodes = null;
 			if (task.Os == "All")
@@ -136,6 +159,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 					TaskId = task.Id
 				});
 			});
+		}
+
+		public bool Fire(long taskId)
+		{
+			RunTask(taskId);
 			return true;
 		}
 
@@ -237,76 +265,42 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void RunTask(long taskId)
 		{
-			throw new NotSupportedException();
-			//var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
-			//if (task == null)
-			//{
-			//	throw new AppException("Task is not exist");
-			//}
-			//if (!task.IsEnabled)
-			//{
-			//	throw new AppException("Task is disabled");
-			//}
-			//task.Project = DbContext.Projects.First(a => a.Id == task.ProjectId);
-			//if (!task.Project.IsEnabled)
-			//{
-			//	throw new AppException("This project is disabled");
-			//}
-			//var identity = Encrypt.Md5Encrypt($"{task.SpiderName}{DateTime.Now}");
-			//var cmd = new Command
-			//{
-			//	Id = Guid.NewGuid().ToString("N"),
-			//	Name = Command.Run,
-			//	Data = JsonConvert.SerializeObject(new RunArgument
-			//	{
-			//		Entry = task.Project.IntervalPath,
-			//		Identity = identity,
-			//		ExecuteArguments = $"-s:{task.SpiderName} -i:{identity} -a:{task.Arguments} -tid:{task.Id}",
-			//		ProjectName = task.Project.Name,
-			//		SolutionId = task.ProjectId,
-			//		SpiderName = task.SpiderName,
-			//		Version = task.Version,
-			//		TaskId = task.Id,
-			//		FrameworkVersion = task.Project.Framework,
-			//		NodeCount = task.CountOfNodes
-			//	})
-			//};
-
-			//Subscriber.Publish("DOTNETSPIDER_SCHEDULER", JsonConvert.SerializeObject(cmd));
+			var task = ValidateTaskRunningState(taskId);
+			DispatchTaskToNodes(task);
 		}
 
 		public void StopTask(string identity)
 		{
-			//var runHistory = DbContext.Task.FirstOrDefault()
-			//if (runHistory == null)
-			//{
-			//	throw new Exception("任务不在运行中");
-			//}
+			var task = DbContext.Task.FirstOrDefault(a => a.LastIdentity == identity);
+			if (task == null || task.NodeRunningCount <= 0)
+			{
+				throw new Exception("任务不在运行中.");
+			}
 
-			//var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).OrderByDescending(a => a.LastModificationTime).ToList();
-			//if (taskStatus == null || taskStatus.Count == 0)
-			//{
-			//	throw new Exception("当前任务没有上报状态!");
-			//}
+			var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).ToList();
+			if (taskStatus == null || taskStatus.Count == 0)
+			{
+				throw new Exception("当前任务没有上报状态!");
+			}
 
-			////判断状态，是否需要考虑时间过期的？？如超过5分钟未上报的，是否为在运行中
-			//var runningNodes = taskStatus.Where(a => !(a.Status == "Finished" || a.Status == "Exited"));
-			//foreach (var status in runningNodes)
-			//{
-			//	var msg = new Domain.Entities.Message
-			//	{
-			//		ApplicationName = string.Empty,
-			//		Arguments = string.Empty,
-			//		TaskId = runHistory.TaskId,
-			//		Name = "CANCEL",
-			//		NodeId = status.NodeId
-			//	};
-			//	DbContext.Message.Add(msg);
-			//}
-			//if (runningNodes.Any())
-			//{
-			//	DbContext.SaveChanges();
-			//}
+			//判断状态，是否需要考虑时间过期的？？如超过5分钟未上报的，是否为在运行中
+			var runningNodes = taskStatus.Where(a => !(a.Status == "Finished" || a.Status == "Exited"));
+			foreach (var status in runningNodes)
+			{
+				var msg = new Domain.Entities.Message
+				{
+					ApplicationName = string.Empty,
+					Arguments = string.Empty,
+					TaskId = task.Id,
+					Name = "CANCEL",
+					NodeId = status.NodeId
+				};
+				DbContext.Message.Add(msg);
+			}
+			if (runningNodes.Any())
+			{
+				DbContext.SaveChanges();
+			}
 		}
 
 		public void RemoveTask(long taskId)
