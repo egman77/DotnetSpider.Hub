@@ -113,7 +113,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult QueryRunHistory(QueryTaskInputDto input)
+		public IActionResult QueryRunHistory(PagingQueryTaskInputDto input)
 		{
 			input.Sort = "desc";
 			var result = _taskAppService.GetList(input);

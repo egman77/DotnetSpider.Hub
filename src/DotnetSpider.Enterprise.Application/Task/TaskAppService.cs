@@ -123,7 +123,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				foreach (var item in list.Take(task.NodeCount))
 				{
-					var msg = new Message
+					var msg = new DotnetSpider.Enterprise.Domain.Entities.Message
 					{
 						TaskId = task.Id,
 						ApplicationName = task.ApplicationName,
@@ -143,7 +143,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			return true;
 		}
 
-		public QueryTaskOutputDto GetList(QueryTaskInputDto input)
+		public QueryTaskOutputDto GetList(PagingQueryTaskInputDto input)
 		{
 			input.Validate();
 
