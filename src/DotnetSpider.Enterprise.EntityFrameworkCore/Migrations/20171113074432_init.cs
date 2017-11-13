@@ -111,6 +111,38 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Task",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Analysts = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ApplicationName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Arguments = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    Cron = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Developers = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    IsEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LastIdentity = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    NodeCount = table.Column<int>(type: "int", nullable: false),
+                    NodeRunningCount = table.Column<int>(type: "int", nullable: false),
+                    Os = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Owners = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Task", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TaskHistory",
                 columns: table => new
                 {
@@ -127,38 +159,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TaskHistory", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tasks",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Analysts = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ApplicationName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Arguments = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
-                    Cron = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Developers = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    IsEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LastIdentity = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NodeCount = table.Column<int>(type: "int", nullable: false),
-                    NodeRunningCount = table.Column<int>(type: "int", nullable: false),
-                    Os = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Owners = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -422,10 +422,10 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 name: "NodeHeartbeat");
 
             migrationBuilder.DropTable(
-                name: "TaskHistory");
+                name: "Task");
 
             migrationBuilder.DropTable(
-                name: "Tasks");
+                name: "TaskHistory");
 
             migrationBuilder.DropTable(
                 name: "TaskStatus");

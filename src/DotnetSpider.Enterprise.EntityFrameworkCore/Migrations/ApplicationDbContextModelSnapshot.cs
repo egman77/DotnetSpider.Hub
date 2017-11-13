@@ -279,7 +279,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<bool>("IsEnabled");
 
                     b.Property<string>("LastIdentity")
-                        .IsRequired()
                         .HasMaxLength(32);
 
                     b.Property<DateTime?>("LastModificationTime");
@@ -306,7 +305,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("Task");
                 });
 
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.TaskHistory", b =>
