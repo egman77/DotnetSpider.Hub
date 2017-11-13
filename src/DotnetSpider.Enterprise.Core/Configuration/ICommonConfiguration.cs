@@ -27,5 +27,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 
 		string SmsApi { get; }
 		string XmlKeyPath { get; }
+
+		string SchedulerUrl { get; }
 	}
 }

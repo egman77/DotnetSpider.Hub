@@ -7,8 +7,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 	public interface ITaskAppService
 	{
 		QueryTaskOutputDto GetList(QueryTaskInputDto input);
-		//PagingQueryOutputDto GetVersions(QueryTaskVersionInputDto input);
-		//void SetVersion(long taskId, string version);
 		void AddTask(TaskDto item);
 		void ModifyTask(TaskDto item);
 		//PagingQueryOutputDto GetBatches(QueryBatchInputDto input);
@@ -23,6 +21,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 		void RemoveTask(long taskId);
 		bool TaskRunning(string identity);
 		void ProcessCountChanged(long taskId, bool isStart);
+
+		bool Fire(long taskId);
+
 		//void GetVersions(QueryTaskVersionInputDto input);
 		//void SetVersion(long taskId, string version);
 	}

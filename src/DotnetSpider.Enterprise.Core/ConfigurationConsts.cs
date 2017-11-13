@@ -76,5 +76,7 @@ namespace DotnetSpider.Enterprise.Core
 
 		public const int TaskTriggerTimeout = 120;
 		public const string CultureCookieName = "__DotnetSpider";
+
+		public const string SchedulerUrl = "scheduler.url";
 	}
 }
