@@ -36,19 +36,18 @@ namespace DotnetSpider.Enterprise.Application.Log
 				Page = input.Page,
 				Size = input.Size,
 				Columns = new List<string>(),
-				 Values =new List<List<string>>()
+				Values = new List<List<string>>()
 			};
 
 			List<BsonDocument> list = null;
 			if (!string.IsNullOrEmpty(input.Node))
 			{
-				
-				list = collection.Find(new BsonDocument("Node", input.Node)).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Ascending("_id")).ToList();
+				list = collection.Find(new BsonDocument("Node", input.Node)).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
 				result.Total = collection.Find(new BsonDocument("Node", input.Node)).Count();
 			}
 			else
 			{
-				list = collection.Find(new BsonDocument()).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Ascending("_id")).ToList();
+				list = collection.Find(new BsonDocument()).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
 				result.Total = collection.Find(new BsonDocument()).Count();
 			}
 
