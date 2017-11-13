@@ -77,12 +77,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Fire(long id)
-		{
-			return null;
-		}
-
-		[HttpPost]
 		public IActionResult Run(long taskId)
 		{
 			return ActionResult(() => _taskAppService.RunTask(taskId));
@@ -103,13 +97,13 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[HttpPost]
 		public IActionResult Disable(long id)
 		{
-			return null;
+			return ActionResult(() => { _taskAppService.Disable(id); });
 		}
 
 		[HttpPost]
 		public IActionResult Enable(long id)
 		{
-			return null;
+			return ActionResult(() => { _taskAppService.Enable(id); });
 		}
 
 		[HttpPost]

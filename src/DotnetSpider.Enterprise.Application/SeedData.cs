@@ -35,19 +35,6 @@ namespace DotnetSpider.Enterprise.Application
 
 		private static void InitData(ApplicationDbContext context)
 		{
-			var project = new Domain.Entities.Project
-			{
-				Client = "刘菲",
-				CreationTime = DateTime.Now,
-				CreatorUserId = 1,
-				IsEnabled = true,
-				Name = "DotnetSpider",
-				Executive = "沈威",
-				Note = "备注"
-			};
-			context.Projects.Add(project);
-			context.SaveChanges();
-
 			var random = new Random();
 			for (int i = 0; i < 79; ++i)
 			{
@@ -64,8 +51,7 @@ namespace DotnetSpider.Enterprise.Application
 					Analysts = "刘菲",
 					ProjectId = 1,
 					Name = $"360指数采集",
-					Version = "abcd",
-					Project = project
+					Version = "abcd"
 				};
 				context.Tasks.Add(task);
 			}

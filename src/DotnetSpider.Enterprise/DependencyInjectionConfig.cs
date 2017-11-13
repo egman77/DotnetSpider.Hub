@@ -3,7 +3,6 @@ using DotnetSpider.Enterprise.Application.AuthMessage;
 using DotnetSpider.Enterprise.Application.Log;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Node;
-using DotnetSpider.Enterprise.Application.Project;
 using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
@@ -26,7 +25,6 @@ namespace DotnetSpider.Enterprise.Web
 
 			services.AddSingleton<ICommonConfiguration, CommonConfiguration>();
 			services.AddScoped<ILogAppService, LogAppService>();
-			services.AddScoped<IProjectAppService, ProjectAppService>();
 			services.AddScoped<ITaskAppService, TaskAppService>();
 			services.AddScoped<INodeAppService, NodeAppService>();
 			services.AddScoped<IMessageAppService, MessageAppService>();

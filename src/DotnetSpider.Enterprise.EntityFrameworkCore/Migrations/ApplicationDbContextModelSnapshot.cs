@@ -221,6 +221,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(32);
 
+                    b.Property<string>("Os");
+
                     b.HasKey("Id");
 
                     b.ToTable("Nodes");
@@ -263,39 +265,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("NodeHeartbeats");
-                });
-
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Project", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Client")
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("CreationTime");
-
-                    b.Property<long?>("CreatorUserId");
-
-                    b.Property<string>("Executive")
-                        .HasMaxLength(50);
-
-                    b.Property<bool>("IsEnabled");
-
-                    b.Property<DateTime?>("LastModificationTime");
-
-                    b.Property<long?>("LastModifierUserId");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("Note")
-                        .HasMaxLength(500);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Task", b =>
@@ -343,17 +312,19 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<int>("NodeRunningCount");
 
+                    b.Property<string>("Os");
+
                     b.Property<string>("Owners")
                         .HasMaxLength(100);
 
                     b.Property<long>("ProjectId");
 
+                    b.Property<string>("Tags");
+
                     b.Property<string>("Version")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("Tasks");
                 });
@@ -563,14 +534,6 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole")
                         .WithMany("Users")
                         .HasForeignKey("ApplicationRoleId");
-                });
-
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Task", b =>
-                {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
