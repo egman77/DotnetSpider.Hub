@@ -16,6 +16,7 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using DotnetSpider.Enterprise.Application.Exceptions;
 using System.IO;
+using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -274,15 +275,15 @@ namespace DotnetSpider.Enterprise.Application.Task
 			//Subscriber.Publish("DOTNETSPIDER_SCHEDULER", JsonConvert.SerializeObject(cmd));
 		}
 
-		public void StopTask(string identity)
+		public void StopTask(long taskId)
 		{
-			var runHistory = DbContext.TaskHistorys.FirstOrDefault(a=>a.Identity == identity);
-			if (runHistory == null)
+			var history = DbContext.TaskHistorys.Where(a => a.TaskId == taskId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
+			if (history == null)
 			{
-				throw new Exception("当前任务没不在运行!");
+				throw new Exception("任务不在运行中");
 			}
 
-			var taskStatus = DbContext.TaskStatuses.Where(a => a.Identity == identity).OrderByDescending(a => a.LastModificationTime).ToList();
+			var taskStatus = DbContext.TaskStatuses.Where(a => a.Identity == history.Identity).OrderByDescending(a => a.LastModificationTime).ToList();
 			if (taskStatus == null || taskStatus.Count == 0)
 			{
 				throw new Exception("当前任务没有上报状态!");
@@ -296,7 +297,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				{
 					ApplicationName = string.Empty,
 					Arguments = string.Empty,
-					TaskId = runHistory.TaskId,
+					TaskId = history.TaskId,
 					Name = "CANCEL", 
 					NodeId = status.NodeId
 				};
@@ -351,6 +352,48 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 
 			return true;
+		}
+
+		public PagingQueryOutputDto QueryRunHistory(PagingQueryTaskHistoryInputDto input)
+		{
+			input.Validate();
+
+			PagingQueryOutputDto result = DbContext.TaskHistorys.PageList(input, a=>a.TaskId == input.TaskId, t => t.CreationTime);
+
+			var output = new PagingQueryOutputDto
+			{
+				Page = result.Page,
+				Result = Mapper.Map<List<TaskHistoryDto>>(result.Result),
+				Size = result.Size,
+				Total = result.Total
+			};
+			return output;
+		}
+
+		public List<TaskStatusDto> QueryStatus(long[] taskIds)
+		{
+			var list = new List<TaskStatusDto>();
+			foreach (var id in taskIds)
+			{
+				var taskHistory = DbContext.TaskHistorys.Where(a => a.TaskId == id).OrderByDescending(a => a.CreationTime).FirstOrDefault();
+				if (taskHistory != null)
+				{
+					var statusList = DbContext.TaskStatuses.Where(a => a.Identity == taskHistory.Identity);
+					foreach (var status in statusList)
+					{
+						if (!(status.Status == "Finished" || status.Status == "Exited"))
+						{
+
+						}
+					}
+				}
+			}
+			var history = DbContext.TaskHistorys.Where(a => taskIds.Contains(a.TaskId)).OrderByDescending(a => a.CreationTime).FirstOrDefault();
+			if (history == null)
+			{
+				throw new Exception("任务不在运行中");
+			}
+			return null;
 		}
 	}
 }

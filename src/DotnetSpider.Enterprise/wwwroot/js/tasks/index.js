@@ -2,6 +2,21 @@
 	//setMenuActive('tasks');
 	var cron;
 	var interval = null;
+	var emptyTask = {
+		id: 0,
+		name: '',
+		version: '',
+		os: 'All',
+		applicationName: 'dotnet',
+		isEnabled: true,
+		cron: '',
+		nodesCount: 1,
+		arguments: '',
+		owners: '',
+		developers: '',
+		analysts: '',
+		tags: ''
+	};
 	var tasksVUE = new Vue({
 		el: '#taskContent',
 		data: {
@@ -10,29 +25,10 @@
 			size: 10,
 			keyword: '',
 			page: 1,
-			newTask: {
-				id: 0,
-				name: '',
-				version: '',
-				framework: 'NetCore',
-				assemblyName: 'Xbjrkj.DataCollection.Apps.dll',
-				taskName: '',
-				isEnabled: true,
-				cron: '',
-				nodesCount: 1,
-				extraArguments: '',
-				programmer: '',
-				client: '',
-				executive:''
-			},
+			newTask: $.extend({},emptyTask),
 			errorText: {
-				name: '', version: '', taskName: '', extraArguments: '', programmer:'',client:'',executive:''
-			},
-			//projVersion: [],
-			//templateVersion: {},
-			//versions: [],
-			//currentVersion: '',
-			taskId: 0
+				name: '', applicationName: '', version: '', arguments: '', developers: '', owners: '', analysts: ''
+			}
 		},
 		mounted: function () {
 			this.$data.page = 1;
@@ -40,7 +36,7 @@
 		},
 		computed: {
 			buttonState:function(){
-				return this.nameVdt && this.validateEmpty && this.versionVdt && this.extraArgumentsVdt && this.assemblyNameVdt && this.cronVdt && this.programmerVdt && this.executiveVdt && this.clientVdt;
+				return this.nameVdt && this.validateEmpty && this.versionVdt && this.argumentsVdt && this.applicationNameVdt && this.cronVdt && this.developersVdt && this.ownersVdt;
 			},
 			nameVdt: function () {
 				return this.validateEmpty(this, 'name', true);
@@ -48,33 +44,26 @@
 			versionVdt: function () {
 				return this.validateEmpty(this, 'version', true);
 			},
-			taskNameVdt: function () {
-				return this.validateEmpty(this, 'taskName', true);
-			},
-			extraArgumentsVdt: function () {
-				var value = this.newTask['extraArguments'];
-				if (this.validateEmpty(this, 'extraArguments', false)) {
+			argumentsVdt: function () {
+				var value = this.newTask['arguments'];
+				if (this.validateEmpty(this, 'arguments', false)) {
 					if (value.indexOf('-s:')>=0 || value.indexOf('-i:')>=0) {
-						this.errorText["extraArguments"] = 'Arguments can not be -s or -i';
+						this.errorText["arguments"] = 'Arguments can not be -s or -i';
 						return false;
 					}
-					delete this.errorText["extraArguments"];
+					delete this.errorText["arguments"];
 					return true;
 				}
 				return false;
 			},
-			assemblyNameVdt: function () {
-				var value = this.newTask['assemblyName'];
-				if (this.validateEmpty(this, 'assemblyName', false)) {
+			applicationNameVdt: function () {
+				var value = this.newTask['applicationName'];
+				if (this.validateEmpty(this, 'applicationName', false)) {
 					if (value.length > 100) {
-						this.errorText["assemblyName"] = 'Less than 100 characters.';
+						this.errorText["applicationName"] = 'Less than 100 characters.';
 						return false;
 					}
-					else if (!/^([a-zA-Z0-9]+\.){1,}(exe|dll)$/.test(value)) {
-						this.errorText["assemblyName"] = 'Assembly name is not valid. eg: Xbjrkj.DataCollection.Apps.dll';
-						return false;
-					}
-					delete this.errorText["assemblyName"];
+					delete this.errorText["applicationName"];
 					return true;
 				}
 				return false;
@@ -82,14 +71,14 @@
 			cronVdt: function () {
 				return this.validateEmpty(this, 'cron', true);
 			},
-			programmerVdt: function () {
-				return this.validateEmpty(this, 'programmer', true);
+			developersVdt: function () {
+				return this.validateEmpty(this, 'developers', true);
 			},
-			executiveVdt: function () {
-				return this.validateEmpty(this, 'executive', true);
+			ownersVdt: function () {
+				return this.validateEmpty(this, 'owners', true);
 			},
-			clientVdt: function () {
-				return this.validateEmpty(this, 'client', true);
+			analystsVdt: function () {
+				return this.validateEmpty(this, 'analysts', true);
 			}
 		},
 		methods: {
@@ -130,19 +119,26 @@
 				}
 			},
 			saveSpider: function () {
-
 				if (Object.getOwnPropertyNames(this.errorText).length > 1) return;
 
-				dsApp.post("/task/addTask", this.newTask, function () {
-					$("#CreateNewTaskModal").modal("hide");
-					loadTasks(that);
-				});
+				var task = this.newTask;
+				if (task.id > 0) {
+					dsApp.post("/task/modify", task, function () {
+						$("#CreateNewTaskModal").modal("hide");
+					});
+				}
+				else {
+					dsApp.post("/task/add", task, function () {
+						$("#CreateNewTaskModal").modal("hide");
+						loadTasks(tasksVUE);
+					});
+				}
 			},
 			run: function (task) {
 				if (task.running) return;
-				dsApp.post("/task/runTask", { taskId: task.id }, function () {
+				dsApp.post("/task/run", { taskId: task.id }, function () {
 					swal("Operation Succeed!", "Task is prepare to run.", "success");
-					setTimeout(loadStatus, 3000);
+					//setTimeout(loadStatus, 3000);
 				});
 			},
 			deleteTask: function (task) {
@@ -157,11 +153,21 @@
 					confirmButtonText: "Yes, do it!",
 					closeOnConfirm: false
 				}, function () {
-					dsApp.post("/task/deleteTask", { taskId: task.id }, function () {
+					dsApp.post("/task/remove", { taskId: task.id }, function () {
 						swal("Operation Succeed!", "Task was removed.", "success");
 						loadTasks(that);
 					});
 				});
+			},
+			addTask:function(){
+				var _$modal = $('#CreateNewTaskModal');
+				tasksVUE.$data.newTask = $.extend({}, emptyTask);
+				_$modal.modal('show');
+			},
+			modifyTask: function (task) {
+				var _$modal = $('#CreateNewTaskModal');
+				tasksVUE.$data.newTask = task;
+				_$modal.modal('show');
 			}
 		}
 	});
@@ -215,8 +221,7 @@
 				clearInterval(interval);
 			}
 			if (result.result.result.length > 0) {
-				//loadStatus();
-				//interval = setInterval(loadStatus, 10000);
+				loadStatus();
 			}
 
 			dsApp.ui.initPagination('#pagination', result.result, function (page) {

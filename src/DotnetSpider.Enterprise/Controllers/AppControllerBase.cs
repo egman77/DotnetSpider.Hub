@@ -94,7 +94,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			{
 				Logger.LogError(e.ToString());
 				LogException(e);
-				return ErrorResult("服务器内部错误。");
+				return ErrorResult(e.Message);
 			}
 		}
 

@@ -39,7 +39,7 @@
                     <h2>
                         TASKS
                     </h2>
-                    <button class="pull-right btn bg-blue btn-lg waves-effect waves-float" data-toggle="modal" data-target="#CreateNewTaskModal">New task</button>
+                    <button class="pull-right btn bg-blue btn-lg waves-effect waves-float" @@click="addTask()">New task</button>
                 </div>
                 <div class="body">
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
@@ -62,14 +62,13 @@
                                     <tr role="row">
                                         <th>#</th>
                                         <th>NAME</th>
-                                        <th>TASK NAME</th>
-                                        <th>FRAMEWORK</th>
-                                        <th>ASSEMBLY</th>
+                                        <th>APPLICATION NAME</th>
+                                        <th>OS</th>
                                         <th>NODES</th>
                                         <th>CRON</th>
-                                        <th>CLIENT</th>
-                                        <th>EXECUTIVE</th>
-                                        <th>PROGRAMMER</th>
+                                        <th>OWNERS</th>
+                                        <th>DEVELOPERS</th>
+                                        <th>ANALYSTS</th>
                                         <th>ENABLE</th>
                                         <th>VERSION</th>
                                         <th>ACTION</th>
@@ -84,18 +83,18 @@
                                     <tr role="row" v-for="(task,index) in tasks">
                                         <td v-text="index+1"></td>
                                         <td v-text="task.name"></td>
-                                        <td v-text="task.taskName"></td>
-                                        <td v-text="task.framework"></td>
-                                        <td v-text="task.assemblyName"></td>
-                                        <td v-text="task.nodesCount"></td>
+                                        <td v-text="task.applicationName"></td>
+                                        <td v-text="task.os"></td>
+                                        <td v-text="task.nodeCount"></td>
                                         <td v-text="task.cron"></td>
-                                        <td v-text="task.client"></td>
-                                        <td v-text="task.executive"></td>
-                                        <td v-text="task.programmer"></td>
+                                        <td v-text="task.owners"></td>
+                                        <td v-text="task.developers"></td>
+                                        <td v-text="task.analysts"></td>
                                         <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
                                         <td v-text="task.version"></td>
                                         <td>
                                             @*<i class="material-icons" title="backdate version" @@click.stop="backdateVersion(task)">history</i>*@
+                                            <i class="material-icons" title="modify task" @@click.stop="modifyTask(task)">modify_list</i>
                                             <i class="material-icons" title="delete task" @@click.stop="deleteTask(task)">delete_forever</i>
                                             <a :href="'batches?taskId='+ task.id" target="_blank"><i class="material-icons" title="running history">view_list</i></a>
                                             <i class="material-icons" v-show="!task.running" title="run task" @@click.stop="run(task)">play_circle_outline</i>
@@ -131,10 +130,12 @@
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <input name="framework" type="radio" id="Net45" value="Net45" v-model="newTask.framework" />
-                                <label for="Net45">Net45</label>
-                                <input name="framework" type="radio" id="NetCore" value="NetCore" v-model="newTask.framework" />
-                                <label for="NetCore">NetCore</label>
+                                <input name="os" type="radio" id="Linux" value="Linux" v-model="newTask.os" />
+                                <label for="Linux">Linux</label>
+                                <input name="os" type="radio" id="Windows" value="Windows" v-model="newTask.os" />
+                                <label for="Windows">Windows</label>
+                                <input name="os" type="radio" id="All" value="All" v-model="newTask.os" />
+                                <label for="All">All</label>
                             </div>
                             <div class="form-group col-md-6">
                                 <input type="checkbox" id="checkbox" :checked="newTask.isEnabled" name="checkbox">
@@ -159,38 +160,24 @@
                                 <div>
                                     <a href="http://nasabigdata.com:30012/contents/crawler_release/" target="_blank">查看版本</a>
                                 </div>
-                                
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group form-float col-md-12">
-                                <div :class="['form-line',{'focused':newTask.assemblyName!='','error':assemblyNameVdt===false, 'success':assemblyNameVdt===true}]">
-                                    <input type="text" class="form-control" name="assemblyName" id="assemblyName" v-model="newTask.assemblyName" placeholder="Executing assembly name" required="" aria-required="true">
-                                </div>
-                                <label id="assemblyName-error" class="error">{{errorText["assemblyName"]}}</label>
-                            </div>
-                        </div>
+
                         <div class="form-row">
                             <div class="form-group form-float col-md-6">
-                                <div :class="['form-line',{'focused':newTask.taskName!='','error':taskNameVdt===false, 'success':taskNameVdt===true}]">
-                                    <input type="text" class="form-control" name="taskName" v-model="newTask.taskName" placeholder="Full class name/TaskNameAttribute name" required="" aria-required="true">
+                                <div :class="['form-line',{'focused':newTask.applicationName!='','error':applicationNameVdt===false, 'success':applicationNameVdt===true}]">
+                                    <input type="text" class="form-control" name="applicationName" id="applicationName" v-model="newTask.applicationName" placeholder="Application name" required="" aria-required="true">
                                 </div>
-                                <label id="taskName-error" class="error">{{errorText["taskName"]}}</label>
+                                <label id="applicationName-error" class="error">{{errorText["applicationName"]}}</label>
                             </div>
                             <div class="form-group form-float col-md-6">
-                                <div :class="['form-line',{'focused':newTask.extraArguments!='','error':extraArgumentsVdt===false, 'success':extraArgumentsVdt===true}]">
-                                    <input type="text" class="form-control" name="extraArguments" v-model="newTask.extraArguments" required="" placeholder="Extra arguments(eg: -a:1,2,3)" aria-required="true">
+                                <div :class="['form-line',{'focused':newTask.arguments!='','error':argumentsVdt===false, 'success':argumentsVdt===true}]">
+                                    <input type="text" class="form-control" name="arguments" v-model="newTask.arguments" required="" placeholder="Arguments" aria-required="true">
                                 </div>
-                                <label id="extraArguments-error" class="error">{{errorText["extraArguments"]}}</label>
+                                <label id="arguments-error" class="error">{{errorText["arguments"]}}</label>
                             </div>
                         </div>
-                        @*<div class="form-row">
-                            <div class="form-group col-md-12">
-                                <div class="form-line">
-                                    <input type="text" v-model="newTask.cron" class="form-control" name="cron" required="" placeholder="Trigger(Cron Expression)" aria-required="true">
-                                </div>
-                            </div>
-                        </div>*@
+
                         <div class="form-row">
                             <div class="form-group form-float col-md-6">
                                 <div class="form-line focused success">
@@ -215,24 +202,35 @@
                                 <label id="cron-error" class="error">{{errorText["cron"]}}</label>
                             </div>
                         </div>
+
                         <div class="form-row">
-                            <div class="form-group form-float col-md-4">
-                                <div :class="['form-line',{'focused':newTask.client!='','error':clientVdt===false, 'success':clientVdt===true}]">
-                                    <input type="text" class="form-control" name="client" v-model="newTask.client" placeholder="Client" required="" aria-required="true">
+                            <div class="form-group form-float col-md-6">
+                                <div :class="['form-line',{'focused':newTask.analysts!='','error':analystsVdt===false, 'success':analystsVdt===true}]">
+                                    <input type="text" class="form-control" name="analysts" v-model="newTask.analysts" placeholder="Analysts" required="" aria-required="true">
                                 </div>
-                                <label id="client-error" class="error">{{errorText["client"]}}</label>
+                                <label id="analysts-error" class="error">{{errorText["analysts"]}}</label>
                             </div>
-                            <div class="form-group form-float col-md-4">
-                                <div :class="['form-line',{'focused':newTask.executive!='','error':executiveVdt===false, 'success':executiveVdt===true}]">
-                                    <input type="text" class="form-control" name="executive" v-model="newTask.executive" placeholder="Executive" required="" aria-required="true">
+                            <div class="form-group form-float col-md-6">
+                                <div :class="['form-line',{'focused':newTask.developers!='','error':developersVdt===false, 'success':developersVdt===true}]">
+                                    <input type="text" class="form-control" name="developers" v-model="newTask.developers" placeholder="Developers" required="" aria-required="true">
                                 </div>
-                                <label id="executive-error" class="error">{{errorText["executive"]}}</label>
+                                <label id="developers-error" class="error">{{errorText["developers"]}}</label>
                             </div>
-                            <div class="form-group form-float col-md-4">
-                                <div :class="['form-line',{'focused':newTask.programmer!='','error':programmerVdt===false, 'success':programmerVdt===true}]">
-                                    <input type="text" class="form-control" name="programmer" v-model="newTask.programmer" placeholder="Programmer" required="" aria-required="true">
+                            
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group form-float col-md-6">
+                                <div :class="['form-line',{'focused':newTask.owners!='','error':ownersVdt===false, 'success':ownersVdt===true}]">
+                                    <input type="text" class="form-control" name="owners" v-model="newTask.owners" placeholder="Owners" required="" aria-required="true">
                                 </div>
-                                <label id="programmer-error" class="error">{{errorText["programmer"]}}</label>
+                                <label id="owners-error" class="error">{{errorText["owners"]}}</label>
+                            </div>
+                            <div class="form-group form-float col-md-6">
+                                <div :class="['form-line','success',{'focused':newTask.tags!=''}]">
+                                    <input type="text" class="form-control" name="tags" v-model="newTask.tags" placeholder="Tags" required="" aria-required="true">
+                                </div>
+
                             </div>
                         </div>
                         
