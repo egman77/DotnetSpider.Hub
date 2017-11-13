@@ -15,7 +15,7 @@ namespace DotnetSpider.Enterprise
 		public static void Main(string[] args)
 		{
 			string hostUrl = "http://*:5000";
-			if (File.Exists("host.url"))
+			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "host.url")))
 			{
 				hostUrl = File.ReadAllLines("host.url")[0];
 			}
