@@ -7,14 +7,14 @@ namespace DotnetSpider.Enterprise.Application.Task
 {
 	public interface ITaskAppService
 	{
-		QueryTaskOutputDto GetList(PagingQueryTaskInputDto input);
-		void AddTask(TaskDto item);
-		void ModifyTask(TaskDto item);
+		QueryTaskOutputDto Query(PagingQueryTaskInputDto input);
+		void Add(TaskDto item);
+		void Modify(TaskDto item);
 
-		void RunTask(long taskId);
+		void Run(long taskId);
 		//List<NodeStatusDto> GetNodeStatus(string identity);
-		void StopTask(string identity);
-		void RemoveTask(long taskId);
+		void Exit(string identity);
+		void Remove(long taskId);
 
 		bool Fire(long taskId);
 		bool Disable(long taskId);

@@ -59,7 +59,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		public IActionResult GetList(PagingQueryTaskInputDto input)
 		{
 			input.Sort = "desc";
-			var result = _taskAppService.GetList(input);
+			var result = _taskAppService.Query(input);
 			return DataResult(result);
 		}
 
@@ -68,7 +68,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				return ActionResult(() => { _taskAppService.AddTask(item); return item; });
+				return ActionResult(() => { _taskAppService.Add(item); return item; });
 			}
 			else
 			{
@@ -81,7 +81,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				return ActionResult(() => { _taskAppService.ModifyTask(item); });
+				return ActionResult(() => { _taskAppService.Modify(item); });
 			}
 			else
 			{
@@ -92,31 +92,31 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[HttpPost]
 		public IActionResult Run(long taskId)
 		{
-			return ActionResult(() => _taskAppService.RunTask(taskId));
+			return ActionResult(() => _taskAppService.Run(taskId));
 		}
 
 		[HttpPost]
 		public IActionResult Exit(string identity)
 		{
-			return ActionResult(() => { _taskAppService.StopTask(identity); });
+			return ActionResult(() => { _taskAppService.Exit(identity); });
 		}
 
 		[HttpPost]
-		public IActionResult Remove(long id)
+		public IActionResult Remove(long taskId)
 		{
-			return ActionResult(() => { _taskAppService.RemoveTask(id); });
+			return ActionResult(() => { _taskAppService.Remove(taskId); });
 		}
 
 		[HttpPost]
-		public IActionResult Disable(long id)
+		public IActionResult Disable(long taskId)
 		{
-			return ActionResult(() => { _taskAppService.Disable(id); });
+			return ActionResult(() => { _taskAppService.Disable(taskId); });
 		}
 
 		[HttpPost]
-		public IActionResult Enable(long id)
+		public IActionResult Enable(long taskId)
 		{
-			return ActionResult(() => { _taskAppService.Enable(id); });
+			return ActionResult(() => { _taskAppService.Enable(taskId); });
 		}
 
 		[HttpPost]

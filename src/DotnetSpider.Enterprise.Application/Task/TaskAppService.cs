@@ -114,11 +114,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public bool Fire(long taskId)
 		{
-			RunTask(taskId);
+			Run(taskId);
 			return true;
 		}
 
-		public QueryTaskOutputDto GetList(PagingQueryTaskInputDto input)
+		public QueryTaskOutputDto Query(PagingQueryTaskInputDto input)
 		{
 			input.Validate();
 
@@ -142,7 +142,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			return output;
 		}
 
-		public void AddTask(TaskDto item)
+		public void Add(TaskDto item)
 		{
 			var task = Mapper.Map<Domain.Entities.Task>(item);
 			DbContext.Task.Add(task);
@@ -155,7 +155,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			item.Id = task.Id;
 		}
 
-		public void ModifyTask(TaskDto item)
+		public void Modify(TaskDto item)
 		{
 			var taskObj = Mapper.Map<Domain.Entities.Task>(item);
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == item.Id);
@@ -175,12 +175,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 		/// <param name="cron"></param>
 		private bool NotifyScheduler(long taskId, string cron)
 		{
-			var client = new HttpClient(new HttpClientHandler
-			{
-				AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
-				UseCookies = false
-			});
-
 			var message = new HttpRequestMessage(HttpMethod.Post, _configuration.SchedulerUrl);
 			message.Headers.Add("Cache-Control", "max-age=0");
 			message.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
@@ -199,7 +193,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			message.Content = new StreamContent(new MemoryStream(data));
 			try
 			{
-				var content = client.SendAsync(message).Result.Content.ReadAsStringAsync().Result;
+				var content = Util.Client.SendAsync(message).Result.Content.ReadAsStringAsync().Result;
 				var msg = JsonConvert.DeserializeObject(content) as JObject;
 				var status = msg.GetValue("status").ToString();
 				if (status != "Ok")
@@ -214,7 +208,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public void RunTask(long taskId)
+		public void Run(long taskId)
 		{
 			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && a.Name == "RUN");
 			if (msg == null)
@@ -224,7 +218,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public void StopTask(string identity)
+		public void Exit(string identity)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.LastIdentity == identity);
 			if (task == null || task.NodeRunningCount <= 0)
@@ -264,7 +258,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public void RemoveTask(long taskId)
+		public void Remove(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
