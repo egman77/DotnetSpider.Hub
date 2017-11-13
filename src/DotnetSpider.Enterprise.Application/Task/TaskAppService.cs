@@ -30,36 +30,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_configuration = configuration;
 		}
 
-		public bool Fire(long taskId)
-		{
-			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
-			if (task == null || task.IsDeleted)
-			{
-				throw new AppException("任务不存在");
-			}
-			if (!task.IsEnabled)
-			{
-				throw new AppException("任务已被禁用");
-			}
-
-			if (task.NodeRunningCount > 0)
-			{
-				throw new Exception("任务正在运行中");
-			}
-
-			if (!string.IsNullOrEmpty(task.LastIdentity))
-			{
-				var statusList = DbContext.TaskStatus.Where(a => a.Identity == task.LastIdentity);
-				if (statusList.Any(a => a.Status != "Exited" && a.Status != "Finished"
-					&& a.LastModificationTime.HasValue
-					&& (DateTime.Now - a.LastModificationTime).Value.TotalSeconds < 120))
-				{
-					throw new Exception("任务正在运行中");
-				}
-			}
-			return task;
-		}
-
 		private void DispatchTaskToNodes(Domain.Entities.Task task)
 		{
 			var nodeList = new Dictionary<string, int>();
@@ -355,5 +325,42 @@ namespace DotnetSpider.Enterprise.Application.Task
 			output.Result = Mapper.Map<List<RunningTaskOutputDto>>(output.Result);
 			return output;
 		}
+
+		/// <summary>
+		/// 判断任务状态
+		/// 若任务无效、已删除、或在运行中，则抛出异常
+		/// </summary>
+		/// <param name="taskId">任务ID</param>
+		/// <returns>任务对象</returns>
+		private Domain.Entities.Task ValidateTaskRunningState(long taskId)
+		{
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
+			if (task == null || task.IsDeleted)
+			{
+				throw new AppException("任务不存在");
+			}
+			if (!task.IsEnabled)
+			{
+				throw new AppException("任务已被禁用");
+			}
+
+			if (task.NodeRunningCount > 0)
+			{
+				throw new Exception("任务正在运行中");
+			}
+
+			if (!string.IsNullOrEmpty(task.LastIdentity))
+			{
+				var statusList = DbContext.TaskStatus.Where(a => a.Identity == task.LastIdentity);
+				if (statusList.Any(a => a.Status != "Exited" && a.Status != "Finished"
+					&& a.LastModificationTime.HasValue
+					&& (DateTime.Now - a.LastModificationTime).Value.TotalSeconds < 120))
+				{
+					throw new Exception("任务正在运行中");
+				}
+			}
+			return task;
+		}
+
 	}
 }
