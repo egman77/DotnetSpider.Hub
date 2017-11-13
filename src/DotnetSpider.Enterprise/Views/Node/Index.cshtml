@@ -47,7 +47,7 @@
                         <ul class="header-dropdown m-r--5"></ul>
                     </div>
                     <div class="body">
-                        <table class="table table-bordered table-striped table-hover dataTable" id="nodeList">
+                        <table class="table table-bordered table-striped table-hover dataTable" id="nodes">
                             <thead>
                                 <tr>
                                     <th style="width: 70px">IP</th>
@@ -77,6 +77,10 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div v-show="total>size" class="dataTables_info">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
+                        <div v-show="total>size" class="dataTables_paginate paging_simple_numbers" id="pagination">
+                            <ul class="pagination"></ul>
+                        </div>
                     </div>
                 </div>
             </div>

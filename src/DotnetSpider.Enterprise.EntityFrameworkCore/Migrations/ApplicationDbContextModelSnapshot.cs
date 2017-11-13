@@ -267,7 +267,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Client")
@@ -346,7 +346,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<string>("Owners")
                         .HasMaxLength(100);
 
-                    b.Property<int>("ProjectId");
+                    b.Property<long>("ProjectId");
 
                     b.Property<string>("Version")
                         .HasMaxLength(100);

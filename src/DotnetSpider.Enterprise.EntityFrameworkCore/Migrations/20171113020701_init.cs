@@ -131,7 +131,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Client = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -275,7 +275,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     NodeCount = table.Column<int>(type: "int", nullable: false),
                     NodeRunningCount = table.Column<int>(type: "int", nullable: false),
                     Owners = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
+                    ProjectId = table.Column<long>(type: "bigint", nullable: false),
                     Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>

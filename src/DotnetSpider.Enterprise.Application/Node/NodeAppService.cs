@@ -23,7 +23,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			_messageAppService = messageAppService;
 		}
 
-		public void EnableNode(string nodeId)
+		public void Enable(string nodeId)
 		{
 			var node = DbContext.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
@@ -33,7 +33,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			DbContext.SaveChanges();
 		}
 
-		public void DisableNode(string nodeId)
+		public void Disable(string nodeId)
 		{
 			var node = DbContext.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
@@ -50,9 +50,33 @@ namespace DotnetSpider.Enterprise.Application.Node
 			return _messageAppService.QueryMessages(input.NodeId);
 		}
 
-		public List<NodeOutputDto> QueryNodes(int page, int pageSize, string sort)
+		public PagingQueryOutputDto QueryNodes(PagingQueryInputDto input)
 		{
-			return null;
+			PagingQueryOutputDto result = new PagingQueryOutputDto();
+			switch (input.SortKey)
+			{
+				case "enable":
+					{
+						result = DbContext.Nodes.PageList(input, null, d => d.IsEnable);
+						break;
+					}
+				case "nodeid":
+					{
+						result = DbContext.Nodes.PageList(input, null, d => d.NodeId);
+						break;
+					}
+				case "createtime":
+					{
+						result = DbContext.Nodes.PageList(input, null, d => d.CreationTime);
+						break;
+					}
+				default:
+					{
+						result = DbContext.Nodes.PageList(input, null, d => d.IsOnline);
+						break;
+					}
+			}
+			return result;
 		}
 
 		private void AddHeartbeat(NodeHeartbeatInputDto input)

@@ -12,7 +12,7 @@ using System;
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171110115744_init")]
+    [Migration("20171113020701_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -268,7 +268,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Client")
@@ -347,7 +347,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<string>("Owners")
                         .HasMaxLength(100);
 
-                    b.Property<int>("ProjectId");
+                    b.Property<long>("ProjectId");
 
                     b.Property<string>("Version")
                         .HasMaxLength(100);

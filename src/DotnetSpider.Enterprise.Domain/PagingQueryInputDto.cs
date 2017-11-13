@@ -9,38 +9,46 @@ namespace DotnetSpider.Enterprise.Domain
 {
 	public class PagingQueryInputDto
 	{
+		private readonly ICommonConfiguration _configuration;
+
 		public int Page { get; set; }
 		public int Size { get; set; }
 		public string Sort { get; set; }
 
-		private static readonly ICommonConfiguration Configuration;
-
-		static PagingQueryInputDto()
+		public PagingQueryInputDto(ICommonConfiguration configuration)
 		{
-			Configuration = DI.IocManager.GetRequiredService<ICommonConfiguration>();
+			_configuration = configuration;
 		}
 
-		public void Init()
+		public void Validate()
 		{
 			if (Page <= 0)
 			{
 				Page = 1;
 			}
 
-			if (Size > Configuration.PageMaxSize)
+			if (Size > _configuration.PageMaxSize)
 			{
-				Size = Configuration.PageMaxSize;
+				Size = _configuration.PageMaxSize;
 			}
 
 			if (Size <= 0)
 			{
-				Size = Configuration.PageSize;
+				Size = _configuration.PageSize;
 			}
 		}
 
-		public bool SortByDesc()
+		public bool IsSortByDesc()
 		{
-			return "desc" == Sort?.ToLower().Trim();
+			return string.IsNullOrEmpty(Sort) ? false : Sort.ToLower().Contains("desc");
+		}
+
+		public string SortKey
+		{
+			get
+			{
+				return string.IsNullOrEmpty(Sort) ? null : Sort.ToLower().Replace("_desc", "");
+			}
 		}
 	}
 }

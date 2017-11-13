@@ -42,7 +42,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult GetList(QueryTaskInputDto input)
+		public IActionResult GetList(PagingQueryTaskInputDto input)
 		{
 			input.Sort = "desc";
 			var result = _taskAppService.GetList(input);

@@ -38,7 +38,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[AllowAnonymous]
 		public IActionResult Enable(string nodeId)
 		{
-			_nodeAppService.EnableNode(nodeId);
+			_nodeAppService.Enable(nodeId);
 			return Ok();
 		}
 
@@ -46,7 +46,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[AllowAnonymous]
 		public IActionResult Disable(string nodeId)
 		{
-			_nodeAppService.DisableNode(nodeId);
+			_nodeAppService.Disable(nodeId);
 			return Ok();
 		}
 
@@ -55,6 +55,13 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		public IActionResult Index()
 		{
 			return View();
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult QueryNodes(PagingQueryInputDto input)
+		{
+			return new JsonResult(_nodeAppService.QueryNodes(input));
 		}
 
 		[HttpGet]

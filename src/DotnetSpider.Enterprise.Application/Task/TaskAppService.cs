@@ -46,9 +46,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public QueryTaskOutputDto GetList(QueryTaskInputDto input)
+		public QueryTaskOutputDto GetList(PagingQueryTaskInputDto input)
 		{
-			input.Init();
+			input.Validate();
 
 			PagingQueryOutputDto result;
 			if (string.IsNullOrWhiteSpace(input.Keyword?.Trim()))

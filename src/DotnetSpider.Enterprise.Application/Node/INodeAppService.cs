@@ -10,9 +10,9 @@ namespace DotnetSpider.Enterprise.Application.Node
 {
 	public interface INodeAppService
 	{
-		void EnableNode(string nodeId);
-		void DisableNode(string nodeId);
+		void Enable(string nodeId);
+		void Disable(string nodeId);
 		List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input);
-		List<NodeOutputDto> QueryNodes(int page, int pageSize, string sort);
+		PagingQueryOutputDto QueryNodes(PagingQueryInputDto input);
 	}
 }

@@ -86,7 +86,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		/// <summary>
 		/// 项目ID
 		/// </summary>
-		public virtual int ProjectId { get; set; }
+		public virtual long ProjectId { get; set; }
 
 		public virtual bool IsDelete { get; set; }
 

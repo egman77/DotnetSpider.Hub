@@ -1,11 +1,15 @@
 ﻿$(function () {
     setMenuActive("nodes");
-    nodeIndexPageVue = new Vue({
-        el: '#nodeList',
+    nodesVue = new Vue({
+        el: '#nodes',
         data: {
-            nodes: []
+            nodes: [],
+            size: 50,
+            total: 0,
+            sort: ''
         },
         mounted: function () {
+            this.currentPage = 1;
             loadNodes(this);
         },
         methods: {
@@ -14,29 +18,16 @@
 
 
     function loadNodes(vue) {
-        var url = '/Node/GetCurrentNodeInfo';
-        dsApp.post(url, null, function (result) {
+        var url = '/Node/QueryNodes';
+        var query = new { page: vue.currentPage, size: vue.size, sort: vue.sort };
+        dsApp.post(url, query, function (result) {
             vue.$data.nodes = result.result;
-            setTimeout(() => {
-                $('#nodeList').DataTable({
-                    destroy: true,
-                    responsive: true,
-                    bFilter: true,
-                    bLengthChange: true
-                });
+            vue.$data.total = result.result.total;
+            dsApp.ui.initPagination('#pagination', result.result, function (page) {
+                vue.$data.page = page;
+                loadNodes(vue);
             });
         });
     }
-
-    function time(f, vue, t) {
-        return function walk() {
-            setTimeout(function () {
-                f(vue);
-                walk();
-            }, t);
-        };
-    }
-
-    time(loadNodes, nodeIndexPageVue, 5000)();
 });
 
