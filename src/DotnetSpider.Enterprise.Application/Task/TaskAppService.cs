@@ -32,7 +32,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void ProcessCountChanged(long taskId, bool isStart)
 		{
-			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
 			{
 				if (isStart)
@@ -50,7 +50,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public bool Fire(long taskId)
 		{
-			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId && a.IsDeleted == false && a.IsEnabled == true);
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId && a.IsDeleted == false && a.IsEnabled == true);
 			if (task == null) throw new Exception("任务不存在");
 
 			//判断任务是否在运行中
@@ -146,11 +146,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 			PagingQueryOutputDto result;
 			if (string.IsNullOrWhiteSpace(input.Keyword?.Trim()))
 			{
-				result = DbContext.Tasks.PageList(input, null, t => t.CreationTime);
+				result = DbContext.Task.PageList(input, null, t => t.CreationTime);
 			}
 			else
 			{
-				result = DbContext.Tasks.PageList(input, t => t.Name.Contains(input.Keyword), t => t.CreationTime);
+				result = DbContext.Task.PageList(input, t => t.Name.Contains(input.Keyword), t => t.CreationTime);
 			}
 
 			QueryTaskOutputDto output = new QueryTaskOutputDto
@@ -166,7 +166,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		public void AddTask(TaskDto item)
 		{
 			var task = Mapper.Map<Domain.Entities.Task>(item);
-			DbContext.Tasks.Add(task);
+			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
 			if (!string.IsNullOrEmpty(task.Cron))
@@ -179,12 +179,12 @@ namespace DotnetSpider.Enterprise.Application.Task
 		public void ModifyTask(TaskDto item)
 		{
 			var taskObj = Mapper.Map<Domain.Entities.Task>(item);
-			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == item.Id);
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == item.Id);
 			if (task == null) throw new Exception("当前任务不存在.");
 
 			//通知Scheduler
 			NotifyScheduler(task.Id, task.Cron);
-			DbContext.Tasks.Update(taskObj);
+			DbContext.Task.Update(taskObj);
 			DbContext.SaveChanges();
 		}
 
@@ -275,54 +275,54 @@ namespace DotnetSpider.Enterprise.Application.Task
 			//Subscriber.Publish("DOTNETSPIDER_SCHEDULER", JsonConvert.SerializeObject(cmd));
 		}
 
-		public void StopTask(long taskId)
+		public void StopTask(string identity)
 		{
-			var runHistory = DbContext.TaskHistory.FirstOrDefault(a => a.Identity == identity);
-			if (runHistory == null)
-			{
-				throw new Exception("任务不在运行中");
-			}
+			//var runHistory = DbContext.Task.FirstOrDefault()
+			//if (runHistory == null)
+			//{
+			//	throw new Exception("任务不在运行中");
+			//}
 
-			var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).OrderByDescending(a => a.LastModificationTime).ToList();
-			if (taskStatus == null || taskStatus.Count == 0)
-			{
-				throw new Exception("当前任务没有上报状态!");
-			}
+			//var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).OrderByDescending(a => a.LastModificationTime).ToList();
+			//if (taskStatus == null || taskStatus.Count == 0)
+			//{
+			//	throw new Exception("当前任务没有上报状态!");
+			//}
 
-			//判断状态，是否需要考虑时间过期的？？如超过5分钟未上报的，是否为在运行中
-			var runningNodes = taskStatus.Where(a => !(a.Status == "Finished" || a.Status == "Exited"));
-			foreach (var status in runningNodes)
-			{
-				var msg = new Domain.Entities.Message
-				{
-					ApplicationName = string.Empty,
-					Arguments = string.Empty,
-					TaskId = runHistory.TaskId,
-					Name = "CANCEL",
-					NodeId = status.NodeId
-				};
-				DbContext.Message.Add(msg);
-			}
-			if (runningNodes.Any())
-			{
-				DbContext.SaveChanges();
-			}
+			////判断状态，是否需要考虑时间过期的？？如超过5分钟未上报的，是否为在运行中
+			//var runningNodes = taskStatus.Where(a => !(a.Status == "Finished" || a.Status == "Exited"));
+			//foreach (var status in runningNodes)
+			//{
+			//	var msg = new Domain.Entities.Message
+			//	{
+			//		ApplicationName = string.Empty,
+			//		Arguments = string.Empty,
+			//		TaskId = runHistory.TaskId,
+			//		Name = "CANCEL",
+			//		NodeId = status.NodeId
+			//	};
+			//	DbContext.Message.Add(msg);
+			//}
+			//if (runningNodes.Any())
+			//{
+			//	DbContext.SaveChanges();
+			//}
 		}
 
 		public void RemoveTask(long taskId)
 		{
-			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
 			{
 				NotifyScheduler(task.Id, string.Empty);
-				DbContext.Tasks.Remove(task);
+				DbContext.Task.Remove(task);
 				DbContext.SaveChanges();
 			}
 		}
 
 		public bool Disable(long taskId)
 		{
-			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
 				throw new Exception("任务不存在!");
@@ -330,7 +330,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			task.IsEnabled = false;
 			if (NotifyScheduler(task.Id, string.Empty))
 			{
-				DbContext.Tasks.Update(task);
+				DbContext.Task.Update(task);
 				DbContext.SaveChanges();
 			}
 
@@ -339,7 +339,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public bool Enable(long taskId)
 		{
-			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == taskId);
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
 				throw new Exception("任务不存在!");
@@ -347,7 +347,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			task.IsEnabled = true;
 			if (NotifyScheduler(task.Id, task.Cron))
 			{
-				DbContext.Tasks.Update(task);
+				DbContext.Task.Update(task);
 				DbContext.SaveChanges();
 			}
 
@@ -356,7 +356,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void IncreaseRunning(TaskIdInputDto input)
 		{
-			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == input.TaskId);
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
 			if (task == null)
 			{
 				throw new Exception("任务不存在!");
@@ -367,7 +367,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void ReduceRunning(TaskIdInputDto input)
 		{
-			var task = DbContext.Tasks.FirstOrDefault(a => a.Id == input.TaskId);
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
 			if (task == null)
 			{
 				throw new Exception("任务不存在!");

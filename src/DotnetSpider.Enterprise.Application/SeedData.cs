@@ -52,7 +52,7 @@ namespace DotnetSpider.Enterprise.Application
 					Name = $"360指数采集",
 					Version = "abcd"
 				};
-				context.Tasks.Add(task);
+				context.Task.Add(task);
 			}
 			context.SaveChanges();
 		}

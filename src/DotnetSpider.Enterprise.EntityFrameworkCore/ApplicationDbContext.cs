@@ -25,7 +25,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 		public DbSet<MessageHistory> MessageHistory { get; set; }
 		public DbSet<Node> Node { get; set; }
 		public DbSet<NodeHeartbeat> NodeHeartbeat { get; set; }
-		public DbSet<Task> Tasks { get; set; }
+		public DbSet<Task> Task { get; set; }
 		public DbSet<TaskHistory> TaskHistory { get; set; }
 		public DbSet<TaskStatus> TaskStatus { get; set; }
 

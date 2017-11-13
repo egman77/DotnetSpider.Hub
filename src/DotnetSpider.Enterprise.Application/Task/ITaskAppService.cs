@@ -13,7 +13,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		void RunTask(long taskId);
 		//List<NodeStatusDto> GetNodeStatus(string identity);
-		void StopTask(long taskId);
+		void StopTask(string identity);
 		void RemoveTask(long taskId);
 		
 		void ProcessCountChanged(long taskId, bool isStart);
