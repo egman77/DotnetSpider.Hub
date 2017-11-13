@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace DotnetSpider.Enterprise.Application.Task.Dtos
 {
-	public class TaskDto
+	public class RunningTaskOutputDto
 	{
 		public long Id { get; set; }
+
 		/// <summary>
 		/// 程序集名称
 		/// </summary>
@@ -21,11 +24,6 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		public virtual string Arguments { get; set; }
 
 		/// <summary>
-		/// 是否启用
-		/// </summary>
-		public virtual bool IsEnabled { get; set; }
-
-		/// <summary>
 		/// 任务名称
 		/// </summary>
 		public virtual string Name { get; set; }
@@ -39,11 +37,6 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		/// 所需节点数
 		/// </summary>
 		public virtual int NodeRunningCount { get; set; }
-
-		/// <summary>
-		/// 所需节点数
-		/// </summary>
-		public virtual string Description { get; set; }
 
 		/// <summary>
 		/// 任务名称
@@ -64,8 +57,6 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		/// 版本信息
 		/// </summary>
 		public virtual string Version { get; set; }
-
-		public virtual bool IsDelete { get; set; }
 
 		public virtual string Os { get; set; }
 

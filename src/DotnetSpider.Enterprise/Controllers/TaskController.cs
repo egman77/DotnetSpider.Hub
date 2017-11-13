@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System;
 
 namespace DotnetSpider.Enterprise.Web.Controllers
 {
@@ -20,19 +21,25 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			_taskAppService = taskAppService;
 		}
 
-		[HttpPost]
-		[AllowAnonymous]
-		public IActionResult ProcessCountChanged([FromBody]ProcessCountChangedInputDto input)
-		{
-			//string token, long taskId, bool isStart
-			_taskAppService.ProcessCountChanged(input.TaskId, input.IsStart);
-			return Ok();
-		}
-
 		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();
+		}
+
+		[HttpGet]
+		public IActionResult Running()
+		{
+			return View();
+		}
+
+		#region API
+
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult Running(PagingQueryInputDto input)
+		{
+			return DataResult(_taskAppService.Running(input));
 		}
 
 		[HttpPost]
@@ -130,5 +137,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			_taskAppService.ReduceRunning(input);
 			return Ok();
 		}
+
+		#endregion
 	}
 }

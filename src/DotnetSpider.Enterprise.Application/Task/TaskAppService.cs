@@ -30,24 +30,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_configuration = configuration;
 		}
 
-		public void ProcessCountChanged(long taskId, bool isStart)
-		{
-			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
-			if (task != null)
-			{
-				if (isStart)
-				{
-					task.NodeRunningCount += 1;
-				}
-				else
-				{
-					task.NodeRunningCount -= 1;
-				}
-				task.NodeRunningCount = task.NodeRunningCount < 0 ? 0 : task.NodeRunningCount;
-				DbContext.SaveChanges();
-			}
-		}
-
 		public bool Fire(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId && a.IsDeleted == false && a.IsEnabled == true);
@@ -377,6 +359,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 				task.NodeRunningCount -= 1;
 			}
 			DbContext.SaveChanges();
+		}
+
+		public PagingQueryOutputDto Running(PagingQueryInputDto input)
+		{
+			PagingQueryOutputDto output = DbContext.Task.PageList(input, d => d.NodeRunningCount > 0, d => d.Id);
+			output.Result = Mapper.Map<List<RunningTaskOutputDto>>(output.Result);
+			return output;
 		}
 	}
 }
