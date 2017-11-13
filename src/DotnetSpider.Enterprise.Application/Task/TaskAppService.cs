@@ -377,5 +377,51 @@ namespace DotnetSpider.Enterprise.Application.Task
 			return task;
 		}
 
+		public PagingQueryOutputDto QueryRunHistory(PagingQueryTaskHistoryInputDto input)
+		{
+			input.Validate();
+
+			var output = new PagingQueryOutputDto
+			{
+				Page = input.Page,
+				Size = input.Size
+			};
+
+			var result =  DbContext.TaskHistory.PageList(input, a => a.TaskId == input.TaskId, t => t.CreationTime);
+
+			output.Total = result.Total;
+			var results = result.Result as List<TaskHistory>;
+			List<Domain.Entities.TaskStatus> status = null;
+			if (results.Count > 0)
+			{
+				var codeList = new string[results.Count];
+				for (var index = 0; index < results.Count; index++)
+				{
+					codeList[index] = results[index].Identity;
+				}
+				status = DbContext.TaskStatus.Where(a => codeList.Contains(a.Identity)).ToList();
+			}
+			else
+			{
+				status = new List<Domain.Entities.TaskStatus>(0);
+			}
+
+			var batchesDto = new List<TaskHistoryDto>(results.Count);
+			var statusList = Mapper.Map<List<TaskStatusDto>>(status);
+
+			foreach (var item in results)
+			{
+				batchesDto.Add(new TaskHistoryDto
+				{
+					Identity = item.Identity,
+					TaskId = input.TaskId,
+					StatusList = statusList.Where(a => a.Identity == item.Identity).ToList()
+				});
+			}
+			output.Result = batchesDto;
+
+			return output;
+
+		}
 	}
 }

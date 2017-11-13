@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,6 +11,6 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 
 		public string Identity { get; set; }
 
-		public string NodeIds { get; set; }
+		public List<TaskStatusDto> StatusList { get; set; }
 	}
 }

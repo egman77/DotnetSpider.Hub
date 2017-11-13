@@ -24,5 +24,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 		void ReduceRunning(TaskIdInputDto input);
 
 		PagingQueryOutputDto Running(PagingQueryInputDto input);
+		PagingQueryOutputDto QueryRunHistory(PagingQueryTaskHistoryInputDto input);
 	}
 }

@@ -4,7 +4,7 @@
     var batchVue = new Vue({
         el: '#taskContent',
         data: {
-            batches: [],
+            historys: [],
             total: 0,
             size: 10,
             keyword: '',
@@ -23,7 +23,7 @@
         mounted: function () {
             this.$data.page = 1;
             this.$data.taskId = proj;
-            loadBatches(this);
+            loadHistorys(this);
         },
         methods: {
             viewLogs: function (batchId, nodeId) {
@@ -96,19 +96,19 @@
         });
     }
 
-    function loadBatches(batchVue) {
-        var url = '/Task/GetBatches';
+    function loadHistorys(batchVue) {
+    	var url = '/Task/QueryRunHistory';
         var keywrod = batchVue.$data.keyword || '';
         var query = { taskId: batchVue.$data.taskId, page: batchVue.$data.page, size: batchVue.$data.size, keyword: keywrod };
 
         dsApp.post(url, query, function (result) {
-            batchVue.$data.batches = result.result.result;
+        	batchVue.$data.historys = result.result.result;
             batchVue.$data.total = result.result.total;
             //batchVue.$data.solutions = result.projects;
 
             dsApp.ui.initPagination('#pagination', result.result, function (page) {
                 batchVue.$data.page = page;
-                loadBatches();
+                loadHistorys();
             });
         });
     }
@@ -116,7 +116,7 @@
     setTimeout(function () {
         $(".menu li").removeClass("active");
         $(".menu li a").removeClass("toggled");
-        $(".menu li#projects").addClass("active");
-        $(".menu li#projects a").addClass("toggled");
+        $(".menu li#tasks").addClass("active");
+        $(".menu li#tasks a").addClass("toggled");
     }, 50);
 });
