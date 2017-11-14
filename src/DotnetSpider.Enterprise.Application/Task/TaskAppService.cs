@@ -73,6 +73,31 @@ namespace DotnetSpider.Enterprise.Application.Task
 			// FOR TEST
 			task.Cron = "*/2 * * * *";
 
+			if (!string.IsNullOrEmpty(item.ApplicationName))
+			{
+				item.ApplicationName = item.ApplicationName.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Arguments))
+			{
+				item.Arguments = item.Arguments.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Cron))
+			{
+				item.Cron = item.Cron.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Version))
+			{
+				item.Version = item.Version.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Name))
+			{
+				item.Name = item.Name.Trim();
+			}
+
 			var cron = task.Cron;
 			// DEFAULT VALUE
 			task.Cron = "0 0 0 ? 2013-2014";
