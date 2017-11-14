@@ -34,13 +34,12 @@
                         <table class="table table-bordered table-striped table-hover dataTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>NAME</th>
-                                    <th>APPLICATION NAME</th>
+                                    <th>APPLICATION</th>
                                     <th>CRON</th>
                                     <th>ARGUMENTS</th>
-                                    <th>NODE COUNT</th>
-                                    <th>RUNNING COUNT</th>
+                                    <th>NODE</th>
+                                    <th>RUNNING</th>
                                     <th>TAGS</th>
                                     <th>OS</th>
                                     <th>VERSION</th>
@@ -53,7 +52,6 @@
                                     </td>
                                 </tr>
                                 <tr v-for="task in tasks" :id="task.id">
-                                    <td><span v-text="task.id"></span></td>
                                     <td><span v-text="task.name"></span></td>
                                     <td><span v-text="task.applicationName"></span></td>
                                     <td><span v-text="task.cron"></span></td>

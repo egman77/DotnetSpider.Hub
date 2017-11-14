@@ -9,7 +9,7 @@ namespace DotnetSpider.Enterprise.Agent
 	public class Messsage
 	{
 		public const string RunName = "RUN";
-		public const string CanleName = "CANLE";
+		public const string CanleName = "CANCEL";
 
 		public virtual string NodeId { get; set; }
 		public virtual string Name { get; set; }

@@ -16,7 +16,7 @@ namespace DotnetSpider.Enterprise.Agent
 {
 	public class AgentService
 	{
-		private static readonly ConcurrentDictionary<long, Process> Processes = new ConcurrentDictionary<long, Process>();
+		private static readonly ConcurrentDictionary<long, ProcessInfo> Processes = new ConcurrentDictionary<long, ProcessInfo>();
 		private static ILogger _logger;
 		private static readonly HttpClient httpClient = new HttpClient();
 		private Task _task;
@@ -203,14 +203,25 @@ namespace DotnetSpider.Enterprise.Agent
 				return;
 			}
 
-			Process process;
-			if (Processes.TryGetValue(command.TaskId, out process))
+			ProcessInfo processInfo;
+			if (Processes.TryGetValue(command.TaskId, out processInfo))
 			{
-				process.Close();
-				process.WaitForExit(60000);
-				if (!process.HasExited)
+				var closeSignal = Path.Combine(processInfo.WorkingDirectory, $"{processInfo.TaskId}_close");
+				File.Create(closeSignal);
+
+				processInfo.Process.WaitForExit(30000);
+
+				try
 				{
-					process.Kill();
+					processInfo.Process.Kill();
+					if (File.Exists(closeSignal))
+					{
+						File.Delete(closeSignal);
+					}
+				}
+				catch (Exception e)
+				{
+					_logger.Error($"Close process for task {command.TaskId} failed: {e}");
 				}
 			}
 		}
@@ -263,10 +274,17 @@ namespace DotnetSpider.Enterprise.Agent
 
 			var process = Process(command.ApplicationName, command.Arguments, workingDirectory, () =>
 			{
-				Process p;
+				ProcessInfo p;
 				Processes.TryRemove(command.TaskId, out p);
 			});
-			Processes.TryAdd(command.TaskId, process);
+			ProcessInfo info = new ProcessInfo
+			{
+				TaskId = command.TaskId.ToString(),
+				Process = process,
+				WorkingDirectory = workingDirectory
+			};
+
+			Processes.TryAdd(command.TaskId, info);
 		}
 
 		public Process Process(string app, string arguments, string workingDirectory, Action onExited)

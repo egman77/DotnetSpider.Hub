@@ -89,7 +89,7 @@
 
             dsApp.ui.initPagination('#pagination', result.result, function (page) {
                 vue.$data.page = page;
-                loadHistorys();
+                loadHistories(vue);
             });
         });
     }

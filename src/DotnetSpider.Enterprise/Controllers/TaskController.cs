@@ -97,9 +97,9 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Exit(string identity)
+		public IActionResult Exit(long taskId)
 		{
-			return ActionResult(() => { _taskAppService.Exit(identity); });
+			return ActionResult(() => { _taskAppService.Exit(taskId); });
 		}
 
 		[HttpPost]

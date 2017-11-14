@@ -12,7 +12,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		void Modify(ModifyTaskInputDto item);
 
 		void Run(long taskId);
-		void Exit(string identity);
+		void Exit(long taskId);
 		void Remove(long taskId);
 
 		void Disable(long taskId);

@@ -117,7 +117,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 		public List<NodeOutputDto> GetAvailableNodes(string os, int nodeCount)
 		{
 			List<Domain.Entities.Node> nodes = null;
-			if ("all" == os?.ToLower())
+			if (string.IsNullOrEmpty(os) || "all" == os.ToLower())
 			{
 				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline).ToList();
 			}
@@ -194,6 +194,12 @@ namespace DotnetSpider.Enterprise.Application.Node
 				node.LastModificationTime = DateTime.Now;
 				DbContext.Node.Add(node);
 			}
+		}
+
+		public List<NodeOutputDto> GetAllOnlineNodes()
+		{
+			var nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline).ToList();
+			return Mapper.Map<List<NodeOutputDto>>(nodes);
 		}
 	}
 }

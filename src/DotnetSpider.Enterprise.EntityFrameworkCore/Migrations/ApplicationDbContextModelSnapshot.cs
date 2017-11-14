@@ -211,6 +211,9 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("NodeId")
+                        .HasName("AlternateKey_NodeId");
+
                     b.ToTable("Node");
                 });
 
@@ -286,6 +289,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsEnabled");
 
+                    b.Property<bool>("IsRunning");
+
                     b.Property<string>("LastIdentity")
                         .HasMaxLength(32);
 
@@ -302,7 +307,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<int>("NodeRunningCount");
 
                     b.Property<string>("Os")
-                        .HasMaxLength(10);
+                        .HasMaxLength(20);
 
                     b.Property<string>("Owners")
                         .HasMaxLength(100);

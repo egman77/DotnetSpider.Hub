@@ -171,16 +171,22 @@ namespace DotnetSpider.Enterprise.Application.Task
 			if (msg == null)
 			{
 				var task = CheckStatusOfTask(taskId);
-				PushTask(task);
+				var identity = PushTask(task);
+				if (!string.IsNullOrEmpty(identity))
+				{
+					task.LastIdentity = identity;
+					task.IsRunning = true;
+					DbContext.SaveChanges();
+				}
 			}
 		}
 
-		public void Exit(string identity)
+		public void Exit(long taskId)
 		{
-			var task = DbContext.Task.FirstOrDefault(a => a.LastIdentity == identity);
-			if (task == null || task.NodeRunningCount <= 0)
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
+			if (task == null)
 			{
-				throw new Exception("任务不在运行中.");
+				throw new Exception("Task unfound.");
 			}
 
 			var cancelMsg = DbContext.Message.FirstOrDefault(a => a.TaskId == task.Id && a.Name == "CANCEL");
@@ -189,30 +195,25 @@ namespace DotnetSpider.Enterprise.Application.Task
 				return;
 			}
 
-			var taskStatus = DbContext.TaskStatus.Where(a => a.Identity == identity).ToList();
-			if (taskStatus == null || taskStatus.Count == 0)
-			{
-				throw new Exception("当前任务没有上报状态!");
-			}
+			var runningNodes = _nodeAppService.GetAllOnlineNodes();
 
-			//判断状态，是否需要考虑时间过期的？？如超过5分钟未上报的，是否为在运行中
-			var runningNodes = taskStatus.Where(a => !(a.Status == "Finished" || a.Status == "Exited"));
+			var messages = new List<AddMessageInputDto>();
 			foreach (var status in runningNodes)
 			{
-				var msg = new Domain.Entities.Message
+				var msg = new AddMessageInputDto
 				{
-					ApplicationName = string.Empty,
-					Arguments = string.Empty,
+					ApplicationName = "NULL",
 					TaskId = task.Id,
 					Name = "CANCEL",
 					NodeId = status.NodeId
 				};
-				DbContext.Message.Add(msg);
+				messages.Add(msg);
 			}
-			if (runningNodes.Any())
-			{
-				DbContext.SaveChanges();
-			}
+			_messageAppService.AddRange(messages);
+
+			task.IsRunning = false;
+			task.NodeRunningCount = 0;
+			DbContext.SaveChanges();
 		}
 
 		public void Remove(long taskId)
@@ -277,12 +278,16 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				task.NodeRunningCount -= 1;
 			}
+			if (task.NodeRunningCount == 0)
+			{
+				task.IsRunning = false;
+			}
 			DbContext.SaveChanges();
 		}
 
 		public PagingQueryOutputDto QueryRunning(PagingQueryInputDto input)
 		{
-			PagingQueryOutputDto output = DbContext.Task.PageList(input, d => d.NodeRunningCount > 0, d => d.Id);
+			PagingQueryOutputDto output = DbContext.Task.PageList(input, d => d.IsRunning, d => d.Id);
 			output.Result = Mapper.Map<List<RunningTaskOutputDto>>(output.Result);
 			return output;
 		}
@@ -334,14 +339,14 @@ namespace DotnetSpider.Enterprise.Application.Task
 			return task;
 		}
 
-		private void PushTask(Domain.Entities.Task task)
+		private string PushTask(Domain.Entities.Task task)
 		{
 			var nodes = _nodeAppService.GetAvailableNodes(task.Os, task.NodeCount);
 
 			if (nodes.Count == 0)
 			{
 				// TODO LOG
-				return;
+				return null;
 			}
 
 			var identity = Guid.NewGuid().ToString("N");
@@ -368,6 +373,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				TaskId = task.Id
 			};
 			_taskHistoryAppService.Add(taskHistory);
+			return identity;
 		}
 	}
 }

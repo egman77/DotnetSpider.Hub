@@ -93,5 +93,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 
 		[StringLength(100)]
 		public virtual string Tags { get; set; }
+
+		public virtual bool IsRunning { get; set; }
 	}
 }

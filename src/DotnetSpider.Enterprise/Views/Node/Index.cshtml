@@ -24,8 +24,7 @@
                             <table class="table table-bordered table-striped table-hover dataTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 80px">NODE ID</th>
-                                        <th>IP</th>
+                                        <th style="width: 80px">NODE</th>
                                         <th>IS ENABLE</th>
                                         <th>IS ONLINE</th>
                                         <th>CPU</th>
@@ -45,7 +44,6 @@
                                     </tr>
                                     <tr v-for="node in nodes" :node-id="node.nodeId">
                                         <td><span v-text="node.nodeId"></span></td>
-                                        <td><span v-text="node.ip"></span></td>
                                         <td><span v-text="node.isEnable"></span></td>
                                         <td><span v-text="node.isOnline"></span></td>
                                         <td><span v-text="node.cPULoad"></span></td>

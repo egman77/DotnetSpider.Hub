@@ -57,43 +57,9 @@ namespace DotnetSpider.Enterprise.Agent
 				Directory.CreateDirectory(PackagesDirectory);
 			}
 			HostName = Dns.GetHostName();
-			if (IsRunningOnWindows)
-			{
-				var addressList = Dns.GetHostAddressesAsync(HostName).Result;
-				IPAddress localaddr = addressList.Where(a => a.AddressFamily == AddressFamily.InterNetwork).ToList()[0];
-				Ip = localaddr.ToString();
-			}
-			else
-			{
-				Process process = new Process
-				{
-					StartInfo =
-					{
-						FileName = "ip",
-						Arguments = "address",
-						CreateNoWindow = false,
-						RedirectStandardOutput = true,
-						RedirectStandardInput = true
-					}
-				};
-				process.Start();
-				string info = process.StandardOutput.ReadToEnd();
-				var lines = info.Split('\n');
-				foreach (var line in lines)
-				{
-					var content = line.Trim();
-					if (!string.IsNullOrEmpty(content) && Regex.IsMatch(content, @"^inet.*$"))
-					{
-						var str = Regex.Match(content, @"[0-9]{0,3}\.[0-9]{0,3}\.[0-9]{0,3}\.[0-9]{0,3}/[0-9]+").Value;
-						if (!string.IsNullOrEmpty(str) && !str.Contains("127.0.0.1"))
-						{
-							Ip = str.Split('/')[0];
-						}
-					}
-				}
-				process.WaitForExit();
-				process.Dispose();
-			}
+			var addressList = Dns.GetHostAddressesAsync(HostName).Result;
+			IPAddress localaddr = addressList.Where(a => a.AddressFamily == AddressFamily.InterNetwork).ToList()[0];
+			Ip = localaddr.ToString();
 		}
 
 		public static void Save()
@@ -121,7 +87,7 @@ namespace DotnetSpider.Enterprise.Agent
 			}
 			if (string.IsNullOrEmpty(NodeId))
 			{
-				NodeId = Guid.NewGuid().ToString("N");
+				NodeId = Ip;
 				Save();
 			}
 		}

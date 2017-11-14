@@ -15,5 +15,6 @@ namespace DotnetSpider.Enterprise.Application.Node
 		List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input);
 		PagingQueryOutputDto QueryNodes(PagingQueryInputDto input);
 		List<NodeOutputDto> GetAvailableNodes(string os,int nodeCount);
+		List<NodeOutputDto> GetAllOnlineNodes();
 	}
 }
