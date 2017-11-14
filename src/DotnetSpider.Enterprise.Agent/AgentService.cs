@@ -207,13 +207,16 @@ namespace DotnetSpider.Enterprise.Agent
 			if (Processes.TryGetValue(command.TaskId, out processInfo))
 			{
 				var closeSignal = Path.Combine(processInfo.WorkingDirectory, $"{processInfo.TaskId}_close");
-				File.Create(closeSignal);
+				File.WriteAllText(closeSignal, "");
 
 				processInfo.Process.WaitForExit(30000);
 
 				try
 				{
-					processInfo.Process.Kill();
+					if (!processInfo.Process.HasExited)
+					{
+						processInfo.Process.Kill();
+					}
 					if (File.Exists(closeSignal))
 					{
 						File.Delete(closeSignal);
