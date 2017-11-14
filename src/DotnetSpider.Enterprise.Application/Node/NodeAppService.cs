@@ -125,7 +125,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			{
 				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os.Contains(os)).ToList();
 			}
-			var nodeScores = new Dictionary<string, int>();
+			var nodeScores = new Dictionary<Domain.Entities.Node, int>();
 			foreach (var node in nodes)
 			{
 				var heartbeat = DbContext.NodeHeartbeat.Where(a => a.NodeId == node.NodeId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
@@ -161,11 +161,11 @@ namespace DotnetSpider.Enterprise.Application.Node
 					{
 						score += 1;
 					}
-					nodeScores.Add(node.NodeId, score);
+					nodeScores.Add(node, score);
 				}
 			}
 
-			var availableNodes = nodeScores.OrderByDescending(a => a.Value).ToList();
+			var availableNodes = nodeScores.OrderByDescending(a => a.Value).Select(n => n.Key).ToList();
 			var resultNodes = availableNodes.Count > nodeCount ? Mapper.Map<List<NodeOutputDto>>(availableNodes.Take(nodeCount)) : Mapper.Map<List<NodeOutputDto>>(availableNodes);
 			return resultNodes;
 		}

@@ -47,17 +47,15 @@
                             <table class="table table-bordered table-striped table-hover no-footer">
                                 <thead>
                                     <tr role="row">
-                                        <th>#</th>
                                         <th>NAME</th>
                                         <th>APPLICATION NAME</th>
                                         <th>OS</th>
-                                        <th>NODES</th>
+                                        <th>NODE</th>
+                                        <th>RUNNING</th>
                                         <th>CRON</th>
-                                        <th>OWNERS</th>
                                         <th>DEVELOPERS</th>
-                                        <th>ANALYSTS</th>
+                                        <th>ARGUMENTS</th>
                                         <th>ENABLE</th>
-                                        <th>VERSION</th>
                                         <th>ACTION</th>
                                     </tr>
                                 </thead>
@@ -68,17 +66,15 @@
                                         </td>
                                     </tr>
                                     <tr role="row" v-for="task in tasks">
-                                        <td v-text="task.id"></td>
                                         <td v-text="task.name"></td>
                                         <td v-text="task.applicationName"></td>
                                         <td v-text="task.os"></td>
                                         <td v-text="task.nodeCount"></td>
+                                        <td v-text="task.nodeRunningCount"></td>
                                         <td v-text="task.cron"></td>
-                                        <td v-text="task.owners"></td>
                                         <td v-text="task.developers"></td>
-                                        <td v-text="task.analysts"></td>
+                                        <td v-text="task.arguments"></td>
                                         <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
-                                        <td v-text="task.version"></td>
                                         <td>
                                             <a href="javascript:void(0)"><i title="modify task" @@click.stop="modify(task)">Modify</i></a>
                                             <a href="javascript:void(0)"><i title="delete task" v-show="task.isEnabled" @@click.stop="disable(task)">Disable</i></a>

@@ -18,7 +18,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 
 		public void AddRange(List<AddMessageInputDto> input)
 		{
-			var messages = Mapper.Map<Domain.Entities.Message>(input);
+			var messages = Mapper.Map<List<Domain.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
 			DbContext.SaveChanges();
 		}

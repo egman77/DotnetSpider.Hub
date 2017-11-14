@@ -43,7 +43,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_nodeAppService = nodeAppService;
 		}
 
-		public QueryTaskOutputDto Query(PagingQueryTaskInputDto input)
+		public PagingQueryOutputDto Query(PagingQueryTaskInputDto input)
 		{
 			input.Validate();
 
@@ -57,10 +57,10 @@ namespace DotnetSpider.Enterprise.Application.Task
 				result = DbContext.Task.PageList(input, t => t.Name.Contains(input.Keyword), t => t.CreationTime);
 			}
 
-			QueryTaskOutputDto output = new QueryTaskOutputDto
+			PagingQueryOutputDto output = new PagingQueryOutputDto
 			{
 				Page = result.Page,
-				Result = Mapper.Map<List<AddTaskInputDto>>(result.Result),
+				Result = Mapper.Map<List<QueryTaskOutputDto>>(result.Result),
 				Size = result.Size,
 				Total = result.Total
 			};
@@ -355,8 +355,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 					Name = "RUN",
 					NodeId = node.NodeId,
 					Version = task.Version,
-					Arguments = string.Concat(task.Arguments, "-tid:", task.Id, " ", "-i:", identity)
+					Arguments = string.Concat(task.Arguments, " -tid:", task.Id, " -i:", identity)
 				};
+				messages.Add(msg);
 			}
 			_messageAppService.AddRange(messages);
 

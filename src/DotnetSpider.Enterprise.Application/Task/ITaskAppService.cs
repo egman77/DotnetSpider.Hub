@@ -7,7 +7,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 {
 	public interface ITaskAppService
 	{
-		QueryTaskOutputDto Query(PagingQueryTaskInputDto input);
+		PagingQueryOutputDto Query(PagingQueryTaskInputDto input);
 		void Add(AddTaskInputDto item);
 		void Modify(ModifyTaskInputDto item);
 

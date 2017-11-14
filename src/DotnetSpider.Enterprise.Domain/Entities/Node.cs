@@ -16,5 +16,10 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		public virtual bool IsOnline { get; set; }
 
 		public virtual string Os { get; set; }
+
+		public override int GetHashCode()
+		{
+			return NodeId.GetHashCode();
+		}
 	}
 }

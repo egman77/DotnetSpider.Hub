@@ -31,8 +31,6 @@ namespace DotnetSpider.Enterprise.Agent
 		public static string ServerUrl { get; set; }
 		public static string HeartbeatUrl { get; set; }
 		public static int HeartbeatInterval { get; set; }
-		public static string IncreaseRunningUrl { get; set; }
-		public static string ReduceRunningUrl { get; set; }
 		public static string ApiToken { get; set; }
 
 		public static void Load(IConfigurationRoot configuration)
@@ -114,8 +112,6 @@ namespace DotnetSpider.Enterprise.Agent
 			ServerUrl = _configuration.GetValue<string>("serverUrl");
 			HeartbeatInterval = _configuration.GetValue<int>("heartbeatInterval");
 			HeartbeatUrl = $"{ServerUrl}node/heartbeat";
-			IncreaseRunningUrl = $"{ServerUrl}task/IncreaseRunning";
-			ReduceRunningUrl = $"{ServerUrl}task/ReduceRunning";
 			ApiToken = _configuration.GetValue<string>("apiToken");
 
 			if (File.Exists(NodeIdPath))

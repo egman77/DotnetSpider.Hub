@@ -150,28 +150,20 @@ namespace DotnetSpider.Enterprise.Agent
 				{
 					HttpResponseMessage response = task.Result;
 					response.EnsureSuccessStatusCode();
-
-					try
+					var result = response.Content.ReadAsStringAsync().Result;
+					if (!string.IsNullOrEmpty(result))
 					{
-						var result = response.Content.ReadAsStringAsync().Result;
-						if (!string.IsNullOrEmpty(result))
+						var commands = JsonConvert.DeserializeObject<Messsage[]>(result);
+						foreach (var command in commands)
 						{
-							var commands = JsonConvert.DeserializeObject<Messsage[]>(result);
-							foreach (var command in commands)
-							{
-								Excecute(command); ;
-							}
+							Excecute(command); ;
 						}
-					}
-					catch (Exception e)
-					{
-						_logger.Error(e, e.ToString());
 					}
 				});
 			}
 			catch (Exception e)
 			{
-				_logger.Error($"Send heartbeart failed.: {e}");
+				_logger.Error($"Heartbeart failed: {e}");
 			}
 		}
 
@@ -269,14 +261,10 @@ namespace DotnetSpider.Enterprise.Agent
 				}
 			}
 
-
-			ReportProcessCountChanged(command.TaskId, true);
-
 			var process = Process(command.ApplicationName, command.Arguments, workingDirectory, () =>
 			{
 				Process p;
 				Processes.TryRemove(command.TaskId, out p);
-				ReportProcessCountChanged(command.TaskId, false);
 			});
 			Processes.TryAdd(command.TaskId, process);
 		}
@@ -299,30 +287,6 @@ namespace DotnetSpider.Enterprise.Agent
 			process.Start();
 			process.Exited += (a, b) => { onExited?.Invoke(); };
 			return process;
-		}
-
-		private void ReportProcessCountChanged(long taskId, bool isStart)
-		{
-			var content = new StringContent($"{{'token':'{Config.ApiToken}','taskId':'{taskId}'}}", Encoding.UTF8, "application/json");
-
-			for (int i = 0; i < 100; ++i)
-			{
-				try
-				{
-					var url = isStart ? Config.IncreaseRunningUrl : Config.ReduceRunningUrl;
-					httpClient.PostAsync(url, content).ContinueWith((task) =>
-					{
-						HttpResponseMessage response = task.Result;
-						response.EnsureSuccessStatusCode();
-					}).Wait();
-					break;
-				}
-				catch (Exception e)
-				{
-					_logger.Error($"ReportProcessCountChanged failed.: {e}");
-					Thread.Sleep(6000);
-				}
-			}
 		}
 	}
 }

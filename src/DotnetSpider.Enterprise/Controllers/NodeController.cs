@@ -24,14 +24,11 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[AllowAnonymous]
 		public IActionResult Heartbeat([FromBody]NodeHeartbeatInputDto input)
 		{
-			if (string.IsNullOrEmpty(input.NodeId))
-			{
-				return NotFound();
-			}
-			else
+			if (ModelState.IsValid)
 			{
 				return new JsonResult(_nodeAppService.Heartbeat(input));
 			}
+			return NotFound();
 		}
 
 		[HttpPost]

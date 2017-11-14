@@ -28,6 +28,9 @@ namespace DotnetSpider.Enterprise.Application
 				config.CreateMap<AddTaskHistoryInputDto, Domain.Entities.TaskHistory>();
 				config.CreateMap<AddMessageInputDto, Domain.Entities.Message>();
 				config.CreateMap<Domain.Entities.Message, MessageOutputDto>();
+				config.CreateMap<Domain.Entities.Task, QueryTaskOutputDto>();
+				config.CreateMap<Domain.Entities.Task, QueryTaskOutputDto>();
+			 
 			});
 		}
 	}
