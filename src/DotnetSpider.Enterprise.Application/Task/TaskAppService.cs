@@ -148,6 +148,31 @@ namespace DotnetSpider.Enterprise.Application.Task
 		{
 			var task = Mapper.Map<Domain.Entities.Task>(item);
 
+			if (!string.IsNullOrEmpty(item.ApplicationName))
+			{
+				item.ApplicationName = item.ApplicationName.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Arguments))
+			{
+				item.Arguments = item.Arguments.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Cron))
+			{
+				item.Cron = item.Cron.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Version))
+			{
+				item.Version = item.Version.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Name))
+			{
+				item.Name = item.Name.Trim();
+			}
+
 			var cron = task.Cron;
 			task.Cron = string.Empty;
 			DbContext.Task.Add(task);
@@ -168,8 +193,34 @@ namespace DotnetSpider.Enterprise.Application.Task
 		public void Modify(TaskDto item)
 		{
 			var taskObj = Mapper.Map<Domain.Entities.Task>(item);
+
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == item.Id);
 			if (task == null) throw new Exception("当前任务不存在.");
+
+			if (!string.IsNullOrEmpty(item.ApplicationName))
+			{
+				item.ApplicationName = item.ApplicationName.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Arguments))
+			{
+				item.Arguments = item.Arguments.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Cron))
+			{
+				item.Cron = item.Cron.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Version))
+			{
+				item.Version = item.Version.Trim();
+			}
+
+			if (!string.IsNullOrEmpty(item.Name))
+			{
+				item.Name = item.Name.Trim();
+			}
 
 			//通知Scheduler
 			NotifyScheduler(task.Id, task.Cron);
