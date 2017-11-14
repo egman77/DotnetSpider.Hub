@@ -16,8 +16,8 @@ namespace DotnetSpider.Enterprise.Application
 		{
 			Mapper.Initialize((config) =>
 			{
-				config.CreateMap<TaskDto, Domain.Entities.Task>();
-				config.CreateMap<Domain.Entities.Task, TaskDto>();
+				config.CreateMap<AddTaskInputDto, Domain.Entities.Task>();
+				config.CreateMap<Domain.Entities.Task, AddTaskInputDto>();
 				config.CreateMap<NodeHeartbeatInputDto, NodeHeartbeat>();
 				config.CreateMap<MessageHistory, Domain.Entities.Message>();
 				config.CreateMap<Domain.Entities.Message, MessageHistory>();

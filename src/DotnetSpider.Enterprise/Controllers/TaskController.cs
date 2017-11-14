@@ -65,7 +65,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Add(TaskDto item)
+		public IActionResult Add(AddTaskInputDto item)
 		{
 			if (ModelState.IsValid)
 			{
@@ -78,7 +78,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Modify(TaskDto item)
+		public IActionResult Modify(ModifyTaskInputDto item)
 		{
 			if (ModelState.IsValid)
 			{

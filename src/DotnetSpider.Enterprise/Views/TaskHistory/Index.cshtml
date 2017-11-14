@@ -36,13 +36,14 @@
                 <div class="body">
                     <div id="bodyContent" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div id="batchDiv" class="panel-group" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-primary" v-for="(batch, idx) in historys">
+                            <div class="panel panel-primary" v-for="(batch, idx) in histories">
                                 <div class="panel-heading" role="tab" :id="'headingOne_'+idx">
                                     <h4 class="panel-title">
-                                        @*<a role="button" data-toggle="collapse" data-parent="#batchDiv" :href="'#collapseOne_'+idx" :aria-controls="'headingOne_'+idx" :aria-expanded="idx==0?'true':'false'">Batch : {{batch.batch}}</a>*@
+                                        <span v-text="batch.identity"></span>
+                                        <span v-text="batch.creationTime" class="pull-right"></span>
                                     </h4>
                                 </div>
-                                <div :id="'collapseOne_'+idx" :class="['panel-collapse','collapse',{'in':idx==0 }]" role="tabpanel" :aria-labelledby="'headingOne_'+idx" :aria-expanded="idx==0?'true':'false'">
+                                <div :id="'collapseOne_'+idx" class="panel-collapse collapse in" role="tabpanel" :aria-labelledby="'headingOne_'+idx" :aria-expanded="idx==0?'true':'false'">
                                     <div class="panel-body">
                                         <table class="table table-bordered table-striped table-hover no-footer">
                                             <thead>
@@ -61,114 +62,110 @@
                                                     <th>AVG PIPELINE</th>
                                                     <th>
                                                         @*<button @@click="viewBatchLogs(batch.code)">Logs</button>*@
-                                                    <a target="_blank" :href="'/log?identity='+batch.identity"><i title="logs">VIEW LOGS</i></a>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-show="batch.statuses.length==0">
-                                                <td colspan="13">
-                                                    No data to display...
-                                                </td>
-                                            </tr>
-                                            <tr role="row" v-for="(node,index) in batch.statuses">
-                                                <td v-text="index+1"></td>
-                                                <td v-text="node.nodeId"></td>
-                                                <td v-text="node.lastModificationTime"></td>
-                                                <td v-text="node.status" :style="{'color':node.status=='Running'?'green':'#000'}"></td>
-                                                <td v-text="node.thread"></td>
-                                                <td v-text="node.left"></td>
-                                                <td v-text="node.success"></td>
-                                                <td v-text="node.error"></td>
-                                                <td v-text="node.total"></td>
-                                                <td v-text="node.avgDownloadSpeed"></td>
-                                                <td v-text="node.avgProcessorSpeed"></td>
-                                                <td v-text="node.avgPipelineSpeed"></td>
-                                                @*<td><i title="node log" class="material-icons" @@click="viewLogs(batch.code,node.node)" style="cursor: pointer;">more</i></td>*@
-                                                <td><a target="_blank" :href="'/log?identity='+batch.identity+'&node='+node.nodeId"><i title="node log">VIEW LOGS</i></a></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                        <a target="_blank" :href="'/Log?Identity='+batch.identity"><i title="logs">VIEW LOGS</i></a>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-show="batch.statuses.length==0"></tr>
+                                                <tr role="row" v-for="(node,index) in batch.statuses">
+                                                    <td v-text="index+1"></td>
+                                                    <td v-text="node.nodeId"></td>
+                                                    <td v-text="node.lastModificationTime"></td>
+                                                    <td v-text="node.status" :style="{'color':node.status=='Running'?'green':'#000'}"></td>
+                                                    <td v-text="node.thread"></td>
+                                                    <td v-text="node.left"></td>
+                                                    <td v-text="node.success"></td>
+                                                    <td v-text="node.error"></td>
+                                                    <td v-text="node.total"></td>
+                                                    <td v-text="node.avgDownloadSpeed"></td>
+                                                    <td v-text="node.avgProcessorSpeed"></td>
+                                                    <td v-text="node.avgPipelineSpeed"></td>
+                                                    @*<td><i title="node log" class="material-icons" @@click="viewLogs(batch.code,node.node)" style="cursor: pointer;">more</i></td>*@
+                                                    <td><a target="_blank" :href="'/log?identity='+batch.identity+'&node='+node.nodeId"><i title="node log">VIEW LOGS</i></a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div v-show="histories.length==0">There is no data to display for this task...</div>
+                        <div v-show="histories.length>0" class="row" style="margin-left:0;margin-right:0;">
+                            <div class="dataTables_info" style="float:left;">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
+                            <div class="dataTables_paginate paging_simple_numbers" id="pagination" style="float:right;">
+                                <ul class="pagination"></ul>
+                            </div>
+                        </div>
                     </div>
-                    <div v-show="historys.length==0">There is no data to display for this task...</div>
-                    <div v-show="historys.length>0" class="row" style="margin-left:0;margin-right:0;">
-                        <div class="dataTables_info" style="float:left;">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
-                        <div class="dataTables_paginate paging_simple_numbers" id="pagination" style="float:right;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="LogsModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
+        <div class="modal-dialog" style="width:90%;min-height:700px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>VIEW LOGS...</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-bottom:10px;">
+                        Time: <input id="startDate" type="text" onClick="WdatePicker()" />-<input id="endDate" type="text" onClick="WdatePicker()" />
+                        Level:
+                        <select id="logType">
+                            <option value="">All</option>
+                            <option value="Info">Info</option>
+                            <option value="Warn">Warn</option>
+                            <option value="Error">Error</option>
+                        </select>
+                        <input type="button" @@click="searchResults()" value="OK" />
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover no-footer">
+                        <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>NODE</th>
+                                <th>LOG TIME</th>
+                                <th>LEVEL</th>
+                                <th>MESSAGE</th>
+                                <th>SOURCE</th>
+                                <th>EXCEPTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-show="logs.length==0">
+                                <td colspan="13">
+                                    No data to display...
+                                </td>
+                            </tr>
+                            <tr role="row" v-for="(item,index) in logs">
+                                <td v-text="index+1"></td>
+                                <td v-text="item.node"></td>
+                                <td v-text="item.logged"></td>
+                                <td v-text="item.level" :class="{'logWarnning':item.level=='Warn','logError':item.level=='Error'}"></td>
+                                <td v-text="item.message" :class="{'logWarnning':item.level=='Warn','logError':item.level=='Error'}"></td>
+                                <td v-text="item.callSite"></td>
+                                <td v-text="item.exception"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row" style="margin-left:0;margin-right:0;">
+                        <div class="dataTables_info" style="float:left;">Showing <span v-text="logsPaging.page"></span> to <span v-text="logsPaging.size"></span> of <span v-text="logsPaging.total"></span> entries</div>
+                        <div class="dataTables_paginate paging_simple_numbers" id="logsPagination" style="float:right;">
                             <ul class="pagination"></ul>
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<div id="LogsModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
-    <div class="modal-dialog" style="width:90%;min-height:700px;" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <span>VIEW LOGS...</span>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <div style="margin-bottom:10px;">
-                    Time: <input id="startDate" type="text" onClick="WdatePicker()" />-<input id="endDate" type="text" onClick="WdatePicker()" />
-                    Level:
-                    <select id="logType">
-                        <option value="">All</option>
-                        <option value="Info">Info</option>
-                        <option value="Warn">Warn</option>
-                        <option value="Error">Error</option>
-                    </select>
-                    <input type="button" @@click="searchResults()" value="OK" />
-                </div>
-
-                <table class="table table-bordered table-striped table-hover no-footer">
-                    <thead>
-                        <tr role="row">
-                            <th>#</th>
-                            <th>NODE</th>
-                            <th>LOG TIME</th>
-                            <th>LEVEL</th>
-                            <th>MESSAGE</th>
-                            <th>SOURCE</th>
-                            <th>EXCEPTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-show="logs.length==0">
-                            <td colspan="13">
-                                No data to display...
-                            </td>
-                        </tr>
-                        <tr role="row" v-for="(item,index) in logs">
-                            <td v-text="index+1"></td>
-                            <td v-text="item.node"></td>
-                            <td v-text="item.logged"></td>
-                            <td v-text="item.level" :class="{'logWarnning':item.level=='Warn','logError':item.level=='Error'}"></td>
-                            <td v-text="item.message" :class="{'logWarnning':item.level=='Warn','logError':item.level=='Error'}"></td>
-                            <td v-text="item.callSite"></td>
-                            <td v-text="item.exception"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="row" style="margin-left:0;margin-right:0;">
-                    <div class="dataTables_info" style="float:left;">Showing <span v-text="logsPaging.page"></span> to <span v-text="logsPaging.size"></span> of <span v-text="logsPaging.total"></span> entries</div>
-                    <div class="dataTables_paginate paging_simple_numbers" id="logsPagination" style="float:right;">
-                        <ul class="pagination"></ul>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 
 @section scripts {

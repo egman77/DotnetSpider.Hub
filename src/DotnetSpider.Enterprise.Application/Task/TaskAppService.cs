@@ -60,43 +60,24 @@ namespace DotnetSpider.Enterprise.Application.Task
 			QueryTaskOutputDto output = new QueryTaskOutputDto
 			{
 				Page = result.Page,
-				Result = Mapper.Map<List<TaskDto>>(result.Result),
+				Result = Mapper.Map<List<AddTaskInputDto>>(result.Result),
 				Size = result.Size,
 				Total = result.Total
 			};
 			return output;
 		}
 
-		public void Add(TaskDto item)
+		public void Add(AddTaskInputDto item)
 		{
 			var task = Mapper.Map<Domain.Entities.Task>(item);
 			// FOR TEST
 			task.Cron = "*/2 * * * *";
 
-			if (!string.IsNullOrEmpty(item.ApplicationName))
-			{
-				item.ApplicationName = item.ApplicationName.Trim();
-			}
-
-			if (!string.IsNullOrEmpty(item.Arguments))
-			{
-				item.Arguments = item.Arguments.Trim();
-			}
-
-			if (!string.IsNullOrEmpty(item.Cron))
-			{
-				item.Cron = item.Cron.Trim();
-			}
-
-			if (!string.IsNullOrEmpty(item.Version))
-			{
-				item.Version = item.Version.Trim();
-			}
-
-			if (!string.IsNullOrEmpty(item.Name))
-			{
-				item.Name = item.Name.Trim();
-			}
+			item.ApplicationName = item.ApplicationName.Trim();
+			item.Arguments = item.Arguments?.Trim();
+			item.Cron = item.Cron?.Trim();
+			item.Version = item.Version?.Trim();
+			item.Name = item.Name?.Trim();
 
 			var cron = task.Cron;
 			// DEFAULT VALUE
@@ -112,29 +93,29 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public void Modify(TaskDto item)
+		public void Modify(ModifyTaskInputDto item)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == item.Id);
 			if (task == null)
 			{
 				throw new Exception("Unfound task.");
 			}
-			task.Analysts = item.Analysts;
-			task.ApplicationName = item.ApplicationName;
-			task.Arguments = item.Arguments;
+			task.Analysts = item.Analysts?.Trim();
+			task.ApplicationName = item.ApplicationName?.Trim();
+			task.Arguments = item.Arguments?.Trim();
 			task.Cron = "*/2 * * * *";
 			// TODO
 			//task.Cron = item.Cron;
-			task.Description = item.Description;
-			task.Developers = item.Developers;
+			task.Description = item.Description?.Trim();
+			task.Developers = item.Developers?.Trim();
 
-			task.Name = item.Name;
+			task.Name = item.Name?.Trim();
 			task.NodeCount = item.NodeCount;
 			task.NodeRunningCount = item.NodeRunningCount;
-			task.Os = item.Os;
-			task.Owners = item.Owners;
-			task.Tags = item.Tags;
-			task.Version = item.Version;
+			task.Os = item.Os?.Trim();
+			task.Owners = item.Owners?.Trim();
+			task.Tags = item.Tags?.Trim();
+			task.Version = item.Version?.Trim();
 
 			if (!task.IsEnabled && item.IsEnabled)
 			{
@@ -306,7 +287,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			return output;
 		}
 
-		public TaskDto Get(long taskId)
+		public AddTaskInputDto Get(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -314,7 +295,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new Exception("任务不存在.");
 			}
 
-			return AutoMapper.Mapper.Map<TaskDto>(task);
+			return AutoMapper.Mapper.Map<AddTaskInputDto>(task);
 		}
 
 		/// <summary>

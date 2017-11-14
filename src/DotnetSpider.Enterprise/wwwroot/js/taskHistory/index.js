@@ -8,7 +8,7 @@
         data: {
             histories: [],
             total: 0,
-            size: 10,
+            size: 5,
             keyword: '',
             page: 1,
             taskId: 0,

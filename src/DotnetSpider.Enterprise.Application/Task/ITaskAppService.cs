@@ -8,8 +8,8 @@ namespace DotnetSpider.Enterprise.Application.Task
 	public interface ITaskAppService
 	{
 		QueryTaskOutputDto Query(PagingQueryTaskInputDto input);
-		void Add(TaskDto item);
-		void Modify(TaskDto item);
+		void Add(AddTaskInputDto item);
+		void Modify(ModifyTaskInputDto item);
 
 		void Run(long taskId);
 		void Exit(string identity);
@@ -22,6 +22,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 		void ReduceRunning(TaskIdInputDto input);
 
 		PagingQueryOutputDto QueryRunning(PagingQueryInputDto input);
-		TaskDto Get(long taskId);
+		AddTaskInputDto Get(long taskId);
 	}
 }
