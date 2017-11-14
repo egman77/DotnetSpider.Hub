@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DotnetSpider.Enterprise.Application.Task.Dtos
 {
 	public class TaskDto
 	{
 		public long Id { get; set; }
+
 		/// <summary>
 		/// 程序集名称
 		/// </summary>
@@ -13,6 +15,8 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		/// <summary>
 		/// Cron表达式
 		/// </summary>
+		[StringLength(50)]
+		[Required]
 		public virtual string Cron { get; set; }
 
 		/// <summary>

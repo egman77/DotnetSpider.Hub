@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DotnetSpider.Enterprise.Application.TaskStatus.Dtos
 {
-	public class TaskStatusDto
+	public class TaskStatusOutputDto
 	{
 		public virtual string Name { get; set; }
 		public virtual string Identity { get; set; }

@@ -92,7 +92,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			var taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
 			var taskIds = taskStatuses.Select(t => t.TaskId).ToList();
 			var tasks = DbContext.Task.Where(t => taskIds.Contains(t.Id)).ToList();
-			var taskStatusOutputs = Mapper.Map<List<TaskStatusDto>>(taskStatuses);
+			var taskStatusOutputs = Mapper.Map<List<TaskStatusOutputDto>>(taskStatuses);
 			foreach (var taskStatus in taskStatusOutputs)
 			{
 				var taskId = taskStatus.TaskId;

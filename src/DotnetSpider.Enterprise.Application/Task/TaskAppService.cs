@@ -19,105 +19,28 @@ using System.IO;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using DotnetSpider.Enterprise.Application.Message;
+using DotnetSpider.Enterprise.Application.TaskHistory;
+using DotnetSpider.Enterprise.Application.Node;
+using DotnetSpider.Enterprise.Application.Message.Dtos;
+using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
 	public class TaskAppService : AppServiceBase, ITaskAppService
 	{
 		private readonly ICommonConfiguration _configuration;
+		private readonly ITaskHistoryAppService _taskHistoryAppService;
+		private readonly IMessageAppService _messageAppService;
+		private readonly INodeAppService _nodeAppService;
 
-		public TaskAppService(ICommonConfiguration configuration,
+		public TaskAppService(ITaskHistoryAppService taskHistoryAppService, IMessageAppService messageAppService, INodeAppService nodeAppService, ICommonConfiguration configuration,
 			ApplicationDbContext dbcontext) : base(dbcontext)
 		{
 			_configuration = configuration;
-		}
-
-		private void DispatchTaskToNodes(Domain.Entities.Task task)
-		{
-			var nodeList = new Dictionary<string, int>();
-			List<Domain.Entities.Node> nodes = null;
-			if (task.Os == "All")
-			{
-				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline).ToList();
-			}
-			else
-			{
-				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os == task.Os).ToList();
-			}
-
-			if (nodes.Count == 0)
-			{
-				throw new Exception("没有可运行的节点服务器.");
-			}
-
-			foreach (var node in nodes)
-			{
-				var status = DbContext.NodeHeartbeat.Where(a => a.NodeId == node.NodeId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
-				var score = 0;
-				if ((DateTime.Now - status.CreationTime).TotalSeconds < 120)
-				{
-					if (status.ProcessCount < 1)
-					{
-						score = 5;
-					}
-					else if (status.ProcessCount == 1)
-					{
-						score = 2;
-					}
-					else
-					{
-						score = 0;
-					}
-
-					if (status.FreeMemory >= 800)
-					{
-						score += 3;
-					}
-					else if (status.FreeMemory >= 500)
-					{
-						score += 1;
-					}
-					if (status.CPULoad < 30)
-					{
-						score += 2;
-					}
-					else if (status.CPULoad < 50)
-					{
-						score += 1;
-					}
-					nodeList.Add(node.NodeId, score);
-				}
-			}
-
-			var list = nodeList.OrderByDescending(a => a.Value);
-			var identity = Guid.NewGuid().ToString("N");
-			DbContext.DoWithTransaction(() =>
-			{
-				foreach (var item in list.Take(task.NodeCount))
-				{
-					var msg = new DotnetSpider.Enterprise.Domain.Entities.Message
-					{
-						TaskId = task.Id,
-						ApplicationName = task.ApplicationName,
-						Name = "RUN",
-						NodeId = item.Key,
-						Arguments = string.Concat(task.Arguments, "-tid:", task.Id," ", "-i:", identity)
-					};
-					DbContext.Message.Add(msg);
-				}
-				DbContext.TaskHistory.Add(new TaskHistory
-				{
-					Identity = identity,
-					NodeIds = string.Join("|", list.Take(task.NodeCount).Select(a => a.Key)),
-					TaskId = task.Id
-				});
-			});
-		}
-
-		public bool Fire(long taskId)
-		{
-			Run(taskId);
-			return true;
+			_taskHistoryAppService = taskHistoryAppService;
+			_messageAppService = messageAppService;
+			_nodeAppService = nodeAppService;
 		}
 
 		public QueryTaskOutputDto Query(PagingQueryTaskInputDto input)
@@ -147,33 +70,53 @@ namespace DotnetSpider.Enterprise.Application.Task
 		public void Add(TaskDto item)
 		{
 			var task = Mapper.Map<Domain.Entities.Task>(item);
+			// FOR TEST
+			task.Cron = "*/2 * * * *";
 
 			var cron = task.Cron;
-			task.Cron = string.Empty;
+			// DEFAULT VALUE
+			task.Cron = "0 0 0 ? 2013-2014";
 			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
-			if (!string.IsNullOrEmpty(cron))
+			if (AddOrUpdateHangfireJob(task.Id, cron))
 			{
-				if (NotifyScheduler(task.Id, cron))
-				{
-					task.Cron = cron;
-					DbContext.Task.Update(task);
-					DbContext.SaveChanges();
-				}
+				task.Cron = cron;
+				DbContext.Task.Update(task);
+				DbContext.SaveChanges();
 			}
-			item.Id = task.Id;
 		}
 
 		public void Modify(TaskDto item)
 		{
-			var taskObj = Mapper.Map<Domain.Entities.Task>(item);
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == item.Id);
-			if (task == null) throw new Exception("当前任务不存在.");
+			if (task == null)
+			{
+				throw new Exception("Unfound task.");
+			}
+			task.Analysts = item.Analysts;
+			task.ApplicationName = item.ApplicationName;
+			task.Arguments = item.Arguments;
+			task.Cron = "*/2 * * * *";
+			// TODO
+			//task.Cron = item.Cron;
+			task.Description = item.Description;
+			task.Developers = item.Developers;
 
-			//通知Scheduler
-			NotifyScheduler(task.Id, task.Cron);
-			DbContext.Task.Update(taskObj);
+			task.Name = item.Name;
+			task.NodeCount = item.NodeCount;
+			task.NodeRunningCount = item.NodeRunningCount;
+			task.Os = item.Os;
+			task.Owners = item.Owners;
+			task.Tags = item.Tags;
+			task.Version = item.Version;
+
+			if (!task.IsEnabled && item.IsEnabled)
+			{
+				AddOrUpdateHangfireJob(task.Id, task.Cron);
+			}
+			task.IsEnabled = item.IsEnabled;
+			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
 		}
 
@@ -183,34 +126,22 @@ namespace DotnetSpider.Enterprise.Application.Task
 		/// </summary>
 		/// <param name="taskId"></param>
 		/// <param name="cron"></param>
-		private bool NotifyScheduler(long taskId, string cron)
+		private bool AddOrUpdateHangfireJob(long taskId, string cron)
 		{
-			var url = $"{_configuration.SchedulerUrl}api/task";
-			var message = new HttpRequestMessage(HttpMethod.Post, _configuration.SchedulerUrl);
-			message.Headers.Add("Cache-Control", "max-age=0");
-			message.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
-			message.Headers.Add("Upgrade-Insecure-Requests", "1");
-			message.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36");
+			var url = $"{_configuration.SchedulerUrl}Task/AddOrUpdate";
 
-			var requestObject = new SchedulerRequestObject
+			var json = JsonConvert.SerializeObject(new HangfireJobDto
 			{
-				Id = taskId,
+				Name = taskId.ToString(),
 				Cron = cron,
 				Url = $"{_configuration.HostUrl}Task/Fire",
-				Data = ""
-			};
-
-			var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(requestObject));
-			message.Content = new StreamContent(new MemoryStream(data));
+				Data = taskId.ToString()
+			});
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
 			try
 			{
-				var content = Util.Client.SendAsync(message).Result.Content.ReadAsStringAsync().Result;
-				var msg = JsonConvert.DeserializeObject(content) as JObject;
-				var status = msg.GetValue("status").ToString();
-				if (status != "Ok")
-				{
-					throw new Exception(msg.GetValue("message").ToString());
-				}
+				var result = Util.Client.PostAsync(url, content).Result;
+				result.EnsureSuccessStatusCode();
 				return true;
 			}
 			catch (Exception ex)
@@ -219,13 +150,22 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
+		private void RemoveHangfireJob(long taskId)
+		{
+			var url = $"{_configuration.SchedulerUrl}Task/Remove";
+			var postData = $"jobId={taskId}";
+			var content = new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded");
+			var result = Util.Client.PostAsync(url, content).Result;
+			result.EnsureSuccessStatusCode();
+		}
+
 		public void Run(long taskId)
 		{
 			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && a.Name == "RUN");
 			if (msg == null)
 			{
-				var task = ValidateTaskRunningState(taskId);
-				DispatchTaskToNodes(task);
+				var task = CheckStatusOfTask(taskId);
+				PushTask(task);
 			}
 		}
 
@@ -274,13 +214,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
 			{
-				NotifyScheduler(task.Id, string.Empty);
+				RemoveHangfireJob(task.Id);
 				DbContext.Task.Remove(task);
 				DbContext.SaveChanges();
 			}
 		}
 
-		public bool Disable(long taskId)
+		public void Disable(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -288,16 +228,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new Exception("任务不存在!");
 			}
 			task.IsEnabled = false;
-			if (NotifyScheduler(task.Id, string.Empty))
-			{
-				DbContext.Task.Update(task);
-				DbContext.SaveChanges();
-			}
 
-			return true;
+			RemoveHangfireJob(task.Id);
+			DbContext.Task.Update(task);
+			DbContext.SaveChanges();
 		}
 
-		public bool Enable(long taskId)
+		public void Enable(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -305,13 +242,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new Exception("任务不存在!");
 			}
 			task.IsEnabled = true;
-			if (NotifyScheduler(task.Id, task.Cron))
+			if (AddOrUpdateHangfireJob(task.Id, task.Cron))
 			{
 				DbContext.Task.Update(task);
 				DbContext.SaveChanges();
 			}
-
-			return true;
 		}
 
 		public void IncreaseRunning(TaskIdInputDto input)
@@ -339,11 +274,22 @@ namespace DotnetSpider.Enterprise.Application.Task
 			DbContext.SaveChanges();
 		}
 
-		public PagingQueryOutputDto Running(PagingQueryInputDto input)
+		public PagingQueryOutputDto QueryRunning(PagingQueryInputDto input)
 		{
 			PagingQueryOutputDto output = DbContext.Task.PageList(input, d => d.NodeRunningCount > 0, d => d.Id);
 			output.Result = Mapper.Map<List<RunningTaskOutputDto>>(output.Result);
 			return output;
+		}
+
+		public TaskDto Get(long taskId)
+		{
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
+			if (task == null)
+			{
+				throw new Exception("任务不存在.");
+			}
+
+			return AutoMapper.Mapper.Map<TaskDto>(task);
 		}
 
 		/// <summary>
@@ -352,7 +298,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		/// </summary>
 		/// <param name="taskId">任务ID</param>
 		/// <returns>任务对象</returns>
-		private Domain.Entities.Task ValidateTaskRunningState(long taskId)
+		private Domain.Entities.Task CheckStatusOfTask(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null || task.IsDeleted)
@@ -382,62 +328,39 @@ namespace DotnetSpider.Enterprise.Application.Task
 			return task;
 		}
 
-		public PagingQueryOutputDto QueryRunHistory(PagingQueryTaskHistoryInputDto input)
+		private void PushTask(Domain.Entities.Task task)
 		{
-			input.Validate();
+			var nodes = _nodeAppService.GetAvailableNodes(task.Os, task.NodeCount);
 
-			var output = new PagingQueryOutputDto
+			if (nodes.Count == 0)
 			{
-				Page = input.Page,
-				Size = input.Size
+				// TODO LOG
+				return;
+			}
+
+			var identity = Guid.NewGuid().ToString("N");
+			var messages = new List<AddMessageInputDto>();
+			foreach (var node in nodes)
+			{
+				var msg = new AddMessageInputDto
+				{
+					TaskId = task.Id,
+					ApplicationName = task.ApplicationName,
+					Name = "RUN",
+					NodeId = node.NodeId,
+					Version = task.Version,
+					Arguments = string.Concat(task.Arguments, "-tid:", task.Id, " ", "-i:", identity)
+				};
+			}
+			_messageAppService.AddRange(messages);
+
+			var taskHistory = new AddTaskHistoryInputDto
+			{
+				Identity = identity,
+				NodeIds = string.Join("|", nodes.Select(a => a.NodeId)),
+				TaskId = task.Id
 			};
-
-			var result = DbContext.TaskHistory.PageList(input, a => a.TaskId == input.TaskId, t => t.CreationTime);
-
-			output.Total = result.Total;
-			var results = result.Result as List<TaskHistory>;
-			List<Domain.Entities.TaskStatus> status = null;
-			if (results.Count > 0)
-			{
-				var codeList = new string[results.Count];
-				for (var index = 0; index < results.Count; index++)
-				{
-					codeList[index] = results[index].Identity;
-				}
-				status = DbContext.TaskStatus.Where(a => codeList.Contains(a.Identity)).ToList();
-			}
-			else
-			{
-				status = new List<Domain.Entities.TaskStatus>(0);
-			}
-
-			var batchesDto = new List<TaskHistoryDto>(results.Count);
-			var statusList = Mapper.Map<List<TaskStatusDto>>(status);
-
-			foreach (var item in results)
-			{
-				batchesDto.Add(new TaskHistoryDto
-				{
-					Identity = item.Identity,
-					TaskId = input.TaskId,
-					StatusList = statusList.Where(a => a.Identity == item.Identity).ToList()
-				});
-			}
-			output.Result = batchesDto;
-
-			return output;
-
-		}
-
-		public TaskDto QueryTask(long taskId)
-		{
-			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
-			if (task == null)
-			{
-				throw new Exception("任务不存在.");
-			}
-
-			return AutoMapper.Mapper.Map<TaskDto>(task);
+			_taskHistoryAppService.Add(taskHistory);
 		}
 	}
 }

@@ -48,33 +48,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 			builder.Entity<ApplicationUserClaim>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Claims).HasForeignKey(pt => pt.UserId);
 			builder.Entity<ApplicationUserRole>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Roles).HasForeignKey(pt => pt.UserId);
 			builder.Entity<ApplicationUserLogin>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Logins).HasForeignKey(pt => pt.UserId);
-		}
-
-		public void DoWithTransaction(Action action)
-		{
-			if (Database.CurrentTransaction == null)
-			{
-				IDbContextTransaction transaction = null;
-				try
-				{
-					transaction = Database.BeginTransaction();
-					action();
-					SaveChanges();
-					transaction.Commit();
-				}
-				catch (System.Exception e)
-				{
-					if (transaction != null)
-					{
-						transaction.Rollback();
-					}
-					throw;
-				}
-			}
-			else
-			{
-				action();
-			}
+			builder.Entity<Node>().HasAlternateKey(c => c.NodeId).HasName("AlternateKey_NodeId");
 		}
 
 		public override int SaveChanges()

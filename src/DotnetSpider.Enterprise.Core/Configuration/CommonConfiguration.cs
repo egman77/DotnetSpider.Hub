@@ -241,7 +241,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		{
 			get
 			{
-				var section = AppConfiguration.GetSection(ConfigurationConsts.RedisNamespace);
+				var section = AppConfiguration.GetSection(ConfigurationConsts.DefaultSetting);
 				return section.GetValue<string>(ConfigurationConsts.RedisNamespace);
 			}
 		}
@@ -250,7 +250,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		{
 			get
 			{
-				var section = AppConfiguration.GetSection(ConfigurationConsts.SchedulerUrl);
+				var section = AppConfiguration.GetSection(ConfigurationConsts.DefaultSetting);
 				return section.GetValue<string>(ConfigurationConsts.SchedulerUrl);
 			}
 		}

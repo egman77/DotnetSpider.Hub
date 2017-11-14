@@ -22,7 +22,7 @@
     </style>
 }
 
-<div id="taskContent" class="container-fluid">
+<div id="taskHistory" class="container-fluid">
     <!-- Tasks -->
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -66,12 +66,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-show="batch.statusList.length==0">
+                                            <tr v-show="batch.statuses.length==0">
                                                 <td colspan="13">
                                                     No data to display...
                                                 </td>
                                             </tr>
-                                            <tr role="row" v-for="(node,index) in batch.statusList">
+                                            <tr role="row" v-for="(node,index) in batch.statuses">
                                                 <td v-text="index+1"></td>
                                                 <td v-text="node.nodeId"></td>
                                                 <td v-text="node.lastModificationTime"></td>
@@ -175,11 +175,11 @@
     <environment names="Development">
         <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js" asp-append-version="true"></script>
-        <script src="~/js/task/RunHistory.js" asp-append-version="true"></script>
+        <script src="~/js/taskHistory/index.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
-        <script src="~/js/task/RunHistory.min.js" asp-append-version="true"></script>
+        <script src="~/js/taskHistory/index.min.js" asp-append-version="true"></script>
     </environment>
 }

@@ -10,7 +10,7 @@
 		applicationName: 'dotnet',
 		isEnabled: true,
 		cron: '',
-		nodesCount: 1,
+		nodeCount: 1,
 		arguments: '',
 		owners: '',
 		developers: '',
@@ -213,7 +213,7 @@
 	var lastQuery;
 
 	function loadTasks(vue) {
-		var url = '/Task/GetList';
+		var url = '/Task/Query';
 		var keywrod = vue.$data.keyword || '';
 		var query = { page: vue.$data.page, size: vue.size, keyword: keywrod };
 

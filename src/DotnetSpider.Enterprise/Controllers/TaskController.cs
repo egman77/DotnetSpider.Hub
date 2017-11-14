@@ -45,18 +45,19 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[AllowAnonymous]
 		public IActionResult Running(PagingQueryInputDto input)
 		{
-			return DataResult(_taskAppService.Running(input));
+			return DataResult(_taskAppService.QueryRunning(input));
 		}
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult Fire([FromBody]SchedulerResponseObject response)
+		public IActionResult Fire(long data)
 		{
-			return ActionResult(() => { return _taskAppService.Fire(response.Id); });
+			_taskAppService.Run(data);
+			return Ok();
 		}
 
 		[HttpPost]
-		public IActionResult GetList(PagingQueryTaskInputDto input)
+		public IActionResult Query(PagingQueryTaskInputDto input)
 		{
 			input.Sort = "desc";
 			var result = _taskAppService.Query(input);
@@ -120,14 +121,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult QueryRunHistory(PagingQueryTaskHistoryInputDto input)
-		{
-			input.Sort = "desc";
-			var result = _taskAppService.QueryRunHistory(input);
-			return DataResult(result);
-		}
-
-		[HttpPost]
 		[AllowAnonymous]
 		public IActionResult IncreaseRunning([FromBody]TaskIdInputDto input)
 		{
@@ -144,9 +137,9 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult QueryTask(long taskId)
+		public IActionResult Get(long taskId)
 		{
-			return ActionResult(_taskAppService.QueryTask, taskId);
+			return ActionResult(_taskAppService.Get, taskId);
 		}
 
 		#endregion

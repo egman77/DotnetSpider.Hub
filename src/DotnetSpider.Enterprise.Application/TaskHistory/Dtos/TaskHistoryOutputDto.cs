@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DotnetSpider.Enterprise.Application.Task.Dtos
+namespace DotnetSpider.Enterprise.Application.TaskHistory.Dtos
 {
-	public class TaskHistoryDto
+	public class TaskHistoryOutputDto
 	{
 		public long TaskId { get; set; }
 
 		public string Identity { get; set; }
 
-		public List<TaskStatusDto> StatusList { get; set; }
+		public List<TaskStatusOutputDto> Statuses { get; set; }
 	}
 }

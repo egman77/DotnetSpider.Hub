@@ -240,7 +240,7 @@ namespace DotnetSpider.Enterprise.Agent
 
 			if (string.IsNullOrEmpty(command.Version))
 			{
-				Logger.Warn($"Version unfound.");
+				Logger.Warn($"Version {command.Version} unfound.");
 				return;
 			}
 
@@ -257,7 +257,8 @@ namespace DotnetSpider.Enterprise.Agent
 				try
 				{
 					var zip = Path.Combine(Config.PackagesDirectory, "{command.Version}.ZIP");
-					var bytes = httpClient.GetByteArrayAsync($"{Config.PackageUrl}/{command.Version}.ZIP").Result;
+					var packageUrl = $"{Config.PackageUrl}{command.Version}.ZIP";
+					var bytes = httpClient.GetByteArrayAsync(packageUrl).Result;
 					File.WriteAllBytes(zip, bytes);
 					ZipUtil.UnZip(zip, workingDirectory);
 				}
@@ -269,16 +270,15 @@ namespace DotnetSpider.Enterprise.Agent
 			}
 
 
+			ReportProcessCountChanged(command.TaskId, true);
+
 			var process = Process(command.ApplicationName, command.Arguments, workingDirectory, () =>
 			{
 				Process p;
 				Processes.TryRemove(command.TaskId, out p);
 				ReportProcessCountChanged(command.TaskId, false);
 			});
-
 			Processes.TryAdd(command.TaskId, process);
-
-			ReportProcessCountChanged(command.TaskId, true);
 		}
 
 		public Process Process(string app, string arguments, string workingDirectory, Action onExited)
@@ -303,13 +303,13 @@ namespace DotnetSpider.Enterprise.Agent
 
 		private void ReportProcessCountChanged(long taskId, bool isStart)
 		{
-			var content = new StringContent($"{{'token':'{Config.ApiToken}','taskId':'{taskId}','isStart':'{isStart}',}}", Encoding.UTF8, "application/json");
+			var content = new StringContent($"{{'token':'{Config.ApiToken}','taskId':'{taskId}'}}", Encoding.UTF8, "application/json");
 
 			for (int i = 0; i < 100; ++i)
 			{
 				try
 				{
-					var url = Config.ProcessCountChangedUrl;
+					var url = isStart ? Config.IncreaseRunningUrl : Config.ReduceRunningUrl;
 					httpClient.PostAsync(url, content).ContinueWith((task) =>
 					{
 						HttpResponseMessage response = task.Result;

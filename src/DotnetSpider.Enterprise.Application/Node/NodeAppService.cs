@@ -47,6 +47,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 		{
 			AddHeartbeat(input);
 			RefreshOnlineStatus(input.NodeId);
+			DbContext.SaveChanges();
 			return _messageAppService.QueryMessages(input.NodeId);
 		}
 
@@ -111,6 +112,62 @@ namespace DotnetSpider.Enterprise.Application.Node
 			}
 			output.Result = nodeOutputs;
 			return output;
+		}
+
+		public List<NodeOutputDto> GetAvailableNodes(string os, int nodeCount)
+		{
+			List<Domain.Entities.Node> nodes = null;
+			if ("all" == os?.ToLower())
+			{
+				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline).ToList();
+			}
+			else
+			{
+				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os.Contains(os)).ToList();
+			}
+			var nodeScores = new Dictionary<string, int>();
+			foreach (var node in nodes)
+			{
+				var heartbeat = DbContext.NodeHeartbeat.Where(a => a.NodeId == node.NodeId).OrderByDescending(a => a.CreationTime).FirstOrDefault();
+				var score = 0;
+				if ((DateTime.Now - heartbeat.CreationTime).TotalSeconds < 120)
+				{
+					if (heartbeat.ProcessCount < 1)
+					{
+						score = 5;
+					}
+					else if (heartbeat.ProcessCount == 1)
+					{
+						score = 2;
+					}
+					else
+					{
+						score = 0;
+					}
+
+					if (heartbeat.FreeMemory >= 800)
+					{
+						score += 3;
+					}
+					else if (heartbeat.FreeMemory >= 500)
+					{
+						score += 1;
+					}
+					if (heartbeat.CPULoad < 30)
+					{
+						score += 2;
+					}
+					else if (heartbeat.CPULoad < 50)
+					{
+						score += 1;
+					}
+					nodeScores.Add(node.NodeId, score);
+				}
+			}
+
+			var availableNodes = nodeScores.OrderByDescending(a => a.Value).ToList();
+			var resultNodes = availableNodes.Count > nodeCount ? Mapper.Map<List<NodeOutputDto>>(availableNodes.Take(nodeCount)) : Mapper.Map<List<NodeOutputDto>>(availableNodes);
+			return resultNodes;
 		}
 
 		private void AddHeartbeat(NodeHeartbeatInputDto input)

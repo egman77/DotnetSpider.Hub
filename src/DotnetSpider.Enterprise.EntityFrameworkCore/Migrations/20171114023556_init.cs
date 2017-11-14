@@ -39,7 +39,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     NodeId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    TaskId = table.Column<long>(type: "bigint", nullable: false)
+                    TaskId = table.Column<long>(type: "bigint", nullable: false),
+                    Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -59,7 +60,9 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     LastModifierUserId = table.Column<long>(type: "bigint", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    NodeId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false)
+                    NodeId = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    TaskId = table.Column<long>(type: "bigint", nullable: false),
+                    Version = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {

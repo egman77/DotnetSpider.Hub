@@ -141,6 +141,9 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<long>("TaskId");
 
+                    b.Property<string>("Version")
+                        .HasMaxLength(100);
+
                     b.HasKey("Id");
 
                     b.ToTable("Message");
@@ -172,6 +175,11 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<string>("NodeId")
                         .IsRequired()
                         .HasMaxLength(32);
+
+                    b.Property<long>("TaskId");
+
+                    b.Property<string>("Version")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 

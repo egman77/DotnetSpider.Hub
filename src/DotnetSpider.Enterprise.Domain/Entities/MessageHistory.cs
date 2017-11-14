@@ -18,6 +18,15 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		[Required]
 		public virtual string ApplicationName { get; set; }
 
+		[Required]
+		public virtual long TaskId { get; set; }
+
+		/// <summary>
+		/// 版本信息
+		/// </summary>
+		[StringLength(100)]
+		public virtual string Version { get; set; }
+
 		/// <summary>
 		/// 附加参数
 		/// </summary>

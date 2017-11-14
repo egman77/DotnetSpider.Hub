@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace DotnetSpider.Enterprise.Domain.Entities
+namespace DotnetSpider.Enterprise.Application.Message.Dtos
 {
-	public class Message : AuditedEntity<long>
+	public class AddMessageInputDto
 	{
-		public const string RunMessageName = "RUN";
-		public const string CanleMessageName = "CANLE";
-
 		[Required]
 		[StringLength(32)]
 		public virtual string NodeId { get; set; }

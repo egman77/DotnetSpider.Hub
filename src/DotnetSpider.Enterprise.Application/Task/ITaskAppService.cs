@@ -12,21 +12,16 @@ namespace DotnetSpider.Enterprise.Application.Task
 		void Modify(TaskDto item);
 
 		void Run(long taskId);
-		//List<NodeStatusDto> GetNodeStatus(string identity);
 		void Exit(string identity);
 		void Remove(long taskId);
 
-		bool Fire(long taskId);
-		bool Disable(long taskId);
-		bool Enable(long taskId);
+		void Disable(long taskId);
+		void Enable(long taskId);
 
 		void IncreaseRunning(TaskIdInputDto input);
 		void ReduceRunning(TaskIdInputDto input);
 
-		PagingQueryOutputDto Running(PagingQueryInputDto input);
-		PagingQueryOutputDto QueryRunHistory(PagingQueryTaskHistoryInputDto input);
-		TaskDto QueryTask(long taskId);
-
-
+		PagingQueryOutputDto QueryRunning(PagingQueryInputDto input);
+		TaskDto Get(long taskId);
 	}
 }
