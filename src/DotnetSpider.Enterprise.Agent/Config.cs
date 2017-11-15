@@ -95,13 +95,8 @@ namespace DotnetSpider.Enterprise.Agent
 				Ip = lines[2];
 				process.WaitForExit();
 			}
-
+			NodeId = Ip;
 			CpuFullLoad = 0.7 * Environment.ProcessorCount;
-		}
-
-		public static void Save()
-		{
-			File.WriteAllText(NodeIdPath, $"{NodeId}{Environment.NewLine}");
 		}
 
 		public static void Load()
@@ -117,16 +112,6 @@ namespace DotnetSpider.Enterprise.Agent
 			HeartbeatUrl = $"{ServerUrl}node/heartbeat";
 			ApiToken = _configuration.GetValue<string>("apiToken");
 			NodeType = _configuration.GetValue<int>("type");
-			if (File.Exists(NodeIdPath))
-			{
-				var lines = File.ReadAllLines(NodeIdPath);
-				NodeId = lines.FirstOrDefault();
-			}
-			if (string.IsNullOrEmpty(NodeId))
-			{
-				NodeId = Ip;
-				Save();
-			}
 		}
 	}
 }
