@@ -40,7 +40,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		[Required]
 		[StringLength(50)]
 		public virtual string Name { get; set; }
-  
+
 		/// <summary>
 		/// 所需节点数
 		/// </summary>
@@ -51,6 +51,11 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		/// 所需节点数
 		/// </summary>
 		public virtual int NodeRunningCount { get; set; }
+
+		/// <summary>
+		/// 1 为公司内部节点  2为VPS节点
+		/// </summary>
+		public virtual int NodeType { get; set; }
 
 		[StringLength(32)]
 		public virtual string LastIdentity { get; set; }
@@ -89,7 +94,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		public virtual bool IsDeleted { get; set; }
 
 		[StringLength(20)]
-		public virtual string Os { get; set;}
+		public virtual string Os { get; set; }
 
 		[StringLength(100)]
 		public virtual string Tags { get; set; }

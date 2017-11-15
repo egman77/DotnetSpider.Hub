@@ -47,7 +47,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 		public List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input)
 		{
 			AddHeartbeat(input);
-			RefreshOnlineStatus(input.NodeId);
+			RefreshOnlineStatus(input.NodeId, input.Type);
 			DbContext.SaveChanges();
 			return _messageAppService.QueryMessages(input.NodeId);
 		}
@@ -96,6 +96,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 					nodeOutput.Ip = lastHeartbeat.Ip;
 					nodeOutput.Os = lastHeartbeat.Os;
 					nodeOutput.ProcessCount = lastHeartbeat.ProcessCount;
+					nodeOutput.Type = lastHeartbeat.Type;
 					nodeOutput.CPUCoreCount = lastHeartbeat.CPUCoreCount;
 					nodeOutput.TotalMemory = lastHeartbeat.TotalMemory;
 					nodeOutput.Version = lastHeartbeat.Version;
@@ -109,6 +110,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 					nodeOutput.ProcessCount = 0;
 					nodeOutput.CPUCoreCount = 0;
 					nodeOutput.TotalMemory = 0;
+					nodeOutput.Type = 0;
 					nodeOutput.Version = "UNKONW";
 				}
 				nodeOutputs.Add(nodeOutput);
@@ -117,17 +119,18 @@ namespace DotnetSpider.Enterprise.Application.Node
 			return output;
 		}
 
-		public List<NodeOutputDto> GetAvailableNodes(string os, int nodeCount)
+		public List<NodeOutputDto> GetAvailableNodes(string os, int type, int nodeCount)
 		{
 			List<Domain.Entities.Node> nodes = null;
 			if (string.IsNullOrEmpty(os) || "all" == os.ToLower())
 			{
-				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline).ToList();
+				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Type == type).ToList();
 			}
 			else
 			{
-				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os.Contains(os)).ToList();
+				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os.Contains(os) && a.Type == type).ToList();
 			}
+
 			var nodeScores = new Dictionary<Domain.Entities.Node, int>();
 			foreach (var node in nodes)
 			{
@@ -179,12 +182,13 @@ namespace DotnetSpider.Enterprise.Application.Node
 			DbContext.NodeHeartbeat.Add(heartbeat);
 		}
 
-		private void RefreshOnlineStatus(string nodeId)
+		private void RefreshOnlineStatus(string nodeId, int type)
 		{
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
 			{
 				node.IsOnline = true;
+				node.Type = type;
 				node.LastModificationTime = DateTime.Now;
 			}
 			else
@@ -194,6 +198,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 				node.IsEnable = true;
 				node.IsOnline = true;
 				node.CreationTime = DateTime.Now;
+				node.Type = type;
 				node.LastModificationTime = DateTime.Now;
 				DbContext.Node.Add(node);
 			}

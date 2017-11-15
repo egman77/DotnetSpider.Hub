@@ -19,6 +19,8 @@ namespace DotnetSpider.Enterprise.Application.Node.Dto
 		public virtual int ProcessCount { get; set; }
 		[StringLength(100)]
 		public virtual string Os { get; set; }
+		[Required]
+		public virtual int Type { get; set; }
 		[StringLength(50)]
 		public virtual string Version { get; set; }
 	}

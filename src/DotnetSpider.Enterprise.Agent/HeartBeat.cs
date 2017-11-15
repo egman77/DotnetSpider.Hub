@@ -17,6 +17,7 @@ namespace DotnetSpider.Enterprise.Agent
 		public virtual long FreeMemory { get; set; }
 		public virtual long TotalMemory { get; set; }
 		public virtual int ProcessCount { get; set; }
+		public virtual int Type { get; set; }
 		public virtual string Os { get; set; }
 		public virtual string Version { get; set; }
 		public virtual int CPUCoreCount { get; set; }
@@ -30,7 +31,8 @@ namespace DotnetSpider.Enterprise.Agent
 				CPULoad = Convert.ToInt32(GetCpuLoad()),
 				Os = Config.Os,
 				Version = Config.Version,
-				CPUCoreCount = Environment.ProcessorCount
+				CPUCoreCount = Environment.ProcessorCount,
+				Type = Config.NodeType
 			};
 
 			if (Config.IsRunningOnWindows)

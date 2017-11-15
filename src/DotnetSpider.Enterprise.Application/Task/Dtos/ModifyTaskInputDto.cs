@@ -22,6 +22,8 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		[Required]
 		public virtual string Cron { get; set; }
 
+		public virtual int NodeType { get; set; }
+
 		/// <summary>
 		/// 附加参数
 		/// </summary>

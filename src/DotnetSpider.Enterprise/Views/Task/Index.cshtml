@@ -51,6 +51,7 @@
                                         <th>APPLICATION NAME</th>
                                         <th>OS</th>
                                         <th>NODE</th>
+                                        <th>NODE TYPE</th>
                                         <th>RUNNING</th>
                                         <th>CRON</th>
                                         <th>DEVELOPERS</th>
@@ -70,6 +71,7 @@
                                         <td v-text="task.applicationName"></td>
                                         <td v-text="task.os"></td>
                                         <td v-text="task.nodeCount"></td>
+                                        <td v-text="task.nodeType==1?'default':'vps'"></td>
                                         <td v-text="task.nodeRunningCount"></td>
                                         <td v-text="task.cron"></td>
                                         <td v-text="task.developers"></td>
@@ -123,8 +125,10 @@
                                 <label for="All">All</label>
                             </div>
                             <div class="form-group col-md-6">
-                                <input type="checkbox" id="checkbox" :checked="newTask.isEnabled" name="checkbox">
-                                <label for="checkbox">Enable</label>
+                                <input name="nodeType" type="radio" id="1" value="1" v-model="newTask.nodeType" />
+                                <label for="1">Default</label>
+                                <input name="nodeType" type="radio" id="2" value="2" v-model="newTask.nodeType" />
+                                <label for="2">VPS</label>
                             </div>
                         </div>
 

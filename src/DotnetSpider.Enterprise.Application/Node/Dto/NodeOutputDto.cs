@@ -18,6 +18,7 @@ namespace DotnetSpider.Enterprise.Application.Node.Dto
 		public virtual long TotalMemory { get; set; }
 		public virtual int ProcessCount { get; set; }
 		public virtual string Os { get; set; }
+		public virtual int Type { get; set; }
 		public virtual string Version { get; set; }
 	}
 }

@@ -53,6 +53,8 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		/// </summary>
 		public virtual string Analysts { get; set; }
 
+		public virtual int NodeType { get; set; }
+
 		/// <summary>
 		/// 版本信息
 		/// </summary>

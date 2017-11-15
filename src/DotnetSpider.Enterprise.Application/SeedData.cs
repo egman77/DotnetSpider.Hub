@@ -50,7 +50,8 @@ namespace DotnetSpider.Enterprise.Application
 					NodeRunningCount = 0,
 					Analysts = "刘菲",
 					Name = $"360指数采集",
-					Version = "abcd"
+					Version = "abcd",
+					NodeType = 1
 				};
 				context.Task.Add(task);
 			}

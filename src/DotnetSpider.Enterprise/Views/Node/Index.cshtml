@@ -32,6 +32,7 @@
                                         <th>CPU CORE</th>
                                         <th>FREE MEM(M)</th>
                                         <th>TOTAL MEM(M)</th>
+                                        <th>TYPE</th>
                                         <th>OS</th>
                                         <th>PROCESS</th>
                                         <th>VERSION</th>
@@ -53,6 +54,7 @@
                                         <td><span v-text="node.cpuCoreCount"></span></td>
                                         <td><span v-text="node.freeMemory"></span></td>
                                         <td><span v-text="node.totalMemory"></span></td>
+                                        <td><span v-text="node.type==1?'default':'vps'"></span></td>
                                         <td><span v-text="node.os"></span></td>
                                         <td><span v-text="node.processCount"></span></td>
                                         <td><span v-text="node.version"></span></td>

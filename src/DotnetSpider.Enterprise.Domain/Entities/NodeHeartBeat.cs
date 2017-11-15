@@ -20,6 +20,11 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		public virtual int ProcessCount { get; set; }
 		[StringLength(100)]
 		public virtual string Os { get; set; }
+		/// <summary>
+		/// 1: 内部节点  2: VPS节点
+		/// </summary>
+		[Required]
+		public virtual int Type { get; set; }
 		[StringLength(50)]
 		public virtual string Version { get; set; }
 	}

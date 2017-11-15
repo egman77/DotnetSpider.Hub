@@ -209,6 +209,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Os");
 
+                    b.Property<int>("Type");
+
                     b.HasKey("Id");
 
                     b.HasAlternateKey("NodeId")
@@ -249,6 +251,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<int>("ProcessCount");
 
                     b.Property<long>("TotalMemory");
+
+                    b.Property<int>("Type");
 
                     b.Property<string>("Version")
                         .HasMaxLength(50);
@@ -307,6 +311,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<int>("NodeCount");
 
                     b.Property<int>("NodeRunningCount");
+
+                    b.Property<int>("NodeType");
 
                     b.Property<string>("Os")
                         .HasMaxLength(20);

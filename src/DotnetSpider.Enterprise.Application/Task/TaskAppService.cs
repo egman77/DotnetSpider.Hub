@@ -111,6 +111,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			task.Os = item.Os?.Trim();
 			task.Owners = item.Owners?.Trim();
 			task.Tags = item.Tags?.Trim();
+			task.NodeType = item.NodeType;
 			task.Version = item.Version?.Trim();
 
 			AddOrUpdateHangfireJob(task.Id, string.Join(" ", task.Cron));
@@ -335,7 +336,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		private string PushTask(Domain.Entities.Task task)
 		{
-			var nodes = _nodeAppService.GetAvailableNodes(task.Os, task.NodeCount);
+			var nodes = _nodeAppService.GetAvailableNodes(task.Os, task.NodeType, task.NodeCount);
 
 			if (nodes.Count == 0)
 			{

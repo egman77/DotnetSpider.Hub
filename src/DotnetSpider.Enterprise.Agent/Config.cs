@@ -33,6 +33,7 @@ namespace DotnetSpider.Enterprise.Agent
 		public static int HeartbeatInterval { get; set; }
 		public static string ApiToken { get; set; }
 		public static double CpuFullLoad { get; set; }
+		public static int NodeType { get; set; }
 
 		public static void Load(IConfigurationRoot configuration)
 		{
@@ -92,7 +93,7 @@ namespace DotnetSpider.Enterprise.Agent
 			HeartbeatInterval = _configuration.GetValue<int>("heartbeatInterval");
 			HeartbeatUrl = $"{ServerUrl}node/heartbeat";
 			ApiToken = _configuration.GetValue<string>("apiToken");
-
+			NodeType = _configuration.GetValue<int>("type");
 			if (File.Exists(NodeIdPath))
 			{
 				var lines = File.ReadAllLines(NodeIdPath);
