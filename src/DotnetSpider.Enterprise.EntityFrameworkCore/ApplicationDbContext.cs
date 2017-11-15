@@ -96,14 +96,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 		public ApplicationDbContext CreateDbContext(string[] args)
 		{
 			var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-			if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-			{
-				builder.UseSqlServer("Server=192.168.90.109,29999;User ID = sa; Password='tZ&$V.ziComjA64S*CZu%;t9Zuh1@iE2';database=DotnetSpider;");
-			}
-			else
-			{
-				builder.UseSqlServer("Server=.\\SQLEXPRESS;Database=DotnetSpiderEnterprise_Dev;Integrated Security = SSPI;");
-			}
+			//builder.UseSqlServer("Server=192.168.90.109,29999;User ID = sa; Password='tZ&$V.ziComjA64S*CZu%;t9Zuh1@iE2';database=DotnetSpider;");
+			builder.UseSqlServer("Server=.\\SQLEXPRESS;Database=DotnetSpiderEnterprise_Dev;Integrated Security = SSPI;");
 			return new ApplicationDbContext(builder.Options, null);
 		}
 	}
