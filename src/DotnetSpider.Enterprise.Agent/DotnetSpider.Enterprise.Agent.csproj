@@ -24,7 +24,7 @@
     <None Update="start.sh">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="start.demon.sh">
+    <None Update="start.daemon.sh">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="start.bat">
