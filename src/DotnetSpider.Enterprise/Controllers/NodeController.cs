@@ -32,7 +32,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		public IActionResult Enable(string nodeId)
 		{
 			_nodeAppService.Enable(nodeId);
@@ -40,7 +39,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		public IActionResult Disable(string nodeId)
 		{
 			_nodeAppService.Disable(nodeId);
@@ -48,7 +46,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		public IActionResult Exit(string nodeId)
 		{
 			_nodeAppService.Exit(nodeId);
@@ -56,21 +53,18 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpGet]
-		[AllowAnonymous]
 		public IActionResult Index()
 		{
 			return View();
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		public IActionResult QueryNodes(PagingQueryInputDto input)
 		{
 			return ActionResult(() => _nodeAppService.QueryNodes(input));
 		}
 
 		[HttpGet]
-		[AllowAnonymous]
 		public IActionResult Dashboard(string nodeId)
 		{
 			return View();

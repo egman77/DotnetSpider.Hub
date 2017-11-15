@@ -1,16 +1,20 @@
-﻿using DotnetSpider.Enterprise.Core.Configuration;
+﻿using DotnetSpider.Enterprise.Application.Report;
+using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise.Web.Controllers
 {
-
 	public class HomeController : AppControllerBase
 	{
-		public HomeController(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
+		private readonly IReportAppService _reportAppService;
+
+		public HomeController(IReportAppService reportAppService, IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
 			: base(appSession, loggerFactory, commonConfiguration)
 		{
+			_reportAppService = reportAppService;
 		}
 
 		[HttpGet]
@@ -20,9 +24,9 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Index(int i)
+		public IActionResult Dashboard()
 		{
-			return View();
+			return DataResult(_reportAppService.GetHomePageDashboard());
 		}
 	}
 }

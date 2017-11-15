@@ -42,7 +42,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		#region API
 
 		[HttpPost]
-		[AllowAnonymous]
 		public IActionResult Running(PagingQueryInputDto input)
 		{
 			return DataResult(_taskAppService.QueryRunning(input));

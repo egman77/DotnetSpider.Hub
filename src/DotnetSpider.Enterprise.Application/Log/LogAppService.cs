@@ -13,7 +13,6 @@ namespace DotnetSpider.Enterprise.Application.Log
 		public LogAppService(ApplicationDbContext dbcontext)
 			: base(dbcontext)
 		{
-
 		}
 
 		public async void Sumit(LogInputDto input)

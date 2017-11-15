@@ -23,14 +23,12 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpGet]
-		[AllowAnonymous]
 		public IActionResult Index()
 		{
 			return View();
 		}
 
 		[HttpPost]
-		[AllowAnonymous]
 		public IActionResult Query(PagingQueryTaskStatusInputDto input)
 		{
 			return DataResult(_taskStatusAppService.Query(input));

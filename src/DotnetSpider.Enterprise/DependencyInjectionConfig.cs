@@ -3,6 +3,7 @@ using DotnetSpider.Enterprise.Application.AuthMessage;
 using DotnetSpider.Enterprise.Application.Log;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Node;
+using DotnetSpider.Enterprise.Application.Report;
 using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Application.TaskHistory;
 using DotnetSpider.Enterprise.Application.TaskStatus;
@@ -32,7 +33,7 @@ namespace DotnetSpider.Enterprise.Web
 			services.AddScoped<IMessageAppService, MessageAppService>();
 			services.AddScoped<ITaskStatusAppService, TaskStatusAppService>();
 			services.AddScoped<ITaskHistoryAppService, TaskHistoryAppService>();
-
+			services.AddScoped<IReportAppService, ReportAppService>();
 		}
 	}
 }
