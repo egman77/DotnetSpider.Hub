@@ -26,7 +26,7 @@ namespace DotnetSpider.Enterprise.Agent
 				agent.CheckConfig();
 				agent.LoadConfig();
 
-				if (args.Contains("--demon"))
+				if (args.Contains("--daemon"))
 				{
 					agent.Start();
 				}

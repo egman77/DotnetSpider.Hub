@@ -49,7 +49,6 @@ namespace DotnetSpider.Enterprise.Agent
 				{
 					Console.WriteLine("Agent is running");
 					Console.WriteLine("Enter any key to exit:");
-					Console.Read();
 					Environment.Exit(1);
 				}
 			}
@@ -65,7 +64,6 @@ namespace DotnetSpider.Enterprise.Agent
 			{
 				Console.WriteLine("NLog configuraiton unfound.");
 				Console.WriteLine("Enter any key to exit:");
-				Console.Read();
 				Environment.Exit(1);
 			}
 			_logger = LogManager.GetCurrentClassLogger();
@@ -74,7 +72,6 @@ namespace DotnetSpider.Enterprise.Agent
 			{
 				_logger.Error("config.ini unfound.");
 				Console.WriteLine("Enter any key to exit:");
-				Console.Read();
 				Environment.Exit(1);
 			}
 
@@ -122,7 +119,7 @@ namespace DotnetSpider.Enterprise.Agent
 			_logger.Info("Exiting...");
 
 			_exit = true;
-			_task.Wait();
+			_task?.Wait();
 			while (Processes.Count > 0)
 			{
 				_logger.Info("Wait crawler processes exit.");
