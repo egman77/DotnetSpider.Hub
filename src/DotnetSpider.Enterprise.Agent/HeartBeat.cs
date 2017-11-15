@@ -51,7 +51,7 @@ namespace DotnetSpider.Enterprise.Agent
 				}
 				var free = infoDic["MemFree:"];
 				var sReclaimable = infoDic["SReclaimable:"];
-				heartBeat.FreeMemory = free + sReclaimable / 1024;
+				heartBeat.FreeMemory = (free + sReclaimable) / 1024;
 				heartBeat.TotalMemory = infoDic["MemTotal:"] / 1024;
 			}
 			return heartBeat;

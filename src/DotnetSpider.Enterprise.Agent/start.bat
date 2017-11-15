@@ -1,1 +1,1 @@
-dotnet DotnetSpider.Enterprise.Agent.DLL
+dotnet DotnetSpider.Enterprise.Agent.dll
