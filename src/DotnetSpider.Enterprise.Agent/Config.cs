@@ -32,6 +32,7 @@ namespace DotnetSpider.Enterprise.Agent
 		public static string HeartbeatUrl { get; set; }
 		public static int HeartbeatInterval { get; set; }
 		public static string ApiToken { get; set; }
+		public static double CpuFullLoad { get; set; }
 
 		public static void Load(IConfigurationRoot configuration)
 		{
@@ -46,7 +47,18 @@ namespace DotnetSpider.Enterprise.Agent
 			NodeIdPath = Path.Combine(AppContext.BaseDirectory, "nodeId");
 			ProjectsDirectory = Path.Combine(AppContext.BaseDirectory, "projects");
 			PackagesDirectory = Path.Combine(AppContext.BaseDirectory, "packages");
-			Os = RuntimeInformation.OSDescription;
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+			{
+				Os = "Linux";
+			}
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				Os = "Windows";
+			}
+			else
+			{
+				Os = "OSX";
+			}
 
 			if (!Directory.Exists(ProjectsDirectory))
 			{
@@ -60,6 +72,7 @@ namespace DotnetSpider.Enterprise.Agent
 			var addressList = Dns.GetHostAddressesAsync(HostName).Result;
 			IPAddress localaddr = addressList.Where(a => a.AddressFamily == AddressFamily.InterNetwork).ToList()[0];
 			Ip = localaddr.ToString();
+			CpuFullLoad = 0.7 * Environment.ProcessorCount;
 		}
 
 		public static void Save()

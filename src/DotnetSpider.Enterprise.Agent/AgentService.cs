@@ -99,13 +99,18 @@ namespace DotnetSpider.Enterprise.Agent
 		/// </summary>
 		public void Start()
 		{
+			while (!_exit)
+			{
+				Heartbeat();
+				Thread.Sleep(Config.HeartbeatInterval);
+			}
+		}
+
+		public void StartAysnc()
+		{
 			_task = Task.Factory.StartNew(() =>
 			{
-				while (!_exit)
-				{
-					Heartbeat();
-					Thread.Sleep(Config.HeartbeatInterval);
-				}
+				Start();
 			});
 		}
 
@@ -139,12 +144,13 @@ namespace DotnetSpider.Enterprise.Agent
 
 		private async void Heartbeat()
 		{
-			var hearbeat = HeartBeat.Create();
-			hearbeat.ProcessCount = Processes.Count;
-			var json = JsonConvert.SerializeObject(hearbeat);
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
 			try
 			{
+				var hearbeat = HeartBeat.Create();
+				hearbeat.ProcessCount = Processes.Count;
+				var json = JsonConvert.SerializeObject(hearbeat);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+
 				var url = Config.HeartbeatUrl;
 				await httpClient.PostAsync(url, content).ContinueWith((task) =>
 				{
@@ -160,6 +166,8 @@ namespace DotnetSpider.Enterprise.Agent
 						}
 					}
 				});
+
+				_logger.Trace(hearbeat);
 			}
 			catch (Exception e)
 			{
@@ -179,11 +187,19 @@ namespace DotnetSpider.Enterprise.Agent
 						}
 						break;
 					}
-				case Messsage.CanleName:
+				case Messsage.CancelName:
 					{
 						lock (this)
 						{
 							Canle(command);
+						}
+						break;
+					}
+				case Messsage.ExitName:
+					{
+						lock (this)
+						{
+							Exit();
 						}
 						break;
 					}

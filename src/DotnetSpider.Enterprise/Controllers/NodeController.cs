@@ -47,6 +47,14 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			return Ok();
 		}
 
+		[HttpPost]
+		[AllowAnonymous]
+		public IActionResult Exit(string nodeId)
+		{
+			_nodeAppService.Exit(nodeId);
+			return Ok();
+		}
+
 		[HttpGet]
 		[AllowAnonymous]
 		public IActionResult Index()

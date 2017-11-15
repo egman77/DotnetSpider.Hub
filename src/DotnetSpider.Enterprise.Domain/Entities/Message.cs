@@ -8,7 +8,8 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 	public class Message : AuditedEntity<long>
 	{
 		public const string RunMessageName = "RUN";
-		public const string CanleMessageName = "CANLE";
+		public const string CanleMessageName = "CANCEL";
+		public const string ExitMessageName = "EXIT";
 
 		[Required]
 		[StringLength(32)]

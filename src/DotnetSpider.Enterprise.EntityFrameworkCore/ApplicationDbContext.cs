@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Design;
+using System.Runtime.InteropServices;
 
 namespace DotnetSpider.Enterprise.EntityFrameworkCore
 {
@@ -90,12 +91,19 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 		}
 	}
 
-	public class ToDoContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+	public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 	{
 		public ApplicationDbContext CreateDbContext(string[] args)
 		{
 			var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
-			builder.UseSqlServer("Server=.\\SQLEXPRESS;DataBase=DotnetSpiderEnterprise_Dev;Integrated Security = SSPI;");
+			if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				builder.UseSqlServer("Server=192.168.90.109,29999;User ID = sa; Password='tZ&$V.ziComjA64S*CZu%;t9Zuh1@iE2';database=DotnetSpider;");
+			}
+			else
+			{
+				builder.UseSqlServer("Server=.\\SQLEXPRESS;Database=DotnetSpiderEnterprise_Dev;Integrated Security = SSPI;");
+			}
 			return new ApplicationDbContext(builder.Options, null);
 		}
 	}

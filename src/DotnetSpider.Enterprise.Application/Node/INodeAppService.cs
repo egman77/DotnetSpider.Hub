@@ -16,5 +16,6 @@ namespace DotnetSpider.Enterprise.Application.Node
 		PagingQueryOutputDto QueryNodes(PagingQueryInputDto input);
 		List<NodeOutputDto> GetAvailableNodes(string os,int nodeCount);
 		List<NodeOutputDto> GetAllOnlineNodes();
+		void Exit(string nodeId);
 	}
 }

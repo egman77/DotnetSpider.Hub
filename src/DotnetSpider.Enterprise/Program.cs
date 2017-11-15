@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
 
 namespace DotnetSpider.Enterprise
 {
@@ -15,9 +16,12 @@ namespace DotnetSpider.Enterprise
 		public static void Main(string[] args)
 		{
 			string hostUrl = "http://*:5000";
-			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "host.url")))
+			if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
-				hostUrl = File.ReadAllLines("host.url")[0];
+				if (File.Exists(Path.Combine(AppContext.BaseDirectory, "host.url")))
+				{
+					hostUrl = File.ReadAllLines("host.url")[0];
+				}
 			}
 
 			var host = new WebHostBuilder()

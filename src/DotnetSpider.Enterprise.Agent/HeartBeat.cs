@@ -19,6 +19,7 @@ namespace DotnetSpider.Enterprise.Agent
 		public virtual int ProcessCount { get; set; }
 		public virtual string Os { get; set; }
 		public virtual string Version { get; set; }
+		public virtual int CPUCoreCount { get; set; }
 
 		public static HeartBeat Create()
 		{
@@ -28,7 +29,8 @@ namespace DotnetSpider.Enterprise.Agent
 				Ip = Config.Ip,
 				CPULoad = Convert.ToInt32(GetCpuLoad()),
 				Os = Config.Os,
-				Version = Config.Version
+				Version = Config.Version,
+				CPUCoreCount = Environment.ProcessorCount
 			};
 
 			if (Config.IsRunningOnWindows)
@@ -41,8 +43,16 @@ namespace DotnetSpider.Enterprise.Agent
 			else
 			{
 				var lines = File.ReadAllLines("/proc/meminfo");
-				heartBeat.FreeMemory = int.Parse(lines[1]) / 1024;
-				heartBeat.TotalMemory = int.Parse(lines[0]) / 1024;
+				var infoDic = new Dictionary<string, long>();
+				foreach (var line in lines)
+				{
+					var datas = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Take(2).ToList();
+					infoDic.Add(datas[0], long.Parse(datas[1]));
+				}
+				var free = infoDic["MemFree:"];
+				var sReclaimable = infoDic["SReclaimable:"];
+				heartBeat.FreeMemory = free + sReclaimable / 1024;
+				heartBeat.TotalMemory = infoDic["MemTotal:"] / 1024;
 			}
 			return heartBeat;
 		}
@@ -81,40 +91,17 @@ namespace DotnetSpider.Enterprise.Agent
 			}
 			else
 			{
-				Process process = new Process
-				{
-					StartInfo =
-					{
-						FileName = "top",
-						Arguments = "-bn 1",
-						CreateNoWindow = false,
-						RedirectStandardOutput = true,
-						RedirectStandardInput = true
-					}
-				};
-				process.Start();
-				string info = process.StandardOutput.ReadToEnd();
-				var lines = info.Split('\n');
-
-				decimal cpuLoad = 0;
-				foreach (var line in lines)
-				{
-					var content = line.Trim();
-					if (!string.IsNullOrEmpty(content) && Regex.IsMatch(content, @"^\d+.*$"))
-					{
-						var cols = content.Split(' ').Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
-						if (cols.Count >= 8)
-						{
-							cpuLoad += decimal.Parse(cols[8].Trim());
-						}
-					}
-				}
-				process.WaitForExit();
-				process.Dispose();
-
-				return cpuLoad;
+				var line = File.ReadAllText("/proc/loadavg");
+				var loadAvgs = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Take(1).ToList();
+				double load5sec = double.Parse(loadAvgs[0]);
+				return (decimal)((load5sec / Config.CpuFullLoad) * 100);
 			}
 			return 100;
+		}
+
+		public override string ToString()
+		{
+			return $"{NodeId}, {CPULoad}, {FreeMemory}, {TotalMemory}, {ProcessCount}, {CPUCoreCount}";
 		}
 
 		public struct MEMORYSTATUS
@@ -127,7 +114,6 @@ namespace DotnetSpider.Enterprise.Agent
 			public UInt64 dwAvailPageFile; //可用的页面文件大小
 			public UInt64 dwTotalVirtual; //返回调用进程的用户模式部分的全部可用虚拟地址空间
 			public UInt64 dwAvailVirtual; // 返回调用进程的用户模式部分的实际自由可用的虚拟地址空间
-
 		}
 
 		[DllImport("kernel32.dll", SetLastError = true)]

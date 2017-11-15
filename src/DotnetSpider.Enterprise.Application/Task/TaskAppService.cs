@@ -70,18 +70,15 @@ namespace DotnetSpider.Enterprise.Application.Task
 		public void Add(AddTaskInputDto item)
 		{
 			var task = Mapper.Map<Domain.Entities.Task>(item);
-			// FOR TEST
-			task.Cron = "*/2 * * * *";
 
 			item.ApplicationName = item.ApplicationName.Trim();
-			item.Arguments = item.Arguments?.Trim();
-			item.Cron = item.Cron?.Trim();
-			item.Version = item.Version?.Trim();
-			item.Name = item.Name?.Trim();
+			item.Arguments = item.Arguments.Trim();
+			item.Cron = item.Cron.Trim();
+			item.Version = item.Version.Trim();
+			item.Name = item.Name.Trim();
 
 			var cron = task.Cron;
-			// DEFAULT VALUE
-			task.Cron = "0 0 0 ? 2013-2014";
+			task.Cron = "1 1 * * 2999";
 			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
@@ -103,9 +100,8 @@ namespace DotnetSpider.Enterprise.Application.Task
 			task.Analysts = item.Analysts?.Trim();
 			task.ApplicationName = item.ApplicationName?.Trim();
 			task.Arguments = item.Arguments?.Trim();
-			task.Cron = "*/2 * * * *";
 			// TODO
-			//task.Cron = item.Cron;
+			task.Cron = item.Cron;
 			task.Description = item.Description?.Trim();
 			task.Developers = item.Developers?.Trim();
 
@@ -117,10 +113,8 @@ namespace DotnetSpider.Enterprise.Application.Task
 			task.Tags = item.Tags?.Trim();
 			task.Version = item.Version?.Trim();
 
-			if (!task.IsEnabled && item.IsEnabled)
-			{
-				AddOrUpdateHangfireJob(task.Id, task.Cron);
-			}
+			AddOrUpdateHangfireJob(task.Id, string.Join(" ", task.Cron));
+
 			task.IsEnabled = item.IsEnabled;
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
@@ -204,7 +198,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				{
 					ApplicationName = "NULL",
 					TaskId = task.Id,
-					Name = "CANCEL",
+					Name = Domain.Entities.Message.CanleMessageName,
 					NodeId = status.NodeId
 				};
 				messages.Add(msg);
@@ -357,7 +351,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				{
 					TaskId = task.Id,
 					ApplicationName = task.ApplicationName,
-					Name = "RUN",
+					Name = Domain.Entities.Message.RunMessageName,
 					NodeId = node.NodeId,
 					Version = task.Version,
 					Arguments = string.Concat(task.Arguments, " -tid:", task.Id, " -i:", identity)

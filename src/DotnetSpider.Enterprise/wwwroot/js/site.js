@@ -2,7 +2,7 @@
 var dsApp = {};
 dsApp.post = function (url, data, success, error) {
     $.post(url, data, function (result, status, request) {
-        if (result && result.success) {
+        if (status === "success" || (result && result.success)) {
             if (success) {
                 success(result);
             }

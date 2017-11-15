@@ -10,5 +10,6 @@ namespace DotnetSpider.Enterprise.Application.Message
 	{
 		List<MessageOutputDto> QueryMessages(string nodeId);
 		void AddRange(List<AddMessageInputDto> messages);
+		void Add(AddMessageInputDto message);
 	}
 }

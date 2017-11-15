@@ -269,18 +269,18 @@
             var results = "", description="";
             switch (activeTab) {
                 case "msMinutesTab":
-                    results = "0 0/" + $("#MinutesInput").val() + " * 1/1 * ? *";
+                    results = "0 0/" + $("#MinutesInput").val() + " * 1/1 * * *";
                     description = "每" + $("#MinutesInput").val() + "分钟";
                     activeTab = "MINUTES";
                     break;
                 case "msHourlyTab":
                     switch ($("input:radio[name=HourlyRadio]:checked").val()) {
                         case "1":
-                            results = "0 0 0/" + $("#HoursInput").val() + " 1/1 * ? *";
+                            results = "0 0 0/" + $("#HoursInput").val() + " 1/1 * * *";
                             description = "每" + $("#HoursInput").val() + "小时";
                             break;
                         case "2":
-                            results = "0 " + Number($("#AtMinutes").val()) + " " + Number($("#AtHours").val()) + " 1/1 * ? *";
+                            results = "0 " + Number($("#AtMinutes").val()) + " " + Number($("#AtHours").val()) + " 1/1 * * *";
                             description = "每小时的" + $("#AtHours").val() + "分" + $("#AtMinutes").val() +"秒";
                             break;
                     }
@@ -289,11 +289,11 @@
                 case "msDailyTab":
                     switch ($("input:radio[name=DailyRadio]:checked").val()) {
                         case "1":
-                            results = "0 " + Number($("#DailyMinutes").val()) + " " + Number($("#DailyHours").val()) + " 1/" + $("#DaysInput").val() + " * ? *";
+                            results = "0 " + Number($("#DailyMinutes").val()) + " " + Number($("#DailyHours").val()) + " 1/" + $("#DaysInput").val() + " * * *";
                             description = "每" + $("#DaysInput").val() + "天的" + $("#DailyHours").val() + "时" + $("#DailyMinutes").val() + "分";
                             break;
                         case "2":
-                            results = "0 " + Number($("#DailyMinutes").val()) + " " + Number($("#DailyHours").val()) + " ? * MON-FRI *";
+                            results = "0 " + Number($("#DailyMinutes").val()) + " " + Number($("#DailyHours").val()) + " * * MON-FRI *";
                             description = "每个工作日的" + $("#DailyHours").val() + "时" + $("#DailyMinutes").val() + "分";
                             break;
                     }
@@ -310,7 +310,7 @@
                         description = description.substr(0, description.length - 1);
                     }
                         
-                    results = "0 " + Number($("#WeeklyMinutes").val()) + " " + Number($("#WeeklyHours").val()) + " ? * " + selectedDays + " *";
+                    results = "0 " + Number($("#WeeklyMinutes").val()) + " " + Number($("#WeeklyHours").val()) + " * * " + selectedDays + " *";
                     description += "的" + $("#WeeklyHours").val() + "时" + $("#WeeklyMinutes").val()+"分"
 
                     activeTab = "WEEKLY";
@@ -318,11 +318,11 @@
                 case "msMonthlyTab":
                     switch ($("input:radio[name=MonthlyRadio]:checked").val()) {
                         case "1":
-                            results = "0 " + Number($("#MonthlyMinutes").val()) + " " + Number($("#MonthlyHours").val()) + " " + $("#DayOfMOnthInput").val() + " 1/" + $("#MonthInput").val() + " ? *";
+                            results = "0 " + Number($("#MonthlyMinutes").val()) + " " + Number($("#MonthlyHours").val()) + " " + $("#DayOfMOnthInput").val() + " 1/" + $("#MonthInput").val() + " * *";
                             description = "每" + $("#MonthInput").val() + "个月第" + $("#DayOfMOnthInput").val() + "天" + $("#MonthlyHours").val() + "时" + $("#MonthlyMinutes").val() + "分";
                             break;
                         case "2":
-                            results = "0 " + Number($("#MonthlyMinutes").val()) + " " + Number($("#MonthlyHours").val()) + " ? 1/" + Number($("#EveryMonthInput").val()) + " " + $("#DayInWeekOrder").val() + "#" + $("#WeekDay").val() + " *";
+                            results = "0 " + Number($("#MonthlyMinutes").val()) + " " + Number($("#MonthlyHours").val()) + " * 1/" + Number($("#EveryMonthInput").val()) + " " + $("#DayInWeekOrder").val() + "#" + $("#WeekDay").val() + " *";
                             description = "每" + $("#EveryMonthInput").val() + "个月" + $("#WeekDay :selected").text() + $("#DayInWeekOrder :selected").text() + $("#MonthlyHours").val() + "时" + $("#MonthlyMinutes").val() + "分";
                             break;
                     }
@@ -331,18 +331,19 @@
                 case "msYearlyTab":
                     switch ($("input:radio[name=YearlyRadio]:checked").val()) {
                         case "1":
-                            results = "0 " + Number($("#YearlyMinutes").val()) + " " + Number($("#YearlyHours").val()) + " " + $("#YearInput").val() + " " + $("#MonthsOfYear").val() + " ? *";
+                            results = "0 " + Number($("#YearlyMinutes").val()) + " " + Number($("#YearlyHours").val()) + " " + $("#YearInput").val() + " " + $("#MonthsOfYear").val() + " * *";
                             description = "每年" + $("#MonthsOfYear :selected").text() + "第" + $("#YearInput").val() + "天" + $("#YearlyHours").val() + "时" + $("#YearlyMinutes").val() + "分";
                             break;
                         case "2":
-                            results = "0 " + Number($("#YearlyMinutes").val()) + " " + Number($("#YearlyHours").val()) + " ? " + $("#MonthsOfYear2").val() + " " + $("#DayWeekForYear").val() + "#" + $("#DayOrderInYear").val() + " *";
+                            results = "0 " + Number($("#YearlyMinutes").val()) + " " + Number($("#YearlyHours").val()) + " * " + $("#MonthsOfYear2").val() + " " + $("#DayWeekForYear").val() + "#" + $("#DayOrderInYear").val() + " *";
                             description = "每年" + $("#MonthsOfYear2 :selected").text() + $("#DayOrderInYear :selected").text() + $("#DayWeekForYear :selected").text() + $("#YearlyHours").val() + "时" + $("#YearlyMinutes").val() + "分";
                             break;
                     }
                     activeTab = "YEARLY";
                     break;
             }
-            return { cron: results, tab: activeTab, info: description };
+
+            return { cron: results.substr(2, results.length - 4), tab: activeTab, info: description };
         }
 
         function populateCron(actTab, expression) {

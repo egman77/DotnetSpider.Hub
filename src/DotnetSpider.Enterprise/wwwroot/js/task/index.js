@@ -27,7 +27,7 @@
             page: 1,
             newTask: $.extend({}, emptyTask),
             errorText: {
-                name: '', applicationName: '', version: '', arguments: '', developers: '', owners: '', analysts: ''
+                name: '', applicationName: '', version: '', arguments: ''
             }
         },
         mounted: function () {
@@ -36,7 +36,7 @@
         },
         computed: {
             buttonState: function () {
-                return this.nameVdt && this.validateEmpty && this.versionVdt && this.argumentsVdt && this.applicationNameVdt && this.cronVdt && this.developersVdt && this.ownersVdt;
+                return this.nameVdt && this.validateEmpty && this.versionVdt && this.argumentsVdt && this.applicationNameVdt && this.cronVdt;
             },
             nameVdt: function () {
                 return this.validateEmpty(this, 'name', true);
@@ -70,15 +70,6 @@
             },
             cronVdt: function () {
                 return this.validateEmpty(this, 'cron', true);
-            },
-            developersVdt: function () {
-                return this.validateEmpty(this, 'developers', true);
-            },
-            ownersVdt: function () {
-                return this.validateEmpty(this, 'owners', true);
-            },
-            analystsVdt: function () {
-                return this.validateEmpty(this, 'analysts', true);
             }
         },
         methods: {

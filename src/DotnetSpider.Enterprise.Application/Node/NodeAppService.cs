@@ -11,6 +11,7 @@ using DotnetSpider.Enterprise.Domain.Entities;
 using AutoMapper;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Message.Dto;
+using DotnetSpider.Enterprise.Application.Message.Dtos;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {
@@ -95,6 +96,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 					nodeOutput.Ip = lastHeartbeat.Ip;
 					nodeOutput.Os = lastHeartbeat.Os;
 					nodeOutput.ProcessCount = lastHeartbeat.ProcessCount;
+					nodeOutput.CPUCoreCount = lastHeartbeat.CPUCoreCount;
 					nodeOutput.TotalMemory = lastHeartbeat.TotalMemory;
 					nodeOutput.Version = lastHeartbeat.Version;
 				}
@@ -105,6 +107,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 					nodeOutput.Ip = "UNKONW";
 					nodeOutput.Os = "UNKONW";
 					nodeOutput.ProcessCount = 0;
+					nodeOutput.CPUCoreCount = 0;
 					nodeOutput.TotalMemory = 0;
 					nodeOutput.Version = "UNKONW";
 				}
@@ -200,6 +203,18 @@ namespace DotnetSpider.Enterprise.Application.Node
 		{
 			var nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline).ToList();
 			return Mapper.Map<List<NodeOutputDto>>(nodes);
+		}
+
+		public void Exit(string nodeId)
+		{
+			var message = new AddMessageInputDto
+			{
+				ApplicationName = "NULL",
+				Name = Domain.Entities.Message.ExitMessageName,
+				NodeId = nodeId,
+				TaskId = 0
+			};
+			_messageAppService.Add(message);
 		}
 	}
 }

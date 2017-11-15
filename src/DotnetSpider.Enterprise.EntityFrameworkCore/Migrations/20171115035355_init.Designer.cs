@@ -12,7 +12,7 @@ using System;
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171114081606_init")]
+    [Migration("20171115035355_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -222,6 +222,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CPUCoreCount");
 
                     b.Property<int>("CPULoad");
 

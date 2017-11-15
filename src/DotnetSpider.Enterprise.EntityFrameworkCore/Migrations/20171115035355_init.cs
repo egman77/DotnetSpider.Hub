@@ -96,6 +96,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CPUCoreCount = table.Column<int>(type: "int", nullable: false),
                     CPULoad = table.Column<int>(type: "int", nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatorUserId = table.Column<long>(type: "bigint", nullable: true),

@@ -222,6 +222,8 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("CPUCoreCount");
+
                     b.Property<int>("CPULoad");
 
                     b.Property<DateTime>("CreationTime");
