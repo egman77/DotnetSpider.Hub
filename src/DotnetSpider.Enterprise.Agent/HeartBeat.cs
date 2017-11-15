@@ -81,15 +81,10 @@ namespace DotnetSpider.Enterprise.Agent
 				if (lines.Length > 1)
 				{
 					var loadStr = lines[1].Trim();
-					process.WaitForExit();
-					process.Dispose();
 					return decimal.Parse(loadStr);
 				}
-				else
-				{
-					process.WaitForExit();
-					process.Dispose();
-				}
+				process.WaitForExit();
+				process.Dispose();
 			}
 			else
 			{
