@@ -7,14 +7,17 @@ using System.Text;
 using System.Linq;
 using AutoMapper;
 using DotnetSpider.Enterprise.Application.Node.Dto;
+using DotnetSpider.Enterprise.Application.Node;
 
 namespace DotnetSpider.Enterprise.Application.Report
 {
 	public class ReportAppService : AppServiceBase, IReportAppService
 	{
-		public ReportAppService(ApplicationDbContext dbcontext) : base(dbcontext)
-		{
+		private readonly INodeAppService _nodeAppService;
 
+		public ReportAppService(INodeAppService nodeAppService, ApplicationDbContext dbcontext) : base(dbcontext)
+		{
+			_nodeAppService = nodeAppService;
 		}
 
 		public HomePageDashboardOutputDto GetHomePageDashboard()
@@ -26,7 +29,7 @@ namespace DotnetSpider.Enterprise.Application.Report
 			var nodes = DbContext.Node.ToList();
 			output.NodeTotalCount = nodes.Count;
 			output.NodeOnlineCount = nodes.Count(t => t.IsOnline);
-			output.Nodes = Mapper.Map<List<NodeOutputDto>>(nodes);
+			output.Nodes = _nodeAppService.QueryNodes(new Domain.PagingQueryInputDto { Page = 1, Size = 10 }).Result;
 			output.TaskCount = DbContext.Task.Count(t => !t.IsDeleted);
 			output.RunningTaskCount = DbContext.Task.Count(t => t.IsRunning);
 			return output;

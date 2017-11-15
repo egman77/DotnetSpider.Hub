@@ -30,7 +30,8 @@ namespace DotnetSpider.Enterprise.Application
 				config.CreateMap<Domain.Entities.Message, MessageOutputDto>();
 				config.CreateMap<Domain.Entities.Task, QueryTaskOutputDto>();
 				config.CreateMap<Domain.Entities.Task, QueryTaskOutputDto>();
-			 
+				config.CreateMap<Domain.Entities.NodeHeartbeat, NodeHeartbeatDto>();
+				
 			});
 		}
 	}
