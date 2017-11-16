@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -70,31 +71,9 @@ namespace DotnetSpider.Enterprise.Agent
 				Directory.CreateDirectory(PackagesDirectory);
 			}
 			HostName = Dns.GetHostName();
-			if (IsRunningOnWindows)
-			{
-				var addressList = Dns.GetHostAddressesAsync(HostName).Result;
-				IPAddress localaddr = addressList.Where(a => a.AddressFamily == AddressFamily.InterNetwork).ToList()[0];
-				Ip = localaddr.ToString();
-			}
-			else
-			{
-				Process process = new Process
-				{
-					StartInfo =
-					{
-						FileName = "sh",
-						Arguments="getip.sh",
-						CreateNoWindow = false,
-						RedirectStandardOutput = true,
-						RedirectStandardInput = true
-					}
-				};
-				process.Start();
-				string info = process.StandardOutput.ReadToEnd();
-				var lines = info.Split(Environment.NewLine);
-				Ip = lines[2];
-				process.WaitForExit();
-			}
+			var interf = NetworkInterface.GetAllNetworkInterfaces().First(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet);
+			var unicastAddresses = interf.GetIPProperties().UnicastAddresses;
+			Ip = unicastAddresses.First(a => a.IPv4Mask.ToString() != "255.255.255.255" && a.Address.AddressFamily == AddressFamily.InterNetwork).Address.ToString();
 			NodeId = Ip;
 			CpuFullLoad = 0.8 * Environment.ProcessorCount;
 		}

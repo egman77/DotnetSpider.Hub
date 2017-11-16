@@ -39,6 +39,13 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
+		public IActionResult Remove(string nodeId)
+		{
+			_nodeAppService.Remove(nodeId);
+			return Ok();
+		}
+
+		[HttpPost]
 		public IActionResult Disable(string nodeId)
 		{
 			_nodeAppService.Disable(nodeId);

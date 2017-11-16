@@ -48,7 +48,24 @@
                     closeOnConfirm: true
                 }, function () {
                     dsApp.post("/Node/Exit", { nodeId: nodeId }, function () {
-                        swal("Operation Succeed!", "Message is sent please check it manuly.", "success");
+                        swal("Operation Succeed!", "Message was sent please check it manuly.", "success");
+                        loadNodes(that);
+                    });
+                });
+            },
+            remove: function (nodeId) {
+                var that = this;
+                swal({
+                    title: "Are you sure?",
+                    text: "Remove this node",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, do it!",
+                    closeOnConfirm: true
+                }, function () {
+                    dsApp.post("/Node/Remove", { nodeId: nodeId }, function () {
+                        swal("Operation Succeed!", "Node was removed.", "success");
                         loadNodes(that);
                     });
                 });

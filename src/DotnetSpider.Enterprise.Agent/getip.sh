@@ -1,1 +1,1 @@
-ip addr | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'
+ifconfig | grep -E 'inet.[0-9]' | grep -v '127.0.0.1' | awk '{ print $2}'

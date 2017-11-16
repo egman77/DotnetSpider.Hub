@@ -90,7 +90,7 @@ namespace DotnetSpider.Enterprise.Agent
 			{
 				var line = File.ReadAllText("/proc/loadavg");
 				var loadAvgs = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Take(1).ToList();
-				double load5sec = double.Parse(loadAvgs[2]);
+				double load5sec = double.Parse(loadAvgs[0]);
 				return (decimal)((load5sec / Config.CpuFullLoad) * 100);
 			}
 			return 100;

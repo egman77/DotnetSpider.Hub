@@ -62,6 +62,7 @@
                                             <a href="javascript:void(0)"><i v-show="node.isEnable" @@click.stop="disable(node.nodeId)">Disable</i></a>
                                             <a href="javascript:void(0)"><i v-show="!node.isEnable" @@click.stop="enable(node.nodeId)">Enable</i></a>
                                             <a href="javascript:void(0)"><i @@click.stop="exit(node.nodeId)">Exit</i></a>
+                                            <a href="javascript:void(0)"><i @@click.stop="remove(node.nodeId)">Remove</i></a>
                                             <a :href="'/Node/Dashboard?NodeId=' + node.nodeId"><i>Dashboard</i></a>
                                         </td>
                                     </tr>

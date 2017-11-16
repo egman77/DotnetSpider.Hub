@@ -12,6 +12,7 @@ using AutoMapper;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Message.Dto;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {
@@ -30,8 +31,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 			if (node != null)
 			{
 				node.IsEnable = true;
+				DbContext.SaveChanges();
 			}
-			DbContext.SaveChanges();
 		}
 
 		public void Disable(string nodeId)
@@ -40,8 +41,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 			if (node != null)
 			{
 				node.IsEnable = false;
+				DbContext.SaveChanges();
 			}
-			DbContext.SaveChanges();
 		}
 
 		public List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input)
@@ -219,6 +220,17 @@ namespace DotnetSpider.Enterprise.Application.Node
 				TaskId = 0
 			};
 			_messageAppService.Add(message);
+		}
+
+		public void Remove(string nodeId)
+		{
+			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
+			if (node != null)
+			{
+				DbContext.Database.ExecuteSqlCommand($"DELETE FROM [DotnetSpider].[dbo].[NodeHeartbeat] WHERE NodeId='{nodeId}'");
+				DbContext.Node.Remove(node);
+				DbContext.SaveChanges();
+			}
 		}
 	}
 }
