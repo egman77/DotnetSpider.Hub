@@ -49,16 +49,16 @@
                                     <thead>
                                         <tr role="row">
                                             <th>NAME</th>
-                                            <th>APPLICATION</th>
-                                            <th>OS</th>
-                                            <th>NODE</th>
-                                            <th>TYPE</th>
-                                            <th>RUNNING</th>
-                                            <th>CRON</th>
-                                            <th>DEVELOPERS</th>
+                                            <th width="220">APPLICATION</th>
+                                            <th width="80">OS</th>
+                                            <th width="60">NODE</th>
+                                            <th width="70">TYPE</th>
+                                            <th width="80">RUNNING</th>
+                                            <th width="120">CRON</th>
+                                            <th width="120">DEVELOPERS</th>
                                             <th>ARGUMENTS</th>
-                                            <th>ENABLE</th>
-                                            <th>ACTION</th>
+                                            <th width="60">ENABLE</th>
+                                            <th width="250">ACTION</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -133,7 +133,6 @@
                                 <label for="2">VPS</label>
                             </div>
                         </div>
-
                         <div class="form-row">
                             <div class="form-group form-float col-md-6">
                                 <div :class="['form-line',{'focused':newTask.name!='','error':nameVdt===false, 'success':nameVdt===true}]">
@@ -142,21 +141,21 @@
                                 <label id="name-error" class="error">{{errorText["name"]}}</label>
                             </div>
                             <div class="form-group form-float col-md-6">
+                                <div :class="['form-line',{'focused':newTask.applicationName!='','error':applicationNameVdt===false, 'success':applicationNameVdt===true}]">
+                                    <input type="text" class="form-control" name="applicationName" id="applicationName" v-model="newTask.applicationName" placeholder="Application name" required="" aria-required="true">
+                                </div>
+                                <label id="applicationName-error" class="error">{{errorText["applicationName"]}}</label>
+                            </div>
+                        </div><div class="form-row">
+                            <div class="form-group form-float col-md-12">
                                 <div :class="['form-line',{'focused':newTask.version!='','error':versionVdt===false, 'success':versionVdt===true}]">
                                     <input type="text" class="form-control" id="version" name="version" v-model="newTask.version" placeholder="Git version" required="" aria-required="true">
                                 </div>
                                 <label id="version-error" class="error">{{errorText["version"]}}</label>
                             </div>
                         </div>
-
                         <div class="form-row">
-                            <div class="form-group form-float col-md-6">
-                                <div :class="['form-line',{'focused':newTask.applicationName!='','error':applicationNameVdt===false, 'success':applicationNameVdt===true}]">
-                                    <input type="text" class="form-control" name="applicationName" id="applicationName" v-model="newTask.applicationName" placeholder="Application name" required="" aria-required="true">
-                                </div>
-                                <label id="applicationName-error" class="error">{{errorText["applicationName"]}}</label>
-                            </div>
-                            <div class="form-group form-float col-md-6">
+                            <div class="form-group form-float col-md-12">
                                 <div :class="['form-line',{'focused':newTask.arguments!='','error':argumentsVdt===false, 'success':argumentsVdt===true}]">
                                     <input type="text" class="form-control" name="arguments" v-model="newTask.arguments" required="" placeholder="Arguments" aria-required="true">
                                 </div>
