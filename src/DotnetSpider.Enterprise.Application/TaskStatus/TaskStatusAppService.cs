@@ -92,15 +92,26 @@ namespace DotnetSpider.Enterprise.Application.Node
 			var taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
 			var taskIds = taskStatuses.Select(t => t.TaskId).ToList();
 			var tasks = DbContext.Task.Where(t => taskIds.Contains(t.Id)).ToList();
-			var taskStatusOutputs = Mapper.Map<List<TaskStatusOutputDto>>(taskStatuses);
-			foreach (var taskStatus in taskStatusOutputs)
+			var taskStatusOutputs = new List<TaskStatusOutputDto>();
+
+			foreach (var taskStatus in taskStatuses)
 			{
-				var taskId = taskStatus.TaskId;
-				var task = tasks.FirstOrDefault(t => t.Id == taskId);
-				if (task != null)
-				{
-					taskStatus.Name = task.Name;
-				}
+				var taskStatusOutput = new TaskStatusOutputDto();
+				taskStatusOutput.Name = tasks.FirstOrDefault(t => t.Id == taskStatus.TaskId)?.Name;
+				taskStatusOutput.AvgDownloadSpeed = taskStatus.AvgDownloadSpeed;
+				taskStatusOutput.AvgPipelineSpeed = taskStatus.AvgDownloadSpeed;
+				taskStatusOutput.AvgProcessorSpeed = taskStatus.AvgDownloadSpeed;
+				taskStatusOutput.Error = taskStatus.Error;
+				taskStatusOutput.Identity = taskStatus.Identity;
+				taskStatusOutput.LastModificationTime = taskStatus.LastModificationTime?.ToString("yyyy/MM/dd HH:mm:ss");
+				taskStatusOutput.Left = taskStatus.Left;
+				taskStatusOutput.NodeId = taskStatus.NodeId;
+				taskStatusOutput.Status = taskStatus.Status;
+				taskStatusOutput.Success = taskStatus.Success;
+				taskStatusOutput.TaskId = taskStatus.TaskId;
+				taskStatusOutput.Thread = taskStatus.Thread;
+				taskStatusOutput.Total = taskStatus.Total;
+				taskStatusOutputs.Add(taskStatusOutput);
 			}
 			output.Result = taskStatusOutputs;
 			return output;

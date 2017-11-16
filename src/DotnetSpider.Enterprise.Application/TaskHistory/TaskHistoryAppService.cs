@@ -57,7 +57,7 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 				{
 					Identity = item.Identity,
 					TaskId = input.TaskId,
-					CreationTime = item.CreationTime,
+					CreationTime = item.CreationTime.ToString("yyyy/MM/dd HH:mm:ss"),
 					Statuses = statusOutputs.Where(a => a.Identity == item.Identity).ToList()
 				});
 			}

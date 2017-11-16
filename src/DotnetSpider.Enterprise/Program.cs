@@ -18,9 +18,9 @@ namespace DotnetSpider.Enterprise
 			string hostUrl = "http://*:5000";
 			if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
-				if (File.Exists(Path.Combine(AppContext.BaseDirectory, "host.url")))
+				if (File.Exists(Path.Combine(AppContext.BaseDirectory, "host.config")))
 				{
-					hostUrl = File.ReadAllLines("host.url")[0];
+					hostUrl = File.ReadAllLines("host.config")[0];
 				}
 			}
 

@@ -31,7 +31,7 @@ namespace DotnetSpider.Enterprise.Application
 				config.CreateMap<Domain.Entities.Task, QueryTaskOutputDto>();
 				config.CreateMap<Domain.Entities.Task, QueryTaskOutputDto>();
 				config.CreateMap<Domain.Entities.NodeHeartbeat, NodeHeartbeatDto>();
-				
+
 			});
 		}
 	}

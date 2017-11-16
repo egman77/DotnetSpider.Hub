@@ -48,10 +48,10 @@
                                 <thead>
                                     <tr role="row">
                                         <th>NAME</th>
-                                        <th>APPLICATION NAME</th>
+                                        <th>APPLICATION</th>
                                         <th>OS</th>
                                         <th>NODE</th>
-                                        <th>NODE TYPE</th>
+                                        <th>TYPE</th>
                                         <th>RUNNING</th>
                                         <th>CRON</th>
                                         <th>DEVELOPERS</th>
@@ -82,9 +82,9 @@
                                             <a href="javascript:void(0)"><i title="delete task" v-show="task.isEnabled" @@click.stop="disable(task)">Disable</i></a>
                                             <a href="javascript:void(0)"><i title="enable task" v-show="!task.isEnabled" @@click.stop="enable(task)">Enable</i></a>
                                             <a href="javascript:void(0)"><i title="delete task" @@click.stop="remove(task)">Remove</i></a>
-                                            <a :href="'TaskHistory?TaskId='+ task.id" target="_blank"><i title="running history">History</i></a>
+                                            <a :href="'TaskHistory?TaskId='+ task.id"><i title="running history">History</i></a>
                                             <a href="javascript:void(0)"><i v-show="!task.isRunning" title="run task" @@click.stop="run(task)">Run</i></a>
-                                            <a href="javascript:void(0)"><i v-show="task.isRunning" title="exit task" @@click.stop="exit(task.id)">Exit</i></a>
+                                            <a href="javascript:void(0)"><i v-show="task.isRunning || task.nodeRunningCount>0" title="exit task" @@click.stop="exit(task.id)">Exit</i></a>
                                         </td>
                                     </tr>
                                 </tbody>

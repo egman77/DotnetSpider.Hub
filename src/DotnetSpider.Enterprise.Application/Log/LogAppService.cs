@@ -39,10 +39,10 @@ namespace DotnetSpider.Enterprise.Application.Log
 			};
 
 			List<BsonDocument> list = null;
-			if (!string.IsNullOrEmpty(input.Node))
+			if (!string.IsNullOrEmpty(input.NodeId))
 			{
-				list = collection.Find(new BsonDocument("Node", input.Node)).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
-				result.Total = collection.Find(new BsonDocument("Node", input.Node)).Count();
+				list = collection.Find(new BsonDocument("Node", input.NodeId)).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
+				result.Total = collection.Find(new BsonDocument("Node", input.NodeId)).Count();
 			}
 			else
 			{

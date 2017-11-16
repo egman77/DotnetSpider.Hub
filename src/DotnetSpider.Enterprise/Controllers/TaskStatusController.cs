@@ -31,6 +31,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[HttpPost]
 		public IActionResult Query(PagingQueryTaskStatusInputDto input)
 		{
+			input.Sort = "desc";
 			return DataResult(_taskStatusAppService.Query(input));
 		}
 

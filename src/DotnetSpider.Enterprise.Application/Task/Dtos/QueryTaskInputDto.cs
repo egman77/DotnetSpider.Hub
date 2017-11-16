@@ -17,7 +17,7 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		[Required]
 		public string Identity { get; set; }
 
-		public string Node { get; set; }
+		public string NodeId { get; set; }
 
 		public string LogType { get; set; }
 	}

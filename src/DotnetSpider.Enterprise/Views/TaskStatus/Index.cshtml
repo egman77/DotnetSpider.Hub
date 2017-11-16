@@ -72,7 +72,7 @@
                                     <td v-text="taskStatus.avgDownloadSpeed"></td>
                                     <td v-text="taskStatus.avgProcessorSpeed"></td>
                                     <td v-text="taskStatus.avgPipelineSpeed"></td>
-                                    <td><a target="_blank" :href="'/Log?Identity='+taskStatus.identity+'&NodeId='+taskStatus.nodeId"><i title="node log">LOGS</i></a></td>
+                                    <td><a :href="'/Log?Identity='+taskStatus.identity+'&NodeId='+taskStatus.nodeId"><i title="node log">LOGS</i></a></td>
                                 </tr>
                             </tbody>
                         </table>

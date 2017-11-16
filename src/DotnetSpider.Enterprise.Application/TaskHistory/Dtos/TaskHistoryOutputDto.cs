@@ -11,7 +11,7 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory.Dtos
 
 		public string Identity { get; set; }
 
-		public DateTime? CreationTime { get; set; }
+		public string CreationTime { get; set; }
 
 		public List<TaskStatusOutputDto> Statuses { get; set; }
 	}

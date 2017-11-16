@@ -96,7 +96,7 @@ namespace DotnetSpider.Enterprise.Agent
 				process.WaitForExit();
 			}
 			NodeId = Ip;
-			CpuFullLoad = 0.7 * Environment.ProcessorCount;
+			CpuFullLoad = 0.8 * Environment.ProcessorCount;
 		}
 
 		public static void Load()

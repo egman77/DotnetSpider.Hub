@@ -26,7 +26,14 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 
 			if (orderyBy == null)
 			{
-				entities = entities.Skip((input.Page - 1) * input.Size).Take(input.Size);
+				if (input.IsSortByDesc())
+				{
+					entities = entities.OrderByDescending(e => e.Id).Skip((input.Page - 1) * input.Size).Take(input.Size);
+				}
+				else
+				{
+					entities = entities.Skip((input.Page - 1) * input.Size).Take(input.Size);
+				}
 			}
 			else
 			{

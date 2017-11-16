@@ -124,6 +124,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 		{
 			List<Domain.Entities.Node> nodes = null;
 			var compareTime = DateTime.Now.AddSeconds(-60);
+
 			if (string.IsNullOrEmpty(os) || "all" == os.ToLower())
 			{
 				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Type == type && a.LastModificationTime > compareTime).ToList();
@@ -133,49 +134,38 @@ namespace DotnetSpider.Enterprise.Application.Node
 				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os.Contains(os) && a.Type == type && a.LastModificationTime > compareTime).ToList();
 			}
 
-			var nodeScores = new Dictionary<Domain.Entities.Node, int>();
+			var availableNodes = new List<Domain.Entities.Node>();
 			foreach (var node in nodes)
 			{
 				var heartbeat = DbContext.NodeHeartbeat.OrderByDescending(a => a.CreationTime).FirstOrDefault(a => a.NodeId == node.NodeId);
-				var score = 0;
-				if ((DateTime.Now - heartbeat.CreationTime).TotalSeconds < 120)
+				if (heartbeat.CPULoad < 90 && heartbeat.FreeMemory > 150)
 				{
-					if (heartbeat.ProcessCount < 1)
-					{
-						score = 5;
-					}
-					else if (heartbeat.ProcessCount == 1)
-					{
-						score = 2;
-					}
-					else
-					{
-						score = 0;
-					}
-
-					if (heartbeat.FreeMemory >= 800)
-					{
-						score += 3;
-					}
-					else if (heartbeat.FreeMemory >= 500)
-					{
-						score += 1;
-					}
-					if (heartbeat.CPULoad < 30)
-					{
-						score += 2;
-					}
-					else if (heartbeat.CPULoad < 50)
-					{
-						score += 1;
-					}
-					nodeScores.Add(node, score);
+					availableNodes.Add(node);
 				}
 			}
+			if (availableNodes.Count == 0)
+			{
+				// TODO SEND REPORT
+				return new List<NodeOutputDto>();
+			}
+			else
+			{
+				if (availableNodes.Count > nodeCount)
+				{
+					Random random = new Random();
+					var newList = new List<Domain.Entities.Node>();
+					foreach (var item in availableNodes)
+					{
+						newList.Insert(random.Next(newList.Count), item);
+					}
 
-			var availableNodes = nodeScores.OrderByDescending(a => a.Value).Select(n => n.Key).ToList();
-			var resultNodes = availableNodes.Count > nodeCount ? Mapper.Map<List<NodeOutputDto>>(availableNodes.Take(nodeCount)) : Mapper.Map<List<NodeOutputDto>>(availableNodes);
-			return resultNodes;
+					return Mapper.Map<List<NodeOutputDto>>(newList.Take(nodeCount));
+				}
+				else
+				{
+					return Mapper.Map<List<NodeOutputDto>>(availableNodes);
+				}
+			}
 		}
 
 		private bool IsOnlineNode(Domain.Entities.Node node)
@@ -215,7 +205,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 		public List<NodeOutputDto> GetAllOnlineNodes()
 		{
 			var compareTime = DateTime.Now.AddSeconds(-60);
-			var nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.LastModificationTime > compareTime).ToList();
+			var nodes = DbContext.Node.Where(a => a.IsOnline && a.LastModificationTime > compareTime).ToList();
 			return Mapper.Map<List<NodeOutputDto>>(nodes);
 		}
 
