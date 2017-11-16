@@ -28,7 +28,7 @@
                     </h2>
                     <button class="pull-right btn bg-blue btn-lg waves-effect waves-float" @@click="add()">New task</button>
                 </div>
-                <div class="body">
+                <div class="body" style="margin-top:5px;">
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
                         <div id="tasksView" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             @*<div class="dataTables_filter">
@@ -44,51 +44,53 @@
                                           <input id="queryKeyword" type="search" v-model="keyword" v-on:keypress="onKeyPress($event)" class="form-control input-sm pull-left" placeholder="">
                                       </div>
                                 </div>*@
-                            <table class="table table-bordered table-striped table-hover no-footer">
-                                <thead>
-                                    <tr role="row">
-                                        <th>NAME</th>
-                                        <th>APPLICATION</th>
-                                        <th>OS</th>
-                                        <th>NODE</th>
-                                        <th>TYPE</th>
-                                        <th>RUNNING</th>
-                                        <th>CRON</th>
-                                        <th>DEVELOPERS</th>
-                                        <th>ARGUMENTS</th>
-                                        <th>ENABLE</th>
-                                        <th>ACTION</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-show="tasks.length==0">
-                                        <td colspan="11">
-                                            No tasks to display...
-                                        </td>
-                                    </tr>
-                                    <tr role="row" v-for="task in tasks">
-                                        <td v-text="task.name"></td>
-                                        <td v-text="task.applicationName"></td>
-                                        <td v-text="task.os"></td>
-                                        <td v-text="task.nodeCount"></td>
-                                        <td v-text="task.nodeType==1?'default':'vps'"></td>
-                                        <td v-text="task.nodeRunningCount"></td>
-                                        <td v-text="task.cron"></td>
-                                        <td v-text="task.developers"></td>
-                                        <td v-text="task.arguments"></td>
-                                        <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
-                                        <td>
-                                            <a href="javascript:void(0)"><i title="modify task" @@click.stop="modify(task)">Modify</i></a>
-                                            <a href="javascript:void(0)"><i title="delete task" v-show="task.isEnabled" @@click.stop="disable(task)">Disable</i></a>
-                                            <a href="javascript:void(0)"><i title="enable task" v-show="!task.isEnabled" @@click.stop="enable(task)">Enable</i></a>
-                                            <a href="javascript:void(0)"><i title="delete task" @@click.stop="remove(task)">Remove</i></a>
-                                            <a :href="'TaskHistory?TaskId='+ task.id"><i title="running history">History</i></a>
-                                            <a href="javascript:void(0)"><i v-show="!task.isRunning" title="run task" @@click.stop="run(task)">Run</i></a>
-                                            <a href="javascript:void(0)"><i v-show="task.isRunning || task.nodeRunningCount>0" title="exit task" @@click.stop="exit(task.id)">Exit</i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover no-footer">
+                                    <thead>
+                                        <tr role="row">
+                                            <th>NAME</th>
+                                            <th>APPLICATION</th>
+                                            <th>OS</th>
+                                            <th>NODE</th>
+                                            <th>TYPE</th>
+                                            <th>RUNNING</th>
+                                            <th>CRON</th>
+                                            <th>DEVELOPERS</th>
+                                            <th>ARGUMENTS</th>
+                                            <th>ENABLE</th>
+                                            <th>ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-show="tasks.length==0">
+                                            <td colspan="11">
+                                                No tasks to display...
+                                            </td>
+                                        </tr>
+                                        <tr role="row" v-for="task in tasks">
+                                            <td v-text="task.name"></td>
+                                            <td v-text="task.applicationName"></td>
+                                            <td v-text="task.os"></td>
+                                            <td v-text="task.nodeCount"></td>
+                                            <td v-text="task.nodeType==1?'default':'vps'"></td>
+                                            <td v-text="task.nodeRunningCount"></td>
+                                            <td v-text="task.cron"></td>
+                                            <td v-text="task.developers"></td>
+                                            <td v-text="task.arguments"></td>
+                                            <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
+                                            <td>
+                                                <a href="javascript:void(0)"><i title="modify task" @@click.stop="modify(task)">Modify</i></a>
+                                                <a href="javascript:void(0)"><i title="delete task" v-show="task.isEnabled" @@click.stop="disable(task)">Disable</i></a>
+                                                <a href="javascript:void(0)"><i title="enable task" v-show="!task.isEnabled" @@click.stop="enable(task)">Enable</i></a>
+                                                <a href="javascript:void(0)"><i title="delete task" @@click.stop="remove(task)">Remove</i></a>
+                                                <a :href="'TaskHistory?TaskId='+ task.id"><i title="running history">History</i></a>
+                                                <a href="javascript:void(0)"><i v-show="!task.isRunning" title="run task" @@click.stop="run(task)">Run</i></a>
+                                                <a href="javascript:void(0)"><i v-show="task.isRunning || task.nodeRunningCount>0" title="exit task" @@click.stop="exit(task.id)">Exit</i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div v-show="total>size" class="dataTables_info">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
                             <div v-show="total>size" class="dataTables_paginate paging_simple_numbers" id="pagination">
                                 <ul class="pagination"></ul>

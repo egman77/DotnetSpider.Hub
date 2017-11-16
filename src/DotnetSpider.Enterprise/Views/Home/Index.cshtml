@@ -38,7 +38,7 @@
                 </div>
                 <div class="content">
                     <div class="text">NODES</div>
-                    <div class="number count-to" data-from="0" v-text="dashboard.nodeTotalCount"  data-to="243" data-speed="1000" data-fresh-interval="20"></div>
+                    <div class="number count-to" data-from="0" v-text="dashboard.nodeTotalCount" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
                 </div>
             </div>
         </div>
@@ -79,45 +79,48 @@
                     </div>
                 </div>
                 <div class="body">
-                    <table class="table table-bordered table-striped table-hover dataTable">
-                        <thead>
-                            <tr>
-                                <th style="width:5px;">#</th>
-                                <th style="width: 80px">NODE</th>
-                                <th>ENABLE</th>
-                                <th>ONLINE</th>
-                                <th>CPU LOAD</th>
-                                <th>CPU CORE</th>
-                                <th>FREE MEM(M)</th>
-                                <th>TOTAL MEM(M)</th>
-                                <th>TYPE</th>
-                                <th>OS</th>
-                                <th>PROCESS</th>
-                                <th>VERSION</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-show="dashboard.nodes.length==0">
-                                <td colspan="12">
-                                    No data to display...
-                                </td>
-                            </tr>
-                            <tr v-for="node in dashboard.nodes" :node-id="node.nodeId">
-                                <td><span :style="{'background-color': node.isOnline?'green':'red'}"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </td>
-                                <td><span v-text="node.nodeId"></span></td>
-                                <td><span v-text="node.isEnable"></span></td>
-                                <td><span v-text="node.isOnline" :style="{'color': node.isOnline?'green':'red', 'font-weight' : '700'}"></span></td>
-                                <td><span v-text="node.cpuLoad"></span></td>
-                                <td><span v-text="node.cpuCoreCount"></span></td>
-                                <td><span v-text="node.freeMemory"></span></td>
-                                <td><span v-text="node.totalMemory"></span></td>
-                                <td><span v-text="node.type==1?'default':'vps'"></span></td>
-                                <td><span v-text="node.os"></span></td>
-                                <td><span v-text="node.processCount"></span></td>
-                                <td><span v-text="node.version"></span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                         <table class="table table-bordered table-striped table-hover dataTable">
+                            <thead>
+                                <tr>
+                                    <th style="width:5px;">#</th>
+                                    <th style="width: 80px">NODE</th>
+                                    <th>ENABLE</th>
+                                    <th>ONLINE</th>
+                                    <th>CPU LOAD</th>
+                                    <th>CPU CORE</th>
+                                    <th>FREE MEM(M)</th>
+                                    <th>TOTAL MEM(M)</th>
+                                    <th>TYPE</th>
+                                    <th>OS</th>
+                                    <th>PROCESS</th>
+                                    <th>VERSION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-show="dashboard.nodes.length==0">
+                                    <td colspan="12">
+                                        No data to display...
+                                    </td>
+                                </tr>
+                                <tr v-for="node in dashboard.nodes" :node-id="node.nodeId">
+                                    <td><span :style="{'background-color': node.isOnline?'green':'red'}"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </td>
+                                    <td><span v-text="node.nodeId"></span></td>
+                                    <td><span v-text="node.isEnable"></span></td>
+                                    <td><span v-text="node.isOnline" :style="{'color': node.isOnline?'green':'red', 'font-weight' : '700'}"></span></td>
+                                    <td><span v-text="node.cpuLoad"></span></td>
+                                    <td><span v-text="node.cpuCoreCount"></span></td>
+                                    <td><span v-text="node.freeMemory"></span></td>
+                                    <td><span v-text="node.totalMemory"></span></td>
+                                    <td><span v-text="node.type==1?'default':'vps'"></span></td>
+                                    <td><span v-text="node.os"></span></td>
+                                    <td><span v-text="node.processCount"></span></td>
+                                    <td><span v-text="node.version"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>

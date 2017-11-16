@@ -31,39 +31,41 @@
                         <ul class="header-dropdown m-r--5"></ul>
                     </div>
                     <div class="body" id="runningView">
-                        <table class="table table-bordered table-striped table-hover dataTable">
-                            <thead>
-                                <tr>
-                                    <th>NAME</th>
-                                    <th>APPLICATION</th>
-                                    <th>CRON</th>
-                                    <th>ARGUMENTS</th>
-                                    <th>NODE</th>
-                                    <th>RUNNING</th>
-                                    <th>TAGS</th>
-                                    <th>OS</th>
-                                    <th>VERSION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-show="tasks.length==0">
-                                    <td colspan="13">
-                                        No data to display...
-                                    </td>
-                                </tr>
-                                <tr v-for="task in tasks" :id="task.id">
-                                    <td><span v-text="task.name"></span></td>
-                                    <td><span v-text="task.applicationName"></span></td>
-                                    <td><span v-text="task.cron"></span></td>
-                                    <td><span v-text="task.arguments"></span></td>
-                                    <td><span v-text="task.nodeCount"></span></td>
-                                    <td><span v-text="task.nodeRunningCount"></span></td>
-                                    <td><span v-text="task.tags"></span></td>
-                                    <td><span v-text="task.os"></span></td>
-                                    <td><span v-text="task.version"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>NAME</th>
+                                        <th>APPLICATION</th>
+                                        <th>CRON</th>
+                                        <th>ARGUMENTS</th>
+                                        <th>NODE</th>
+                                        <th>RUNNING</th>
+                                        <th>TAGS</th>
+                                        <th>OS</th>
+                                        <th>VERSION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-show="tasks.length==0">
+                                        <td colspan="13">
+                                            No data to display...
+                                        </td>
+                                    </tr>
+                                    <tr v-for="task in tasks" :id="task.id">
+                                        <td><span v-text="task.name"></span></td>
+                                        <td><span v-text="task.applicationName"></span></td>
+                                        <td><span v-text="task.cron"></span></td>
+                                        <td><span v-text="task.arguments"></span></td>
+                                        <td><span v-text="task.nodeCount"></span></td>
+                                        <td><span v-text="task.nodeRunningCount"></span></td>
+                                        <td><span v-text="task.tags"></span></td>
+                                        <td><span v-text="task.os"></span></td>
+                                        <td><span v-text="task.version"></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div v-show="total>size" class="dataTables_info">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
                         <div v-show="total>size" class="dataTables_paginate paging_simple_numbers" id="pagination">
                             <ul class="pagination"></ul>

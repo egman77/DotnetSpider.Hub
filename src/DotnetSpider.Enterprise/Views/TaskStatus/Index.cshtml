@@ -21,7 +21,7 @@
                 <div class="body">
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row" style="margin-left:10px;">
-                            <input name="status" type="radio" id="Init" value="Init" v-model="status"/>
+                            <input name="status" type="radio" id="Init" value="Init" v-model="status" />
                             <label for="Init">Init</label>
                             <input name="status" type="radio" id="Running" value="Running" v-model="status" />
                             <label for="Running">Running</label>
@@ -35,47 +35,49 @@
                             <label for="All">All</label>
                         </div>
                         <br />
-                        <table class="table table-bordered table-striped table-hover no-footer">
-                            <thead>
-                                <tr role="row">
-                                    <th>NAME</th>
-                                    <th>NODE</th>
-                                    <th>TIME</th>
-                                    <th>STATUS</th>
-                                    <th>THREAD</th>
-                                    <th>LEFT</th>
-                                    <th>SUCCESS</th>
-                                    <th>ERROR</th>
-                                    <th>TOTAL</th>
-                                    <th>DOWNLOAD SPD</th>
-                                    <th>PROCESS SPD</th>
-                                    <th>PIPELINE SPD</th>
-                                    <th>VIEW</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-show="taskStatuses.length==0">
-                                    <td colspan="13">
-                                        No data to display...
-                                    </td>
-                                </tr>
-                                <tr role="row" v-for="(taskStatus,index) in taskStatuses">
-                                    <td v-text="taskStatus.name"></td>
-                                    <td v-text="taskStatus.nodeId"></td>
-                                    <td v-text="taskStatus.lastModificationTime"></td>
-                                    <td v-text="taskStatus.status" :style="{'color':taskStatus.status=='Running'?'green':'#000'}"></td>
-                                    <td v-text="taskStatus.thread"></td>
-                                    <td v-text="taskStatus.left"></td>
-                                    <td v-text="taskStatus.success"></td>
-                                    <td v-text="taskStatus.error"></td>
-                                    <td v-text="taskStatus.total"></td>
-                                    <td v-text="taskStatus.avgDownloadSpeed"></td>
-                                    <td v-text="taskStatus.avgProcessorSpeed"></td>
-                                    <td v-text="taskStatus.avgPipelineSpeed"></td>
-                                    <td><a :href="'/Log?Identity='+taskStatus.identity+'&NodeId='+taskStatus.nodeId"><i title="node log">LOGS</i></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover no-footer">
+                                <thead>
+                                    <tr role="row">
+                                        <th>NAME</th>
+                                        <th>NODE</th>
+                                        <th>TIME</th>
+                                        <th>STATUS</th>
+                                        <th>THREAD</th>
+                                        <th>LEFT</th>
+                                        <th>SUCCESS</th>
+                                        <th>ERROR</th>
+                                        <th>TOTAL</th>
+                                        <th>DOWNLOAD SPD</th>
+                                        <th>PROCESS SPD</th>
+                                        <th>PIPELINE SPD</th>
+                                        <th>VIEW</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-show="taskStatuses.length==0">
+                                        <td colspan="13">
+                                            No data to display...
+                                        </td>
+                                    </tr>
+                                    <tr role="row" v-for="(taskStatus,index) in taskStatuses">
+                                        <td v-text="taskStatus.name"></td>
+                                        <td v-text="taskStatus.nodeId"></td>
+                                        <td v-text="taskStatus.lastModificationTime"></td>
+                                        <td v-text="taskStatus.status" :style="{'color':taskStatus.status=='Running'?'green':'#000'}"></td>
+                                        <td v-text="taskStatus.thread"></td>
+                                        <td v-text="taskStatus.left"></td>
+                                        <td v-text="taskStatus.success"></td>
+                                        <td v-text="taskStatus.error"></td>
+                                        <td v-text="taskStatus.total"></td>
+                                        <td v-text="taskStatus.avgDownloadSpeed"></td>
+                                        <td v-text="taskStatus.avgProcessorSpeed"></td>
+                                        <td v-text="taskStatus.avgPipelineSpeed"></td>
+                                        <td><a :href="'/Log?Identity='+taskStatus.identity+'&NodeId='+taskStatus.nodeId"><i title="node log">LOGS</i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div v-show="total>size" class="dataTables_info">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
                         <div v-show="total>size" class="dataTables_paginate paging_simple_numbers" id="pagination">
                             <ul class="pagination"></ul>

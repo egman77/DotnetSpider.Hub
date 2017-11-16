@@ -45,46 +45,48 @@
                                 </div>
                                 <div :id="'collapseOne_'+idx" class="panel-collapse collapse in" role="tabpanel" :aria-labelledby="'headingOne_'+idx" :aria-expanded="idx==0?'true':'false'">
                                     <div class="panel-body">
-                                        <table class="table table-bordered table-striped table-hover no-footer">
-                                            <thead>
-                                                <tr role="row">
-                                                    <th>#</th>
-                                                    <th>NODE</th>
-                                                    <th>TIME</th>
-                                                    <th>STATUS</th>
-                                                    <th>THREAD</th>
-                                                    <th>LEFT</th>
-                                                    <th>SUCCESS</th>
-                                                    <th>ERROR</th>
-                                                    <th>TOTAL</th>
-                                                    <th>AVG DOWNLOAD</th>
-                                                    <th>AVG PROCESS</th>
-                                                    <th>AVG PIPELINE</th>
-                                                    <th>
-                                                        VIEW LOGS
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-show="batch.statuses.length==0"></tr>
-                                                <tr role="row" v-for="(node,index) in batch.statuses">
-                                                    <td v-text="index+1"></td>
-                                                    <td v-text="node.nodeId"></td>
-                                                    <td v-text="node.lastModificationTime"></td>
-                                                    <td v-text="node.status" :style="{'color':node.status=='Running'?'green':'#000'}"></td>
-                                                    <td v-text="node.thread"></td>
-                                                    <td v-text="node.left"></td>
-                                                    <td v-text="node.success"></td>
-                                                    <td v-text="node.error"></td>
-                                                    <td v-text="node.total"></td>
-                                                    <td v-text="node.avgDownloadSpeed"></td>
-                                                    <td v-text="node.avgProcessorSpeed"></td>
-                                                    <td v-text="node.avgPipelineSpeed"></td>
-                                                    @*<td><i title="node log" class="material-icons" @@click="viewLogs(batch.code,node.node)" style="cursor: pointer;">more</i></td>*@
-                                                    <td><a target="_blank" :href="'/Log?Identity='+batch.identity+'&NodeId='+node.nodeId"><i title="node log">VIEW LOGS</i></a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped table-hover no-footer">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th>#</th>
+                                                        <th>NODE</th>
+                                                        <th>TIME</th>
+                                                        <th>STATUS</th>
+                                                        <th>THREAD</th>
+                                                        <th>LEFT</th>
+                                                        <th>SUCCESS</th>
+                                                        <th>ERROR</th>
+                                                        <th>TOTAL</th>
+                                                        <th>AVG DOWNLOAD</th>
+                                                        <th>AVG PROCESS</th>
+                                                        <th>AVG PIPELINE</th>
+                                                        <th>
+                                                            VIEW LOGS
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-show="batch.statuses.length==0"></tr>
+                                                    <tr role="row" v-for="(node,index) in batch.statuses">
+                                                        <td v-text="index+1"></td>
+                                                        <td v-text="node.nodeId"></td>
+                                                        <td v-text="node.lastModificationTime"></td>
+                                                        <td v-text="node.status" :style="{'color':node.status=='Running'?'green':'#000'}"></td>
+                                                        <td v-text="node.thread"></td>
+                                                        <td v-text="node.left"></td>
+                                                        <td v-text="node.success"></td>
+                                                        <td v-text="node.error"></td>
+                                                        <td v-text="node.total"></td>
+                                                        <td v-text="node.avgDownloadSpeed"></td>
+                                                        <td v-text="node.avgProcessorSpeed"></td>
+                                                        <td v-text="node.avgPipelineSpeed"></td>
+                                                        @*<td><i title="node log" class="material-icons" @@click="viewLogs(batch.code,node.node)" style="cursor: pointer;">more</i></td>*@
+                                                        <td><a target="_blank" :href="'/Log?Identity='+batch.identity+'&NodeId='+node.nodeId"><i title="node log">VIEW LOGS</i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

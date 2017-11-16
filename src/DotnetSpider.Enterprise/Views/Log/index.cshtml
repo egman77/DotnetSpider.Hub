@@ -1,13 +1,13 @@
 ﻿
 @section styles{
-<environment names="Development">
-    <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
-</environment>
-<environment names="Staging,Production">
-    <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
-</environment>
+    <environment names="Development">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
+    <environment names="Staging,Production">
+        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
+        <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
     <style type="text/css">
         td {
             word-break: break-all;
@@ -60,26 +60,29 @@
 
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
                         <div id="tasksVIEW" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                            <table class="table table-bordered table-striped table-hover no-footer">
-                                <thead>
-                                    <tr role="row">
-                                        <th v-for="col in columns">{{ col }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-show="logs.length==0">
-                                        <td colspan="13">
-                                            No data to display...
-                                        </td>
-                                    </tr>
-                                    <tr role="row" v-for="(log,index) in logs">
-                                        <td v-for="item in log" v-text="item"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div v-show="logs.length>0" class="dataTables_info">Showing <span v-text="logsPaging.page"></span> to <span v-text="logsPaging.size"></span> of <span v-text="logsPaging.total"></span> entries</div>
-                            <div v-show="logs.length>0" class="dataTables_paginate paging_simple_numbers" id="logsPagination">
-                                <ul class="pagination"></ul>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover no-footer">
+                                    <thead>
+                                        <tr role="row">
+                                            <th v-for="col in columns">{{ col }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-show="logs.length==0">
+                                            <td colspan="13">
+                                                No data to display...
+                                            </td>
+                                        </tr>
+                                        <tr role="row" v-for="(log,index) in logs">
+                                            <td v-for="item in log" v-text="item"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div v-show="logs.length>0" class="dataTables_info">Showing <span v-text="logsPaging.page"></span> to <span v-text="logsPaging.size"></span> of <span v-text="logsPaging.total"></span> entries</div>
+                                <div v-show="logs.length>0" class="dataTables_paginate paging_simple_numbers" id="logsPagination">
+                                    <ul class="pagination"></ul>
+                                </div>
                             </div>
                         </div>
                     </div>
