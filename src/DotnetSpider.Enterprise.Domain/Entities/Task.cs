@@ -90,6 +90,7 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		[StringLength(100)]
 		public virtual string Version { get; set; }
 
+		public virtual bool IsSingle { get; set; } = true;
 
 		public virtual bool IsDeleted { get; set; }
 

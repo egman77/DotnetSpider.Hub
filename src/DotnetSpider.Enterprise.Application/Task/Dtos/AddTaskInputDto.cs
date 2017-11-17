@@ -78,6 +78,8 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		[StringLength(100)]
 		public virtual string Version { get; set; }
 
+		public virtual bool IsSingle { get; set; }
+
 		public virtual bool IsDelete { get; set; }
 
 		[StringLength(20)]

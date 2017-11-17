@@ -57,6 +57,7 @@
                                             <th width="120">CRON</th>
                                             <th width="120">DEVELOPERS</th>
                                             <th>ARGUMENTS</th>
+                                            <th width="60">SINGLE</th>
                                             <th width="60">ENABLE</th>
                                             <th width="250">ACTION</th>
                                         </tr>
@@ -77,6 +78,7 @@
                                             <td v-text="task.cron"></td>
                                             <td v-text="task.developers"></td>
                                             <td v-text="task.arguments"></td>
+                                            <td v-text="task.isSingle"></td>
                                             <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
                                             <td>
                                                 <a href="javascript:void(0)"><i title="modify task" @@click.stop="modify(task)">Modify</i></a>
@@ -116,8 +118,13 @@
                                     <label class="form-label">Spider</label>
                                 </div>
                             </div>*@
-
                         <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input name="nodeType" type="radio" id="1" value="1" v-model="newTask.nodeType" />
+                                <label for="1">Default</label>
+                                <input name="nodeType" type="radio" id="2" value="2" v-model="newTask.nodeType" />
+                                <label for="2">VPS</label>
+                            </div>
                             <div class="form-group col-md-6">
                                 <input name="os" type="radio" id="Linux" value="Linux" v-model="newTask.os" />
                                 <label for="Linux">Linux</label>
@@ -126,11 +133,13 @@
                                 <input name="os" type="radio" id="All" value="All" v-model="newTask.os" />
                                 <label for="All">All</label>
                             </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group col-md-6">
-                                <input name="nodeType" type="radio" id="1" value="1" v-model="newTask.nodeType" />
-                                <label for="1">Default</label>
-                                <input name="nodeType" type="radio" id="2" value="2" v-model="newTask.nodeType" />
-                                <label for="2">VPS</label>
+                                <input name="rdSignle" type="radio" id="rdSignle" value="true" v-model="newTask.isSingle" />
+                                <label for="rdSignle">Single&nbsp;&nbsp;</label>
+                                <input name="rdMulti" type="radio" id="rdMulti" value="false" v-model="newTask.isSingle" />
+                                <label for="rdMulti">Multi</label>
                             </div>
                         </div>
                         <div class="form-row">

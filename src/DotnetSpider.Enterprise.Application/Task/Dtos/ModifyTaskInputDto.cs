@@ -88,5 +88,7 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 
 		[StringLength(32)]
 		public virtual string LastIdentity { get; set; }
+
+		public virtual bool IsSingle { get; set; }
 	}
 }

@@ -16,7 +16,8 @@
         developers: '',
         analysts: '',
         tags: '',
-        nodeType: 1
+        nodeType: 1,
+        isSingle: true
     };
     var tasksVUE = new Vue({
         el: '#tasksView',

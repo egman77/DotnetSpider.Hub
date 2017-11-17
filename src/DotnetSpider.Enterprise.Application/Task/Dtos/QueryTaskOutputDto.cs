@@ -71,6 +71,8 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 
 		public virtual string Os { get; set; }
 
+		public virtual bool IsSingle { get; set; }
+
 		public virtual string Tags { get; set; }
 
 		public virtual string LastIdentity { get; set; }

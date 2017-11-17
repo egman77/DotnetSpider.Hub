@@ -50,11 +50,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 			PagingQueryOutputDto result;
 			if (string.IsNullOrWhiteSpace(input.Keyword?.Trim()))
 			{
-				result = DbContext.Task.PageList(input, null, t => t.CreationTime);
+				result = DbContext.Task.PageList(input, t => !t.IsDeleted, t => t.CreationTime);
 			}
 			else
 			{
-				result = DbContext.Task.PageList(input, t => t.Name.Contains(input.Keyword), t => t.CreationTime);
+				result = DbContext.Task.PageList(input, t => t.Name.Contains(input.Keyword) && !t.IsDeleted, t => t.CreationTime);
 			}
 
 			PagingQueryOutputDto output = new PagingQueryOutputDto
@@ -217,7 +217,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			if (task != null)
 			{
 				RemoveHangfireJob(task.Id);
-				DbContext.Task.Remove(task);
+				task.IsDeleted = true;
 				DbContext.SaveChanges();
 			}
 		}
@@ -348,6 +348,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var messages = new List<AddMessageInputDto>();
 			foreach (var node in nodes)
 			{
+				var arguments = string.Concat(task.Arguments, task.IsSingle ? " -tid:" : " ", task.Id, task.IsSingle ? " -i:" : " ", identity);
 				var msg = new AddMessageInputDto
 				{
 					TaskId = task.Id,
@@ -355,7 +356,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 					Name = Domain.Entities.Message.RunMessageName,
 					NodeId = node.NodeId,
 					Version = task.Version,
-					Arguments = string.Concat(task.Arguments, " -tid:", task.Id, " -i:", identity)
+					Arguments = arguments
 				};
 				messages.Add(msg);
 			}
