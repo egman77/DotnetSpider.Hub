@@ -305,11 +305,14 @@ namespace DotnetSpider.Enterprise.Agent
 
 		public Process Process(string app, string arguments, string workingDirectory, Action onExited)
 		{
+			var path = Path.Combine(workingDirectory, app);
+			path = File.Exists(path) ? path : app;
+
 			Process process = new Process
 			{
 				StartInfo =
 					{
-						FileName = app,
+						FileName = path,
 						UseShellExecute = false,
 						CreateNoWindow = false,
 						WorkingDirectory = workingDirectory,
@@ -317,7 +320,6 @@ namespace DotnetSpider.Enterprise.Agent
 					},
 				EnableRaisingEvents = true
 			};
-
 			process.Start();
 			process.Exited += (a, b) => { onExited?.Invoke(); };
 			return process;

@@ -13,6 +13,7 @@ using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Message.Dto;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {
@@ -48,7 +49,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 		public List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input)
 		{
 			AddHeartbeat(input);
-			RefreshOnlineStatus(input.NodeId, input.Type);
+			RefreshOnlineStatus(input);
 			DbContext.SaveChanges();
 			return _messageAppService.QueryMessages(input.NodeId);
 		}
@@ -181,23 +182,25 @@ namespace DotnetSpider.Enterprise.Application.Node
 			DbContext.NodeHeartbeat.Add(heartbeat);
 		}
 
-		private void RefreshOnlineStatus(string nodeId, int type)
+		private void RefreshOnlineStatus(NodeHeartbeatInputDto input)
 		{
-			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
+			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == input.NodeId);
 			if (node != null)
 			{
 				node.IsOnline = true;
-				node.Type = type;
+				node.Type = input.Type;
+				node.Os = input.Os;
 				node.LastModificationTime = DateTime.Now;
 			}
 			else
 			{
 				node = new Domain.Entities.Node();
-				node.NodeId = nodeId;
+				node.NodeId = input.NodeId;
 				node.IsEnable = true;
 				node.IsOnline = true;
 				node.CreationTime = DateTime.Now;
-				node.Type = type;
+				node.Type = input.Type;
+				node.Os = input.Os;
 				node.LastModificationTime = DateTime.Now;
 				DbContext.Node.Add(node);
 			}
@@ -227,7 +230,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
 			{
-				DbContext.Database.ExecuteSqlCommand($"DELETE FROM [DotnetSpider].[dbo].[NodeHeartbeat] WHERE NodeId='{nodeId}'");
+				var nodeIdParameter = new SqlParameter("NodeId", nodeId);
+				DbContext.Database.ExecuteSqlCommand($"DELETE FROM NodeHeartbeat WHERE NodeId=@NodeId", nodeIdParameter);
 				DbContext.Node.Remove(node);
 				DbContext.SaveChanges();
 			}
