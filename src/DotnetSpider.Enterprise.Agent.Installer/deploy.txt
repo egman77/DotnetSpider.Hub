@@ -1,0 +1,15 @@
+﻿======================================   VPS  ============================================================
+
+rm AgentInstaller.zip DotnetSpider.Enterprise.Agent.Installer.deps.json DotnetSpider.Enterprise.Agent.Installer.dll DotnetSpider.Enterprise.Agent.Installer.runtimeconfig.json -f
+wget http://nasabigdata.com:30012/contents/dotnetspider.enterprise/AgentInstaller.zip
+unzip AgentInstaller.zip
+dotnet DotnetSpider.Enterprise.Agent.Installer.dll vps
+ps -ef|grep DotnetSpider.Enterprise.Agent
+
+======================================   DEFAULT  ============================================================
+
+rm AgentInstaller.zip DotnetSpider.Enterprise.Agent.Installer.deps.json DotnetSpider.Enterprise.Agent.Installer.dll DotnetSpider.Enterprise.Agent.Installer.runtimeconfig.json -f
+wget http://nasabigdata.com:30012/contents/dotnetspider.enterprise/AgentInstaller.zip
+unzip AgentInstaller.zip
+dotnet DotnetSpider.Enterprise.Agent.Installer.dll default
+ps -ef|grep DotnetSpider.Enterprise.Agent

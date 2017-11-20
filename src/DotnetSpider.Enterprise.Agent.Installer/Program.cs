@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 
@@ -13,13 +15,37 @@ namespace DotnetSpider.Enterprise.Agent.Installer
 		static HttpClient client = new HttpClient();
 		static void Main(string[] args)
 		{
+			if (args.Length < 1)
+			{
+				Console.WriteLine("Agent type is missing.");
+				return;
+			}
+
 			KillProcess();
 			RmoveAgentLock();
 			DownloadExtractPackage();
+			UpdateConfiguration(args.First());
 			StartProgrom();
+		}
 
-			Console.Write("Process any key to continue..");
-			Console.Read();
+		private static void UpdateConfiguration(string type)
+		{
+			switch (type.ToLower())
+			{
+				case "vps":
+					{
+						var config = client.GetStringAsync("http://nasabigdata.com:30012/contents/dotnetspider.enterprise/config.vps.ini").Result;
+						File.WriteAllText("/opt/DotnetSpider.Agent/config.ini", config);
+						break;
+					}
+				case "default":
+					{
+						var config = client.GetStringAsync("http://nasabigdata.com:30012/contents/dotnetspider.enterprise/config.ini").Result;
+						File.WriteAllText("/opt/DotnetSpider.Agent/config.ini", config);
+						break;
+					}
+			}
+
 		}
 
 		static void StartProgrom()
@@ -35,7 +61,7 @@ namespace DotnetSpider.Enterprise.Agent.Installer
 				RedirectStandardOutput = true,
 				CreateNoWindow = true,
 				WorkingDirectory = "/opt/DotnetSpider.Agent",
-				 
+
 			});
 			proces.WaitForExit();
 
@@ -78,18 +104,7 @@ namespace DotnetSpider.Enterprise.Agent.Installer
 		static void RmoveAgentLock()
 		{
 			Console.WriteLine("正在删除DotnetSpider.Enterprise.Agent...");
-
-			var proces = Process.Start(new ProcessStartInfo
-			{
-				FileName = "rm",
-				Arguments = "/opt/DotnetSpider.Agent -rf",
-				UseShellExecute = false,
-				RedirectStandardInput = true,
-				RedirectStandardOutput = true,
-				CreateNoWindow = true
-			});
-			proces.WaitForExit();
-
+			Directory.Delete("/opt/DotnetSpider.Agent", true);
 			Console.WriteLine("已清理DotnetSpider.Enterprise.Agent文件夹。");
 		}
 
@@ -97,39 +112,28 @@ namespace DotnetSpider.Enterprise.Agent.Installer
 		{
 			Console.WriteLine("正在查找DotnetSpider.Enterprise.Agent进程...");
 
-			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
 			{
 				Console.WriteLine("Not supported!");
 			}
 			else
 			{
-				var proces = Process.Start(new ProcessStartInfo
+				var dirs = Directory.GetDirectories("/proc/");
+				foreach (var dir in dirs)
 				{
-					FileName = "ps",
-					Arguments = "-ef",
-					UseShellExecute = false,
-					RedirectStandardInput = true,
-					RedirectStandardOutput = true,
-					CreateNoWindow = true
-				});
-				proces.WaitForExit();
-				while (!proces.StandardOutput.EndOfStream)
-				{
-					var info = proces.StandardOutput.ReadLine();
-					if (string.IsNullOrEmpty(info)) break;
-					var splitArr = info.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-					if (splitArr.Length > 8)
+					int number;
+					var dirName = dir.Replace("/proc/", "").Replace("/", "");
+					if (int.TryParse(dirName, out number))
 					{
-						if (splitArr[8] == "DotnetSpider.Enterprise.Agent.dll")
+						var argumentsText = File.ReadAllText($"/proc/{dirName}/cmdline");
+						if (argumentsText.Contains("DotnetSpider.Enterprise.Agent.dll"))
 						{
-							Process.Start("kill", $"-s 9 {splitArr[1]}");
-							Console.WriteLine($"killed process:{splitArr[1]}");
+							Process.Start("kill", $"-s 9 {dirName}").WaitForExit();
+							Console.WriteLine($"killed process:{dirName}");
 						}
 					}
 				}
-				proces.Close();
 			}
-			
 
 			Console.WriteLine("已清理DotnetSpider.Enterprise.Agent进程。");
 		}
