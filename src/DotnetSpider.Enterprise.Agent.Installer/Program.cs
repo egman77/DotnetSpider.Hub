@@ -60,7 +60,7 @@ namespace DotnetSpider.Enterprise.Agent.Installer
 
 			Console.WriteLine($"正在删除 /tmp/{packageName}...");
 			File.Delete($"/tmp/{ packageName}");
-			Console.WriteLine("已成功清理/tmp/{packageName}。");
+			Console.WriteLine($"已成功清理/tmp/{packageName}。");
 
 			Console.WriteLine("正在下载写入程序包...");
 			var bytes = client.GetByteArrayAsync($"http://nasabigdata.com:30012/contents/dotnetspider.enterprise/{packageName}").Result;
@@ -71,7 +71,7 @@ namespace DotnetSpider.Enterprise.Agent.Installer
 				fileStream.Close();
 			}
 			Console.WriteLine("正在解压缩...");
-			System.IO.Compression.ZipFile.ExtractToDirectory($"/tmp/{packageName}", "/opt/DotnetSpider.Agent");
+			System.IO.Compression.ZipFile.ExtractToDirectory($"/tmp/{packageName}", "/opt/");
 			Console.WriteLine("解压缩完成...");
 		}
 
@@ -106,7 +106,7 @@ namespace DotnetSpider.Enterprise.Agent.Installer
 				var proces = Process.Start(new ProcessStartInfo
 				{
 					FileName = "ps",
-					Arguments = "-ef | grep DotnetSpider.Enterprise.Agent.dll",
+					Arguments = "-ef",
 					UseShellExecute = false,
 					RedirectStandardInput = true,
 					RedirectStandardOutput = true,
@@ -118,10 +118,13 @@ namespace DotnetSpider.Enterprise.Agent.Installer
 					var info = proces.StandardOutput.ReadLine();
 					if (string.IsNullOrEmpty(info)) break;
 					var splitArr = info.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-					if (splitArr[8] == "DotnetSpider.Enterprise.Agent.dll")
+					if (splitArr.Length > 8)
 					{
-						Process.Start("kill", $"-s 9 {splitArr[1]}");
-						Console.WriteLine($"killed process:{splitArr[1]}");
+						if (splitArr[8] == "DotnetSpider.Enterprise.Agent.dll")
+						{
+							Process.Start("kill", $"-s 9 {splitArr[1]}");
+							Console.WriteLine($"killed process:{splitArr[1]}");
+						}
 					}
 				}
 				proces.Close();
