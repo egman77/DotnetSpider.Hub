@@ -4,11 +4,10 @@ using System.Text;
 
 namespace DotnetSpider.Enterprise.Core
 {
-	public class AppException : Exception
+	public class DotnetSpiderException : Exception
 	{
-		public AppException(string message) : base(message)
+		public DotnetSpiderException(string message) : base(message)
 		{
-
 		}
 	}
 }

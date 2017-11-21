@@ -70,7 +70,7 @@ namespace DotnetSpider.Enterprise.Application
 			var user = UserManager.GetUserById(userId);
 			if (user == null)
 			{
-				throw new AppException("There is no current user!");
+				throw new DotnetSpiderException("There is no current user!");
 			}
 
 			return user;
@@ -88,7 +88,7 @@ namespace DotnetSpider.Enterprise.Application
 
 			if (string.IsNullOrEmpty(ip))
 			{
-				throw new AppException("Cannot Detect Client Ip");
+				throw new DotnetSpiderException("Cannot Detect Client Ip");
 			}
 			return ip;
 		}
@@ -100,7 +100,7 @@ namespace DotnetSpider.Enterprise.Application
 			{
 				if (!r)
 				{
-					throw new AppException($"Permission \"{claimName}\" required. Please contact Pa1Pa Service.");
+					throw new DotnetSpiderException($"Permission \"{claimName}\" required. Please contact Pa1Pa Service.");
 				}
 			}
 			return r;

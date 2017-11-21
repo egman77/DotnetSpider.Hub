@@ -68,7 +68,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 				action();
 				return SuccessResult();
 			}
-			catch (AppException e)
+			catch (DotnetSpiderException e)
 			{
 				return ErrorResult(e.Message);
 			}
@@ -86,7 +86,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			{
 				return DataResult(func());
 			}
-			catch (AppException e)
+			catch (DotnetSpiderException e)
 			{
 				return ErrorResult(e.Message);
 			}
@@ -104,7 +104,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			{
 				return DataResult(func(arg0));
 			}
-			catch (AppException e)
+			catch (DotnetSpiderException e)
 			{
 				return ErrorResult(e.Message);
 			}
@@ -122,7 +122,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			{
 				return DataResult(func(arg0, arg1));
 			}
-			catch (AppException e)
+			catch (DotnetSpiderException e)
 			{
 				return ErrorResult(e.Message);
 			}
@@ -140,7 +140,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			{
 				return DataResult(func(arg0, arg1, arg2));
 			}
-			catch (AppException e)
+			catch (DotnetSpiderException e)
 			{
 				return ErrorResult(e.Message);
 			}
@@ -158,7 +158,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			{
 				return DataResult(func(arg0, arg1, arg2, arg3));
 			}
-			catch (AppException e)
+			catch (DotnetSpiderException e)
 			{
 				return ErrorResult(e.Message);
 			}

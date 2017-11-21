@@ -40,8 +40,8 @@ namespace DotnetSpider.Enterprise.Application
 			{
 				Domain.Entities.Task task = new Domain.Entities.Task
 				{
-					ApplicationName = "Xbjrkj.DataCollection.Apps.dll",
-					Cron = "* * * 1 *",
+					ApplicationName = "dotnet",
+					Cron = $"* * * {i} *",
 					IsEnabled = true,
 					Developers = "沈威",
 					Owners = "刘菲",
@@ -94,7 +94,7 @@ namespace DotnetSpider.Enterprise.Application
 				Email = "service@dotnetspider.com",
 				EmailConfirmed = true,
 				//IsActive = true,
-				PhoneNumber = "17701696552"//,
+				PhoneNumber = "17701696558"//,
 										   //CreationTime = DateTime.Now,
 										   //CreatorUserId = 0,
 			};

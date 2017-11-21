@@ -64,7 +64,7 @@ namespace DotnetSpider.Enterprise
 			services.AddSingleton<IXmlRepository, XmlRepository>();
 			services.AddDataProtection(configure =>
 			{
-				configure.ApplicationDiscriminator = ConfigurationConsts.DefaultSetting;
+				configure.ApplicationDiscriminator = DotnetSpiderConsts.DefaultSetting;
 			});
 
 			services.AddEntityFrameworkSqlServer()

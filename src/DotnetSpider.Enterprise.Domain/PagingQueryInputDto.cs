@@ -27,14 +27,14 @@ namespace DotnetSpider.Enterprise.Domain
 				Page = 1;
 			}
 
-			if (Size > _configuration.PageMaxSize)
+			if (Size > 60)
 			{
-				Size = _configuration.PageMaxSize;
+				Size = 60;
 			}
 
 			if (Size <= 0)
 			{
-				Size = _configuration.PageSize;
+				Size = 40;
 			}
 		}
 

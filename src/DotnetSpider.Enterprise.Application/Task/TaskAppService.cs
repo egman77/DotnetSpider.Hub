@@ -135,7 +135,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				Name = taskId.ToString(),
 				Cron = cron,
-				Url = $"{_configuration.HostUrl}Task/Fire",
+				Url = $"{_configuration.SchedulerCallbackHost}Task/Fire",
 				Data = taskId.ToString()
 			});
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -309,11 +309,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null || task.IsDeleted)
 			{
-				throw new AppException("任务不存在");
+				throw new DotnetSpiderException("任务不存在");
 			}
 			if (!task.IsEnabled)
 			{
-				throw new AppException("任务已被禁用");
+				throw new DotnetSpiderException("任务已被禁用");
 			}
 
 			if (task.NodeRunningCount > 0)
