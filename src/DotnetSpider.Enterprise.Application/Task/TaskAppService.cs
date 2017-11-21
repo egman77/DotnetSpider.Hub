@@ -25,6 +25,8 @@ using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using System.Threading;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -33,15 +35,17 @@ namespace DotnetSpider.Enterprise.Application.Task
 		private readonly ITaskHistoryAppService _taskHistoryAppService;
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
+		protected readonly ILogger _logger;
 
 		public TaskAppService(ITaskHistoryAppService taskHistoryAppService,
 			IMessageAppService messageAppService,
 			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager,
-			ApplicationDbContext dbcontext) : base(dbcontext, configuration, appSession, userManager)
+			ApplicationDbContext dbcontext, ILogger<TaskAppService> logger) : base(dbcontext, configuration, appSession, userManager)
 		{
 			_taskHistoryAppService = taskHistoryAppService;
 			_messageAppService = messageAppService;
 			_nodeAppService = nodeAppService;
+			_logger = logger;
 		}
 
 		public PagingQueryOutputDto Query(PagingQueryTaskInputDto input)
@@ -139,16 +143,21 @@ namespace DotnetSpider.Enterprise.Application.Task
 				Data = taskId.ToString()
 			});
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			try
+			for (int i = 0; i < 5; ++i)
 			{
-				var result = Util.Client.PostAsync(url, content).Result;
-				result.EnsureSuccessStatusCode();
-				return true;
+				try
+				{
+					var result = Util.Client.PostAsync(url, content).Result;
+					result.EnsureSuccessStatusCode();
+					return true;
+				}
+				catch (Exception ex)
+				{
+					_logger.LogError($"Call {url}, Content {json} failed, retried {i}: {ex}.");
+					Thread.Sleep(2000);
+				}
 			}
-			catch (Exception ex)
-			{
-				throw new SchedulerException($"Call {url}, Content {json} failed.", ex);
-			}
+			return false;
 		}
 
 		private void RemoveHangfireJob(long taskId)

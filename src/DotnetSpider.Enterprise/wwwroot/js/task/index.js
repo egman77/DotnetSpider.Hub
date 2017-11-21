@@ -122,6 +122,7 @@
                 if (task.id > 0) {
                     dsApp.post("/task/modify", task, function () {
                         $("#CreateNewTaskModal").modal("hide");
+                        loadTasks(tasksVUE);
                     });
                 }
                 else {
@@ -169,7 +170,13 @@
             },
             modify: function (task) {
                 var _$modal = $('#CreateNewTaskModal');
-                tasksVUE.$data.newTask = task;
+                var item = {};
+                for (var prop in task) {
+                    if (task.hasOwnProperty(prop)) {
+                        item[prop] = task[prop];
+                    }
+                }
+                tasksVUE.$data.newTask = item;
                 _$modal.modal('show');
             },
             disable: function (task) {
