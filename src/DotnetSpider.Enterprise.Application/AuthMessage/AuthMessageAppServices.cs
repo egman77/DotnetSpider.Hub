@@ -47,22 +47,23 @@ namespace DotnetSpider.Enterprise.Application.AuthMessage
 
 		public async System.Threading.Tasks.Task<bool> SendSmsAsync(string number, string message)
 		{
-			if (_env.IsDevelopment())
-			{
-				return true;
-			}
-			else
-			{
-				var postData = JsonConvert.SerializeObject(new
-				{
-					Phone = number,
-					Code = message
-				});
-				var response = await Util.Client.PostAsync(_configuration.SmsApi, new StringContent(postData, Encoding.UTF8, "application/json"));
+			//if (_env.IsDevelopment())
+			//{
+			//	return true;
+			//}
+			//else
+			//{
+			//	var postData = JsonConvert.SerializeObject(new
+			//	{
+			//		Phone = number,
+			//		Code = message
+			//	});
+			//	var response = await Util.Client.PostAsync(_configuration.SmsApi, new StringContent(postData, Encoding.UTF8, "application/json"));
 
-				var result = await response.Content.ReadAsStringAsync();
-				return result == "true";
-			}
+			//	var result = await response.Content.ReadAsStringAsync();
+			//	return result == "true";
+			//}
+			return await System.Threading.Tasks.Task.FromResult(false);
 		}
 	}
 }

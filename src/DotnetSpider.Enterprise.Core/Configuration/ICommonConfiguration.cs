@@ -9,9 +9,6 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		string LogMongoConnectionString { get; }
 		string MsSqlConnectionString { get; }
 
-		string SmsApi { get; }
-		string XmlKeyPath { get; }
-
 		string SchedulerUrl { get; }
 		string SchedulerCallbackHost { get; }
 		string HostUrl { get; set; }

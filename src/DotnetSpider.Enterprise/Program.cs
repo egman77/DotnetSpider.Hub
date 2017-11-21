@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
+using NLog.Web;
 
 namespace DotnetSpider.Enterprise
 {
@@ -15,22 +16,32 @@ namespace DotnetSpider.Enterprise
 	{
 		public static void Main(string[] args)
 		{
-			string hostUrl = "http://*:5000";
-			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "domain")))
+			var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+
+			try
 			{
-				hostUrl = File.ReadAllLines("domain")[0];
+				string hostUrl = "http://*:5000";
+				if (File.Exists(Path.Combine(AppContext.BaseDirectory, "domain")))
+				{
+					hostUrl = File.ReadAllLines("domain")[0];
+				}
+
+				var host = new WebHostBuilder()
+					.UseKestrel()
+					.UseContentRoot(Directory.GetCurrentDirectory())
+					.UseIISIntegration()
+					.UseStartup<Startup>()
+					.UseApplicationInsights()
+					.UseUrls(hostUrl).UseNLog()
+					.Build();
+
+				host.Run();
 			}
-
-			var host = new WebHostBuilder()
-				.UseKestrel()
-				.UseContentRoot(Directory.GetCurrentDirectory())
-				.UseIISIntegration()
-				.UseStartup<Startup>()
-				.UseApplicationInsights()
-				.UseUrls(hostUrl)
-				.Build();
-
-			host.Run();
+			catch (Exception e)
+			{
+				logger.Error(e, "Stopped program because of exception");
+				throw;
+			}
 		}
 	}
 }

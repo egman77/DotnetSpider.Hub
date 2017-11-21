@@ -34,24 +34,6 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 			}
 		}
 
-		public string SmsApi
-		{
-			get
-			{
-				var section = AppConfiguration.GetSection(DotnetSpiderConsts.DefaultSetting);
-				return section.GetValue<string>(DotnetSpiderConsts.SmsApi);
-			}
-		}
-
-		public string XmlKeyPath
-		{
-			get
-			{
-				var section = AppConfiguration.GetSection(DotnetSpiderConsts.DefaultSetting);
-				return section.GetValue<string>(DotnetSpiderConsts.XmlKeyPath);
-			}
-		}
-
 		public string SchedulerUrl
 		{
 			get

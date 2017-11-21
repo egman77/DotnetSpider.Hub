@@ -17,7 +17,6 @@ namespace DotnetSpider.Enterprise.Web
 		public XmlRepository(ICommonConfiguration config)
 		{
 			_config = config;
-			_filePath = _config.XmlKeyPath;
 		}
 
 		public virtual IReadOnlyCollection<XElement> GetAllElements()
