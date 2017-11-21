@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
+using DotnetSpider.Enterprise.Core.Configuration;
 
 namespace DotnetSpider.Enterprise.Application.Message
 {
 	public class MessageAppService : AppServiceBase, IMessageAppService
 	{
-		public MessageAppService(ApplicationDbContext dbcontext) : base(dbcontext)
+		public MessageAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration) : base(dbcontext, configuration)
 		{
 		}
 

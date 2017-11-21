@@ -8,6 +8,7 @@ using System.Linq;
 using AutoMapper;
 using DotnetSpider.Enterprise.Application.Node.Dto;
 using DotnetSpider.Enterprise.Application.Node;
+using DotnetSpider.Enterprise.Core.Configuration;
 
 namespace DotnetSpider.Enterprise.Application.Report
 {
@@ -15,7 +16,7 @@ namespace DotnetSpider.Enterprise.Application.Report
 	{
 		private readonly INodeAppService _nodeAppService;
 
-		public ReportAppService(INodeAppService nodeAppService, ApplicationDbContext dbcontext) : base(dbcontext)
+		public ReportAppService(INodeAppService nodeAppService, ApplicationDbContext dbcontext, ICommonConfiguration configuration) : base(dbcontext, configuration)
 		{
 			_nodeAppService = nodeAppService;
 		}

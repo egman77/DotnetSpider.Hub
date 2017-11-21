@@ -4,6 +4,7 @@ using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace DotnetSpider.Enterprise.Web.Controllers
 {
@@ -27,6 +28,12 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		public IActionResult Dashboard()
 		{
 			return DataResult(_reportAppService.GetHomePageDashboard());
+		}
+
+		[HttpGet]
+		public IActionResult ThrowException()
+		{
+			throw new Exception("TEST EXCEPTION.");
 		}
 	}
 }

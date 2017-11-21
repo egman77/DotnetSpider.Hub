@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
+using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using System;
@@ -12,7 +13,7 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 {
 	public class TaskHistoryAppService : AppServiceBase, ITaskHistoryAppService
 	{
-		public TaskHistoryAppService(ApplicationDbContext dbcontext) : base(dbcontext)
+		public TaskHistoryAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration) : base(dbcontext, configuration)
 		{
 		}
 

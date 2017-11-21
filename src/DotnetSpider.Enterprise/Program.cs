@@ -16,9 +16,9 @@ namespace DotnetSpider.Enterprise
 		public static void Main(string[] args)
 		{
 			string hostUrl = "http://*:5000";
-			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "host.config")))
+			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "domain")))
 			{
-				hostUrl = File.ReadAllLines("host.config")[0];
+				hostUrl = File.ReadAllLines("domain")[0];
 			}
 
 			var host = new WebHostBuilder()

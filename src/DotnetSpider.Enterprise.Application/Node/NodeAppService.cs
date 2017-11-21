@@ -14,6 +14,7 @@ using DotnetSpider.Enterprise.Application.Message.Dto;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
+using DotnetSpider.Enterprise.Core.Configuration;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {
@@ -21,7 +22,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 	{
 		private readonly IMessageAppService _messageAppService;
 
-		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService) : base(dbcontext)
+		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService, ICommonConfiguration configuration)
+			: base(dbcontext, configuration)
 		{
 			_messageAppService = messageAppService;
 		}

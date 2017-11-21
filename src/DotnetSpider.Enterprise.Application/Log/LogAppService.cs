@@ -1,5 +1,6 @@
 ﻿using DotnetSpider.Enterprise.Application.Log.Dto;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
+using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -10,8 +11,8 @@ namespace DotnetSpider.Enterprise.Application.Log
 {
 	public class LogAppService : AppServiceBase, ILogAppService
 	{
-		public LogAppService(ApplicationDbContext dbcontext)
-			: base(dbcontext)
+		public LogAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration)
+			: base(dbcontext, configuration)
 		{
 		}
 

@@ -11,56 +11,17 @@ namespace DotnetSpider.Enterprise.Application
 {
 	public abstract class AppServiceBase
 	{
-		//protected static readonly AppRedisDb TokenDb;
-		//protected static readonly AppRedisDb ConnectionDb;
-		//protected static readonly AppRedisDb RunningDb;
-		//protected static readonly AppRedisDb ScheduleTasksDb;
-		//protected static readonly ISubscriber Subscriber;
-
-		//protected static readonly IDatabase ServerAgentsDb;
-		//protected static readonly AppRedisDb TaskEndingDb;
-		//protected static readonly AppRedisDb SiteToolTokenDb;
-		//protected static readonly AppRedisDb AgentNodesDb;
-
 		protected readonly ICommonConfiguration Configuration;
 		protected readonly UserManager<Domain.Entities.ApplicationUser> UserManager;
 		protected readonly ApplicationDbContext DbContext;
 
 		protected IAppSession Session { get; }
 
-		static AppServiceBase()
-		{
-			ICommonConfiguration configuration = DI.IocManager.GetRequiredService<ICommonConfiguration>();
-
-			//var conn = ConnectionMultiplexer.Connect(new ConfigurationOptions()
-			//{
-			//	ServiceName = "Token",
-			//	Password = configuration.RedisPassword,
-			//	ConnectTimeout = 5000,
-			//	KeepAlive = 8,
-			//	EndPoints =
-			//	{
-			//		{ configuration.RedisHost,configuration.RedisPort }
-			//	}
-			//});
-			//var db = conn.GetDatabase(configuration.RedisDb);
-			//TokenDb = new AppRedisDb(configuration.RedisTokenNamespace, db);
-			//ConnectionDb = new AppRedisDb(configuration.RedisConnectionNamespace, db);
-			//RunningDb = new AppRedisDb(configuration.RedisRunningTaskNamespace, db);
-			//ScheduleTasksDb = new AppRedisDb(configuration.RedisScheduleTasksNamespace, db);
-			//TaskEndingDb = new AppRedisDb(configuration.RedisTaskEndingNamespace, db);
-			//Subscriber = conn.GetSubscriber();
-			//ServerAgentsDb = conn.GetDatabase(configuration.RedisNodeAliveDb);
-			//SiteToolTokenDb = new AppRedisDb(configuration.RedisSiteToolTokenNamespace, db);
-			//AgentNodesDb = new AppRedisDb(configuration.RedisAgentNodesNamespace, db);
-		}
-
-		protected AppServiceBase(ApplicationDbContext dbcontext)
+		protected AppServiceBase(ApplicationDbContext dbcontext, ICommonConfiguration configuration)
 		{
 			Session = DI.IocManager.GetRequiredService<IAppSession>();
-			DbContext = dbcontext;  //DI.IocManager.GetRequiredService<ApplicationDbContext>();
-
-			Configuration = DI.IocManager.GetRequiredService<ICommonConfiguration>();
+			DbContext = dbcontext;
+			Configuration = configuration;
 			UserManager = DI.IocManager.GetRequiredService<UserManager<Domain.Entities.ApplicationUser>>();
 		}
 
@@ -105,24 +66,5 @@ namespace DotnetSpider.Enterprise.Application
 			}
 			return r;
 		}
-
-		//private long GetDataSize(long userId)
-		//{
-		//	var dbName = $"db_{Encrypt.Md5Encrypt(userId.ToString())}";
-		//	var conn = DbContext.Database.GetDbConnection();
-		//	DbContext.Database.OpenConnection();
-		//	var cmd = conn.CreateCommand();
-		//	cmd.CommandText = $"SELECT SUM(((size* 8) / 1024)) FROM sys.master_files WHERE DB_NAME(database_id) IN('{dbName}')";
-		//	cmd.CommandType = System.Data.CommandType.Text;
-		//	var value = cmd.ExecuteScalar();
-		//	if (value is DBNull)
-		//	{
-		//		return 0;
-		//	}
-		//	else
-		//	{
-		//		return Convert.ToInt64(value);
-		//	}
-		//}
 	}
 }

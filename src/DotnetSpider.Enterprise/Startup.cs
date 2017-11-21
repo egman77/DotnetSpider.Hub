@@ -22,6 +22,7 @@ using DotnetSpider.Enterprise.Web.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using DotnetSpider.Enterprise.Domain;
+using NLog.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise
 {
@@ -70,7 +71,7 @@ namespace DotnetSpider.Enterprise
 			services.AddEntityFrameworkSqlServer()
 				.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.UseRowNumberForPaging()));
 
-			
+
 			services.AddIdentity<ApplicationUser, ApplicationRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
 				.AddDefaultTokenProviders()
@@ -96,22 +97,22 @@ namespace DotnetSpider.Enterprise
 				options.User.RequireUniqueEmail = true;
 			});
 
-			services.ConfigureApplicationCookie(options => 
+			services.ConfigureApplicationCookie(options =>
 			{
 				options.LoginPath = "/Account/LogIn";
 				options.LogoutPath = "/Account/LogOff";
 				options.ExpireTimeSpan = TimeSpan.FromDays(150);//Cookie 保持有效的时间150天。
 																//cookie扩展设置（通常不用）
-				//options.Cookie.Domain = "DotnetSpider.Enterprise";//用于保持身份的 Cookie 名称。 默认值为“.AspNet.Cookies”。 
+																//options.Cookie.Domain = "DotnetSpider.Enterprise";//用于保持身份的 Cookie 名称。 默认值为“.AspNet.Cookies”。 
 				options.AccessDeniedPath = "/Account/AccessDenied";//被拒绝访问或路径无效后的重定向。
 				options.ReturnUrlParameter = Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationDefaults.ReturnUrlParameter;//登陆或退出后执行动作返回到原来的地址。
 			});
 
 			// Add framework services.
-			services.AddMvc();
+			services.AddMvc(options => { options.Filters.Add<HttpGlobalExceptionFilter>(); });
 
 			DependencyInjectionConfig.Inject(services);
-		
+
 			//var redisHost = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisHost);
 			//var redisPort = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisPort);
 			//var redisPassword = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisPassword);
@@ -134,6 +135,8 @@ namespace DotnetSpider.Enterprise
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
+			loggerFactory.AddNLog();
+
 			DI.IocManager = app.ApplicationServices;
 
 			var config = app.ApplicationServices.GetRequiredService<ICommonConfiguration>();

@@ -29,15 +29,15 @@ namespace DotnetSpider.Enterprise.Application.Task
 {
 	public class TaskAppService : AppServiceBase, ITaskAppService
 	{
-		private readonly ICommonConfiguration _configuration;
 		private readonly ITaskHistoryAppService _taskHistoryAppService;
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
 
-		public TaskAppService(ITaskHistoryAppService taskHistoryAppService, IMessageAppService messageAppService, INodeAppService nodeAppService, ICommonConfiguration configuration,
-			ApplicationDbContext dbcontext) : base(dbcontext)
+		public TaskAppService(ITaskHistoryAppService taskHistoryAppService,
+			IMessageAppService messageAppService,
+			INodeAppService nodeAppService, ICommonConfiguration configuration,
+			ApplicationDbContext dbcontext) : base(dbcontext, configuration)
 		{
-			_configuration = configuration;
 			_taskHistoryAppService = taskHistoryAppService;
 			_messageAppService = messageAppService;
 			_nodeAppService = nodeAppService;
@@ -72,7 +72,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = Mapper.Map<Domain.Entities.Task>(item);
 
 			item.ApplicationName = item.ApplicationName.Trim();
-			item.Arguments = item.Arguments.Trim();
+			item.Arguments = item.Arguments?.Trim();
 			item.Cron = item.Cron.Trim();
 			item.Version = item.Version.Trim();
 			item.Name = item.Name.Trim();
@@ -129,12 +129,12 @@ namespace DotnetSpider.Enterprise.Application.Task
 		/// <param name="cron"></param>
 		private bool AddOrUpdateHangfireJob(long taskId, string cron)
 		{
-			var url = $"{_configuration.SchedulerUrl}{(_configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Task/AddOrUpdate";
+			var url = $"{Configuration.SchedulerUrl}{(Configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Task/AddOrUpdate";
 			var json = JsonConvert.SerializeObject(new HangfireJobDto
 			{
 				Name = taskId.ToString(),
 				Cron = cron,
-				Url = $"{_configuration.SchedulerCallbackHost}{(_configuration.SchedulerCallbackHost.EndsWith("/") ? "" : "/")}Task/Fire",
+				Url = $"{Configuration.SchedulerCallbackHost}{(Configuration.SchedulerCallbackHost.EndsWith("/") ? "" : "/")}Task/Fire",
 				Data = taskId.ToString()
 			});
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -152,7 +152,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		private void RemoveHangfireJob(long taskId)
 		{
-			var url = $"{_configuration.SchedulerUrl}{(_configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Task/Remove";
+			var url = $"{Configuration.SchedulerUrl}{(Configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Task/Remove";
 			var postData = $"jobId={taskId}";
 			var content = new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded");
 			var result = Util.Client.PostAsync(url, content).Result;

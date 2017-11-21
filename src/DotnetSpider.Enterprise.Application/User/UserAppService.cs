@@ -1,13 +1,13 @@
-﻿using DotnetSpider.Enterprise.EntityFrameworkCore;
+﻿using DotnetSpider.Enterprise.Core.Configuration;
+using DotnetSpider.Enterprise.EntityFrameworkCore;
 using System.Linq;
 
 namespace DotnetSpider.Enterprise.Application.User
 {
 	public class UserAppService : AppServiceBase, IUserAppService
 	{
-
-		public UserAppService(ApplicationDbContext dbcontext)
-			: base(dbcontext)
+		public UserAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration)
+			: base(dbcontext, configuration)
 		{
 
 		}

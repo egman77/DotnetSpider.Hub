@@ -10,9 +10,9 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 
 		public CommonConfiguration()
 		{
-			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "host.config")))
+			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "domain")))
 			{
-				HostUrl = File.ReadAllLines("host.config")[0];
+				HostUrl = File.ReadAllLines("domain")[0];
 			}
 		}
 
