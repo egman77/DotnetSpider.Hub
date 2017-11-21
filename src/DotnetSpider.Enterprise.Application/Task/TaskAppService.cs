@@ -129,13 +129,12 @@ namespace DotnetSpider.Enterprise.Application.Task
 		/// <param name="cron"></param>
 		private bool AddOrUpdateHangfireJob(long taskId, string cron)
 		{
-			var url = $"{_configuration.SchedulerUrl}Task/AddOrUpdate";
-
+			var url = $"{_configuration.SchedulerUrl}{(_configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Task/AddOrUpdate";
 			var json = JsonConvert.SerializeObject(new HangfireJobDto
 			{
 				Name = taskId.ToString(),
 				Cron = cron,
-				Url = $"{_configuration.SchedulerCallbackHost}Task/Fire",
+				Url = $"{_configuration.SchedulerCallbackHost}{(_configuration.SchedulerCallbackHost.EndsWith("/") ? "" : "/")}Task/Fire",
 				Data = taskId.ToString()
 			});
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -147,13 +146,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 			catch (Exception ex)
 			{
-				throw new SchedulerException("调用Scheduler服务异常:" + ex.Message, ex);
+				throw new SchedulerException($"Call {url}: failed: " + ex.Message, ex);
 			}
 		}
 
 		private void RemoveHangfireJob(long taskId)
 		{
-			var url = $"{_configuration.SchedulerUrl}Task/Remove";
+			var url = $"{_configuration.SchedulerUrl}{(_configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Task/Remove";
 			var postData = $"jobId={taskId}";
 			var content = new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded");
 			var result = Util.Client.PostAsync(url, content).Result;
