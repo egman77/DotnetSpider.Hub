@@ -9,16 +9,9 @@ namespace DotnetSpider.Enterprise.Domain
 {
 	public class PagingQueryInputDto
 	{
-		private static readonly ICommonConfiguration _configuration;
-
 		public virtual int Page { get; set; }
 		public virtual int Size { get; set; }
 		public virtual string Sort { get; set; }
-
-		static PagingQueryInputDto()
-		{
-			_configuration = DI.IocManager.GetService<ICommonConfiguration>();
-		}
 
 		public void Validate()
 		{

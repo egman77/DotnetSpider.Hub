@@ -14,15 +14,15 @@ namespace DotnetSpider.Enterprise.Application
 		protected readonly ICommonConfiguration Configuration;
 		protected readonly UserManager<Domain.Entities.ApplicationUser> UserManager;
 		protected readonly ApplicationDbContext DbContext;
+		protected readonly IAppSession Session;
 
-		protected IAppSession Session { get; }
-
-		protected AppServiceBase(ApplicationDbContext dbcontext, ICommonConfiguration configuration)
+		protected AppServiceBase(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
+			IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
 		{
-			Session = DI.IocManager.GetRequiredService<IAppSession>();
 			DbContext = dbcontext;
 			Configuration = configuration;
-			UserManager = DI.IocManager.GetRequiredService<UserManager<Domain.Entities.ApplicationUser>>();
+			UserManager = userManager;
+			Session = appSession;
 		}
 
 		protected virtual Domain.Entities.ApplicationUser GetCurrentUser()
@@ -35,36 +35,6 @@ namespace DotnetSpider.Enterprise.Application
 			}
 
 			return user;
-		}
-
-		protected virtual string GetClientIp()
-		{
-			var httpContextAccessor = DI.IocManager.GetRequiredService<IHttpContextAccessor>();
-			var ip = httpContextAccessor.HttpContext.Request.Headers["X-Real-IP"];
-
-			if (string.IsNullOrEmpty(ip))
-			{
-				ip = httpContextAccessor.HttpContext.Request.Headers["server.RemoteIpAddress"];
-			}
-
-			if (string.IsNullOrEmpty(ip))
-			{
-				throw new DotnetSpiderException("Cannot Detect Client Ip");
-			}
-			return ip;
-		}
-
-		protected bool CheckMyPermission(string claimName, bool throwException = true)
-		{
-			var r = UserManager.HasClaim(claimName);
-			if (throwException)
-			{
-				if (!r)
-				{
-					throw new DotnetSpiderException($"Permission \"{claimName}\" required. Please contact Pa1Pa Service.");
-				}
-			}
-			return r;
 		}
 	}
 }

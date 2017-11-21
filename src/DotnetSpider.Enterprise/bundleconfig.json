@@ -22,10 +22,10 @@
     "sourceMap": false
   },
   {
-    "outputFileName": "wwwroot/js/log/log.min.js",
+    "outputFileName": "wwwroot/js/log/index.min.js",
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
-      "wwwroot/js/log/log.js"
+      "wwwroot/js/log/index.js"
     ]
   },
   {

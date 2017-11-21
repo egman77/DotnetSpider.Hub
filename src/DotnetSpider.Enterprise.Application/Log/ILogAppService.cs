@@ -8,6 +8,6 @@ namespace DotnetSpider.Enterprise.Application.Log
 	{
 		void Sumit(LogInputDto input);
 
-		PagingLogOutDto QueryLogs(PagingLogInputDto input);
+		PagingLogOutDto Query(PagingLogInputDto input);
 	}
 }

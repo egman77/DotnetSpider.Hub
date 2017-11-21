@@ -21,7 +21,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		protected readonly ILogger Logger;
 		protected readonly ICommonConfiguration Configuration;
 
-		public AppControllerBase(IAppSession appSession, ILoggerFactory loggerFactory,ICommonConfiguration commonConfiguration)
+		public AppControllerBase(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
 		{
 			Session = appSession;
 			Logger = loggerFactory.CreateLogger(GetType());
@@ -75,7 +75,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			catch (Exception e)
 			{
 				Logger.LogError(e.ToString());
-				LogException(e);
 				return ErrorResult("服务器内部错误。");
 			}
 		}
@@ -93,7 +92,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			catch (Exception e)
 			{
 				Logger.LogError(e.ToString());
-				LogException(e);
 				return ErrorResult(e.Message);
 			}
 		}
@@ -111,7 +109,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			catch (Exception e)
 			{
 				Logger.LogError(e.ToString());
-				LogException(e);
 				return ErrorResult("服务器内部错误。");
 			}
 		}
@@ -129,7 +126,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			catch (Exception e)
 			{
 				Logger.LogError(e.ToString());
-				LogException(e);
 				return ErrorResult("服务器内部错误。");
 			}
 		}
@@ -147,7 +143,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			catch (Exception e)
 			{
 				Logger.LogError(e.ToString());
-				LogException(e);
 				return ErrorResult("服务器内部错误。");
 			}
 		}
@@ -165,7 +160,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			catch (Exception e)
 			{
 				Logger.LogError(e.ToString());
-				LogException(e);
 				return ErrorResult("服务器内部错误。");
 			}
 		}
@@ -181,23 +175,6 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 				var message = GetIdentityResultError(result);
 				return ErrorResult(message);
 			}
-		}
-
-		protected void LogException(Exception e)
-		{
-			//try
-			//{
-			//	ExceptionService.Log(new Domain.Entities.Logs.Exception
-			//	{
-			//		CreationTime = DateTime.Now,
-			//		Message = e.ToString(),
-			//		Path = HttpContext.Request.Path,
-			//		QueryString = HttpContext.Request.QueryString.ToString(),
-			//		UserId = Session.UserId,
-			//		SessionId = HttpContext.Session.Id
-			//	});
-			//}
-			//catch { }
 		}
 	}
 }

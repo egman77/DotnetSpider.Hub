@@ -44,9 +44,9 @@ namespace DotnetSpider.Enterprise.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult QueryLogs(PagingLogInputDto input)
+		public IActionResult Query(PagingLogInputDto input)
 		{
-			return ActionResult(_logAppService.QueryLogs, input);
+			return ActionResult(_logAppService.Query, input);
 		}
 	}
 }

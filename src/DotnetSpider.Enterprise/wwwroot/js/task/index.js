@@ -38,10 +38,17 @@
         },
         computed: {
             buttonState: function () {
-                return this.nameVdt && this.validateEmpty && this.versionVdt && this.argumentsVdt && this.applicationNameVdt && this.cronVdt;
+                return this.nameVdt && this.validateEmpty && this.versionVdt && this.argumentsVdt && this.applicationNameVdt && this.cronVdt & this.nodeCountVdt;
             },
             nameVdt: function () {
                 return this.validateEmpty(this, 'name', true);
+            },
+            nodeCountVdt: function () {
+                if (this.validateEmpty(this, 'nodeCount', true)) {
+                    var value = this.newTask['nodeCount'];
+                    return value >= 1 && value < 100;
+                }
+                return false;
             },
             versionVdt: function () {
                 return this.validateEmpty(this, 'version', true);

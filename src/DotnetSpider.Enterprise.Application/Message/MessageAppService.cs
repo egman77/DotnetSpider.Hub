@@ -8,12 +8,15 @@ using System.Linq;
 using System.Text;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
+using DotnetSpider.Enterprise.Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace DotnetSpider.Enterprise.Application.Message
 {
 	public class MessageAppService : AppServiceBase, IMessageAppService
 	{
-		public MessageAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration) : base(dbcontext, configuration)
+		public MessageAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
+			IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager) : base(dbcontext, configuration, appSession, userManager)
 		{
 		}
 

@@ -24,7 +24,7 @@
             that.logsPaging.total = 0;
             that.logsPaging.page = 1;
             lastQuery = null;
-            loadBatchLogs(that);
+            loadLogs(that);
         },
         methods: {
             searchResults: function () {
@@ -32,7 +32,7 @@
                 that.logsPaging.total = 0;
                 that.logsPaging.page = 1;
                 lastQuery = null;
-                loadBatchLogs();
+                loadLogs();
             }
         }
     });
@@ -45,7 +45,7 @@
         return result[1];
     }
 
-    function loadBatchLogs(vue) {
+    function loadLogs(vue) {
         var logVue = tasksVUE || vue;
         var query;
         if (!lastQuery) {
@@ -62,7 +62,7 @@
         }
         else query = lastQuery;
 
-        dsApp.post('/log/querylogs', query, function (result) {
+        dsApp.post('/log/query', query, function (result) {
             logVue.$data.columns = result.result.columns;
             logVue.$data.logs = result.result.values;
             logVue.$data.logsPaging.total = result.result.total;
@@ -70,7 +70,7 @@
             dsApp.ui.initPagination('#logsPagination', result.result, function (page) {
                 logVue.$data.logsPaging.page = page;
                 if (lastQuery) lastQuery.page = page;
-                loadBatchLogs();
+                loadLogs();
             });
         });
     }

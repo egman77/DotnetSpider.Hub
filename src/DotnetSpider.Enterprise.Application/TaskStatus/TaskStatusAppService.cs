@@ -14,12 +14,14 @@ using DotnetSpider.Enterprise.Application.Message.Dto;
 using DotnetSpider.Enterprise.Application.TaskStatus;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {
 	public class TaskStatusAppService : AppServiceBase, ITaskStatusAppService
 	{
-		public TaskStatusAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration) : base(dbcontext, configuration)
+		public TaskStatusAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 		}
 

@@ -1,7 +1,9 @@
 ﻿using DotnetSpider.Enterprise.Application.Log.Dto;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
+using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Collections.Generic;
@@ -11,8 +13,8 @@ namespace DotnetSpider.Enterprise.Application.Log
 {
 	public class LogAppService : AppServiceBase, ILogAppService
 	{
-		public LogAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration)
-			: base(dbcontext, configuration)
+		public LogAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 		}
 
@@ -25,7 +27,7 @@ namespace DotnetSpider.Enterprise.Application.Log
 			await collection.InsertOneAsync(BsonDocument.Parse(input.LogInfo.ToString()));
 		}
 
-		public PagingLogOutDto QueryLogs(PagingLogInputDto input)
+		public PagingLogOutDto Query(PagingLogInputDto input)
 		{
 			var client = new MongoClient(Configuration.LogMongoConnectionString);
 			var database = client.GetDatabase("dotnetspider");

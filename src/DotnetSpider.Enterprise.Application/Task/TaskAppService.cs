@@ -24,6 +24,7 @@ using DotnetSpider.Enterprise.Application.TaskHistory;
 using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
+using Microsoft.AspNetCore.Identity;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -35,8 +36,8 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public TaskAppService(ITaskHistoryAppService taskHistoryAppService,
 			IMessageAppService messageAppService,
-			INodeAppService nodeAppService, ICommonConfiguration configuration,
-			ApplicationDbContext dbcontext) : base(dbcontext, configuration)
+			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager,
+			ApplicationDbContext dbcontext) : base(dbcontext, configuration, appSession, userManager)
 		{
 			_taskHistoryAppService = taskHistoryAppService;
 			_messageAppService = messageAppService;
@@ -189,7 +190,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				return;
 			}
 
-			var runningNodes = _nodeAppService.GetAllOnlineNodes();
+			var runningNodes = _nodeAppService.GetAllOnline();
 
 			var messages = new List<AddMessageInputDto>();
 			foreach (var status in runningNodes)
@@ -335,7 +336,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		private string PushTask(Domain.Entities.Task task)
 		{
-			var nodes = _nodeAppService.GetAvailableNodes(task.Os, task.NodeType, task.NodeCount);
+			var nodes = _nodeAppService.GetAvailable(task.Os, task.NodeType, task.NodeCount);
 
 			if (nodes.Count == 0)
 			{

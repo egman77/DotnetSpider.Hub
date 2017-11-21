@@ -66,9 +66,9 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult QueryNodes(PagingQueryInputDto input)
+		public IActionResult Query(PagingQueryInputDto input)
 		{
-			return ActionResult(() => _nodeAppService.QueryNodes(input));
+			return ActionResult(() => _nodeAppService.Query(input));
 		}
 
 		[HttpGet]

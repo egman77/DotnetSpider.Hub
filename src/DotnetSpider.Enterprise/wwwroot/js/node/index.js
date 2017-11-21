@@ -75,7 +75,7 @@
 
 
     function loadNodes(vue) {
-        var url = '/Node/QueryNodes';
+        var url = '/Node/Query';
         dsApp.post(url, { page: vue.$data.page, size: vue.size, sort: vue.sort }, function (result) {
             vue.$data.nodes = result.result.result;
             vue.$data.total = result.result.total;

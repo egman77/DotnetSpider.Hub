@@ -4,6 +4,7 @@ using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,8 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 {
 	public class TaskHistoryAppService : AppServiceBase, ITaskHistoryAppService
 	{
-		public TaskHistoryAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration) : base(dbcontext, configuration)
+		public TaskHistoryAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 		}
 

@@ -15,6 +15,7 @@ using DotnetSpider.Enterprise.Application.Message.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using DotnetSpider.Enterprise.Core.Configuration;
+using Microsoft.AspNetCore.Identity;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {
@@ -22,8 +23,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 	{
 		private readonly IMessageAppService _messageAppService;
 
-		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService, ICommonConfiguration configuration)
-			: base(dbcontext, configuration)
+		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 			_messageAppService = messageAppService;
 		}
@@ -56,7 +57,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			return _messageAppService.QueryMessages(input.NodeId);
 		}
 
-		public PagingQueryOutputDto QueryNodes(PagingQueryInputDto input)
+		public PagingQueryOutputDto Query(PagingQueryInputDto input)
 		{
 			PagingQueryOutputDto output = new PagingQueryOutputDto();
 			switch (input.SortKey)
@@ -124,7 +125,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			return output;
 		}
 
-		public List<NodeOutputDto> GetAvailableNodes(string os, int type, int nodeCount)
+		public List<NodeOutputDto> GetAvailable(string os, int type, int nodeCount)
 		{
 			List<Domain.Entities.Node> nodes = null;
 			var compareTime = DateTime.Now.AddSeconds(-60);
@@ -208,7 +209,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			}
 		}
 
-		public List<NodeOutputDto> GetAllOnlineNodes()
+		public List<NodeOutputDto> GetAllOnline()
 		{
 			var compareTime = DateTime.Now.AddSeconds(-60);
 			var nodes = DbContext.Node.Where(a => a.IsOnline && a.LastModificationTime > compareTime).ToList();

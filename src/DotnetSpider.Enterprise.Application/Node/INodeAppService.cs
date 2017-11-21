@@ -13,9 +13,9 @@ namespace DotnetSpider.Enterprise.Application.Node
 		void Enable(string nodeId);
 		void Disable(string nodeId);
 		List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input);
-		PagingQueryOutputDto QueryNodes(PagingQueryInputDto input);
-		List<NodeOutputDto> GetAvailableNodes(string os, int type, int nodeCount);
-		List<NodeOutputDto> GetAllOnlineNodes();
+		PagingQueryOutputDto Query(PagingQueryInputDto input);
+		List<NodeOutputDto> GetAvailable(string os, int type, int nodeCount);
+		List<NodeOutputDto> GetAllOnline();
 		void Exit(string nodeId);
 		void Remove(string nodeId);
 	}
