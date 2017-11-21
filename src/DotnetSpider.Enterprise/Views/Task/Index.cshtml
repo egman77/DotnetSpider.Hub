@@ -55,7 +55,6 @@
                                             <th width="70">TYPE</th>
                                             <th width="80">RUNNING</th>
                                             <th width="120">CRON</th>
-                                            <th width="120">DEVELOPERS</th>
                                             <th>ARGUMENTS</th>
                                             <th width="60">SINGLE</th>
                                             <th width="60">ENABLE</th>
@@ -76,7 +75,6 @@
                                             <td v-text="task.nodeType==1?'default':'vps'"></td>
                                             <td v-text="task.nodeRunningCount"></td>
                                             <td v-text="task.cron"></td>
-                                            <td v-text="task.developers"></td>
                                             <td v-text="task.arguments"></td>
                                             <td v-text="task.isSingle"></td>
                                             <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>

@@ -147,7 +147,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 			catch (Exception ex)
 			{
-				throw new SchedulerException($"Call {url}: failed: " + ex.Message, ex);
+				throw new SchedulerException($"Call {url}, Content {json} failed.", ex);
 			}
 		}
 
