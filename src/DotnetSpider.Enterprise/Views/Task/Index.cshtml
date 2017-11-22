@@ -85,7 +85,7 @@
                                                 <a href="javascript:void(0)"><i title="delete task" @@click.stop="remove(task)">Remove</i></a>
                                                 <a :href="'TaskHistory?TaskId='+ task.id"><i title="running history">History</i></a>
                                                 <a href="javascript:void(0)"><i v-show="!task.isRunning" title="run task" @@click.stop="run(task)">Run</i></a>
-                                                <a href="javascript:void(0)"><i v-show="task.isRunning || task.nodeRunningCount>0" title="exit task" @@click.stop="exit(task.id)">Exit</i></a>
+                                                <a href="javascript:void(0)"><i title="exit task" @@click.stop="exit(task.id)">Exit</i></a>
                                             </td>
                                         </tr>
                                     </tbody>

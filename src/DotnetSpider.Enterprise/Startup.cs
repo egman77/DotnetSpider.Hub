@@ -23,6 +23,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using DotnetSpider.Enterprise.Domain;
 using NLog.Extensions.Logging;
+using AspectCore.APM.AspNetCore;
+using AspectCore.APM.LineProtocolCollector;
+using AspectCore.APM.HttpProfiler;
+using AspectCore.APM.ApplicationProfiler;
+using AspectCore.Extensions.DependencyInjection;
 
 namespace DotnetSpider.Enterprise
 {
@@ -57,8 +62,15 @@ namespace DotnetSpider.Enterprise
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
+		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
+			services.AddAspectCoreAPM(component =>
+			{
+				component.AddLineProtocolCollector(options => Configuration.GetLineProtocolSection().Bind(options))
+						 .AddHttpProfiler()
+						 .AddApplicationProfiler();
+			});
+
 			services.AddResponseCaching();
 			services.AddResponseCompression();
 
@@ -128,6 +140,8 @@ namespace DotnetSpider.Enterprise
 
 			//Session服务
 			services.AddSession();
+
+			return services.BuildAspectCoreServiceProvider();
 		}
 
 		public IConfigurationRoot Configuration { get; }
@@ -135,6 +149,9 @@ namespace DotnetSpider.Enterprise
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
+			app.UseHttpProfiler();
+			app.UseAspectCoreAPM();
+
 			var config = app.ApplicationServices.GetRequiredService<ICommonConfiguration>();
 			config.AppConfiguration = Configuration;
 

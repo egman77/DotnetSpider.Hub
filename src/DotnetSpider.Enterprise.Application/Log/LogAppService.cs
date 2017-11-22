@@ -4,8 +4,10 @@ using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,18 +15,29 @@ namespace DotnetSpider.Enterprise.Application.Log
 {
 	public class LogAppService : AppServiceBase, ILogAppService
 	{
-		public LogAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
+		protected readonly ILogger _logger;
+
+		public LogAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
+			UserManager<Domain.Entities.ApplicationUser> userManager, ILogger<LogAppService> logger)
 			: base(dbcontext, configuration, appSession, userManager)
 		{
+			_logger = logger;
 		}
 
 		public async void Sumit(LogInputDto input)
 		{
-			var client = new MongoClient(Configuration.LogMongoConnectionString);
-			var database = client.GetDatabase("dotnetspider");
-			var collection = database.GetCollection<BsonDocument>(input.Identity);
+			try
+			{
+				var client = new MongoClient(Configuration.LogMongoConnectionString);
+				var database = client.GetDatabase("dotnetspider");
+				var collection = database.GetCollection<BsonDocument>(input.Identity);
 
-			await collection.InsertOneAsync(BsonDocument.Parse(input.LogInfo.ToString()));
+				await collection.InsertOneAsync(BsonDocument.Parse(input.LogInfo.ToString()));
+			}
+			catch (Exception e)
+			{
+				_logger.LogError(e, $"Submit log failed.");
+			}
 		}
 
 		public PagingLogOutDto Query(PagingLogInputDto input)
