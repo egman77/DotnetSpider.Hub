@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -96,23 +97,27 @@ namespace DotnetSpider.Enterprise.Agent
 			if (Config.IsRunningOnWindows)
 			{
 				Thread.Sleep(1000);
-				Logger.Info($"Start error dialog monitor.");
-				while (!_exit)
+				Logger.Info($"[{++step}] Start error dialog monitor.");
+
+				Task.Factory.StartNew(() =>
 				{
-					try
+					while (!_exit)
 					{
-						var errorDialogs = Process.GetProcessesByName("WerFault");
-						foreach (var errorDialog in errorDialogs)
+						try
 						{
-							errorDialog.Kill();
+							var errorDialogs = Process.GetProcessesByName("WerFault");
+							foreach (var errorDialog in errorDialogs)
+							{
+								errorDialog.Kill();
+							}
+							Thread.Sleep(1000);
 						}
-						Thread.Sleep(1000);
+						catch (Exception e)
+						{
+							Logger.Info($"Kill error dialog failed: {e}");
+						}
 					}
-					catch (Exception e)
-					{
-						Logger.Info($"Kill error dialog failed: {e}");
-					}
-				}
+				});
 			}
 		}
 
@@ -123,7 +128,10 @@ namespace DotnetSpider.Enterprise.Agent
 		{
 			while (!_exit)
 			{
-				Heartbeat();
+				if (ValidateInternet())
+				{
+					Heartbeat();
+				}
 				Thread.Sleep(Config.HeartbeatInterval);
 			}
 		}
@@ -348,6 +356,21 @@ namespace DotnetSpider.Enterprise.Agent
 			process.Start();
 			process.Exited += (a, b) => { onExited?.Invoke(); };
 			return process;
+		}
+
+		private bool ValidateInternet()
+		{
+			try
+			{
+				Ping p = new Ping();//创建Ping对象p
+				PingReply pr = p.Send("www.baidu.com", 5000);
+
+				return (pr != null && pr.Status == IPStatus.Success);
+			}
+			catch
+			{
+				return false;
+			}
 		}
 	}
 }
