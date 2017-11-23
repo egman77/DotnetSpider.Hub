@@ -25,7 +25,7 @@ namespace DotnetSpider.Enterprise.Agent
 			{
 				agent.CheckConfig();
 				agent.LoadConfig();
-
+				agent.StartErrorDialogMonitor();
 				if (args.Contains("--daemon"))
 				{
 					agent.Start();

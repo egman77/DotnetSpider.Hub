@@ -91,6 +91,31 @@ namespace DotnetSpider.Enterprise.Agent
 			Logger.Info($"[{++step}] Load configuration success.");
 		}
 
+		public void StartErrorDialogMonitor()
+		{
+			if (Config.IsRunningOnWindows)
+			{
+				Thread.Sleep(1000);
+				Logger.Info($"Start error dialog monitor.");
+				while (!_exit)
+				{
+					try
+					{
+						var errorDialogs = Process.GetProcessesByName("WerFault");
+						foreach (var errorDialog in errorDialogs)
+						{
+							errorDialog.Kill();
+						}
+						Thread.Sleep(1000);
+					}
+					catch (Exception e)
+					{
+						Logger.Info($"Kill error dialog failed: {e}");
+					}
+				}
+			}
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -288,7 +313,7 @@ namespace DotnetSpider.Enterprise.Agent
 				}
 			}
 
-			var process = Process(command.ApplicationName, command.Arguments, workingDirectory, () =>
+			var process = StartProcess(command.ApplicationName, command.Arguments, workingDirectory, () =>
 			{
 				ProcessInfo p;
 				Processes.TryRemove(command.TaskId, out p);
@@ -303,7 +328,7 @@ namespace DotnetSpider.Enterprise.Agent
 			Processes.TryAdd(command.TaskId, info);
 		}
 
-		public Process Process(string app, string arguments, string workingDirectory, Action onExited)
+		public Process StartProcess(string app, string arguments, string workingDirectory, Action onExited)
 		{
 			var path = Path.Combine(workingDirectory, app);
 			path = File.Exists(path) ? path : app;

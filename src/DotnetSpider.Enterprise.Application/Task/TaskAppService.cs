@@ -105,7 +105,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			task.Analysts = item.Analysts?.Trim();
 			task.ApplicationName = item.ApplicationName?.Trim();
 			task.Arguments = item.Arguments?.Trim();
-			// TODO
+
 			task.Cron = item.Cron;
 			task.Description = item.Description?.Trim();
 			task.Developers = item.Developers?.Trim();
@@ -118,6 +118,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			task.Tags = item.Tags?.Trim();
 			task.NodeType = item.NodeType;
 			task.Version = item.Version?.Trim();
+			task.IsSingle = item.IsSingle;
 
 			AddOrUpdateHangfireJob(task.Id, string.Join(" ", task.Cron));
 
