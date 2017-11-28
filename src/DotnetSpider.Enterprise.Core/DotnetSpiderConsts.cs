@@ -13,5 +13,6 @@ namespace DotnetSpider.Enterprise.Core
 
 		public const string SchedulerUrl = "scheduler.url";
 		public const string SchedulerCallbackHost = "scheduler.callbackHost";
+		public const string UnTriggerCron = "* * * * 2999";
 	}
 }

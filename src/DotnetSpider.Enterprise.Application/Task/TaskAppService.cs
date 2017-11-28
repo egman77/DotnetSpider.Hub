@@ -83,11 +83,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 			item.Name = item.Name.Trim();
 
 			var cron = task.Cron;
-			task.Cron = "1 1 * * 2999";
+			task.Cron = DotnetSpiderConsts.UnTriggerCron;
 			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
-			if (AddOrUpdateHangfireJob(task.Id, cron))
+			if (cron != DotnetSpiderConsts.UnTriggerCron && AddOrUpdateHangfireJob(task.Id, cron))
 			{
 				task.Cron = cron;
 				DbContext.Task.Update(task);
@@ -120,7 +120,14 @@ namespace DotnetSpider.Enterprise.Application.Task
 			task.Version = item.Version?.Trim();
 			task.IsSingle = item.IsSingle;
 
-			AddOrUpdateHangfireJob(task.Id, string.Join(" ", task.Cron));
+			if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
+			{
+				RemoveHangfireJob(task.Id);
+			}
+			else
+			{
+				AddOrUpdateHangfireJob(task.Id, string.Join(" ", task.Cron));
+			}
 
 			task.IsEnabled = item.IsEnabled;
 			DbContext.Task.Update(task);
