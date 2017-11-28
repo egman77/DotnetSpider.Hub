@@ -28,6 +28,7 @@ using AspectCore.APM.LineProtocolCollector;
 using AspectCore.APM.HttpProfiler;
 using AspectCore.APM.ApplicationProfiler;
 using AspectCore.Extensions.DependencyInjection;
+using AspectCore.APM.Core;
 
 namespace DotnetSpider.Enterprise
 {
@@ -64,12 +65,18 @@ namespace DotnetSpider.Enterprise
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
+			var env = (IHostingEnvironment)services.First(s => s.ServiceType == typeof(IHostingEnvironment)).ImplementationInstance;
+			Action<ApplicationOptions> application = options =>
+			{
+				options.ApplicationName = env.ApplicationName;
+				options.Environment = env.EnvironmentName;
+			};
 			services.AddAspectCoreAPM(component =>
 			{
 				component.AddLineProtocolCollector(options => Configuration.GetLineProtocolSection().Bind(options))
 						 .AddHttpProfiler()
 						 .AddApplicationProfiler();
-			});
+			}, application);
 
 			services.AddResponseCaching();
 			services.AddResponseCompression();
