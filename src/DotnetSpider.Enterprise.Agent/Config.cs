@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -35,6 +36,8 @@ namespace DotnetSpider.Enterprise.Agent
 		public static string ApiToken { get; set; }
 		public static double CpuFullLoad { get; set; }
 		public static int NodeType { get; set; }
+
+		public static readonly HttpClient HttpClient = new HttpClient();
 
 		public static void Load(IConfigurationRoot configuration)
 		{

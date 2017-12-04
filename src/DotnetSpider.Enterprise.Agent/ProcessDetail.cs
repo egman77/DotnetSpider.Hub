@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DotnetSpider.Enterprise.Agent
 {
-	public class ProcessInfo
+	public class ProcessDetail
 	{
 		public virtual string TaskId { get; set; }
 		public virtual Process Process { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,6 +12,8 @@ namespace DotnetSpider.Enterprise.Agent
 {
 	public class HeartBeat
 	{
+		private static readonly ManagementObjectSearcher CPUUsageSearch;
+
 		public virtual string NodeId { get; set; }
 		public virtual string Ip { get; set; }
 		public virtual int CPULoad { get; set; }
@@ -22,6 +25,14 @@ namespace DotnetSpider.Enterprise.Agent
 		public virtual string Version { get; set; }
 		public virtual int CPUCoreCount { get; set; }
 
+		static HeartBeat()
+		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				CPUUsageSearch = new ManagementObjectSearcher("SELECT *  FROM Win32_PerfFormattedData_PerfOS_Processor WHERE Name='_Total'");
+			}
+		}
+
 		public static HeartBeat Create()
 		{
 			var heartBeat = new HeartBeat
@@ -32,7 +43,8 @@ namespace DotnetSpider.Enterprise.Agent
 				Os = Config.Os,
 				Version = Config.Version,
 				CPUCoreCount = Environment.ProcessorCount,
-				Type = Config.NodeType
+				Type = Config.NodeType,
+				ProcessCount = CommandExecutor.ProcessCount
 			};
 
 			if (Config.IsRunningOnWindows)
@@ -59,32 +71,23 @@ namespace DotnetSpider.Enterprise.Agent
 			return heartBeat;
 		}
 
+		public override string ToString()
+		{
+			return $"{NodeId}, {CPULoad}, {FreeMemory}, {TotalMemory}, {ProcessCount}, {CPUCoreCount}";
+		}
+
 		private static decimal GetCpuLoad()
 		{
 			if (Config.IsRunningOnWindows)
 			{
-				Process process = new Process
+				decimal total = 100;
+				var s = CPUUsageSearch.Get();
+				foreach (ManagementObject obj in s)
 				{
-					StartInfo =
-					{
-						FileName = "wmic",
-						Arguments = "cpu get LoadPercentage",
-						CreateNoWindow = false,
-						RedirectStandardOutput = true,
-						RedirectStandardInput = true
-					}
-				};
-				process.Start();
-				string info = process.StandardOutput.ReadToEnd();
-				var lines = info.Split('\n');
-
-				if (lines.Length > 1)
-				{
-					var loadStr = lines[1].Trim();
-					return decimal.Parse(loadStr);
+					var usage = obj["PercentIdleTime"];
+					total -= decimal.Parse(usage.ToString());
 				}
-				process.WaitForExit();
-				process.Dispose();
+				return total;
 			}
 			else
 			{
@@ -93,15 +96,9 @@ namespace DotnetSpider.Enterprise.Agent
 				double load5sec = double.Parse(loadAvgs[0]);
 				return (decimal)((load5sec / Config.CpuFullLoad) * 100);
 			}
-			return 100;
 		}
 
-		public override string ToString()
-		{
-			return $"{NodeId}, {CPULoad}, {FreeMemory}, {TotalMemory}, {ProcessCount}, {CPUCoreCount}";
-		}
-
-		public struct MEMORYSTATUS
+		private struct MEMORYSTATUS
 		{
 			public uint dwLength;
 			public uint dwMemoryLoad;
@@ -115,6 +112,6 @@ namespace DotnetSpider.Enterprise.Agent
 
 		[DllImport("kernel32.dll", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool GlobalMemoryStatus(ref MEMORYSTATUS lpBuffer);
+		private static extern bool GlobalMemoryStatus(ref MEMORYSTATUS lpBuffer);
 	}
 }

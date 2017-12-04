@@ -49,7 +49,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult Fire(long data)
+		public IActionResult Trigger(long data)
 		{
 			_taskAppService.Run(data);
 			return Ok();
