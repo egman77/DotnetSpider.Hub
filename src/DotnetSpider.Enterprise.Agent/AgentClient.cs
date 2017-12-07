@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿#if !NET45
+using Microsoft.Extensions.Configuration;
+#endif
 using Newtonsoft.Json;
 using NLog;
 using NLog.Config;
@@ -26,6 +28,12 @@ namespace DotnetSpider.Enterprise.Agent
 		private bool _exit;
 		private FileStream _lockFileStream;
 		private readonly Ping Ping = new Ping();
+
+#if NET45
+		private string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+#else
+		private string baseDirectory = AppContext.BaseDirectory;
+#endif
 
 		public AgentClient()
 		{
@@ -82,14 +90,14 @@ namespace DotnetSpider.Enterprise.Agent
 		/// </summary>
 		private void CheckConfig()
 		{
-			string nlogConfigPath = Path.Combine(AppContext.BaseDirectory, "nlog.config");
+			var nlogConfigPath = Path.Combine(baseDirectory, "nlog.config");
 			if (!File.Exists(nlogConfigPath))
 			{
 				Console.WriteLine("NLog configuraiton file nlog.config unfound.");
 				Environment.Exit(1);
 			}
 			Logger = LogManager.GetCurrentClassLogger();
-			string configPath = Path.Combine(AppContext.BaseDirectory, "config.ini");
+			string configPath = Path.Combine(baseDirectory, "config.ini");
 			if (!File.Exists(configPath))
 			{
 				Logger.Error("Agent configuration file config.ini unfound.");
@@ -104,7 +112,7 @@ namespace DotnetSpider.Enterprise.Agent
 		/// </summary>
 		private void LoadConfig()
 		{
-			string nlogConfigPath = Path.Combine(AppContext.BaseDirectory, "nlog.config");
+			string nlogConfigPath = Path.Combine(baseDirectory, "nlog.config");
 			LogManager.Configuration = new XmlLoggingConfiguration(nlogConfigPath);
 
 			Config.Load();

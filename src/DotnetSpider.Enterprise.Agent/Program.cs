@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿#if !NET45
+using Microsoft.Extensions.Configuration;
+#endif
 using NLog;
 using NLog.Config;
 using System;

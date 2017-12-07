@@ -49,10 +49,11 @@ namespace DotnetSpider.Enterprise.Agent
 
 			if (Config.IsRunningOnWindows)
 			{
-				MEMORYSTATUS mStatus = new MEMORYSTATUS();
-				GlobalMemoryStatus(ref mStatus);
-				heartBeat.FreeMemory = Convert.ToInt64(mStatus.dwAvailPhys) / 1024 / 1024;
-				heartBeat.TotalMemory = Convert.ToInt64(mStatus.dwTotalPhys) / 1024 / 1024;
+#if NET45
+				Microsoft.VisualBasic.Devices.ComputerInfo info = new Microsoft.VisualBasic.Devices.ComputerInfo();
+				heartBeat.FreeMemory = Convert.ToInt64(info.AvailablePhysicalMemory) / 1024 / 1024;
+				heartBeat.TotalMemory = Convert.ToInt64(info.TotalPhysicalMemory) / 1024 / 1024;
+#endif
 			}
 			else
 			{
@@ -97,21 +98,5 @@ namespace DotnetSpider.Enterprise.Agent
 				return (decimal)((load5sec / Config.CpuFullLoad) * 100);
 			}
 		}
-
-		private struct MEMORYSTATUS
-		{
-			public uint dwLength;
-			public uint dwMemoryLoad;
-			public UInt64 dwTotalPhys; //总的物理内存大小
-			public UInt64 dwAvailPhys; //可用的物理内存大小 
-			public UInt64 dwTotalPageFile;
-			public UInt64 dwAvailPageFile; //可用的页面文件大小
-			public UInt64 dwTotalVirtual; //返回调用进程的用户模式部分的全部可用虚拟地址空间
-			public UInt64 dwAvailVirtual; // 返回调用进程的用户模式部分的实际自由可用的虚拟地址空间
-		}
-
-		[DllImport("kernel32.dll", SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		private static extern bool GlobalMemoryStatus(ref MEMORYSTATUS lpBuffer);
 	}
 }
