@@ -189,8 +189,8 @@ namespace DotnetSpider.Enterprise.Agent
 				StartInfo =
 				{
 					FileName = path,
-					UseShellExecute = false,
-					CreateNoWindow = false,
+					UseShellExecute = true,
+					CreateNoWindow = true,
 					WorkingDirectory = workingDirectory,
 					Arguments = arguments
 				},
