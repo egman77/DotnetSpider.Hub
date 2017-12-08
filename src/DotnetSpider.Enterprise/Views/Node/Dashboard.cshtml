@@ -1,0 +1,157 @@
+﻿
+@section styles{
+    <link href="~/lib/morrisjs/morris.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/lib/raphael/raphael.min.js"></script>
+    <script src="~/lib/morrisjs/morris.js"></script>
+
+    <environment names="Development">
+        <script src="~/js/node/dashboard.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="~/js/node/dashboard.min.js" asp-append-version="true"></script>
+    </environment>
+}
+<input id="AgentId" style="display: none" value="@ViewBag.AgentId" />
+<div class="container-fluid" id="dashboardBody">
+    <div class="row clearfix">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box bg-green hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">location_on</i>
+                </div>
+                <div class="content">
+                    <div class="text">IP</div>
+                    <div class="number" v-text="nodeDetail.ip"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box bg-cyan hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">computer</i>
+                </div>
+                <div class="content">
+                    <div class="text">OPERATING SYSTEM</div>
+                    <div class="text" v-text="nodeDetail.os" :title="nodeDetail.os" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box bg-indigo hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">cloud</i>
+                </div>
+                <div class="content">
+                    <div class="text">NODE VERSION</div>
+                    <div class="number" v-text="nodeDetail.version"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box bg-teal hover-expand-effect">
+                <div class="icon">
+                    <i class="material-icons">swap_vert</i>
+                </div>
+                <div class="content">
+                    <div class="text">ONLINE STATUS</div>
+                    <div class="number" v-text="nodeDetail.isOnline" style="text-transform:capitalize"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-sm-12">
+                            <h2>PERFORMANCE</h2>
+                        </div>
+                    </div>
+                    <ul class="header-dropdown m-r--5"></ul>
+                </div>
+
+                <div class="body">
+                    <div id="performanceChart" class="graph"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-sm-6">
+                            <h2>RUNNING TASKS</h2>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 align-right">
+                            <div class="switch panel-switch-btn">
+                                <span class="m-r-10 font-12">Node Enabled</span>
+                                <label>
+                                    OFF
+                                    <input v-if="!nodeDetail.isOnline" type="checkbox" id="enableSwitch" disabled="disabled">
+                                    <input v-else-if="nodeDetail.isEnabled" type="checkbox" id="enableSwitch" checked="">
+                                    <input v-else="!nodeDetail.isOnline" type="checkbox" id="enableSwitch">
+                                    <span class="lever switch-col-cyan"></span>ON
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="header-dropdown m-r--5"></ul>
+                </div>
+                <div class="body">
+                    <div id="taskChart" class="graph"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        EXECUTION LOGS
+                    </h2>
+                    <ul class="header-dropdown m-r--5">                        
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">more_vert</i>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="javascript:void(0);" class="logLevel" level="">ALL</a></li>
+                                <li><a href="javascript:void(0);" class="logLevel" level="info">INFO</a></li>
+                                <li><a href="javascript:void(0);" class="logLevel" level="warn">WARN</a></li>
+                                <li><a href="javascript:void(0);" class="logLevel" level="error">ERROR</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="body table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>TASK ID</th>
+                                <th>COMMAND ID</th>
+                                <th>TYPE</th>
+                                <th>MESSAGE</th>
+                                <th>TIME</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-show="!logs || logs.length == 0" style="background-color:#F7F7F7"><td colspan="10" align="center" class="disabled">NO LOG</td></tr>
+                            <tr v-for="log in logs">
+                                <td><span v-text="log.taskId"></span></td>
+                                <td><span v-text="log.commandId"></span></td>
+                                <td><span v-text="log.logType"></span></td>
+                                <td><span v-text="log.message"></span></td>
+                                <td><span v-text="log.creationTime"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul v-show="total > size" id="pagination" class="default_paginate pull-right"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

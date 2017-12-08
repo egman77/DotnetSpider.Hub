@@ -1,0 +1,9 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "twbs-pagination": "1.4.1",
+    "My97DatePicker": "0.1.0",
+    "jquery": "2.1.4"
+  }
+}
