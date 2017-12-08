@@ -13,6 +13,7 @@ namespace DotnetSpider.Enterprise.Agent
 	public class HeartBeat
 	{
 		private static readonly ManagementObjectSearcher CPUUsageSearch;
+		private static readonly bool IsServer2008;
 
 		public virtual string NodeId { get; set; }
 		public virtual string Ip { get; set; }
@@ -27,7 +28,8 @@ namespace DotnetSpider.Enterprise.Agent
 
 		static HeartBeat()
 		{
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			IsServer2008 = RuntimeInformation.OSDescription.Contains("6.1.7");
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && !IsServer2008)
 			{
 				CPUUsageSearch = new ManagementObjectSearcher("SELECT *  FROM Win32_PerfFormattedData_PerfOS_Processor WHERE Name='_Total'");
 			}
@@ -80,14 +82,45 @@ namespace DotnetSpider.Enterprise.Agent
 		{
 			if (Config.IsRunningOnWindows)
 			{
-				decimal total = 100;
-				var s = CPUUsageSearch.Get();
-				foreach (ManagementObject obj in s)
+				if (!IsServer2008)
 				{
-					var usage = obj["PercentIdleTime"];
-					total -= decimal.Parse(usage.ToString());
+					decimal total = 100;
+					var s = CPUUsageSearch.Get();
+					foreach (ManagementObject obj in s)
+					{
+						var usage = obj["PercentIdleTime"];
+						total -= decimal.Parse(usage.ToString());
+					}
+					return total;
 				}
-				return total;
+				else
+				{
+					Process process = new Process
+					{
+						StartInfo =
+						{
+							FileName = "wmic",
+							Arguments = "cpu get LoadPercentage",
+							CreateNoWindow = false,
+							RedirectStandardOutput = true,
+							RedirectStandardInput = true
+						}
+					};
+					process.Start();
+					string info = process.StandardOutput.ReadToEnd();
+					var lines = info.Split('\n');
+					process.WaitForExit();
+					process.Dispose();
+					if (lines.Length > 1)
+					{
+						var loadStr = lines[1].Trim();
+						return decimal.Parse(loadStr);
+					}
+					else
+					{
+						return 99;
+					}
+				}
 			}
 			else
 			{
