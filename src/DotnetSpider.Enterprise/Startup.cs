@@ -202,6 +202,7 @@ namespace DotnetSpider.Enterprise
 			{
 				SeedData.Initialize(app.ApplicationServices);
 			}
+			SeedData.InitializeAll(app.ApplicationServices);
 		}
 	}
 }

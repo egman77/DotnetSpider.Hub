@@ -19,12 +19,6 @@ namespace DotnetSpider.Enterprise.Application
 		{
 			using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>(), null))
 			{
-				var systemAppService = serviceProvider.GetService<ISystemAppService>();
-				systemAppService.Register();
-
-				var taskService= serviceProvider.GetService<ITaskAppService>();
-				taskService.UpgradeScheduler();
-
 				if (context.Users.Any())
 				{
 					return;   // 已经初始化过数据，直接返回
@@ -109,6 +103,16 @@ namespace DotnetSpider.Enterprise.Application
 			};
 			userManager.CreateAsync(superAdmin, "1qazZAQ!").Wait();
 			context.SaveChanges();
+		}
+
+		public static void InitializeAll(IServiceProvider serviceProvider)
+		{
+			var systemAppService = serviceProvider.GetService<ISystemAppService>();
+			systemAppService.Register();
+
+			var taskService = serviceProvider.GetService<ITaskAppService>();
+			taskService.UpgradeScheduler();
+
 		}
 	}
 }
