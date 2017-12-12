@@ -23,5 +23,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		PagingQueryOutputDto QueryRunning(PagingQueryInputDto input);
 		AddTaskInputDto Get(long taskId);
+		void UpgradeScheduler();
 	}
 }

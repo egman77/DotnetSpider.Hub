@@ -184,6 +184,7 @@
             },
             modify: function (task) {
                 var _$modal = $('#CreateNewTaskModal');
+                tasksVUE.$data.isView = false;
                 var item = {};
                 for (var prop in task) {
                     if (task.hasOwnProperty(prop)) {

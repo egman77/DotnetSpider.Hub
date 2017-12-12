@@ -359,5 +359,20 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_taskHistoryAppService.Add(taskHistory);
 			return identity;
 		}
+
+		public void UpgradeScheduler()
+		{
+			foreach (var task in DbContext.Task)
+			{
+				if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
+				{
+					_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
+				}
+				else
+				{
+					_hangfireAppService.AddOrUpdateHangfireJob(task.Id.ToString(), string.Join(" ", task.Cron));
+				}
+			}
+		}
 	}
 }

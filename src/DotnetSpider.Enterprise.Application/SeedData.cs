@@ -22,6 +22,9 @@ namespace DotnetSpider.Enterprise.Application
 				var systemAppService = serviceProvider.GetService<ISystemAppService>();
 				systemAppService.Register();
 
+				var taskService= serviceProvider.GetService<ITaskAppService>();
+				taskService.UpgradeScheduler();
+
 				if (context.Users.Any())
 				{
 					return;   // 已经初始化过数据，直接返回
