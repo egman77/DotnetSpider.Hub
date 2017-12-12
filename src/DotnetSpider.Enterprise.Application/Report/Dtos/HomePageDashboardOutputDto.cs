@@ -8,7 +8,7 @@ namespace DotnetSpider.Enterprise.Application.Report.Dtos
 	public class HomePageDashboardOutputDto
 	{
 		public virtual int TaskCount { get; set; }
-		public virtual long LogCount { get; set; }
+		public virtual string LogSize { get; set; }
 		public virtual int NodeTotalCount { get; set; }
 		public virtual int NodeOnlineCount { get; set; }
 		public virtual int RunningTaskCount { get; set; }

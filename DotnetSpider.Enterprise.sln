@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Solution items", "00. S
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise", "src\DotnetSpider.Enterprise\DotnetSpider.Enterprise.csproj", "{B4973CD4-BBEA-4522-B50C-F5B2297B191E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise", "Src\DotnetSpider.Enterprise\DotnetSpider.Enterprise.csproj", "{B4973CD4-BBEA-4522-B50C-F5B2297B191E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Enterprise.EntityFrameworkCore", "Src\DotnetSpider.Enterprise.EntityFrameworkCore\DotnetSpider.Enterprise.EntityFrameworkCore.csproj", "{98AE3526-8BBF-499F-94F3-A20F6F2E4AD6}"
 EndProject

@@ -28,6 +28,7 @@
             keyword: '',
             page: 1,
             newTask: $.extend({}, emptyTask),
+            isView: false,
             errorText: {
                 name: '', applicationName: '', version: '', arguments: ''
             }
@@ -106,12 +107,12 @@
                 }
             },
             query: function () {
-                tasksVUE.$data.page = 1;
                 tasksVUE.$data.keyword = $('#queryKeyword').val();
                 loadTasks(tasksVUE);
             },
             onKeyPress: function (evt) {
                 if (evt.charCode === 13) {
+                    tasksVUE.$data.page = 1;
                     this["query"]();
                 }
             },
@@ -165,7 +166,20 @@
             },
             add: function () {
                 var _$modal = $('#CreateNewTaskModal');
+                tasksVUE.$data.isView = false;
                 tasksVUE.$data.newTask = $.extend({}, emptyTask);
+                _$modal.modal('show');
+            },
+            view: function (task) {
+                var _$modal = $('#CreateNewTaskModal');
+                tasksVUE.$data.isView = true;
+                var item = {};
+                for (var prop in task) {
+                    if (task.hasOwnProperty(prop)) {
+                        item[prop] = task[prop];
+                    }
+                }
+                tasksVUE.$data.newTask = item;
                 _$modal.modal('show');
             },
             modify: function (task) {

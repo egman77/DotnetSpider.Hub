@@ -38,15 +38,15 @@
                         <div id="batchDiv" class="panel-group" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-primary" v-for="(batch, idx) in histories">
                                 <div class="panel-heading" role="tab" :id="'headingOne_'+idx">
-                                    <h4 class="panel-title">
-                                        <span v-text="batch.identity"></span>
-                                        <span v-text="batch.creationTime" class="pull-right"></span>
-                                    </h4>
+                                    <h3 class="panel-title">
+                                        <span>Identity:</span> <span v-text="batch.identity"></span>
+                                        <span style="margin-left:20px;">Start:</span> <span v-text="batch.creationTime"></span>
+                                    </h3>
                                 </div>
                                 <div :id="'collapseOne_'+idx" class="panel-collapse collapse in" role="tabpanel" :aria-labelledby="'headingOne_'+idx" :aria-expanded="idx==0?'true':'false'">
                                     <div class="panel-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered table-striped table-hover no-footer">
+                                            <table class="table table-bordered table-striped table-hover no-footer" style="margin-bottom:1px;">
                                                 <thead>
                                                     <tr role="row">
                                                         <th>#</th>

@@ -44,29 +44,25 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[HttpPost]
 		public IActionResult Enable(string nodeId)
 		{
-			_nodeAppService.Enable(nodeId);
-			return Ok();
+			return ActionResult(() => _nodeAppService.Enable(nodeId));
 		}
 
 		[HttpPost]
 		public IActionResult Remove(string nodeId)
 		{
-			_nodeAppService.Remove(nodeId);
-			return Ok();
+			return ActionResult(() => _nodeAppService.Remove(nodeId));
 		}
 
 		[HttpPost]
 		public IActionResult Disable(string nodeId)
 		{
-			_nodeAppService.Disable(nodeId);
-			return Ok();
+			return ActionResult(() => _nodeAppService.Disable(nodeId));
 		}
 
 		[HttpPost]
 		public IActionResult Exit(string nodeId)
 		{
-			_nodeAppService.Exit(nodeId);
-			return Ok();
+			return ActionResult(() => _nodeAppService.Exit(nodeId));
 		}
 
 		[HttpGet]

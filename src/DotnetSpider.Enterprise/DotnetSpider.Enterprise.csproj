@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <StartupObject>DotnetSpider.Enterprise.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,14 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspectCore.APM.ApplicationProfiler" Version="0.1.2" />
-    <PackageReference Include="AspectCore.APM.AspNetCore" Version="0.1.2" />
-    <PackageReference Include="AspectCore.APM.HttpProfiler" Version="0.1.2" />
-    <PackageReference Include="AspectCore.APM.LineProtocolCollector" Version="0.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.0" />
+    <PackageReference Include="AspectCore.APM.ApplicationProfiler" Version="0.1.4" />
+    <PackageReference Include="AspectCore.APM.AspNetCore" Version="0.1.4" />
+    <PackageReference Include="AspectCore.APM.HttpProfiler" Version="0.1.4" />
+    <PackageReference Include="AspectCore.APM.LineProtocolCollector" Version="0.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.0" />
     <PackageReference Include="MongoDB.Bson" Version="2.4.4" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.5.0-beta04" />

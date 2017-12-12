@@ -30,35 +30,26 @@
                 </div>
                 <div class="body" style="margin-top:5px;">
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
-                        <div id="tasksView" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                            @*<div class="dataTables_filter">
-                                      <div class="col-md-2">
-                                          <select class="form-control show-tick">
-                                              <option>Solution1</option>
-                                              <option>Solution2</option>
-                                              <option>Solution3</option>
-                                          </select>
-                                      </div>
-                                      <div class="col-md-3">
-                                          <span class="pull-left">Search:</span>
-                                          <input id="queryKeyword" type="search" v-model="keyword" v-on:keypress="onKeyPress($event)" class="form-control input-sm pull-left" placeholder="">
-                                      </div>
-                                </div>*@
+                        <div class="row" style="margin-left:10px;">
+                            <span class="pull-left">Search:</span>
+                            <input style="width:400px;" id="queryKeyword" type="search" v-model="keyword" v-on:keypress="onKeyPress($event)" class="form-control input-sm pull-left" placeholder="">
+                        </div>
+                        <br />
+                        <div class="dataTables_wrapper form-inline dt-bootstrap">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover no-footer">
                                     <thead>
                                         <tr role="row">
-                                            <th width="120">NAME</th>
-                                            <th width="220">APPLICATION</th>
+                                            <th>NAME</th>
+                                            @*<th>APPLICATION</th>*@
                                             <th width="80">OS</th>
                                             <th width="60">NODE</th>
                                             <th width="70">TYPE</th>
                                             <th width="80">RUNNING</th>
                                             <th width="120">CRON</th>
-                                            <th>ARGUMENTS</th>
                                             <th width="60">SINGLE</th>
                                             <th width="60">ENABLE</th>
-                                            <th width="250">ACTION</th>
+                                            <th>ACTION</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,23 +60,23 @@
                                         </tr>
                                         <tr role="row" v-for="task in tasks">
                                             <td v-text="task.name"></td>
-                                            <td v-text="task.applicationName"></td>
+                                            @*<td v-text="task.applicationName"></td>*@
                                             <td v-text="task.os"></td>
                                             <td v-text="task.nodeCount"></td>
                                             <td v-text="task.nodeType==1?'default':'vps'"></td>
                                             <td v-text="task.nodeRunningCount"></td>
                                             <td v-text="task.cron"></td>
-                                            <td v-text="task.arguments"></td>
                                             <td v-text="task.isSingle"></td>
                                             <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
                                             <td>
-                                                <a href="javascript:void(0)"><i title="modify task" @@click.stop="modify(task)">Modify</i></a>
-                                                <a href="javascript:void(0)"><i title="delete task" v-show="task.isEnabled" @@click.stop="disable(task)">Disable</i></a>
-                                                <a href="javascript:void(0)"><i title="enable task" v-show="!task.isEnabled" @@click.stop="enable(task)">Enable</i></a>
-                                                <a href="javascript:void(0)"><i title="delete task" @@click.stop="remove(task)">Remove</i></a>
-                                                <a :href="'TaskHistory?TaskId='+ task.id"><i title="running history">History</i></a>
-                                                <a href="javascript:void(0)"><i v-show="!task.isRunning" title="run task" @@click.stop="run(task)">Run</i></a>
-                                                <a href="javascript:void(0)"><i title="exit task" @@click.stop="exit(task.id)">Exit</i></a>
+                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="view(task)">Detail</button>
+                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="modify(task)">Modify</button>
+                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="disable(task)" :disabled="!task.isEnabled">Disable</button>
+                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="enable(task)" :disabled="task.isEnabled">Enable</button>
+                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="remove(task)">Remove</button>
+                                                <a class="btn btn-sm bg-blue waves-effect m-b-15" :href="'TaskHistory?TaskId='+ task.id">History</a>
+                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="run(task)" :disabled="task.isRunning">Run</button>
+                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="exit(task.id)">Exit</button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -98,149 +89,137 @@
                         </div>
                     </div>
                 </div>
+        </div>
+    </div>
+</div>
+<!-- #END# Tasks -->
+<div class="modal fade" id="CreateNewTaskModal" data-backdrop="static" role="dialog" style="display: none;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create new task</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form_validation" method="POST" novalidate="novalidate">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input v-bind:disabled="isView" name="nodeType" type="radio" id="1" value="1" v-model="newTask.nodeType" />
+                            <label for="1">Default</label>
+                            <input v-bind:disabled="isView" name="nodeType" type="radio" id="2" value="2" v-model="newTask.nodeType" />
+                            <label for="2">VPS</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input v-bind:disabled="isView" name="os" type="radio" id="Linux" value="Linux" v-model="newTask.os" />
+                            <label for="Linux">Linux</label>
+                            <input v-bind:disabled="isView" name="os" type="radio" id="Windows" value="Windows" v-model="newTask.os" />
+                            <label for="Windows">Windows</label>
+                            <input v-bind:disabled="isView" name="os" type="radio" id="All" value="All" v-model="newTask.os" />
+                            <label for="All">All</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input name="rdSignle" v-bind:disabled="isView" type="radio" id="rdSignle" value="true" v-model="newTask.isSingle" />
+                            <label for="rdSignle">Single&nbsp;&nbsp;</label>
+                            <input name="rdMulti" v-bind:disabled="isView" type="radio" id="rdMulti" value="false" v-model="newTask.isSingle" />
+                            <label for="rdMulti">Multi</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-float col-md-6">
+                            <div :class="['form-line',{'focused':newTask.name!='','error':nameVdt===false, 'success':nameVdt===true}]">
+                                <input type="text" v-bind:readonly="isView" class="form-control" id="name" name="name" v-model="newTask.name" placeholder="Display name" required="" aria-required="true">
+                            </div>
+                            <label id="name-error" class="error">{{errorText["name"]}}</label>
+                        </div>
+                        <div class="form-group form-float col-md-6">
+                            <div :class="['form-line',{'focused':newTask.applicationName!='','error':applicationNameVdt===false, 'success':applicationNameVdt===true}]">
+                                <input type="text" v-bind:readonly="isView" class="form-control" name="applicationName" id="applicationName" v-model="newTask.applicationName" placeholder="Application name" required="" aria-required="true">
+                            </div>
+                            <label id="applicationName-error" class="error">{{errorText["applicationName"]}}</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-float col-md-12">
+                            <div :class="['form-line',{'focused':newTask.version!='','error':versionVdt===false, 'success':versionVdt===true}]">
+                                <input type="text" v-bind:readonly="isView" class="form-control" id="version" name="version" v-model="newTask.version" placeholder="Git version" required="" aria-required="true">
+                            </div>
+                            <label id="version-error" class="error">{{errorText["version"]}}</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-float col-md-12">
+                            <div :class="['form-line',{'focused':newTask.arguments!='','error':argumentsVdt===false, 'success':argumentsVdt===true}]">
+                                <input type="text" v-bind:readonly="isView" class="form-control" name="arguments" v-model="newTask.arguments" required="" placeholder="Arguments" aria-required="true">
+                            </div>
+                            <label id="arguments-error" class="error">{{errorText["arguments"]}}</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-float col-md-6">
+                            <div class="form-line focused success">
+                                <input type="number" v-bind:readonly="isView" class="form-control" v-model="newTask.nodeCount" />
+                            </div>
+                        </div>
+                        <div class="form-group form-float col-md-6">
+                            <div :class="['form-line',{'focused':newTask.cron!='','error':cronVdt===false, 'success':cronVdt===true}]">
+                                <input id="CronValue" v-bind:readonly="isView" type="text" @@dblclick="onTriggerClick($event)" v-model="newTask.cron" class="form-control" name="cron" required="" placeholder="Trigger(Cron Expression)" aria-required="true">
+                            </div>
+                            <label id="cron-error" class="error">{{errorText["cron"]}}</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-float col-md-6">
+                            <div :class="['form-line',{'focused':newTask.analysts!=''}]">
+                                <input type="text" v-bind:readonly="isView" class="form-control" name="analysts" v-model="newTask.analysts" placeholder="Analysts" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group form-float col-md-6">
+                            <div :class="['form-line',{'focused':newTask.developers!=''}]">
+                                <input type="text" v-bind:readonly="isView" class="form-control" name="developers" v-model="newTask.developers" placeholder="Developers" required="" aria-required="true">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group form-float col-md-6">
+                            <div :class="['form-line',{'focused':newTask.owners!=''}]">
+                                <input type="text" v-bind:readonly="isView" class="form-control" name="owners" v-model="newTask.owners" placeholder="Owners" required="" aria-required="true">
+                            </div>
+                        </div>
+                        <div class="form-group form-float col-md-6">
+                            <div :class="['form-line','success',{'focused':newTask.tags!=''}]">
+                                <input type="text" v-bind:readonly="isView" class="form-control disabled" name="tags" v-model="newTask.tags" placeholder="Tags" required="" aria-required="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button v-show="!isView" type="button" :class="['btn','bg-light-green','btn-link','waves-effect',{'disabled':!buttonState}]" @@click="saveSpider()">SUBMIT</button>
+                        <button type="button" class="btn bg-grey btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <!-- #END# Tasks -->
-    <div class="modal fade" id="CreateNewTaskModal" tabindex="-1" data-backdrop="static" role="dialog" style="display: none;">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Create new task</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="form_validation" method="POST" novalidate="novalidate">
-                        @*<div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" id="spider" data-toggle="modal" v-model="selSpiderName" data-target="#VersionSelectModal" class="form-control" name="name" required="" aria-required="true">
-                                    <label class="form-label">Spider</label>
-                                </div>
-                            </div>*@
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <input name="nodeType" type="radio" id="1" value="1" v-model="newTask.nodeType" />
-                                <label for="1">Default</label>
-                                <input name="nodeType" type="radio" id="2" value="2" v-model="newTask.nodeType" />
-                                <label for="2">VPS</label>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <input name="os" type="radio" id="Linux" value="Linux" v-model="newTask.os" />
-                                <label for="Linux">Linux</label>
-                                <input name="os" type="radio" id="Windows" value="Windows" v-model="newTask.os" />
-                                <label for="Windows">Windows</label>
-                                <input name="os" type="radio" id="All" value="All" v-model="newTask.os" />
-                                <label for="All">All</label>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <input name="rdSignle" type="radio" id="rdSignle" value="true" v-model="newTask.isSingle" />
-                                <label for="rdSignle">Single&nbsp;&nbsp;</label>
-                                <input name="rdMulti" type="radio" id="rdMulti" value="false" v-model="newTask.isSingle" />
-                                <label for="rdMulti">Multi</label>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-float col-md-6">
-                                <div :class="['form-line',{'focused':newTask.name!='','error':nameVdt===false, 'success':nameVdt===true}]">
-                                    <input type="text" class="form-control" id="name" name="name" v-model="newTask.name" placeholder="Display name" required="" aria-required="true">
-                                </div>
-                                <label id="name-error" class="error">{{errorText["name"]}}</label>
-                            </div>
-                            <div class="form-group form-float col-md-6">
-                                <div :class="['form-line',{'focused':newTask.applicationName!='','error':applicationNameVdt===false, 'success':applicationNameVdt===true}]">
-                                    <input type="text" class="form-control" name="applicationName" id="applicationName" v-model="newTask.applicationName" placeholder="Application name" required="" aria-required="true">
-                                </div>
-                                <label id="applicationName-error" class="error">{{errorText["applicationName"]}}</label>
-                            </div>
-                        </div><div class="form-row">
-                            <div class="form-group form-float col-md-12">
-                                <div :class="['form-line',{'focused':newTask.version!='','error':versionVdt===false, 'success':versionVdt===true}]">
-                                    <input type="text" class="form-control" id="version" name="version" v-model="newTask.version" placeholder="Git version" required="" aria-required="true">
-                                </div>
-                                <label id="version-error" class="error">{{errorText["version"]}}</label>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group form-float col-md-12">
-                                <div :class="['form-line',{'focused':newTask.arguments!='','error':argumentsVdt===false, 'success':argumentsVdt===true}]">
-                                    <input type="text" class="form-control" name="arguments" v-model="newTask.arguments" required="" placeholder="Arguments" aria-required="true">
-                                </div>
-                                <label id="arguments-error" class="error">{{errorText["arguments"]}}</label>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group form-float col-md-6">
-                                <div class="form-line focused success">
-                                    <input type="number" class="form-control" v-model="newTask.nodeCount" />
-                                </div>
-                            </div>
-                            <div class="form-group form-float col-md-6">
-                                <div :class="['form-line',{'focused':newTask.cron!='','error':cronVdt===false, 'success':cronVdt===true}]">
-                                    <input id="CronValue" type="text" @@dblclick="onTriggerClick($event)" v-model="newTask.cron" class="form-control" name="cron" required="" placeholder="Trigger(Cron Expression)" aria-required="true">
-                                </div>
-                                <label id="cron-error" class="error">{{errorText["cron"]}}</label>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group form-float col-md-6">
-                                <div :class="['form-line',{'focused':newTask.analysts!=''}]">
-                                    <input type="text" class="form-control" name="analysts" v-model="newTask.analysts" placeholder="Analysts" required="" aria-required="true">
-                                </div>
-                            </div>
-                            <div class="form-group form-float col-md-6">
-                                <div :class="['form-line',{'focused':newTask.developers!=''}]">
-                                    <input type="text" class="form-control" name="developers" v-model="newTask.developers" placeholder="Developers" required="" aria-required="true">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group form-float col-md-6">
-                                <div :class="['form-line',{'focused':newTask.owners!=''}]">
-                                    <input type="text" class="form-control" name="owners" v-model="newTask.owners" placeholder="Owners" required="" aria-required="true">
-                                </div>
-                            </div>
-                            <div class="form-group form-float col-md-6">
-                                <div :class="['form-line','success',{'focused':newTask.tags!=''}]">
-                                    <input type="text" class="form-control" name="tags" v-model="newTask.tags" placeholder="Tags" required="" aria-required="true">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" :class="['btn','bg-light-green','btn-link','waves-effect',{'disabled':!buttonState}]" @@click="saveSpider()">SUBMIT</button>
-                            <button type="button" class="btn bg-grey btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                        </div>
-                    </form>
-                </div>
+</div>
+<div id="SchedulerModal" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document" style="min-width:800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>Set Trigger</span>
+                </h4>
+            </div>
+            <div class="modal-body" style="min-height:300px;">
+                <div id="cron1"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveTrigger" type="button" class="btn bg-light-green btn-link waves-effect">OK</button>
+                <button type="button" class="btn bg-grey btn-link waves-effect" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
-
-
-    <div id="SchedulerModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" userId="">
-        <div class="modal-dialog" role="document" style="min-width:800px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        <span>Set Trigger</span>
-                    </h4>
-                </div>
-                <div class="modal-body" style="min-height:300px;">
-                    <div id="cron1"></div>
-                </div>
-                <div class="modal-footer">
-                    <button id="saveTrigger" type="button" class="btn bg-light-green btn-link waves-effect">OK</button>
-                    <button type="button" class="btn bg-grey btn-link waves-effect" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 @section scripts{
     <environment names="Development">

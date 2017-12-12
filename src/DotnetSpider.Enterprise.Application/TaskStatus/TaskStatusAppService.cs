@@ -15,6 +15,7 @@ using DotnetSpider.Enterprise.Application.TaskStatus;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Identity;
+using System.Linq.Expressions;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {
@@ -53,50 +54,40 @@ namespace DotnetSpider.Enterprise.Application.Node
 			input.Validate();
 
 			PagingQueryOutputDto output;
-
-			switch (input.Status?.ToLower())
+			Expression<Func<Domain.Entities.TaskStatus, bool>> where = null;
+			var status = input.Status?.ToLower().Trim();
+			List<Domain.Entities.Task> tasks;
+			List<long> taskIds;
+			List<Domain.Entities.TaskStatus> taskStatuses;
+			if (string.IsNullOrWhiteSpace(input.Keyword) && string.IsNullOrEmpty(input.Keyword))
 			{
-				case "finished":
-					{
-						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Finished", d => d.Id);
-						break;
-					}
-				case "init":
-					{
-						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Init", d => d.Id);
-						break;
-					}
-				case "running":
-					{
-						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Running", d => d.Id);
-						break;
-					}
-				case "exited":
-					{
-						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Exited", d => d.Id);
-						break;
-					}
-				case "stopped":
-					{
-						output = DbContext.TaskStatus.PageList(input, d => d.Status == "Stopped", d => d.Id);
-						break;
-					}
-				case "all":
-					{
-						output = DbContext.TaskStatus.PageList(input, null, d => d.Id);
-						break;
-					}
-				default:
-					{
-						output = DbContext.TaskStatus.PageList(input, null, d => d.Id);
-						break;
-					}
+				if (!string.IsNullOrEmpty(status) && "all" != status)
+				{
+					where = d => d.Status.ToLower() == status;
+				}
+				output = DbContext.TaskStatus.PageList(input, where, d => d.Id);
+				taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
+				taskIds = taskStatuses.Select(t => t.TaskId).ToList();
+				tasks = DbContext.Task.Where(t => taskIds.Contains(t.Id)).ToList();
 			}
-			var taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
-			var taskIds = taskStatuses.Select(t => t.TaskId).ToList();
-			var tasks = DbContext.Task.Where(t => taskIds.Contains(t.Id)).ToList();
+			else
+			{
+				tasks = DbContext.Task.Where(t => t.Name.ToLower().Contains(input.Keyword.ToLower())).ToList();
+				taskIds = tasks.Select(t => t.Id).ToList();
+				if (!string.IsNullOrEmpty(status) && "all" != status)
+				{
+					where = d => d.Status.ToLower() == status && taskIds.Contains(d.TaskId);
+				}
+				else
+				{
+					where = d => taskIds.Contains(d.TaskId);
+				}
+				output = DbContext.TaskStatus.PageList(input, where, d => d.Id);
+				taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
+			}
 			var taskStatusOutputs = new List<TaskStatusOutputDto>();
 
+			taskIds = taskStatuses.Select(t => t.TaskId).ToList();
 			foreach (var taskStatus in taskStatuses)
 			{
 				var taskStatusOutput = new TaskStatusOutputDto();
