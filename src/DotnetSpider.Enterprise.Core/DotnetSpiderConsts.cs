@@ -14,6 +14,7 @@ namespace DotnetSpider.Enterprise.Core
 
 		public const string SchedulerUrl = "scheduler.url";
 		public const string SchedulerCallbackHost = "scheduler.callbackHost";
+		public const string AuthorizeApi = "authorizeApi";
 		public const string Tokens = "tokens";
 		public const string UnTriggerCron = "* * * * 2999";
 		public const string SqlEncryptCode = "sqlEncryptCode";

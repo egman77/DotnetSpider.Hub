@@ -180,6 +180,10 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 
 		protected bool IsAuth()
 		{
+			if (!Configuration.AuthorizeApi)
+			{
+				return true;
+			}
 			if (Request.Headers.ContainsKey("DotnetSpiderToken"))
 			{
 				var token = Request.Headers["DotnetSpiderToken"].ToString();

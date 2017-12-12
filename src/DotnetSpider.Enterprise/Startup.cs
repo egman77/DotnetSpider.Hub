@@ -41,7 +41,7 @@ namespace DotnetSpider.Enterprise
 			{
 				builder = new ConfigurationBuilder()
 					.SetBasePath(env.ContentRootPath)
-					.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+					.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
 					.AddEnvironmentVariables();
 			}
 			else
@@ -164,7 +164,7 @@ namespace DotnetSpider.Enterprise
 
 			var code = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting).GetValue<string>(DotnetSpiderConsts.SqlEncryptCode).Trim();
 			config.SqlEncryptKey = System.Text.ASCIIEncoding.ASCII.GetBytes(code);
- 
+
 
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();

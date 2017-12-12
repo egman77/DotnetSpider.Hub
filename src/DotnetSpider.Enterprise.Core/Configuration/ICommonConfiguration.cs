@@ -14,5 +14,6 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		string HostUrl { get; set; }
 		string[] Tokens { get; set; }
 		byte[] SqlEncryptKey { get; set; }
+		bool AuthorizeApi { get; }
 	}
 }

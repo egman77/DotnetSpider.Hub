@@ -64,7 +64,16 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		public string HostUrl { get; set; }
 
 		public byte[] SqlEncryptKey { get; set; }
-		
+
 		public string[] Tokens { get; set; }
+
+		public bool AuthorizeApi
+		{
+			get
+			{
+				var section = AppConfiguration.GetSection(DotnetSpiderConsts.DefaultSetting);
+				return section.GetValue<bool>(DotnetSpiderConsts.AuthorizeApi);
+			}
+		}
 	}
 }

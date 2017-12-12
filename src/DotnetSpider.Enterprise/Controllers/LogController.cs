@@ -39,10 +39,10 @@ namespace DotnetSpider.Enterprise.Controllers
 		[AllowAnonymous]
 		public IActionResult Submit([FromBody] LogInputDto input)
 		{
-			//if (!IsAuth())
-			//{
-			//	return BadRequest();
-			//}
+			if (!IsAuth())
+			{
+				return BadRequest();
+			}
 			_logAppService.Sumit(input);
 			return Ok();
 		}
