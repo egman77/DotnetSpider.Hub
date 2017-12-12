@@ -1,10 +1,12 @@
 ﻿using DotnetSpider.Enterprise.Application;
 using DotnetSpider.Enterprise.Application.AuthMessage;
+using DotnetSpider.Enterprise.Application.Hangfire;
 using DotnetSpider.Enterprise.Application.Log;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Pipeline;
 using DotnetSpider.Enterprise.Application.Report;
+using DotnetSpider.Enterprise.Application.System;
 using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Application.TaskHistory;
 using DotnetSpider.Enterprise.Application.TaskStatus;
@@ -36,6 +38,8 @@ namespace DotnetSpider.Enterprise.Web
 			services.AddScoped<ITaskHistoryAppService, TaskHistoryAppService>();
 			services.AddScoped<IReportAppService, ReportAppService>();
 			services.AddScoped<IPipelineAppService, PipelineAppService>();
+			services.AddScoped<IHangfireAppService, HangfireAppService>();
+			services.AddScoped<ISystemAppService, SystemAppService>();
 
 		}
 	}

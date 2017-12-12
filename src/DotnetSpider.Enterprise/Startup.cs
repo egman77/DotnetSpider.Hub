@@ -157,7 +157,6 @@ namespace DotnetSpider.Enterprise
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
 			app.UseHttpProfiler();
-			app.UseAspectCoreAPM();
 
 			var config = app.ApplicationServices.GetRequiredService<ICommonConfiguration>();
 			config.AppConfiguration = Configuration;

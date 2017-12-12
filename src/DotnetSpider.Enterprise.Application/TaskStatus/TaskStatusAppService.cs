@@ -32,6 +32,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 			if (oldRecord == null)
 			{
 				var taskStatus = Mapper.Map<Domain.Entities.TaskStatus>(input);
+				taskStatus.CreationTime = DateTime.Now;
+				taskStatus.LastModificationTime = DateTime.Now;
 				DbContext.TaskStatus.Add(taskStatus);
 			}
 			else
@@ -45,6 +47,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 				oldRecord.Success = input.Success;
 				oldRecord.Thread = input.Thread;
 				oldRecord.Total = input.Total;
+				oldRecord.LastModificationTime = DateTime.Now;
 			}
 			DbContext.SaveChanges();
 		}

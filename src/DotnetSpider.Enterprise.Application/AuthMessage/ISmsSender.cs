@@ -1,7 +1,9 @@
-﻿namespace DotnetSpider.Enterprise.Application.AuthMessage
+﻿using SYSTEM = System.Threading;
+
+namespace DotnetSpider.Enterprise.Application.AuthMessage
 {
 	public interface ISmsSender
-    {
-        System.Threading.Tasks.Task<bool> SendSmsAsync(string number, string message);
-    }
+	{
+		SYSTEM.Tasks.Task<bool> SendSmsAsync(string number, string message);
+	}
 }

@@ -27,6 +27,9 @@ using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.Threading;
+using DotnetSpider.Enterprise.Application.System;
+using DotnetSpider.Enterprise.Application.Hangfire;
+using DotnetSpider.Enterprise.Application.Hangfire.Dtos;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -35,13 +38,18 @@ namespace DotnetSpider.Enterprise.Application.Task
 		private readonly ITaskHistoryAppService _taskHistoryAppService;
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
-		protected readonly ILogger _logger;
+		private readonly ISystemAppService _systemAppService;
+		private readonly ILogger _logger;
+		private readonly IHangfireAppService _hangfireAppService;
 
-		public TaskAppService(ITaskHistoryAppService taskHistoryAppService,
+		public TaskAppService(IHangfireAppService hangfireAppService, ISystemAppService systemAppService,
+			ITaskHistoryAppService taskHistoryAppService,
 			IMessageAppService messageAppService,
 			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager,
 			ApplicationDbContext dbcontext, ILogger<TaskAppService> logger) : base(dbcontext, configuration, appSession, userManager)
 		{
+			_hangfireAppService = hangfireAppService;
+			_systemAppService = systemAppService;
 			_taskHistoryAppService = taskHistoryAppService;
 			_messageAppService = messageAppService;
 			_nodeAppService = nodeAppService;
@@ -87,7 +95,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
-			if (cron != DotnetSpiderConsts.UnTriggerCron && AddOrUpdateHangfireJob(task.Id, cron))
+			if (cron != DotnetSpiderConsts.UnTriggerCron && _hangfireAppService.AddOrUpdateHangfireJob(task.Id.ToString(), cron))
 			{
 				task.Cron = cron;
 				DbContext.Task.Update(task);
@@ -122,59 +130,16 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 			if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
 			{
-				RemoveHangfireJob(task.Id);
+				_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
 			}
 			else
 			{
-				AddOrUpdateHangfireJob(task.Id, string.Join(" ", task.Cron));
+				_hangfireAppService.AddOrUpdateHangfireJob(task.Id.ToString(), string.Join(" ", task.Cron));
 			}
 
 			task.IsEnabled = item.IsEnabled;
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
-		}
-
-		/// <summary>
-		/// 通知Scheduler服务
-		/// 只尝试一次，失败抛出异常
-		/// </summary>
-		/// <param name="taskId"></param>
-		/// <param name="cron"></param>
-		private bool AddOrUpdateHangfireJob(long taskId, string cron)
-		{
-			var url = $"{Configuration.SchedulerUrl}{(Configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Job/AddOrUpdate";
-			var json = JsonConvert.SerializeObject(new HangfireJobDto
-			{
-				Name = taskId.ToString(),
-				Cron = cron,
-				Url = $"{Configuration.SchedulerCallbackHost}{(Configuration.SchedulerCallbackHost.EndsWith("/") ? "" : "/")}Task/Fire",
-				Data = taskId.ToString()
-			});
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			for (int i = 0; i < 5; ++i)
-			{
-				try
-				{
-					var result = Util.Client.PostAsync(url, content).Result;
-					result.EnsureSuccessStatusCode();
-					return true;
-				}
-				catch (Exception ex)
-				{
-					_logger.LogError($"Call {url}, Content {json} failed, retried {i}: {ex}.");
-					Thread.Sleep(2000);
-				}
-			}
-			return false;
-		}
-
-		private void RemoveHangfireJob(long taskId)
-		{
-			var url = $"{Configuration.SchedulerUrl}{(Configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Job/Remove";
-			var postData = $"jobId={taskId}";
-			var content = new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded");
-			var result = Util.Client.PostAsync(url, content).Result;
-			result.EnsureSuccessStatusCode();
 		}
 
 		public void Run(long taskId)
@@ -183,12 +148,19 @@ namespace DotnetSpider.Enterprise.Application.Task
 			if (msg == null)
 			{
 				var task = CheckStatusOfTask(taskId);
-				var identity = PushTask(task);
-				if (!string.IsNullOrEmpty(identity))
+				if (task.Name.StartsWith(DotnetSpiderConsts.SystemJobPrefix))
 				{
-					task.LastIdentity = identity;
-					task.IsRunning = true;
-					DbContext.SaveChanges();
+					_systemAppService.Execute(task.Name, task.Arguments);
+				}
+				else
+				{
+					var identity = PushTask(task);
+					if (!string.IsNullOrEmpty(identity))
+					{
+						task.LastIdentity = identity;
+						task.IsRunning = true;
+						DbContext.SaveChanges();
+					}
 				}
 			}
 		}
@@ -207,24 +179,8 @@ namespace DotnetSpider.Enterprise.Application.Task
 				return;
 			}
 
-			var runningNodes = _nodeAppService.GetAllOnline();
+			TaskUtil.ExitTask(_nodeAppService, _messageAppService, task);
 
-			var messages = new List<AddMessageInputDto>();
-			foreach (var status in runningNodes)
-			{
-				var msg = new AddMessageInputDto
-				{
-					ApplicationName = "NULL",
-					TaskId = task.Id,
-					Name = Domain.Entities.Message.CanleMessageName,
-					NodeId = status.NodeId
-				};
-				messages.Add(msg);
-			}
-			_messageAppService.AddRange(messages);
-
-			task.IsRunning = false;
-			task.NodeRunningCount = 0;
 			DbContext.SaveChanges();
 		}
 
@@ -233,7 +189,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
 			{
-				RemoveHangfireJob(task.Id);
+				_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
 				task.IsDeleted = true;
 				DbContext.SaveChanges();
 			}
@@ -244,11 +200,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
-				throw new Exception("任务不存在!");
+				throw new DotnetSpiderException("任务不存在!");
 			}
 			task.IsEnabled = false;
 
-			RemoveHangfireJob(task.Id);
+			_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
 		}
@@ -258,10 +214,10 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
-				throw new Exception("任务不存在!");
+				throw new DotnetSpiderException("任务不存在!");
 			}
 			task.IsEnabled = true;
-			if (AddOrUpdateHangfireJob(task.Id, task.Cron))
+			if (_hangfireAppService.AddOrUpdateHangfireJob(task.Id.ToString(), task.Cron))
 			{
 				DbContext.Task.Update(task);
 				DbContext.SaveChanges();
@@ -273,7 +229,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
 			if (task == null)
 			{
-				throw new Exception("任务不存在!");
+				throw new DotnetSpiderException("任务不存在!");
 			}
 			task.NodeRunningCount += 1;
 			DbContext.SaveChanges();
@@ -284,7 +240,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
 			if (task == null)
 			{
-				throw new Exception("任务不存在!");
+				throw new DotnetSpiderException("任务不存在!");
 			}
 			if (task.NodeRunningCount > 0)
 			{
@@ -309,7 +265,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
-				throw new Exception("任务不存在.");
+				throw new DotnetSpiderException("任务不存在.");
 			}
 
 			return AutoMapper.Mapper.Map<AddTaskInputDto>(task);
@@ -324,18 +280,33 @@ namespace DotnetSpider.Enterprise.Application.Task
 		private Domain.Entities.Task CheckStatusOfTask(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
-			if (task == null || task.IsDeleted)
+
+			if (task == null)
 			{
 				throw new DotnetSpiderException("任务不存在");
 			}
+
+			if (task.Name.StartsWith(DotnetSpiderConsts.SystemJobPrefix))
+			{
+				return task;
+			}
+
+			if (task.IsDeleted)
+			{
+				throw new DotnetSpiderException("任务已被删除");
+			}
+
 			if (!task.IsEnabled)
 			{
 				throw new DotnetSpiderException("任务已被禁用");
 			}
-
+			if (task.IsDeleted)
+			{
+				throw new DotnetSpiderException("任务已被删除");
+			}
 			if (task.NodeRunningCount > 0)
 			{
-				throw new Exception("任务正在运行中");
+				throw new DotnetSpiderException("任务正在运行中");
 			}
 
 			if (!string.IsNullOrEmpty(task.LastIdentity))
@@ -345,7 +316,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 					&& a.LastModificationTime.HasValue
 					&& (DateTime.Now - a.LastModificationTime).Value.TotalSeconds < 120))
 				{
-					throw new Exception("任务正在运行中");
+					throw new DotnetSpiderException("任务正在运行中");
 				}
 			}
 			return task;

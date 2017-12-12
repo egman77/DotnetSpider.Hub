@@ -7,6 +7,7 @@ using MimeKit;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
+using SYSTEM = System.Threading;
 
 namespace DotnetSpider.Enterprise.Application.AuthMessage
 {
@@ -24,7 +25,7 @@ namespace DotnetSpider.Enterprise.Application.AuthMessage
 			_env = env;
 		}
 
-		public System.Threading.Tasks.Task SendEmailAsync(string email, string subject, string message)
+		public SYSTEM.Tasks.Task SendEmailAsync(string email, string subject, string message)
 		{
 			//var emailMessage = new MimeMessage();
 			//emailMessage.From.Add(new MailboxAddress(_configuration.EmailSenderFromDisplayName, _configuration.EmailSenderFromAddress));
@@ -42,10 +43,10 @@ namespace DotnetSpider.Enterprise.Application.AuthMessage
 			//	client.Disconnect(true);
 
 			//}
-			return System.Threading.Tasks.Task.FromResult(true);
+			return SYSTEM.Tasks.Task.FromResult(true);
 		}
 
-		public async System.Threading.Tasks.Task<bool> SendSmsAsync(string number, string message)
+		public async SYSTEM.Tasks.Task<bool> SendSmsAsync(string number, string message)
 		{
 			//if (_env.IsDevelopment())
 			//{
@@ -63,7 +64,7 @@ namespace DotnetSpider.Enterprise.Application.AuthMessage
 			//	var result = await response.Content.ReadAsStringAsync();
 			//	return result == "true";
 			//}
-			return await System.Threading.Tasks.Task.FromResult(false);
+			return await SYSTEM.Tasks.Task.FromResult(false);
 		}
 	}
 }

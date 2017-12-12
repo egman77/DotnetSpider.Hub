@@ -1,7 +1,9 @@
-﻿namespace DotnetSpider.Enterprise.Application.AuthMessage
+﻿using SYSTEM = System.Threading;
+
+namespace DotnetSpider.Enterprise.Application.AuthMessage
 {
 	public interface IEmailSender
-    {
-        System.Threading.Tasks.Task SendEmailAsync(string email, string subject, string message);
-    }
+	{
+		SYSTEM.Tasks.Task SendEmailAsync(string email, string subject, string message);
+	}
 }

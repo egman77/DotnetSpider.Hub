@@ -81,6 +81,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		public IActionResult Dashboard(string nodeId)
 		{
 			return View();
+			//return DataResult(() => _nodeAppService.Dashboard(nodeId));
 		}
 	}
 }

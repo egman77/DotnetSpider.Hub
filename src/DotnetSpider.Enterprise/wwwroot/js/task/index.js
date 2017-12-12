@@ -24,7 +24,7 @@
         data: {
             tasks: [],
             total: 0,
-            size: 10,
+            size: 50,
             keyword: '',
             page: 1,
             newTask: $.extend({}, emptyTask),

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.Application.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using DotnetSpider.Enterprise.Core;
+using DotnetSpider.Enterprise.Application.Task;
+using DotnetSpider.Enterprise.Application.System;
 
 namespace DotnetSpider.Enterprise.Application
 {
@@ -16,6 +19,9 @@ namespace DotnetSpider.Enterprise.Application
 		{
 			using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>(), null))
 			{
+				var systemAppService = serviceProvider.GetService<ISystemAppService>();
+				systemAppService.Register();
+
 				if (context.Users.Any())
 				{
 					return;   // 已经初始化过数据，直接返回
