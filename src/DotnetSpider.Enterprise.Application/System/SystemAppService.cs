@@ -39,7 +39,7 @@ namespace DotnetSpider.Enterprise.Application.System
 				scanRunningTask = new Domain.Entities.Task
 				{
 					ApplicationName = "DotnetSpider.Enterprise",
-					Cron = $"0/5 * * * *",
+					Cron = $"0/15 * * * *",
 					IsEnabled = true,
 					IsDeleted = true,
 					Developers = "DotnetSpider",
@@ -54,7 +54,7 @@ namespace DotnetSpider.Enterprise.Application.System
 				DbContext.Task.Add(scanRunningTask);
 				DbContext.SaveChanges();
 			}
-			_hangfireAppService.AddOrUpdateHangfireJob(scanRunningTask.Id.ToString(), "0/5 * * * *");
+			_hangfireAppService.AddOrUpdateHangfireJob(scanRunningTask.Id.ToString(), "0/15 * * * *");
 		}
 
 		public void Execute(string name, string arguments)
