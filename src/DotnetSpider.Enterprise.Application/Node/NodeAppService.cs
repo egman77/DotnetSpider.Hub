@@ -216,6 +216,12 @@ namespace DotnetSpider.Enterprise.Application.Node
 			return Mapper.Map<List<NodeOutputDto>>(nodes);
 		}
 
+		public int GetOnlineNodeCount()
+		{
+			var compareTime = DateTime.Now.AddSeconds(-60);
+			return DbContext.Node.Count(a => a.IsOnline && a.LastModificationTime > compareTime);
+		}
+
 		public void Exit(string nodeId)
 		{
 			var message = new AddMessageInputDto

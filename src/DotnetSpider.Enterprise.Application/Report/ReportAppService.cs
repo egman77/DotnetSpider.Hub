@@ -37,10 +37,10 @@ namespace DotnetSpider.Enterprise.Application.Report
 			var result = database.RunCommand<BsonDocument>(command);
 			var storageSize = result.GetValue("storageSize").ToInt64();
 
-			var nodes = DbContext.Node.ToList();
-			output.NodeTotalCount = nodes.Count;
-			output.NodeOnlineCount = nodes.Count(t => t.IsOnline);
-			output.Nodes = _nodeAppService.Query(new Domain.PagingQueryInputDto { Page = 1, Size = 10 }).Result;
+			var nodes = _nodeAppService.Query(new PagingQueryInputDto { Page = 1, Size = 10 });
+			output.NodeTotalCount = (int)nodes.Total;
+			output.NodeOnlineCount = _nodeAppService.GetOnlineNodeCount();
+			output.Nodes = nodes.Result;
 			output.TaskCount = DbContext.Task.Count(t => !t.IsDeleted);
 			output.RunningTaskCount = DbContext.Task.Count(t => t.IsRunning);
 			output.LogSize = storageSize > G ? storageSize / G + "G" : storageSize / 1024 + "M";

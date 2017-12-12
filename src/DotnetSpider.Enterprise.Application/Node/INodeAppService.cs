@@ -18,5 +18,6 @@ namespace DotnetSpider.Enterprise.Application.Node
 		List<NodeOutputDto> GetAllOnline();
 		void Exit(string nodeId);
 		void Remove(string nodeId);
+		int GetOnlineNodeCount();
 	}
 }
