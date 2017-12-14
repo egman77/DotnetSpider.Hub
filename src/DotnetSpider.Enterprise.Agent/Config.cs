@@ -34,7 +34,6 @@ namespace DotnetSpider.Enterprise.Agent
 		public static string HeartbeatUrl { get; set; }
 		public static int HeartbeatInterval { get; set; }
 		public static string ApiToken { get; set; }
-		public static double CpuFullLoad { get; set; }
 		public static int NodeType { get; set; }
 
 		public static readonly HttpClient HttpClient = new HttpClient(new HttpClientHandler
@@ -84,7 +83,6 @@ namespace DotnetSpider.Enterprise.Agent
 			var unicastAddresses = interf.GetIPProperties().UnicastAddresses;
 			Ip = unicastAddresses.First(a => a.IPv4Mask.ToString() != "255.255.255.255" && a.Address.AddressFamily == AddressFamily.InterNetwork).Address.ToString();
 			NodeId = Ip;
-			CpuFullLoad = 0.8 * Environment.ProcessorCount;
 		}
 
 		public static void Load()
