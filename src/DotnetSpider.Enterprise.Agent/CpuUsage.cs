@@ -52,8 +52,6 @@ namespace DotnetSpider.Enterprise.Agent
 
 		private static CpuTick PreTick = new CpuTick { U = 0, N = 0, S = 0, I = 0, W = 0, X = 0, Y = 0, Z = 0 };
 
-		private static CpuTick CurrentTick;
-
 		public static decimal Current
 		{
 			get
