@@ -167,7 +167,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				return;
 			}
 
-			TaskUtil.ExitTask(_nodeAppService, _messageAppService, task);
+			TaskUtil.ExitTask(_nodeAppService, _messageAppService, task, Logger);
 
 			DbContext.SaveChanges();
 		}

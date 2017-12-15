@@ -24,6 +24,7 @@ namespace DotnetSpider.Enterprise.Agent
 
 		public static void Execute(Messsage command)
 		{
+			Logger.Info($"Consume message: {JsonConvert.SerializeObject(command)}");
 			lock (ExecuteLock)
 			{
 				try
@@ -167,6 +168,7 @@ namespace DotnetSpider.Enterprise.Agent
 
 			var process = StartProcess(command.ApplicationName, command.Arguments, workingDirectory, () =>
 			{
+				Logger.Info($"Process of task {command.TaskId} exited.");
 				ProcessDetail p;
 				Processes.TryRemove(command.TaskId, out p);
 			});

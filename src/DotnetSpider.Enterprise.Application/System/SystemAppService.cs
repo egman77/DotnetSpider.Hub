@@ -80,14 +80,14 @@ namespace DotnetSpider.Enterprise.Application.System
 					{
 						if ((DateTime.Now - status.LastModificationTime.Value).TotalSeconds > 3600)
 						{
-							TaskUtil.ExitTask(_nodeAppService, _messageAppService, task);
+							TaskUtil.ExitTask(_nodeAppService, _messageAppService, task, Logger);
 						}
 					}
 					else
 					{
 						if ((DateTime.Now - status.CreationTime).TotalSeconds > 3600)
 						{
-							TaskUtil.ExitTask(_nodeAppService, _messageAppService, task);
+							TaskUtil.ExitTask(_nodeAppService, _messageAppService, task, Logger);
 						}
 					}
 				}

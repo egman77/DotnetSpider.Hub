@@ -23,7 +23,7 @@ namespace DotnetSpider.Enterprise.Application
 					Name = Domain.Entities.Message.CanleMessageName,
 					NodeId = status.NodeId
 				};
-				logger.LogWarning($"Add CANCLE message: {JsonConvert.SerializeObject(msg)}.");
+				logger?.LogWarning($"Add CANCLE message: {JsonConvert.SerializeObject(msg)}.");
 				messages.Add(msg);
 			}
 			messageAppService.AddRange(messages);
