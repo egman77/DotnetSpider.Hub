@@ -1,8 +1,5 @@
 ﻿using DotnetSpider.Enterprise.Application.Task.Dtos;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Application.TaskHistory.Dtos
 {

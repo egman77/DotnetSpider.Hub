@@ -1,16 +1,12 @@
-﻿using System;
-using DotnetSpider.Enterprise.Application.Node;
-using DotnetSpider.Enterprise.Application.Node.Dto;
-using DotnetSpider.Enterprise.Core;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using DotnetSpider.Enterprise.Core.Configuration;
-using Microsoft.Extensions.Logging;
-using DotnetSpider.Enterprise.Domain;
-using DotnetSpider.Enterprise.Application.TaskStatus;
+﻿using DotnetSpider.Enterprise.Application.TaskStatus;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
+using DotnetSpider.Enterprise.Core.Configuration;
+using DotnetSpider.Enterprise.Domain;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace DotnetSpider.Enterprise.Web.Controllers
+namespace DotnetSpider.Enterprise.Controllers
 {
 	public class TaskStatusController : AppControllerBase
 	{
@@ -39,19 +35,12 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[AllowAnonymous]
 		public IActionResult AddOrUpdate([FromBody]AddOrUpdateTaskStatusInputDto input)
 		{
-			if (!IsAuth())
+			if (input == null)
 			{
-				return BadRequest();
+				return Forbid();
 			}
-			else
-			{
-				if (input == null)
-				{
-					return Forbid();
-				}
-				_taskStatusAppService.AddOrUpdate(input);
-				return Ok();
-			}
+			_taskStatusAppService.AddOrUpdate(input);
+			return Ok();
 		}
 	}
 }

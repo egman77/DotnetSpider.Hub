@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace DotnetSpider.Enterprise.Web
+namespace DotnetSpider.Enterprise
 {
 	internal class CustomIdentityErrorDescriber : IdentityErrorDescriber
 	{

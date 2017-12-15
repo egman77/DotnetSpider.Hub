@@ -1,8 +1,6 @@
-using System;
-
 namespace DotnetSpider.Enterprise.Models
 {
-    public class ErrorViewModel
+	public class ErrorViewModel
     {
         public string RequestId { get; set; }
 

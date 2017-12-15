@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore.Storage;
-using System.Text;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using DotnetSpider.Enterprise.Domain.Entities;
-using DotnetSpider.Enterprise.Core;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using DotnetSpider.Enterprise.Domain;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Design;
-using System.Runtime.InteropServices;
 
 namespace DotnetSpider.Enterprise.EntityFrameworkCore
 {

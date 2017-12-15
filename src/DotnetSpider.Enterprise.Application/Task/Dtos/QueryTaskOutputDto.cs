@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace DotnetSpider.Enterprise.Application.Task.Dtos
+﻿namespace DotnetSpider.Enterprise.Application.Task.Dtos
 {
 	public class QueryTaskOutputDto
 	{

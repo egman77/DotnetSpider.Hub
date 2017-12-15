@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotnetSpider.Enterprise.Application.Node.Dto
+﻿namespace DotnetSpider.Enterprise.Application.Node.Dto
 {
 	public class NodeHeartbeatDto
 	{

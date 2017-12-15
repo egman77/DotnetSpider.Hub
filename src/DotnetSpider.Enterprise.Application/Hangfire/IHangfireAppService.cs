@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotnetSpider.Enterprise.Application.Hangfire
+﻿namespace DotnetSpider.Enterprise.Application.Hangfire
 {
 	public interface IHangfireAppService
 	{

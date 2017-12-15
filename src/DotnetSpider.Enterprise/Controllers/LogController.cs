@@ -3,17 +3,9 @@ using DotnetSpider.Enterprise.Application.Log.Dto;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
-using DotnetSpider.Enterprise.Web.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DotnetSpider.Enterprise.Controllers
 {
@@ -39,18 +31,21 @@ namespace DotnetSpider.Enterprise.Controllers
 		[AllowAnonymous]
 		public IActionResult Submit([FromBody] LogInputDto input)
 		{
-			if (!IsAuth())
-			{
-				return BadRequest();
-			}
 			_logAppService.Sumit(input);
-			return Ok();
+			return Success();
 		}
 
 		[HttpPost]
 		public IActionResult Query(PagingLogInputDto input)
 		{
-			return ActionResult(_logAppService.Query, input);
+			return DataResult(_logAppService.Query(input));
+		}
+
+		[HttpPost]
+		public IActionResult Clear()
+		{
+			_logAppService.Clear();
+			return Success();
 		}
 	}
 }

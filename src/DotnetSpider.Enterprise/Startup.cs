@@ -1,34 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.DataProtection.Repositories;
-using DotnetSpider.Enterprise.Web;
 using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DotnetSpider.Enterprise.Domain.Entities;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Logging;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Application;
-using DotnetSpider.Enterprise.Web.Configuration;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using DotnetSpider.Enterprise.Domain;
-using NLog.Extensions.Logging;
 using AspectCore.APM.AspNetCore;
 using AspectCore.APM.LineProtocolCollector;
 using AspectCore.APM.HttpProfiler;
 using AspectCore.APM.ApplicationProfiler;
 using AspectCore.Extensions.DependencyInjection;
 using AspectCore.APM.Core;
+using DotnetSpider.Enterprise.Configuration;
+using NLog.Extensions.Logging;
+using NLog.Web;
+using NLog;
+using System.Text;
 
 namespace DotnetSpider.Enterprise
 {
@@ -132,19 +127,6 @@ namespace DotnetSpider.Enterprise
 
 			DependencyInjectionConfig.Inject(services);
 
-			//var redisHost = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisHost);
-			//var redisPort = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisPort);
-			//var redisPassword = Configuration.GetSection(ConfigurationConsts.DefaultSetting).GetValue<string>(ConfigurationConsts.RedisPassword);
-
-			//services.AddSingleton<IDistributedCache>(
-			//	serviceProvider =>
-			//		new RedisCache(new RedisCacheOptions
-			//		{
-			//			Configuration = $"{redisHost}:{redisPort},password={redisPassword}",
-			//			InstanceName = "DotnetSpiderEnterprise-Web-Session:"
-			//		})
-			//	);
-
 			//Session服务
 			services.AddSession();
 
@@ -163,11 +145,13 @@ namespace DotnetSpider.Enterprise
 			config.Tokens = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting).GetValue<string>(DotnetSpiderConsts.Tokens).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Where(t => !string.IsNullOrEmpty(t) && !string.IsNullOrWhiteSpace(t)).ToArray();
 
 			var code = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting).GetValue<string>(DotnetSpiderConsts.SqlEncryptCode).Trim();
-			config.SqlEncryptKey = System.Text.ASCIIEncoding.ASCII.GetBytes(code);
+			config.SqlEncryptKey = Encoding.ASCII.GetBytes(code);
 
+			LogManager.Configuration.Variables["connectionString"] = Configuration.GetSection("ConnectionStrings").GetValue<string>(DotnetSpiderConsts.ConnectionName);
 
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
+			loggerFactory.AddNLog();
 
 			if (env.IsDevelopment())
 			{
@@ -202,7 +186,10 @@ namespace DotnetSpider.Enterprise
 			{
 				SeedData.Initialize(app.ApplicationServices);
 			}
-			SeedData.InitializeAll(app.ApplicationServices);
+			else
+			{
+				SeedData.InitializeScheduler(app.ApplicationServices);
+			}
 		}
 	}
 }

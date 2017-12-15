@@ -1,15 +1,13 @@
 ﻿using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
-using DotnetSpider.Enterprise.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System;
 
-namespace DotnetSpider.Enterprise.Web.Controllers
+namespace DotnetSpider.Enterprise.Controllers
 {
 	public class TaskController : AppControllerBase
 	{
@@ -52,7 +50,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		public IActionResult Fire(long data)
 		{
 			_taskAppService.Run(data);
-			return Ok();
+			return Success();
 		}
 
 		[HttpPost]
@@ -68,11 +66,12 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				return ActionResult(() => { _taskAppService.Add(item); return item; });
+				_taskAppService.Add(item);
+				return Success();
 			}
 			else
 			{
-				return ErrorResult("参数不正确。");
+				throw new DotnetSpiderException("参数不正确。");
 			}
 		}
 
@@ -81,57 +80,56 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				return ActionResult(() => { _taskAppService.Modify(item); });
+				_taskAppService.Modify(item); ;
+				return Success();
 			}
 			else
 			{
-				return ErrorResult("参数不正确。");
+				throw new DotnetSpiderException("参数不正确。");
 			}
 		}
 
 		[HttpPost]
 		public IActionResult Run(long taskId)
 		{
-			return ActionResult(() => _taskAppService.Run(taskId));
+			_taskAppService.Run(taskId);
+			return Success();
 		}
 
 		[HttpPost]
 		public IActionResult Exit(long taskId)
 		{
-			return ActionResult(() => { _taskAppService.Exit(taskId); });
+			_taskAppService.Exit(taskId);
+			return Success();
 		}
 
 		[HttpPost]
 		public IActionResult Remove(long taskId)
 		{
-			return ActionResult(() => { _taskAppService.Remove(taskId); });
+			_taskAppService.Remove(taskId);
+			return Success();
 		}
 
 		[HttpPost]
 		public IActionResult Disable(long taskId)
 		{
-			return ActionResult(() => { _taskAppService.Disable(taskId); });
+			_taskAppService.Disable(taskId);
+			return Success();
 		}
 
 		[HttpPost]
 		public IActionResult Enable(long taskId)
 		{
-			return ActionResult(() => { _taskAppService.Enable(taskId); });
+			_taskAppService.Enable(taskId);
+			return Success();
 		}
 
 		[HttpPost]
 		[AllowAnonymous]
 		public IActionResult IncreaseRunning([FromBody]TaskIdInputDto input)
 		{
-			if (!IsAuth())
-			{
-				return BadRequest();
-			}
-			else
-			{
-				_taskAppService.IncreaseRunning(input);
-				return Ok();
-			}
+			_taskAppService.IncreaseRunning(input);
+			return Success();
 		}
 
 		[HttpPost]
@@ -139,13 +137,13 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		public IActionResult ReduceRunning([FromBody]TaskIdInputDto input)
 		{
 			_taskAppService.ReduceRunning(input);
-			return Ok();
+			return Success();
 		}
 
 		[HttpPost]
 		public IActionResult Get(long taskId)
 		{
-			return ActionResult(_taskAppService.Get, taskId);
+			return DataResult(_taskAppService.Get(taskId));
 		}
 
 		#endregion

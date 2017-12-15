@@ -13,6 +13,7 @@ using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using MessagePack;
 using Microsoft.Extensions.Logging;
+using DotnetSpider.Enterprise.Core;
 
 namespace DotnetSpider.Enterprise.Application.Pipeline
 {
@@ -41,17 +42,20 @@ namespace DotnetSpider.Enterprise.Application.Pipeline
 		}
 
 		private readonly ICryptoTransform _cryptoTransform;
-		private readonly ILogger<PipelineAppService> _logger;
 
-		public PipelineAppService(ILogger<PipelineAppService> logger, ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager) : base(dbcontext, configuration, appSession, userManager)
+		public PipelineAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
-			_logger = logger;
 			var des = DES.Create();
 			_cryptoTransform = des.CreateDecryptor(configuration.SqlEncryptKey, configuration.SqlEncryptKey);
 		}
 
 		public int Process(Stream content)
 		{
+			if (!IsAuth())
+			{
+				throw new DotnetSpiderException("Access Denied.");
+			}
 			var memory = new MemoryStream();
 			content.CopyTo(memory);
 
@@ -102,7 +106,8 @@ namespace DotnetSpider.Enterprise.Application.Pipeline
 				}
 				catch (Exception e)
 				{
-					_logger.LogError($"Pipeline execute failed {json}: {e}");
+					Logger.LogError($"Pipeline execute failed {json}: {e}");
+					throw e;
 				}
 			}
 

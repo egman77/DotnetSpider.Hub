@@ -1,7 +1,5 @@
 ﻿using DotnetSpider.Enterprise.Application.Node.Dto;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Application.Report.Dtos
 {

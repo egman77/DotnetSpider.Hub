@@ -1,14 +1,12 @@
-﻿using System;
-using DotnetSpider.Enterprise.Application.Node;
+﻿using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Node.Dto;
-using DotnetSpider.Enterprise.Core;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using DotnetSpider.Enterprise.Core.Configuration;
-using Microsoft.Extensions.Logging;
 using DotnetSpider.Enterprise.Domain;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace DotnetSpider.Enterprise.Web.Controllers
+namespace DotnetSpider.Enterprise.Controllers
 {
 	public class NodeController : AppControllerBase
 	{
@@ -24,45 +22,42 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[AllowAnonymous]
 		public IActionResult Heartbeat([FromBody]NodeHeartbeatInputDto input)
 		{
-			if (!IsAuth())
+			if (ModelState.IsValid)
 			{
-				return BadRequest();
+				return new JsonResult(_nodeAppService.Heartbeat(input));
 			}
 			else
 			{
-				if (ModelState.IsValid)
-				{
-					return new JsonResult(_nodeAppService.Heartbeat(input));
-				}
-				else
-				{
-					return BadRequest();
-				}
+				return BadRequest();
 			}
 		}
 
 		[HttpPost]
 		public IActionResult Enable(string nodeId)
 		{
-			return ActionResult(() => _nodeAppService.Enable(nodeId));
+			_nodeAppService.Enable(nodeId);
+			return Success();
 		}
 
 		[HttpPost]
 		public IActionResult Remove(string nodeId)
 		{
-			return ActionResult(() => _nodeAppService.Remove(nodeId));
+			_nodeAppService.Remove(nodeId);
+			return Success();
 		}
 
 		[HttpPost]
 		public IActionResult Disable(string nodeId)
 		{
-			return ActionResult(() => _nodeAppService.Disable(nodeId));
+			_nodeAppService.Disable(nodeId);
+			return Success();
 		}
 
 		[HttpPost]
 		public IActionResult Exit(string nodeId)
 		{
-			return ActionResult(() => _nodeAppService.Exit(nodeId));
+			_nodeAppService.Exit(nodeId);
+			return Success();
 		}
 
 		[HttpGet]
@@ -74,7 +69,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[HttpPost]
 		public IActionResult Query(PagingQueryInputDto input)
 		{
-			return ActionResult(() => _nodeAppService.Query(input));
+			return DataResult(_nodeAppService.Query(input));
 		}
 
 		[HttpGet]

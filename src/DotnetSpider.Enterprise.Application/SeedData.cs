@@ -6,8 +6,6 @@ using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.Application.User;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Application.System;
 
@@ -105,7 +103,7 @@ namespace DotnetSpider.Enterprise.Application
 			context.SaveChanges();
 		}
 
-		public static void InitializeAll(IServiceProvider serviceProvider)
+		public static void InitializeScheduler(IServiceProvider serviceProvider)
 		{
 			var systemAppService = serviceProvider.GetService<ISystemAppService>();
 			systemAppService.Register();

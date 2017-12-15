@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DotnetSpider.Enterprise.Core;
-using DotnetSpider.Enterprise.Core.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace DotnetSpider.Enterprise.Domain
+﻿namespace DotnetSpider.Enterprise.Domain
 {
 	public class PagingQueryInputDto
 	{

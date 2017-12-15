@@ -1,17 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-
-namespace DotnetSpider.Enterprise.Web.Configuration
+namespace DotnetSpider.Enterprise.Configuration
 {
-    public class AuthConfigure
+	public class AuthConfigure
     {
 		public const string AuthenticationScheme = "DotnetSpiderEnterpriseSchema";
 

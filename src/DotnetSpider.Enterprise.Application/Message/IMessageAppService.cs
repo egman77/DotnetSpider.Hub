@@ -1,7 +1,4 @@
-﻿using DotnetSpider.Enterprise.Application.Message.Dto;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 
 namespace DotnetSpider.Enterprise.Application.Message

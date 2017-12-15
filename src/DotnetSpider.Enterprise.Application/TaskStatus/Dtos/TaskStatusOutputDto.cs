@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotnetSpider.Enterprise.Application.TaskStatus.Dtos
+﻿namespace DotnetSpider.Enterprise.Application.TaskStatus.Dtos
 {
 	public class TaskStatusOutputDto
 	{

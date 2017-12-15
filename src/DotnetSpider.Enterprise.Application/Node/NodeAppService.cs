@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using DotnetSpider.Enterprise.Application.Node.Dto;
 using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
-using Newtonsoft.Json;
 using DotnetSpider.Enterprise.Domain.Entities;
 using AutoMapper;
 using DotnetSpider.Enterprise.Application.Message;
-using DotnetSpider.Enterprise.Application.Message.Dto;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {
@@ -23,8 +21,9 @@ namespace DotnetSpider.Enterprise.Application.Node
 	{
 		private readonly IMessageAppService _messageAppService;
 
-		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService, ICommonConfiguration configuration,
+			IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 			_messageAppService = messageAppService;
 		}
@@ -36,6 +35,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			{
 				node.IsEnable = true;
 				DbContext.SaveChanges();
+				Logger.LogInformation($"Enable node {nodeId}.");
 			}
 		}
 
@@ -46,15 +46,20 @@ namespace DotnetSpider.Enterprise.Application.Node
 			{
 				node.IsEnable = false;
 				DbContext.SaveChanges();
+				Logger.LogInformation($"Disable node {nodeId}.");
 			}
 		}
 
 		public List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input)
 		{
-			AddHeartbeat(input);
-			RefreshOnlineStatus(input);
-			DbContext.SaveChanges();
-			return _messageAppService.QueryMessages(input.NodeId);
+			if (IsAuth())
+			{
+				AddHeartbeat(input);
+				RefreshOnlineStatus(input);
+				DbContext.SaveChanges();
+				return _messageAppService.QueryMessages(input.NodeId);
+			}
+			throw new DotnetSpiderException("Access Denied.");
 		}
 
 		public PagingQueryOutputDto Query(PagingQueryInputDto input)
@@ -231,6 +236,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 				NodeId = nodeId,
 				TaskId = 0
 			};
+			Logger.LogInformation($"Exit node: {nodeId}.");
 			_messageAppService.Add(message);
 		}
 
@@ -243,6 +249,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 				DbContext.Database.ExecuteSqlCommand($"DELETE FROM NodeHeartbeat WHERE NodeId=@NodeId", nodeIdParameter);
 				DbContext.Node.Remove(node);
 				DbContext.SaveChanges();
+				Logger.LogInformation($"Remove node: {nodeId}.");
 			}
 		}
 	}

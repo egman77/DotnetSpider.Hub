@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DotnetSpider.Enterprise.Application.Message.Dto
+namespace DotnetSpider.Enterprise.Application.Message.Dtos
 {
 	public class MessageOutputDto
 	{

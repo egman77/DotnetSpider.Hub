@@ -1,15 +1,15 @@
 ﻿using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using DotnetSpider.Enterprise.Application.Node;
-using System;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Application
 {
 	public class TaskUtil
 	{
-		public static void ExitTask(INodeAppService nodeAppService, IMessageAppService messageAppService, Domain.Entities.Task task)
+		public static void ExitTask(INodeAppService nodeAppService, IMessageAppService messageAppService, Domain.Entities.Task task, ILogger logger = null)
 		{
 			var runningNodes = nodeAppService.GetAllOnline();
 
@@ -23,6 +23,7 @@ namespace DotnetSpider.Enterprise.Application
 					Name = Domain.Entities.Message.CanleMessageName,
 					NodeId = status.NodeId
 				};
+				logger.LogWarning($"Add CANCLE message: {JsonConvert.SerializeObject(msg)}.");
 				messages.Add(msg);
 			}
 			messageAppService.AddRange(messages);

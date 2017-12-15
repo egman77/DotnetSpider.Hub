@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using DotnetSpider.Enterprise.Application.Message.Dtos;
 using DotnetSpider.Enterprise.Application.Node.Dto;
 using DotnetSpider.Enterprise.Domain;
-using DotnetSpider.Enterprise.Domain.Entities;
-using DotnetSpider.Enterprise.Application.Message.Dto;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {

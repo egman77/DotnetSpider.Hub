@@ -1,33 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using DotnetSpider.Enterprise.Application.Node.Dto;
+using System.Linq.Expressions;
+using AutoMapper;
+using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 using DotnetSpider.Enterprise.Core;
+using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
-using Newtonsoft.Json;
-using DotnetSpider.Enterprise.Domain.Entities;
-using AutoMapper;
-using DotnetSpider.Enterprise.Application.Message;
-using DotnetSpider.Enterprise.Application.Message.Dto;
-using DotnetSpider.Enterprise.Application.TaskStatus;
-using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
-using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Identity;
-using System.Linq.Expressions;
+using Microsoft.Extensions.Logging;
 
-namespace DotnetSpider.Enterprise.Application.Node
+namespace DotnetSpider.Enterprise.Application.TaskStatus
 {
 	public class TaskStatusAppService : AppServiceBase, ITaskStatusAppService
 	{
-		public TaskStatusAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+		public TaskStatusAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
+			UserManager<Domain.Entities.ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 		}
 
 		public void AddOrUpdate(AddOrUpdateTaskStatusInputDto input)
 		{
+			if (!IsAuth())
+			{
+				throw new DotnetSpiderException("Access Denied.");
+			}
+
 			var oldRecord = DbContext.TaskStatus.FirstOrDefault(ts => ts.Identity == input.Identity && ts.NodeId == input.NodeId);
 			if (oldRecord == null)
 			{

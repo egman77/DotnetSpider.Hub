@@ -10,25 +10,21 @@ using Newtonsoft.Json;
 using Polly;
 using Polly.Retry;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using System.Threading;
 
 namespace DotnetSpider.Enterprise.Application.Hangfire
 {
 	public class HangfireAppService : AppServiceBase, IHangfireAppService
 	{
-		private readonly ILogger _logger;
 		private RetryPolicy _retryPolicy;
 
 		public HangfireAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
-			UserManager<ApplicationUser> userManager, ILogger<HangfireAppService> logger) : base(dbcontext, configuration, appSession, userManager)
+			UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory) : base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
-			_logger = logger;
 			_retryPolicy = Policy.Handle<Exception>().Retry(5, (ex, count) =>
 			{
-				_logger.LogError($"Request hangfire failed [{count}]: {ex}");
+				Logger.LogError($"Request hangfire failed [{count}]: {ex}");
 			});
 		}
 

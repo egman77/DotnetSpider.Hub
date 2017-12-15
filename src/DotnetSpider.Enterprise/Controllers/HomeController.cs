@@ -1,12 +1,11 @@
 ﻿using DotnetSpider.Enterprise.Application.Report;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 
-namespace DotnetSpider.Enterprise.Web.Controllers
+namespace DotnetSpider.Enterprise.Controllers
 {
 	public class HomeController : AppControllerBase
 	{
@@ -33,7 +32,7 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 		[HttpGet]
 		public IActionResult ThrowException()
 		{
-			throw new Exception("TEST EXCEPTION.");
+			throw new DotnetSpiderException("TEST EXCEPTION.");
 		}
 	}
 }

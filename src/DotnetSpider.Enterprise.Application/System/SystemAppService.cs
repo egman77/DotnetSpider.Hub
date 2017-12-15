@@ -1,16 +1,13 @@
 ﻿using DotnetSpider.Enterprise.Application.Hangfire;
 using DotnetSpider.Enterprise.Application.Message;
-using DotnetSpider.Enterprise.Application.Message.Dtos;
 using DotnetSpider.Enterprise.Application.Node;
-using DotnetSpider.Enterprise.Application.Task.Dtos;
-using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace DotnetSpider.Enterprise.Application.System
@@ -24,7 +21,8 @@ namespace DotnetSpider.Enterprise.Application.System
 		public const string ScanRunningTaskName = "System.DotnetSpider.ScanRunningTask";
 
 		public SystemAppService(INodeAppService nodeAppService, IMessageAppService messageAppService, IHangfireAppService hangfireAppService,
-			ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager) : base(dbcontext, configuration, appSession, userManager)
+			ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 			_hangfireAppService = hangfireAppService;
 			_nodeAppService = nodeAppService;

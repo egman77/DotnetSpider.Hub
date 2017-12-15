@@ -1,12 +1,5 @@
-﻿using DotnetSpider.Enterprise.Core;
-using DotnetSpider.Enterprise.Core.Configuration;
-using MailKit.Net.Smtp;
+﻿using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using MimeKit;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Text;
 using SYSTEM = System.Threading;
 
 namespace DotnetSpider.Enterprise.Application.AuthMessage

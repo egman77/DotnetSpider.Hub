@@ -1,13 +1,12 @@
-﻿using DotnetSpider.Enterprise.Core.Configuration;
-using Microsoft.AspNetCore.DataProtection.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Xml.Linq;
+using DotnetSpider.Enterprise.Core.Configuration;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 
-namespace DotnetSpider.Enterprise.Web
+namespace DotnetSpider.Enterprise
 {
 	public class XmlRepository : IXmlRepository
 	{

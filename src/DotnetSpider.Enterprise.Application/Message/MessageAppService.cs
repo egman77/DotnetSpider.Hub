@@ -1,22 +1,22 @@
 ﻿using AutoMapper;
-using DotnetSpider.Enterprise.Application.Message.Dto;
 using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace DotnetSpider.Enterprise.Application.Message
 {
 	public class MessageAppService : AppServiceBase, IMessageAppService
 	{
 		public MessageAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager) : base(dbcontext, configuration, appSession, userManager)
+			IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 		}
 
@@ -45,6 +45,10 @@ namespace DotnetSpider.Enterprise.Application.Message
 			DbContext.MessageHistory.AddRange(messageHistories);
 			DbContext.Message.RemoveRange(messages);
 			DbContext.SaveChanges();
+			foreach (var message in messages)
+			{
+				Logger.LogInformation($"Consume message: {JsonConvert.SerializeObject(message)}.");
+			}
 			return Mapper.Map<List<MessageOutputDto>>(messages);
 		}
 	}

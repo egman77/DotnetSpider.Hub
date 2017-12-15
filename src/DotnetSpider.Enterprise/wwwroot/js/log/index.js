@@ -1,7 +1,7 @@
 ﻿$(function () {
     setMenuActive('task');
 
-    var node = queryString('node');
+    var nodeId = queryString('nodeId');
     var identity = queryString('identity');
     var refresh = queryString('refresh') == '1';
     var lastQuery;
@@ -51,12 +51,12 @@
         if (!lastQuery) {
             query = {
                 identity: identity,
-                node: node,
+                nodeId: nodeId,
                 //startDate: $("#startDate").val(),
                 //endDate: $("#endDate").val(),
                 page: logVue.$data.logsPaging.page,
-                size: logVue.$data.logsPaging.size//,
-                //logType: $("#logType").val(),
+                size: logVue.$data.logsPaging.size,
+                logType: $("#logType").val(),
             };
             lastQuery = query;
         }

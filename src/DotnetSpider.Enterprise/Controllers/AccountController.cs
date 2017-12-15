@@ -1,26 +1,23 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using DotnetSpider.Enterprise.Core;
+using DotnetSpider.Enterprise.Core.Configuration;
+using DotnetSpider.Enterprise.Domain;
+using DotnetSpider.Enterprise.Domain.Entities;
+using DotnetSpider.Enterprise.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using DotnetSpider.Enterprise.Domain.Entities;
-using DotnetSpider.Enterprise.Web.Models.AccountViewModels;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using DotnetSpider.Enterprise.Domain;
-using DotnetSpider.Enterprise.Core.Configuration;
 
-namespace DotnetSpider.Enterprise.Web.Controllers
+namespace DotnetSpider.Enterprise.Controllers
 {
 	[Authorize]
 	public class AccountController : AppControllerBase
 	{
 		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly SignInManager<ApplicationUser> _signInManager;
-
 
 		public AccountController(
 			UserManager<ApplicationUser> userManager,
@@ -32,18 +29,10 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 			_signInManager = signInManager;
 		}
 
-		//public IActionResult Index()
-		//{
-		//	return View();
-		//}
-
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<IActionResult> Login(string returnUrl = null)
+		public IActionResult Login(string returnUrl = null)
 		{
-			//await _signInManager.SignOutAsync();
-
-			//ViewData["ReturnUrl"] = returnUrl;
 			return View();
 		}
 
@@ -58,12 +47,12 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 
 				if (user == null)
 				{
-					return ErrorResult("ÓÃ»§Ãû»òÃÜÂë²»ÕıÈ·¡£");
+					throw new DotnetSpiderException("ç”¨æˆ·åæˆ–å¯†ç ä¸æ­£ç¡®ã€‚");
 				}
 
 				if (!user.IsActive)
 				{
-					return ErrorResult("ÕÊ»§±»½ûÓÃ¡£");
+					throw new DotnetSpiderException("å¸æˆ·è¢«ç¦ç”¨ã€‚");
 				}
 				else
 				{
@@ -81,28 +70,35 @@ namespace DotnetSpider.Enterprise.Web.Controllers
 
 						if (result.RequiresTwoFactor)
 						{
-							return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+							return RedirectToAction(nameof(SendSecurityCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
 						}
 						if (result.IsLockedOut)
 						{
 							Logger.LogWarning(2, "User account locked out.");
-							return ErrorResult("ÕÊ»§±»Ëø¶¨¡£");
+							throw new DotnetSpiderException("å¸æˆ·è¢«é”å®šã€‚");
 						}
 						else
 						{
-							return ErrorResult("ÓÃ»§Ãû»òÃÜÂë²»ÕıÈ·¡£");
+							throw new DotnetSpiderException("ç”¨æˆ·åæˆ–å¯†ç ä¸æ­£ç¡®ã€‚");
 						}
 					}
 				}
 			}
 
 			// If we got this far, something failed, redisplay form
-			return ErrorResult("ÓÃ»§Ãû»òÃÜÂë²»ÕıÈ·¡£");
+			throw new DotnetSpiderException("ç”¨æˆ·åæˆ–å¯†ç ä¸æ­£ç¡®ã€‚");
+		}
+
+		public async Task<IActionResult> Logout()
+		{
+			await _signInManager.SignOutAsync();
+			Logger.LogInformation(4, "User logged out.");
+			return RedirectToAction(nameof(HomeController.Index), "Home");
 		}
 
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<ActionResult> SendCode(string returnUrl = null, bool rememberMe = false)
+		public async Task<ActionResult> SendSecurityCode(string returnUrl = null, bool rememberMe = false)
 		{
 			var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
 			if (user == null)

@@ -2,14 +2,16 @@
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 
 namespace DotnetSpider.Enterprise.Application.User
 {
 	public class UserAppService : AppServiceBase, IUserAppService
 	{
-		public UserAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+		public UserAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
+			UserManager<Domain.Entities.ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 
 		}

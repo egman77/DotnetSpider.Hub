@@ -1,9 +1,6 @@
-﻿using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
-using System;
+﻿using DotnetSpider.Enterprise.Domain;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Application.Task.Dtos
 {

@@ -1,8 +1,5 @@
 ﻿using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
 using DotnetSpider.Enterprise.Domain;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Application.TaskHistory
 {

@@ -2,9 +2,21 @@
 var dsApp = {};
 dsApp.post = function (url, data, success, error) {
     $.post(url, data, function (result, status, request) {
-        if (status === "success" || (result && result.success)) {
-            if (success) {
-                success(result);
+        if (status === "success") {
+            if (result && result.success) {
+                if (success) {
+                    success(result);
+                }
+            } else {
+                if (error) {
+                    error(result);
+                } else {
+                    if (swal) {
+                        if (result.message) {
+                            swal("Oops...", result.message, "error");
+                        }
+                    }
+                }
             }
         } else {
             if (error) {
@@ -13,7 +25,7 @@ dsApp.post = function (url, data, success, error) {
             else {
                 if (swal) {
                     if (result.message) {
-                        swal(result.message);
+                        swal("Oops...", result.message, "error");
                     }
                 }
             }
@@ -23,8 +35,7 @@ dsApp.post = function (url, data, success, error) {
             error(result);
         } else {
             if (swal) {
-                var msg = result ? (result.message ? result.message : result) : "服务器内部错误。";
-                swal(msg);
+                swal("Oops...", result, 'error');
             }
         }
     });
@@ -53,8 +64,7 @@ dsApp.get = function (url, success, error) {
             error(result);
         } else {
             if (swal) {
-                var msg = result ? (result.message ? result.message : result) : "服务器内部错误。";
-                swal(msg);
+                swal("Oops...", result.message, "Internal error.");
             }
         }
     });
@@ -103,4 +113,8 @@ dsApp.ui.initPagination = function (query, option, click) {
 function setMenuActive(id) {
     $('li.active').attr('class', '');
     $('#' + id).attr('class', 'active');
+}
+
+function logout() {
+    dsApp.post('/Account/Logout');
 }

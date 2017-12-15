@@ -15,7 +15,7 @@ using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DotnetSpider.Enterprise.Web
+namespace DotnetSpider.Enterprise
 {
 	public class DependencyInjectionConfig
 	{

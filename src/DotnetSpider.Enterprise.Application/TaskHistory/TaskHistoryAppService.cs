@@ -5,17 +5,17 @@ using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using System;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Application.TaskHistory
 {
 	public class TaskHistoryAppService : AppServiceBase, ITaskHistoryAppService
 	{
-		public TaskHistoryAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+		public TaskHistoryAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
+			UserManager<Domain.Entities.ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 		}
 

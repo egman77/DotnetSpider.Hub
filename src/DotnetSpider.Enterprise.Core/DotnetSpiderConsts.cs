@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DotnetSpider.Enterprise.Core
+﻿namespace DotnetSpider.Enterprise.Core
 {
 	public class DotnetSpiderConsts
 	{

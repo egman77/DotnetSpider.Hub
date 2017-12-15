@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotnetSpider.Enterprise.Application.Task.Dtos
+﻿namespace DotnetSpider.Enterprise.Application.Task.Dtos
 {
 	public class RunningTaskOutputDto
 	{

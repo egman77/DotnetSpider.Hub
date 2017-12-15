@@ -1,16 +1,9 @@
-﻿using DotnetSpider.Enterprise.Web.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DotnetSpider.Enterprise.Core.Configuration;
+﻿using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
-using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Application.Pipeline;
 using Microsoft.AspNetCore.Authorization;
-using System.IO;
 
 namespace DotnetSpider.Enterprise.Controllers
 {
@@ -28,17 +21,7 @@ namespace DotnetSpider.Enterprise.Controllers
 		[AllowAnonymous]
 		public IActionResult Process()
 		{
-			if (!IsAuth())
-			{
-				return BadRequest();
-			}
-			else
-			{
-				//var memoryStream = new MemoryStream();
-				//Request.Body.CopyTo(memoryStream);
-
-				return new JsonResult(_pipelineAppService.Process(Request.Body));
-			}
+			return new JsonResult(_pipelineAppService.Process(Request.Body));
 		}
 	}
 }

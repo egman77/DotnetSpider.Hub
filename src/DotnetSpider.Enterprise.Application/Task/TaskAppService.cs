@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
@@ -8,17 +7,7 @@ using DotnetSpider.Enterprise.Application.Task.Dtos;
 using AutoMapper;
 using System.Linq;
 using DotnetSpider.Enterprise.Core;
-using System.Data;
-using DotnetSpider.Enterprise.Domain.Entities;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Net;
-using Newtonsoft.Json.Linq;
-using DotnetSpider.Enterprise.Application.Exceptions;
-using System.IO;
-using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 using MongoDB.Driver;
-using MongoDB.Bson;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.TaskHistory;
 using DotnetSpider.Enterprise.Application.Node;
@@ -26,10 +15,9 @@ using DotnetSpider.Enterprise.Application.Message.Dtos;
 using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System.Threading;
 using DotnetSpider.Enterprise.Application.System;
 using DotnetSpider.Enterprise.Application.Hangfire;
-using DotnetSpider.Enterprise.Application.Hangfire.Dtos;
+using Newtonsoft.Json;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -39,21 +27,19 @@ namespace DotnetSpider.Enterprise.Application.Task
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
 		private readonly ISystemAppService _systemAppService;
-		private readonly ILogger _logger;
 		private readonly IHangfireAppService _hangfireAppService;
 
 		public TaskAppService(IHangfireAppService hangfireAppService, ISystemAppService systemAppService,
 			ITaskHistoryAppService taskHistoryAppService,
 			IMessageAppService messageAppService,
 			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager,
-			ApplicationDbContext dbcontext, ILogger<TaskAppService> logger) : base(dbcontext, configuration, appSession, userManager)
+			ApplicationDbContext dbcontext, ILoggerFactory loggerFactory) : base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 			_hangfireAppService = hangfireAppService;
 			_systemAppService = systemAppService;
 			_taskHistoryAppService = taskHistoryAppService;
 			_messageAppService = messageAppService;
 			_nodeAppService = nodeAppService;
-			_logger = logger;
 		}
 
 		public PagingQueryOutputDto Query(PagingQueryTaskInputDto input)
@@ -151,6 +137,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				if (task.Name.StartsWith(DotnetSpiderConsts.SystemJobPrefix))
 				{
 					_systemAppService.Execute(task.Name, task.Arguments);
+					Logger.LogInformation($"Run task {taskId}.");
 				}
 				else
 				{
@@ -160,6 +147,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 						task.LastIdentity = identity;
 						task.IsRunning = true;
 						DbContext.SaveChanges();
+						Logger.LogInformation($"Run task {taskId}.");
 					}
 				}
 			}
@@ -192,6 +180,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
 				task.IsDeleted = true;
 				DbContext.SaveChanges();
+				Logger.LogInformation($"Remove task {taskId}.");
 			}
 		}
 
@@ -207,6 +196,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
+			Logger.LogInformation($"Disable task {taskId}.");
 		}
 
 		public void Enable(long taskId)
@@ -221,18 +211,27 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				DbContext.Task.Update(task);
 				DbContext.SaveChanges();
+				Logger.LogInformation($"Enable task {taskId}.");
 			}
 		}
 
 		public void IncreaseRunning(TaskIdInputDto input)
 		{
-			var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
-			if (task == null)
+			if (IsAuth())
 			{
-				throw new DotnetSpiderException("任务不存在!");
+				var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
+				if (task == null)
+				{
+					throw new DotnetSpiderException("任务不存在!");
+				}
+				task.NodeRunningCount += 1;
+				DbContext.SaveChanges();
+				Logger.LogInformation($"IncreaseRunning task {JsonConvert.SerializeObject(input)}.");
 			}
-			task.NodeRunningCount += 1;
-			DbContext.SaveChanges();
+			else
+			{
+				throw new DotnetSpiderException("Access Denied.");
+			}
 		}
 
 		public void ReduceRunning(TaskIdInputDto input)
@@ -250,6 +249,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				task.IsRunning = false;
 			}
+			Logger.LogInformation($"ReduceRunning task {JsonConvert.SerializeObject(input)}.");
 			DbContext.SaveChanges();
 		}
 
@@ -268,7 +268,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new DotnetSpiderException("任务不存在.");
 			}
 
-			return AutoMapper.Mapper.Map<AddTaskInputDto>(task);
+			return Mapper.Map<AddTaskInputDto>(task);
 		}
 
 		/// <summary>

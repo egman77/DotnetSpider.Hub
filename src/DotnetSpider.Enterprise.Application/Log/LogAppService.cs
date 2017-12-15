@@ -1,5 +1,6 @@
 ﻿using DotnetSpider.Enterprise.Application.Log.Dto;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,29 +15,22 @@ namespace DotnetSpider.Enterprise.Application.Log
 {
 	public class LogAppService : AppServiceBase, ILogAppService
 	{
-		protected readonly ILogger _logger;
-
 		public LogAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
-			UserManager<Domain.Entities.ApplicationUser> userManager, ILogger<LogAppService> logger)
-			: base(dbcontext, configuration, appSession, userManager)
+			UserManager<Domain.Entities.ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
-			_logger = logger;
 		}
 
 		public async void Sumit(LogInputDto input)
 		{
-			try
+			if (IsAuth())
 			{
 				var client = new MongoClient(Configuration.LogMongoConnectionString);
 				var database = client.GetDatabase("dotnetspider");
 				var collection = database.GetCollection<BsonDocument>(input.Identity);
-
 				await collection.InsertOneAsync(BsonDocument.Parse(input.LogInfo.ToString()));
 			}
-			catch (Exception e)
-			{
-				_logger.LogError(e, $"Submit log failed.");
-			}
+			throw new DotnetSpiderException("Access Denied.");
 		}
 
 		public PagingLogOutDto Query(PagingLogInputDto input)
@@ -55,16 +48,22 @@ namespace DotnetSpider.Enterprise.Application.Log
 			};
 
 			List<BsonDocument> list = null;
+			var queryBson = new BsonDocument();
 			if (!string.IsNullOrEmpty(input.NodeId))
 			{
-				list = collection.Find(new BsonDocument("Node", input.NodeId)).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
-				result.Total = collection.Find(new BsonDocument("Node", input.NodeId)).Count();
+				queryBson.Add("NodeId", input.NodeId);
+			}
+			if (!string.IsNullOrEmpty(input.LogType) && input.LogType.ToLower() != "all")
+			{
+				queryBson.Add("Level", input.LogType);
 			}
 			else
 			{
 				list = collection.Find(new BsonDocument()).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
 				result.Total = collection.Find(new BsonDocument()).Count();
 			}
+			list = collection.Find(new BsonDocument()).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
+			result.Total = collection.Find(new BsonDocument()).Count();
 
 			if (list.Count > 0)
 			{
@@ -88,6 +87,18 @@ namespace DotnetSpider.Enterprise.Application.Log
 				}
 			}
 			return result;
+		}
+
+		public void Clear()
+		{
+			var client = new MongoClient(Configuration.LogMongoConnectionString);
+			var database = client.GetDatabase("dotnetspider");
+			var collections = database.ListCollections().ToList();
+			foreach (var collection in collections)
+			{
+				database.DropCollection(collection["name"].AsString);
+			}
+			Logger.LogInformation($"Clear logs success.");
 		}
 	}
 }

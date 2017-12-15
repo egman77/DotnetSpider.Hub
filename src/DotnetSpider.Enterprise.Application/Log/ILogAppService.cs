@@ -1,6 +1,5 @@
 ﻿using DotnetSpider.Enterprise.Application.Log.Dto;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
-using MongoDB.Bson;
 
 namespace DotnetSpider.Enterprise.Application.Log
 {
@@ -9,5 +8,7 @@ namespace DotnetSpider.Enterprise.Application.Log
 		void Sumit(LogInputDto input);
 
 		PagingLogOutDto Query(PagingLogInputDto input);
+
+		void Clear();
 	}
 }

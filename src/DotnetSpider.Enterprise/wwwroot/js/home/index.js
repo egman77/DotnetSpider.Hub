@@ -13,12 +13,21 @@
         el: '#homeView',
         data: {
             dashboard: {
-                nodes:[]
+                nodes: []
             }
         },
         mounted: function () {
             loadDashboard(this);
         },
+        methods: {
+            signOut: function () {
+                var that = this;
+                that.logsPaging.total = 0;
+                that.logsPaging.page = 1;
+                lastQuery = null;
+                loadLogs();
+            }
+        }
     });
 
 
