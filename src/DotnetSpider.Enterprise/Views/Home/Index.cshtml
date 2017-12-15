@@ -124,13 +124,9 @@
 </div>
 @section scripts{
     <environment names="Development">
-        <!-- Demo Js -->
-        <script src="~/js/demo.js"></script>
-        <script src="~/js/home/index.js"></script>
+        <script src="~/js/home/index.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        <!-- Demo Js -->
-        <script src="~/js/demo.js"></script>
-        <script src="~/js/home/index.min.js"></script>
+        <script src="~/js/home/index.min.js" asp-append-version="true"></script>
     </environment>
 }

@@ -12,20 +12,20 @@
     <link rel="icon" href="../../favicon.ico" type="image/x-icon">
 
     <environment names="Development">
-        <link href="~/css/latin_cyrillic_ext.css" rel="stylesheet" type="text/css">
-        <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
-        <link href="~/lib/node-waves/waves.css" rel="stylesheet" />
-        <link href="~/lib/animate-css/animate.css" rel="stylesheet" />
-        <link href="~/css/style.css" rel="stylesheet">
-        <link href="~/lib/sweetalert/sweetalert.css" rel="stylesheet" />
+        <link href="~/css/latin_cyrillic_ext.css" rel="stylesheet" type="text/css" asp-append-version="true">
+        <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" asp-append-version="true">
+        <link href="~/lib/node-waves/waves.css" rel="stylesheet"  asp-append-version="true"/>
+        <link href="~/lib/animate-css/animate.css" rel="stylesheet"  asp-append-version="true"/>
+        <link href="~/css/style.css" rel="stylesheet" asp-append-version="true"/>
+        <link href="~/lib/sweetalert/sweetalert.css" rel="stylesheet"  asp-append-version="true"/>
     </environment>
     <environment names="Staging,Production">
-        <link href="~/css/latin_cyrillic_ext.min.css" rel="stylesheet" type="text/css">
-        <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="~/lib/node-waves/waves.min.css" rel="stylesheet" />
-        <link href="~/lib/animate-css/animate.min.css" rel="stylesheet" />
-        <link href="~/css/style.min.css" rel="stylesheet">
-        <link href="~/lib/sweetalert/sweetalert.css" rel="stylesheet" />
+        <link href="~/css/latin_cyrillic_ext.min.css" rel="stylesheet" type="text/css" asp-append-version="true"/>
+        <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true"/>
+        <link href="~/lib/node-waves/waves.min.css" rel="stylesheet"  asp-append-version="true"/>
+        <link href="~/lib/animate-css/animate.min.css" rel="stylesheet"  asp-append-version="true"/>
+        <link href="~/css/style.min.css" rel="stylesheet"  asp-append-version="true"/>
+        <link href="~/lib/sweetalert/sweetalert.css" rel="stylesheet"  asp-append-version="true"/>
     </environment>
 </head>
 @Html.AntiForgeryToken()
@@ -76,29 +76,29 @@
     </div>
 
     <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-        <script src="~/lib/node-waves/waves.js"></script>
-        <script src="~/lib/sweetalert/sweetalert-dev.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js" asp-append-version="true"></script>
+        <script src="~/lib/node-waves/waves.js" asp-append-version="true"></script>
+        <script src="~/lib/sweetalert/sweetalert-dev.js" asp-append-version="true"></script>
         <!-- Validation Plugin Js -->
-        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
         <!-- Custom Js -->
-        <script src="~/js/admin.js"></script>
-        <script src="~/js/site.js"></script>
-        <script src="~/js/sign-in.js"></script>
+        <script src="~/js/admin.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/sign-in.js" asp-append-version="true"></script>
 
     </environment>
     <environment names="Staging,Production">
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
-        <script src="~/lib/node-waves/waves.min.js"></script>
-        <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/lib/node-waves/waves.min.js" asp-append-version="true"></script>
+        <script src="~/lib/sweetalert/sweetalert.min.js" asp-append-version="true"></script>
         <!-- Validation Plugin Js -->
-        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
         <!-- Custom Js -->
-        <script src="~/js/admin.min.js"></script>
-        <script src="~/js/site.min.js"></script>
-        <script src="~/js/sign-in.min.js"></script>
+        <script src="~/js/admin.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/sign-in.min.js" asp-append-version="true"></script>
     </environment>
 </body>
 </html>

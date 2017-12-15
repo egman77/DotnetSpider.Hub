@@ -137,7 +137,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				if (task.Name.StartsWith(DotnetSpiderConsts.SystemJobPrefix))
 				{
 					_systemAppService.Execute(task.Name, task.Arguments);
-					Logger.LogInformation($"Run task {taskId}.");
+					Logger.LogWarning($"Run task {taskId}.");
 				}
 				else
 				{
@@ -147,7 +147,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 						task.LastIdentity = identity;
 						task.IsRunning = true;
 						DbContext.SaveChanges();
-						Logger.LogInformation($"Run task {taskId}.");
+						Logger.LogWarning($"Run task {taskId}.");
 					}
 				}
 			}

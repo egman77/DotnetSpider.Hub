@@ -147,7 +147,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			var availableNodes = new List<Domain.Entities.Node>();
 			foreach (var node in nodes)
 			{
-				var heartbeat = DbContext.NodeHeartbeat.OrderByDescending(a => a.CreationTime).FirstOrDefault(a => a.NodeId == node.NodeId);
+				var heartbeat = DbContext.NodeHeartbeat.OrderByDescending(a => a.Id).FirstOrDefault(a => a.NodeId == node.NodeId);
 				if (heartbeat.CPULoad < 90 && heartbeat.FreeMemory > 150)
 				{
 					availableNodes.Add(node);

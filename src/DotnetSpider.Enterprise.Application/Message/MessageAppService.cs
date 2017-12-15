@@ -25,6 +25,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 			var message = Mapper.Map<Domain.Entities.Message>(input);
 			DbContext.Message.Add(message);
 			DbContext.SaveChanges();
+			Logger.LogWarning($"Add message {input}.");
 		}
 
 		public void AddRange(List<AddMessageInputDto> input)
@@ -32,6 +33,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 			var messages = Mapper.Map<List<Domain.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
 			DbContext.SaveChanges();
+			Logger.LogWarning($"Add messages {input}.");
 		}
 
 		public List<MessageOutputDto> QueryMessages(string nodeId)
@@ -47,7 +49,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 			DbContext.SaveChanges();
 			foreach (var message in messages)
 			{
-				Logger.LogInformation($"Consume message: {JsonConvert.SerializeObject(message)}.");
+				Logger.LogWarning($"Consume message: {JsonConvert.SerializeObject(message)}.");
 			}
 			return Mapper.Map<List<MessageOutputDto>>(messages);
 		}

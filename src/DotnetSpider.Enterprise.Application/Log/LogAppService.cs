@@ -23,12 +23,21 @@ namespace DotnetSpider.Enterprise.Application.Log
 
 		public async void Sumit(LogInputDto input)
 		{
+			if (input == null)
+			{
+				return;
+			}
 			if (IsAuth())
 			{
+				if (string.IsNullOrEmpty(input.Identity) || input.LogInfo == null)
+				{
+					return;
+				}
 				var client = new MongoClient(Configuration.LogMongoConnectionString);
 				var database = client.GetDatabase("dotnetspider");
 				var collection = database.GetCollection<BsonDocument>(input.Identity);
 				await collection.InsertOneAsync(BsonDocument.Parse(input.LogInfo.ToString()));
+				return;
 			}
 			throw new DotnetSpiderException("Access Denied.");
 		}

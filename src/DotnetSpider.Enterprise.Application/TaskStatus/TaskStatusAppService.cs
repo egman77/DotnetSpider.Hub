@@ -10,6 +10,7 @@ using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace DotnetSpider.Enterprise.Application.TaskStatus
 {
@@ -28,7 +29,7 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 				throw new DotnetSpiderException("Access Denied.");
 			}
 
-			var oldRecord = DbContext.TaskStatus.FirstOrDefault(ts => ts.Identity == input.Identity && ts.NodeId == input.NodeId);
+			var oldRecord = DbContext.TaskStatus.FirstOrDefault(ts => ts.Identity == input.Identity && ts.NodeId == input.NodeId);//
 			if (oldRecord == null)
 			{
 				var taskStatus = Mapper.Map<Domain.Entities.TaskStatus>(input);
@@ -49,6 +50,7 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 				oldRecord.Total = input.Total;
 				oldRecord.LastModificationTime = DateTime.Now;
 			}
+			//Logger.LogWarning($"AddOrUpdate task statuse: {JsonConvert.SerializeObject(input)}");
 			DbContext.SaveChanges();
 		}
 

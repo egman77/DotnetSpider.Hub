@@ -12,15 +12,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>DotnetSpider Enterprise</title>
 
-    <link rel="icon" href="~/favicon.ico" type="image/x-icon">
-    <link href="~/css/latin_cyrillic_ext.css" rel="stylesheet" type="text/css">
-    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="~/lib/node-waves/waves.css" rel="stylesheet" />
-    <link href="~/lib/animate-css/animate.css" rel="stylesheet" />
-    <link href="~/lib/morrisjs/morris.css" rel="stylesheet" />
-    <link href="~/lib/sweetalert/sweetalert.css" rel="stylesheet" />
-    <link href="~/css/style.css" rel="stylesheet">
-    <link href="~/css/themes/all-themes.css" rel="stylesheet" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" asp-append-version="true">
+    <link href="~/css/latin_cyrillic_ext.css" rel="stylesheet" type="text/css" asp-append-version="true">
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/lib/node-waves/waves.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/animate-css/animate.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/morrisjs/morris.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/sweetalert/sweetalert.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/style.css" rel="stylesheet" asp-append-version="true">
+    <link href="~/css/themes/all-themes.css" rel="stylesheet" asp-append-version="true" />
 
     <style>
         .page-mask {
@@ -528,24 +528,25 @@
         <script src="~/lib/twbs-pagination/jquery.twbsPagination.js"></script>
         <!-- Custom Js -->
         <script src="~/js/site.js"></script>
+        <script src="~/js/admin.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
-        <script src="~/lib/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-        <script src="~/lib/node-waves/waves.min.js"></script>
-        <script src="~/lib/jquery-countto/jquery.countTo.min.js"></script>
-        <script src="~/lib/vue/dist/vue.min.js"></script>
-        <script src="~/lib/sweetalert/sweetalert.min.js"></script>
-        <script src="~/lib/twbs-pagination/jquery.twbsPagination.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-slimscroll/jquery.slimscroll.min.js" asp-append-version="true"></script>
+        <script src="~/lib/node-waves/waves.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-countto/jquery.countTo.min.js" asp-append-version="true"></script>
+        <script src="~/lib/vue/dist/vue.min.js" asp-append-version="true"></script>
+        <script src="~/lib/sweetalert/sweetalert.min.js" asp-append-version="true"></script>
+        <script src="~/lib/twbs-pagination/jquery.twbsPagination.min.js" asp-append-version="true"></script>
         <!-- Custom Js -->
-        <script src="~/js/site.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/admin.min.js" asp-append-version="true"></script>
     </environment>
 
     @if (IsSectionDefined("scripts"))
     {
         @RenderSection("scripts")
     }
-    <script src="~/js/admin.js"></script>
 </body>
 </html>

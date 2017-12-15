@@ -223,12 +223,12 @@
 </div>
 @section scripts{
     <environment names="Development">
-        <script src="~/lib/bootstrap-select/js/bootstrap-select.js"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.js" asp-append-version="true"></script>
         <script src="~/lib/CronScheduler/web/js/msCron.js" asp-append-version="true"></script>
         <script src="~/js/task/index.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
-        <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+        <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js" asp-append-version="true"></script>
         <script src="~/lib/CronScheduler/web/js/msCron.js" asp-append-version="true"></script>
         <script src="~/js/task/index.min.js" asp-append-version="true"></script>
     </environment>
