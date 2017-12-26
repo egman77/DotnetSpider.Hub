@@ -161,6 +161,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new Exception("Task unfound.");
 			}
 
+			// 如果运行的命令还没有被节点消费, 则直接删除运行消息, 减少节点的消耗。
+			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && m.Name == Domain.Entities.Message.RunMessageName);
+			if (runMessage != null)
+			{
+				DbContext.Message.Remove(runMessage);
+			}
+
 			var cancelMsg = DbContext.Message.FirstOrDefault(a => a.TaskId == task.Id && a.Name == "CANCEL");
 			if (cancelMsg != null)
 			{
@@ -285,30 +292,28 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				throw new DotnetSpiderException("任务不存在");
 			}
-
 			if (task.Name.StartsWith(DotnetSpiderConsts.SystemJobPrefix))
 			{
 				return task;
 			}
-
 			if (task.IsDeleted)
 			{
 				throw new DotnetSpiderException("任务已被删除");
 			}
-
 			if (!task.IsEnabled)
 			{
 				throw new DotnetSpiderException("任务已被禁用");
-			}
-			if (task.IsDeleted)
-			{
-				throw new DotnetSpiderException("任务已被删除");
 			}
 			if (task.NodeRunningCount > 0)
 			{
 				throw new DotnetSpiderException("任务正在运行中");
 			}
 
+			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && m.Name == Domain.Entities.Message.RunMessageName);
+			if (runMessage != null)
+			{
+				throw new DotnetSpiderException("已发送运行命令");
+			}
 			if (!string.IsNullOrEmpty(task.LastIdentity))
 			{
 				var statusList = DbContext.TaskStatus.Where(a => a.Identity == task.LastIdentity);

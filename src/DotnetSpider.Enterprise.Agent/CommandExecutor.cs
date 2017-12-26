@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.IO.MemoryMappedFiles;
 using System.Text;
 using System.Threading;
 
@@ -24,7 +25,13 @@ namespace DotnetSpider.Enterprise.Agent
 
 		public static void Execute(Messsage command)
 		{
-			Logger.Info($"Consume message: {JsonConvert.SerializeObject(command)}");
+			if (command.NodeId != Config.NodeId)
+			{
+				Logger.Error($"Command error: {JsonConvert.SerializeObject(command)}.");
+				return;
+			}
+
+			Logger.Info($"Consume message: {JsonConvert.SerializeObject(command)}.");
 			lock (ExecuteLock)
 			{
 				try
@@ -69,11 +76,6 @@ namespace DotnetSpider.Enterprise.Agent
 
 		private static void Cancel(Messsage command)
 		{
-			if (command.NodeId != Config.NodeId)
-			{
-				Logger.Error($"Command error: {JsonConvert.SerializeObject(command)}.");
-				return;
-			}
 			if (!Processes.ContainsKey(command.TaskId))
 			{
 				Logger.Warn($"Task {command.TaskId} is not running.");
@@ -83,24 +85,20 @@ namespace DotnetSpider.Enterprise.Agent
 			ProcessDetail processInfo;
 			if (Processes.TryGetValue(command.TaskId, out processInfo))
 			{
-				var closeSignal = Path.Combine(processInfo.WorkingDirectory, $"{processInfo.TaskId}_close");
-				File.WriteAllText(closeSignal, "");
-
-				processInfo.Process.WaitForExit(30000);
+				var process = processInfo.Process;
+				try
+				{
+					SendExitSignal(command.TaskId.ToString(), processInfo.WorkingDirectory);
+				}
+				catch
+				{
+					//ignore
+				}
+				process.WaitForExit(30000);
 
 				try
 				{
-					processInfo.Process.Kill();
-					if (File.Exists(closeSignal))
-					{
-						try
-						{
-							File.Delete(closeSignal);
-						}
-						catch
-						{
-						}
-					}
+					process.Kill();
 				}
 				catch (NotSupportedException nse)
 				{
@@ -116,19 +114,13 @@ namespace DotnetSpider.Enterprise.Agent
 				}
 				catch (Exception e)
 				{
-					Logger.Error($"Kill task {command.TaskId} failed: {e}");
+					Logger.Error($"Kill task {command.TaskId} failed: {e}.");
 				}
 			}
 		}
 
 		private static void Run(Messsage command)
 		{
-			if (command.NodeId != Config.NodeId)
-			{
-				Logger.Error($"Command error: {JsonConvert.SerializeObject(command)}.");
-				return;
-			}
-
 			if (Processes.ContainsKey(command.TaskId))
 			{
 				Logger.Error($"Task {command.TaskId} is already running.");
@@ -201,6 +193,26 @@ namespace DotnetSpider.Enterprise.Agent
 			process.Start();
 			process.Exited += (a, b) => { onExited?.Invoke(); };
 			return process;
+		}
+
+		private static void SendExitSignal(string taskId, string workdirectory)
+		{
+			if (Config.IsRunningOnWindows)
+			{
+				var taskIdMmf = MemoryMappedFile.OpenExisting(taskId, MemoryMappedFileRights.Write);
+				if (taskIdMmf != null)
+				{
+					using (MemoryMappedViewStream stream = taskIdMmf.CreateViewStream())
+					{
+						var writer = new BinaryWriter(stream);
+						writer.Write(1);
+					}
+				}
+			}
+			else
+			{
+				File.Create(Path.Combine(workdirectory, $"{taskId}_cl"));
+			}
 		}
 	}
 }

@@ -23,6 +23,7 @@ namespace DotnetSpider.Enterprise.Agent
 		public static string NodeIdPath { get; set; }
 		public static string ProjectsDirectory { get; set; }
 		public static string PackagesDirectory { get; set; }
+		public static string ProcessesDirectory { get; set; }
 		public static bool IsRunningOnWindows { get; }
 		public static string NodeId { get; set; }
 		public static string Ip { get; set; }
@@ -57,6 +58,8 @@ namespace DotnetSpider.Enterprise.Agent
 			NodeIdPath = Path.Combine(AppContext.BaseDirectory, "nodeId");
 			ProjectsDirectory = Path.Combine(AppContext.BaseDirectory, "projects");
 			PackagesDirectory = Path.Combine(AppContext.BaseDirectory, "packages");
+			ProcessesDirectory = Path.Combine(AppContext.BaseDirectory, "proc");
+
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
 			{
 				Os = "Linux";
@@ -77,6 +80,10 @@ namespace DotnetSpider.Enterprise.Agent
 			if (!Directory.Exists(PackagesDirectory))
 			{
 				Directory.CreateDirectory(PackagesDirectory);
+			}
+			if (!Directory.Exists(ProcessesDirectory))
+			{
+				Directory.CreateDirectory(ProcessesDirectory);
 			}
 			HostName = Dns.GetHostName();
 			var interf = NetworkInterface.GetAllNetworkInterfaces().First(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet);
