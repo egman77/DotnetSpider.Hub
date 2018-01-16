@@ -14,22 +14,18 @@ namespace DotnetSpider.Enterprise.Application
 		{
 			Mapper.Initialize((config) =>
 			{
-				config.CreateMap<AddTaskInputDto, Domain.Entities.Task>();
-				config.CreateMap<Domain.Entities.Task, AddTaskInputDto>();
-				config.CreateMap<NodeHeartbeatInputDto, NodeHeartbeat>();
+				config.CreateMap<AddTaskInput, Domain.Entities.Task>();
+				config.CreateMap<Domain.Entities.Task, AddTaskInput>();
+				config.CreateMap<NodeHeartbeatInput, NodeHeartbeat>();
 				config.CreateMap<MessageHistory, Domain.Entities.Message>();
 				config.CreateMap<Domain.Entities.Message, MessageHistory>();
-				config.CreateMap<Domain.Entities.Node, NodeOutputDto>();
-				config.CreateMap<AddOrUpdateTaskStatusInputDto, Domain.Entities.TaskStatus>();
-				config.CreateMap<Domain.Entities.Task, RunningTaskOutputDto>();
-				config.CreateMap<Domain.Entities.TaskStatus, TaskStatusOutputDto>();
-				config.CreateMap<AddTaskHistoryInputDto, Domain.Entities.TaskHistory>();
-				config.CreateMap<AddMessageInputDto, Domain.Entities.Message>();
-				config.CreateMap<Domain.Entities.Message, MessageOutputDto>();
-				config.CreateMap<Domain.Entities.Task, QueryTaskOutputDto>();
-				config.CreateMap<Domain.Entities.Task, QueryTaskOutputDto>();
-				config.CreateMap<Domain.Entities.NodeHeartbeat, NodeHeartbeatDto>();
-
+				config.CreateMap<Domain.Entities.Node, NodeDto>();
+				config.CreateMap<AddOrUpdateTaskStatusInput, Domain.Entities.TaskStatus>();
+				config.CreateMap<Domain.Entities.TaskStatus, TaskStatusDto>();
+				config.CreateMap<AddTaskHistoryInput, Domain.Entities.TaskHistory>();
+				config.CreateMap<AddMessageInput, Domain.Entities.Message>();
+				config.CreateMap<Domain.Entities.Message, MessageDto>();
+				config.CreateMap<Domain.Entities.Task, TaskDto>();
 			});
 		}
 	}

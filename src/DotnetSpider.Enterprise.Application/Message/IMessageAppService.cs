@@ -5,8 +5,8 @@ namespace DotnetSpider.Enterprise.Application.Message
 {
 	public interface IMessageAppService
 	{
-		List<MessageOutputDto> QueryMessages(string nodeId);
-		void AddRange(List<AddMessageInputDto> messages);
-		void Add(AddMessageInputDto message);
+		List<MessageDto> Query(string nodeId);
+		void Add(IEnumerable<AddMessageInput> messages);
+		void Add(AddMessageInput message);
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace DotnetSpider.Enterprise.Application.TaskStatus.Dtos
 {
-	public class PagingQueryTaskStatusInputDto : PagingQueryInputDto
+	public class PaginationQueryTaskStatusInput : PaginationQueryInput
 	{
 		public string Status { get; set; }
 		public string Keyword { get; set; }

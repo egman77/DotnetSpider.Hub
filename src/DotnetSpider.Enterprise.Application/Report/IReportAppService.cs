@@ -4,6 +4,6 @@ namespace DotnetSpider.Enterprise.Application.Report
 {
 	public interface IReportAppService
 	{
-		HomePageDashboardOutputDto GetHomePageDashboard();
+		HomePageDashboardDto GetHomePageDashboard();
 	}
 }

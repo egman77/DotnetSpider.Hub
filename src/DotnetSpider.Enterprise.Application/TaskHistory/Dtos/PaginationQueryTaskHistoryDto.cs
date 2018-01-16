@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DotnetSpider.Enterprise.Application.TaskHistory.Dtos
 {
-	public class TaskHistoryOutputDto
+	public class PaginationQueryTaskHistoryDto
 	{
 		public long TaskId { get; set; }
 
@@ -11,6 +11,6 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory.Dtos
 
 		public string CreationTime { get; set; }
 
-		public List<TaskStatusOutputDto> Statuses { get; set; }
+		public List<TaskStatusDto> Statuses { get; set; }
 	}
 }

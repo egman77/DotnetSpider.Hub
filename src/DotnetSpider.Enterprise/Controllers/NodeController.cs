@@ -20,7 +20,7 @@ namespace DotnetSpider.Enterprise.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult Heartbeat([FromBody]NodeHeartbeatInputDto input)
+		public IActionResult Heartbeat([FromBody]NodeHeartbeatInput input)
 		{
 			if (ModelState.IsValid)
 			{
@@ -67,7 +67,7 @@ namespace DotnetSpider.Enterprise.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Query(PagingQueryInputDto input)
+		public IActionResult Query(PaginationQueryInput input)
 		{
 			return DataResult(_nodeAppService.Query(input));
 		}

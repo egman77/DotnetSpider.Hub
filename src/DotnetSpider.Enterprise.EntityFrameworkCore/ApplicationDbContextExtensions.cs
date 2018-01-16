@@ -8,12 +8,12 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 {
 	public static class ApplicationDbContextExtensions
 	{
-		public static PagingQueryOutputDto PageList<TEntity, TKey>(this DbSet<TEntity> dbSet, PagingQueryInputDto input,
+		public static PaginationQueryDto PageList<TEntity, TKey>(this DbSet<TEntity> dbSet, PaginationQueryInput input,
 			Expression<Func<TEntity, bool>> where = null,
 			Expression<Func<TEntity, TKey>> orderyBy = null) where TEntity : Entity<long>
 		{
 			input.Validate();
-			PagingQueryOutputDto output = new PagingQueryOutputDto();
+			PaginationQueryDto output = new PaginationQueryDto();
 			IQueryable<TEntity> entities = dbSet.AsQueryable();
 			if (where != null)
 			{

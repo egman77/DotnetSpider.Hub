@@ -2,7 +2,7 @@
 {
 	public interface IHangfireAppService
 	{
-		bool AddOrUpdateHangfireJob(string taskId, string cron);
-		void RemoveHangfireJob(string taskId);
+		bool AddOrUpdateJob(string taskId, string cron);
+		void RemoveJob(string taskId);
 	}
 }

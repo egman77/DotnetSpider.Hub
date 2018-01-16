@@ -2,7 +2,7 @@
 
 namespace DotnetSpider.Enterprise.Application.Message.Dtos
 {
-	public class MessageOutputDto
+	public class MessageDto
 	{
 		public virtual string NodeId { get; set; }
 		public virtual string Task { get; set; }

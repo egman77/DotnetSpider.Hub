@@ -28,7 +28,7 @@ namespace DotnetSpider.Enterprise.Application.Hangfire
 			});
 		}
 
-		public bool AddOrUpdateHangfireJob(string taskId, string cron)
+		public bool AddOrUpdateJob(string taskId, string cron)
 		{
 			var url = $"{Configuration.SchedulerUrl}{(Configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Job/AddOrUpdate";
 			var json = JsonConvert.SerializeObject(new HangfireJobDto
@@ -54,7 +54,7 @@ namespace DotnetSpider.Enterprise.Application.Hangfire
 			}
 		}
 
-		public void RemoveHangfireJob(string taskId)
+		public void RemoveJob(string taskId)
 		{
 			var url = $"{Configuration.SchedulerUrl}{(Configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}Job/Remove";
 			var postData = $"jobId={taskId}";

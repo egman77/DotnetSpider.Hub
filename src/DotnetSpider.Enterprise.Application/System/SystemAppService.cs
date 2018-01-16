@@ -52,7 +52,7 @@ namespace DotnetSpider.Enterprise.Application.System
 				DbContext.Task.Add(scanRunningTask);
 				DbContext.SaveChanges();
 			}
-			_hangfireAppService.AddOrUpdateHangfireJob(scanRunningTask.Id.ToString(), "0/15 * * * *");
+			_hangfireAppService.AddOrUpdateJob(scanRunningTask.Id.ToString(), "0/15 * * * *");
 		}
 
 		public void Execute(string name, string arguments)

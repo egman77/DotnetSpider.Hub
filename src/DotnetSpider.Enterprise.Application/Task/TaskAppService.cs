@@ -42,11 +42,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_nodeAppService = nodeAppService;
 		}
 
-		public PagingQueryOutputDto Query(PagingQueryTaskInputDto input)
+		public PaginationQueryDto Query(PaginationQueryTaskInput input)
 		{
-			input.Validate();
-
-			PagingQueryOutputDto result;
+			PaginationQueryDto result;
 			if (string.IsNullOrWhiteSpace(input.Keyword?.Trim()))
 			{
 				result = DbContext.Task.PageList(input, t => !t.IsDeleted, t => t.CreationTime);
@@ -56,17 +54,17 @@ namespace DotnetSpider.Enterprise.Application.Task
 				result = DbContext.Task.PageList(input, t => t.Name.Contains(input.Keyword) && !t.IsDeleted, t => t.CreationTime);
 			}
 
-			PagingQueryOutputDto output = new PagingQueryOutputDto
+			PaginationQueryDto output = new PaginationQueryDto
 			{
 				Page = result.Page,
-				Result = Mapper.Map<List<QueryTaskOutputDto>>(result.Result),
+				Result = Mapper.Map<List<TaskDto>>(result.Result),
 				Size = result.Size,
 				Total = result.Total
 			};
 			return output;
 		}
 
-		public void Add(AddTaskInputDto item)
+		public void Add(AddTaskInput item)
 		{
 			var task = Mapper.Map<Domain.Entities.Task>(item);
 
@@ -81,7 +79,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
-			if (cron != DotnetSpiderConsts.UnTriggerCron && _hangfireAppService.AddOrUpdateHangfireJob(task.Id.ToString(), cron))
+			if (cron != DotnetSpiderConsts.UnTriggerCron && _hangfireAppService.AddOrUpdateJob(task.Id.ToString(), cron))
 			{
 				task.Cron = cron;
 				DbContext.Task.Update(task);
@@ -89,7 +87,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public void Modify(ModifyTaskInputDto item)
+		public void Modify(ModifyTaskInput item)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == item.Id);
 			if (task == null)
@@ -116,11 +114,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 			if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
 			{
-				_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
+				_hangfireAppService.RemoveJob(task.Id.ToString());
 			}
 			else
 			{
-				_hangfireAppService.AddOrUpdateHangfireJob(task.Id.ToString(), string.Join(" ", task.Cron));
+				_hangfireAppService.AddOrUpdateJob(task.Id.ToString(), string.Join(" ", task.Cron));
 			}
 
 			task.IsEnabled = item.IsEnabled;
@@ -184,7 +182,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
 			{
-				_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
+				_hangfireAppService.RemoveJob(task.Id.ToString());
 				task.IsDeleted = true;
 				DbContext.SaveChanges();
 				Logger.LogInformation($"Remove task {taskId}.");
@@ -200,7 +198,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 			task.IsEnabled = false;
 
-			_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
+			_hangfireAppService.RemoveJob(task.Id.ToString());
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
 			Logger.LogInformation($"Disable task {taskId}.");
@@ -214,7 +212,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new DotnetSpiderException("任务不存在!");
 			}
 			task.IsEnabled = true;
-			if (_hangfireAppService.AddOrUpdateHangfireJob(task.Id.ToString(), task.Cron))
+			if (_hangfireAppService.AddOrUpdateJob(task.Id.ToString(), task.Cron))
 			{
 				DbContext.Task.Update(task);
 				DbContext.SaveChanges();
@@ -222,7 +220,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public void IncreaseRunning(TaskIdInputDto input)
+		public void IncreaseRunning(TaskIdInput input)
 		{
 			if (IsAuth())
 			{
@@ -233,7 +231,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				}
 				task.NodeRunningCount += 1;
 				DbContext.SaveChanges();
-				Logger.LogInformation($"IncreaseRunning task {JsonConvert.SerializeObject(input)}.");
+				Logger.LogInformation($"IncreaseRunning task { input.TaskId}.");
 			}
 			else
 			{
@@ -241,33 +239,40 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public void ReduceRunning(TaskIdInputDto input)
+		public void ReduceRunning(TaskIdInput input)
 		{
-			var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
-			if (task == null)
+			if (IsAuth())
 			{
-				throw new DotnetSpiderException("任务不存在!");
+				var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
+				if (task == null)
+				{
+					throw new DotnetSpiderException("任务不存在!");
+				}
+				if (task.NodeRunningCount > 0)
+				{
+					task.NodeRunningCount -= 1;
+				}
+				if (task.NodeRunningCount == 0)
+				{
+					task.IsRunning = false;
+				}
+				Logger.LogInformation($"ReduceRunning task { input.TaskId}.");
+				DbContext.SaveChanges();
 			}
-			if (task.NodeRunningCount > 0)
+			else
 			{
-				task.NodeRunningCount -= 1;
+				throw new DotnetSpiderException("Access Denied.");
 			}
-			if (task.NodeRunningCount == 0)
-			{
-				task.IsRunning = false;
-			}
-			Logger.LogInformation($"ReduceRunning task {JsonConvert.SerializeObject(input)}.");
-			DbContext.SaveChanges();
 		}
 
-		public PagingQueryOutputDto QueryRunning(PagingQueryInputDto input)
+		public PaginationQueryDto QueryRunning(PaginationQueryInput input)
 		{
-			PagingQueryOutputDto output = DbContext.Task.PageList(input, d => d.IsRunning, d => d.Id);
-			output.Result = Mapper.Map<List<RunningTaskOutputDto>>(output.Result);
+			PaginationQueryDto output = DbContext.Task.PageList(input, d => d.IsRunning, d => d.Id);
+			output.Result = Mapper.Map<List<TaskDto>>(output.Result);
 			return output;
 		}
 
-		public AddTaskInputDto Get(long taskId)
+		public AddTaskInput Get(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -275,7 +280,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new DotnetSpiderException("任务不存在.");
 			}
 
-			return Mapper.Map<AddTaskInputDto>(task);
+			return Mapper.Map<AddTaskInput>(task);
 		}
 
 		/// <summary>
@@ -338,11 +343,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 
 			var identity = Guid.NewGuid().ToString("N");
-			var messages = new List<AddMessageInputDto>();
+			var messages = new List<AddMessageInput>();
 			foreach (var node in nodes)
 			{
 				var arguments = string.Concat(task.Arguments, task.IsSingle ? " -tid:" : " ", task.Id, task.IsSingle ? " -i:" : " ", identity);
-				var msg = new AddMessageInputDto
+				var msg = new AddMessageInput
 				{
 					TaskId = task.Id,
 					ApplicationName = task.ApplicationName,
@@ -353,9 +358,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 				};
 				messages.Add(msg);
 			}
-			_messageAppService.AddRange(messages);
+			_messageAppService.Add(messages);
 
-			var taskHistory = new AddTaskHistoryInputDto
+			var taskHistory = new AddTaskHistoryInput
 			{
 				Identity = identity,
 				NodeIds = string.Join("|", nodes.Select(a => a.NodeId)),
@@ -371,11 +376,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
 				{
-					_hangfireAppService.RemoveHangfireJob(task.Id.ToString());
+					_hangfireAppService.RemoveJob(task.Id.ToString());
 				}
 				else
 				{
-					_hangfireAppService.AddOrUpdateHangfireJob(task.Id.ToString(), string.Join(" ", task.Cron));
+					_hangfireAppService.AddOrUpdateJob(task.Id.ToString(), string.Join(" ", task.Cron));
 				}
 			}
 		}

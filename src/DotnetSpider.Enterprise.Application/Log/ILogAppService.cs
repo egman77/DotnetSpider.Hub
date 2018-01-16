@@ -1,13 +1,12 @@
 ﻿using DotnetSpider.Enterprise.Application.Log.Dto;
-using DotnetSpider.Enterprise.Application.Task.Dtos;
 
 namespace DotnetSpider.Enterprise.Application.Log
 {
 	public interface ILogAppService
 	{
-		void Sumit(LogInputDto input);
+		void Add(AddLogInput input);
 
-		PagingLogOutDto Query(PagingLogInputDto input);
+		PaginationQueryLogDto Query(PaginationQueryLogInput input);
 
 		void Clear();
 	}

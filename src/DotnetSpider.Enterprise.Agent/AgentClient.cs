@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DotnetSpider.Enterprise.Agent.Command;
+using DotnetSpider.Enterprise.Agent.Process;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using NLog;
 using NLog.Config;
@@ -18,32 +20,30 @@ using System.Threading.Tasks;
 
 namespace DotnetSpider.Enterprise.Agent
 {
-	public class AgentClient
+	public class AgentClient : IDisposable
 	{
 		private static ILogger Logger;
 		private Task _task;
 		private int step = 0;
-		private bool _exit;
-		private FileStream _lockFileStream;
-		private readonly Ping Ping = new Ping();
+		private FileStream _singletonLock;
+		private readonly Ping _ping = new Ping();
+
+		public bool HasExited { get; private set; }
 
 		public AgentClient()
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
-				Console.Title = $"DotnetSpider Agent v{Config.Version}";
+				Console.Title = $"DotnetSpider Agent v{Env.Version}";
 			}
 		}
 
 		public void Run(params string[] args)
 		{
-			CheckIfOtherProcessExists();
-			_lockFileStream = File.Create(Config.RunningLockPath);
-
+			CheckIfOtherProcessIsRunning();
 			CheckConfig();
 			LoadConfig();
 			MonitorErrorDialogOnWindows();
-			CommandExecutor.OnExited += CommandExecutor_OnExited;
 			if (args.Contains("--daemon"))
 			{
 				Start();
@@ -56,17 +56,34 @@ namespace DotnetSpider.Enterprise.Agent
 				{
 					Console.WriteLine("Press q: to exit.");
 				}
-				CommandExecutor.Exit();
+				CommandExecutor.Execute(new Messsage { Name = CommandNames.ExitName }, this);
 			}
 		}
 
-		private void CheckIfOtherProcessExists()
+		public void Dispose()
 		{
-			if (File.Exists(Config.RunningLockPath))
+			HasExited = true;
+			_task?.Wait();
+
+			_singletonLock?.Dispose();
+
+			try
+			{
+				File.Delete(Env.RunningLockPath);
+			}
+			catch (Exception e)
+			{
+				Logger.Info($"Delete process lock failed: {e}");
+			}
+		}
+
+		private void CheckIfOtherProcessIsRunning()
+		{
+			if (File.Exists(Env.RunningLockPath))
 			{
 				try
 				{
-					File.Delete(Config.RunningLockPath);
+					File.Delete(Env.RunningLockPath);
 				}
 				catch (Exception)
 				{
@@ -75,6 +92,7 @@ namespace DotnetSpider.Enterprise.Agent
 					Environment.Exit(1);
 				}
 			}
+			_singletonLock = File.Create(Env.RunningLockPath);
 		}
 
 		/// <summary>
@@ -107,7 +125,7 @@ namespace DotnetSpider.Enterprise.Agent
 			string nlogConfigPath = Path.Combine(AppContext.BaseDirectory, "nlog.config");
 			LogManager.Configuration = new XmlLoggingConfiguration(nlogConfigPath);
 
-			Config.Load();
+			Env.Load();
 
 			Logger.Info($"[{++step}] Load configuration success.");
 		}
@@ -117,13 +135,13 @@ namespace DotnetSpider.Enterprise.Agent
 		/// </summary>
 		private void Start()
 		{
-			while (!_exit)
+			while (!HasExited)
 			{
 				if (IsInternetOk())
 				{
 					Heartbeat();
 				}
-				Thread.Sleep(Config.HeartbeatInterval);
+				Thread.Sleep(Env.HeartbeatInterval);
 			}
 		}
 
@@ -141,11 +159,11 @@ namespace DotnetSpider.Enterprise.Agent
 			{
 				var hearbeat = HeartBeat.Create();
 				var json = JsonConvert.SerializeObject(hearbeat);
-				HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, Config.HeartbeatUrl);
-				httpRequestMessage.Headers.Add("DotnetSpiderToken", Config.ApiToken);
+				HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, Env.HeartbeatUrl);
+				httpRequestMessage.Headers.Add("DotnetSpiderToken", Env.ApiToken);
 				httpRequestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
-				await Config.HttpClient.SendAsync(httpRequestMessage).ContinueWith((task) =>
+				await Env.HttpClient.SendAsync(httpRequestMessage).ContinueWith((task) =>
 				{
 					HttpResponseMessage response = task.Result;
 					response.EnsureSuccessStatusCode();
@@ -155,7 +173,7 @@ namespace DotnetSpider.Enterprise.Agent
 						var commands = JsonConvert.DeserializeObject<Messsage[]>(result);
 						foreach (var command in commands)
 						{
-							CommandExecutor.Execute(command);
+							CommandExecutor.Execute(command, this);
 						}
 					}
 				});
@@ -168,36 +186,19 @@ namespace DotnetSpider.Enterprise.Agent
 			}
 		}
 
-		private void CommandExecutor_OnExited()
-		{
-			_exit = true;
-			_task?.Wait();
-
-			_lockFileStream?.Dispose();
-
-			try
-			{
-				File.Delete(Config.RunningLockPath);
-			}
-			catch (Exception e)
-			{
-				Logger.Info($"Delete process lock failed: {e}");
-			}
-		}
-
 		private void MonitorErrorDialogOnWindows()
 		{
-			if (Config.IsRunningOnWindows)
+			if (Env.IsRunningOnWindows)
 			{
 				Logger.Info($"[{++step}] Start monitor error dialog.");
 
 				Task.Factory.StartNew(() =>
 				{
-					while (!_exit)
+					while (!HasExited)
 					{
 						try
 						{
-							var errorDialogs = Process.GetProcessesByName("WerFault");
+							var errorDialogs = System.Diagnostics.Process.GetProcessesByName("WerFault");
 							foreach (var errorDialog in errorDialogs)
 							{
 								errorDialog.Kill();
@@ -217,7 +218,7 @@ namespace DotnetSpider.Enterprise.Agent
 		{
 			try
 			{
-				PingReply pr = Ping.Send("www.baidu.com", 5000);
+				PingReply pr = _ping.Send("www.baidu.com", 5000);
 
 				return (pr != null && pr.Status == IPStatus.Success);
 			}

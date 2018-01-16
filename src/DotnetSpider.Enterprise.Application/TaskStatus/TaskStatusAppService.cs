@@ -22,7 +22,7 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 		{
 		}
 
-		public void AddOrUpdate(AddOrUpdateTaskStatusInputDto input)
+		public void AddOrUpdate(AddOrUpdateTaskStatusInput input)
 		{
 			if (!IsAuth())
 			{
@@ -54,11 +54,9 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 			DbContext.SaveChanges();
 		}
 
-		public PagingQueryOutputDto Query(PagingQueryTaskStatusInputDto input)
+		public PaginationQueryDto Query(PaginationQueryTaskStatusInput input)
 		{
-			input.Validate();
-
-			PagingQueryOutputDto output;
+			PaginationQueryDto output;
 			Expression<Func<Domain.Entities.TaskStatus, bool>> where = null;
 			var status = input.Status?.ToLower().Trim();
 			List<Domain.Entities.Task> tasks;
@@ -90,12 +88,12 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 				output = DbContext.TaskStatus.PageList(input, where, d => d.Id);
 				taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
 			}
-			var taskStatusOutputs = new List<TaskStatusOutputDto>();
+			var taskStatusOutputs = new List<TaskStatusDto>();
 
 			taskIds = taskStatuses.Select(t => t.TaskId).ToList();
 			foreach (var taskStatus in taskStatuses)
 			{
-				var taskStatusOutput = new TaskStatusOutputDto();
+				var taskStatusOutput = new TaskStatusDto();
 				taskStatusOutput.Name = tasks.FirstOrDefault(t => t.Id == taskStatus.TaskId)?.Name;
 				taskStatusOutput.AvgDownloadSpeed = taskStatus.AvgDownloadSpeed;
 				taskStatusOutput.AvgPipelineSpeed = taskStatus.AvgDownloadSpeed;

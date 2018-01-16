@@ -5,9 +5,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 {
 	public interface ITaskAppService
 	{
-		PagingQueryOutputDto Query(PagingQueryTaskInputDto input);
-		void Add(AddTaskInputDto item);
-		void Modify(ModifyTaskInputDto item);
+		PaginationQueryDto Query(PaginationQueryTaskInput input);
+		void Add(AddTaskInput item);
+		void Modify(ModifyTaskInput item);
 
 		void Run(long taskId);
 		void Exit(long taskId);
@@ -16,11 +16,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 		void Disable(long taskId);
 		void Enable(long taskId);
 
-		void IncreaseRunning(TaskIdInputDto input);
-		void ReduceRunning(TaskIdInputDto input);
+		void IncreaseRunning(TaskIdInput input);
+		void ReduceRunning(TaskIdInput input);
 
-		PagingQueryOutputDto QueryRunning(PagingQueryInputDto input);
-		AddTaskInputDto Get(long taskId);
+		PaginationQueryDto QueryRunning(PaginationQueryInput input);
+		AddTaskInput Get(long taskId);
 		void UpgradeScheduler();
 	}
 }

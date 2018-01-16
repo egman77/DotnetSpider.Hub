@@ -21,7 +21,7 @@ namespace DotnetSpider.Enterprise.Application.Log
 		{
 		}
 
-		public async void Sumit(LogInputDto input)
+		public async void Add(AddLogInput input)
 		{
 			if (input == null)
 			{
@@ -42,13 +42,13 @@ namespace DotnetSpider.Enterprise.Application.Log
 			throw new DotnetSpiderException("Access Denied.");
 		}
 
-		public PagingLogOutDto Query(PagingLogInputDto input)
+		public PaginationQueryLogDto Query(PaginationQueryLogInput input)
 		{
 			var client = new MongoClient(Configuration.LogMongoConnectionString);
 			var database = client.GetDatabase("dotnetspider");
 			var collection = database.GetCollection<BsonDocument>(input.Identity);
 
-			var result = new PagingLogOutDto
+			var result = new PaginationQueryLogDto
 			{
 				Page = input.Page,
 				Size = input.Size,

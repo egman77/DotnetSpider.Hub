@@ -50,21 +50,21 @@ namespace DotnetSpider.Enterprise.Application.Node
 			}
 		}
 
-		public List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input)
+		public List<MessageDto> Heartbeat(NodeHeartbeatInput input)
 		{
 			if (IsAuth())
 			{
 				AddHeartbeat(input);
 				RefreshOnlineStatus(input);
 				DbContext.SaveChanges();
-				return _messageAppService.QueryMessages(input.NodeId);
+				return _messageAppService.Query(input.NodeId);
 			}
 			throw new DotnetSpiderException("Access Denied.");
 		}
 
-		public PagingQueryOutputDto Query(PagingQueryInputDto input)
+		public PaginationQueryDto Query(PaginationQueryInput input)
 		{
-			PagingQueryOutputDto output = new PagingQueryOutputDto();
+			PaginationQueryDto output = new PaginationQueryDto();
 			switch (input.SortKey)
 			{
 				case "enable":
@@ -88,12 +88,12 @@ namespace DotnetSpider.Enterprise.Application.Node
 						break;
 					}
 			}
-			List<NodeOutputDto> nodeOutputs = new List<NodeOutputDto>();
+			List<NodeDto> nodeOutputs = new List<NodeDto>();
 			var nodes = output.Result as List<Domain.Entities.Node>;
 
 			foreach (var node in nodes)
 			{
-				var nodeOutput = new NodeOutputDto();
+				var nodeOutput = new NodeDto();
 				nodeOutput.CreationTime = node.CreationTime;
 				nodeOutput.IsEnable = node.IsEnable;
 				nodeOutput.NodeId = node.NodeId;
@@ -130,7 +130,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			return output;
 		}
 
-		public List<NodeOutputDto> GetAvailable(string os, int type, int nodeCount)
+		public List<NodeDto> GetAvailable(string os, int type, int nodeCount)
 		{
 			List<Domain.Entities.Node> nodes = null;
 			var compareTime = DateTime.Now.AddSeconds(-60);
@@ -156,7 +156,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			if (availableNodes.Count == 0)
 			{
 				// TODO SEND REPORT
-				return new List<NodeOutputDto>();
+				return new List<NodeDto>();
 			}
 			else
 			{
@@ -169,11 +169,11 @@ namespace DotnetSpider.Enterprise.Application.Node
 						newList.Insert(random.Next(newList.Count), item);
 					}
 
-					return Mapper.Map<List<NodeOutputDto>>(newList.Take(nodeCount));
+					return Mapper.Map<List<NodeDto>>(newList.Take(nodeCount));
 				}
 				else
 				{
-					return Mapper.Map<List<NodeOutputDto>>(availableNodes);
+					return Mapper.Map<List<NodeDto>>(availableNodes);
 				}
 			}
 		}
@@ -184,13 +184,13 @@ namespace DotnetSpider.Enterprise.Application.Node
 			return value.TotalSeconds < 60;
 		}
 
-		private void AddHeartbeat(NodeHeartbeatInputDto input)
+		private void AddHeartbeat(NodeHeartbeatInput input)
 		{
 			var heartbeat = Mapper.Map<NodeHeartbeat>(input);
 			DbContext.NodeHeartbeat.Add(heartbeat);
 		}
 
-		private void RefreshOnlineStatus(NodeHeartbeatInputDto input)
+		private void RefreshOnlineStatus(NodeHeartbeatInput input)
 		{
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == input.NodeId);
 			if (node != null)
@@ -214,11 +214,11 @@ namespace DotnetSpider.Enterprise.Application.Node
 			}
 		}
 
-		public List<NodeOutputDto> GetAllOnline()
+		public List<NodeDto> GetAllOnline()
 		{
 			var compareTime = DateTime.Now.AddSeconds(-60);
 			var nodes = DbContext.Node.Where(a => a.IsOnline && a.LastModificationTime > compareTime).ToList();
-			return Mapper.Map<List<NodeOutputDto>>(nodes);
+			return Mapper.Map<List<NodeDto>>(nodes);
 		}
 
 		public int GetOnlineNodeCount()
@@ -229,7 +229,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public void Exit(string nodeId)
 		{
-			var message = new AddMessageInputDto
+			var message = new AddMessageInput
 			{
 				ApplicationName = "NULL",
 				Name = Domain.Entities.Message.ExitMessageName,

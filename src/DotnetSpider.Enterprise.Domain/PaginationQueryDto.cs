@@ -1,6 +1,6 @@
 ﻿namespace DotnetSpider.Enterprise.Domain
 {
-	public class PagingQueryOutputDto
+	public class PaginationQueryDto
 	{
 		public virtual long Total { get; set; }
 		public virtual int Page { get; set; }

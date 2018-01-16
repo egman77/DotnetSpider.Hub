@@ -29,14 +29,14 @@ namespace DotnetSpider.Enterprise.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult Submit([FromBody] LogInputDto input)
+		public IActionResult Submit([FromBody] AddLogInput input)
 		{
-			_logAppService.Sumit(input);
+			_logAppService.Add(input);
 			return Success();
 		}
 
 		[HttpPost]
-		public IActionResult Query(PagingLogInputDto input)
+		public IActionResult Query(PaginationQueryLogInput input)
 		{
 			return DataResult(_logAppService.Query(input));
 		}

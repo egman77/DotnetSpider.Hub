@@ -2,7 +2,7 @@
 
 namespace DotnetSpider.Enterprise.Application.Node.Dto
 {
-	public class NodeOutputDto
+	public class NodeDto
 	{
 		public virtual string NodeId { get; set; }
 		public virtual bool IsEnable { get; set; }

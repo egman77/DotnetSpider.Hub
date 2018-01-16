@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DotnetSpider.Enterprise.Application.TaskHistory.Dtos
 {
-	public class PagingQueryTaskHistoryInputDto : PagingQueryTaskInputDto
+	public class PaginationQueryTaskHistoryInput : PaginationQueryTaskInput
 	{
 		[Required]
 		public long TaskId { get; set; }

@@ -2,7 +2,7 @@
 
 namespace DotnetSpider.Enterprise.Application.Task.Dtos
 {
-	public class ModifyTaskInputDto
+	public class ModifyTaskInput
 	{
 		[Required]
 		public long Id { get; set; }

@@ -24,7 +24,7 @@ namespace DotnetSpider.Enterprise.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Query(PagingQueryTaskHistoryInputDto input)
+		public IActionResult Query(PaginationQueryTaskHistoryInput input)
 		{
 			input.Sort = "desc";
 			return DataResult(_taskHistoryAppService.Query(input));

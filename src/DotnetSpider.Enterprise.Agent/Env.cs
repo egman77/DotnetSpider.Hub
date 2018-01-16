@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace DotnetSpider.Enterprise.Agent
 {
-	public class Config
+	public class Env
 	{
 		private static IConfigurationRoot _configuration;
 
@@ -50,7 +50,7 @@ namespace DotnetSpider.Enterprise.Agent
 			_configuration = configuration;
 		}
 
-		static Config()
+		static Env()
 		{
 			IsRunningOnWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 

@@ -9,10 +9,10 @@ namespace DotnetSpider.Enterprise.Application.Node
 	{
 		void Enable(string nodeId);
 		void Disable(string nodeId);
-		List<MessageOutputDto> Heartbeat(NodeHeartbeatInputDto input);
-		PagingQueryOutputDto Query(PagingQueryInputDto input);
-		List<NodeOutputDto> GetAvailable(string os, int type, int nodeCount);
-		List<NodeOutputDto> GetAllOnline();
+		List<MessageDto> Heartbeat(NodeHeartbeatInput input);
+		PaginationQueryDto Query(PaginationQueryInput input);
+		List<NodeDto> GetAvailable(string os, int type, int nodeCount);
+		List<NodeDto> GetAllOnline();
 		void Exit(string nodeId);
 		void Remove(string nodeId);
 		int GetOnlineNodeCount();

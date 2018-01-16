@@ -25,7 +25,7 @@ namespace DotnetSpider.Enterprise.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Query(PagingQueryTaskStatusInputDto input)
+		public IActionResult Query(PaginationQueryTaskStatusInput input)
 		{
 			input.Sort = "desc";
 			return DataResult(_taskStatusAppService.Query(input));
@@ -33,7 +33,7 @@ namespace DotnetSpider.Enterprise.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult AddOrUpdate([FromBody]AddOrUpdateTaskStatusInputDto input)
+		public IActionResult AddOrUpdate([FromBody]AddOrUpdateTaskStatusInput input)
 		{
 			if (input == null)
 			{

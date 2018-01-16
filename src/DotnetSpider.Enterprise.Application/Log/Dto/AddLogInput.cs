@@ -2,7 +2,7 @@
 
 namespace DotnetSpider.Enterprise.Application.Log.Dto
 {
-	public class LogInputDto
+	public class AddLogInput
 	{
 		[Required]
 		public string Token { get; set; }

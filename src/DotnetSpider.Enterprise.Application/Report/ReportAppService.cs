@@ -23,9 +23,9 @@ namespace DotnetSpider.Enterprise.Application.Report
 			_nodeAppService = nodeAppService;
 		}
 
-		public HomePageDashboardOutputDto GetHomePageDashboard()
+		public HomePageDashboardDto GetHomePageDashboard()
 		{
-			HomePageDashboardOutputDto output = new HomePageDashboardOutputDto();
+			HomePageDashboardDto output = new HomePageDashboardDto();
 			var client = new MongoClient(Configuration.LogMongoConnectionString);
 
 			var database = client.GetDatabase("dotnetspider");
@@ -34,7 +34,7 @@ namespace DotnetSpider.Enterprise.Application.Report
 			var result = database.RunCommand<BsonDocument>(command);
 			var storageSize = result.GetValue("storageSize").ToInt64();
 
-			var nodes = _nodeAppService.Query(new PagingQueryInputDto { Page = 1, Size = 10 });
+			var nodes = _nodeAppService.Query(new PaginationQueryInput { Page = 1, Size = 10 });
 			output.NodeTotalCount = (int)nodes.Total;
 			output.NodeOnlineCount = _nodeAppService.GetOnlineNodeCount();
 			output.Nodes = nodes.Result;

@@ -1,6 +1,6 @@
 ﻿namespace DotnetSpider.Enterprise.Application.TaskStatus.Dtos
 {
-	public class AddOrUpdateTaskStatusInputDto
+	public class AddOrUpdateTaskStatusInput
 	{
 		public virtual long TaskId { get; set; }
 		public virtual string Identity { get; set; }

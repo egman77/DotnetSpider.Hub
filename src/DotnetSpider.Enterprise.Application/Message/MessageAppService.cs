@@ -20,7 +20,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 		{
 		}
 
-		public void Add(AddMessageInputDto input)
+		public void Add(AddMessageInput input)
 		{
 			var message = Mapper.Map<Domain.Entities.Message>(input);
 			DbContext.Message.Add(message);
@@ -28,7 +28,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 			Logger.LogWarning($"Add message {input}.");
 		}
 
-		public void AddRange(List<AddMessageInputDto> input)
+		public void Add(IEnumerable<AddMessageInput> input)
 		{
 			var messages = Mapper.Map<List<Domain.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
@@ -36,7 +36,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 			Logger.LogWarning($"Add messages {input}.");
 		}
 
-		public List<MessageOutputDto> QueryMessages(string nodeId)
+		public List<MessageDto> Query(string nodeId)
 		{
 			var messages = DbContext.Message.Where(m => m.NodeId == nodeId).ToList();
 			var messageHistories = Mapper.Map<List<MessageHistory>>(messages);
@@ -51,7 +51,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 			{
 				Logger.LogWarning($"Consume message: {JsonConvert.SerializeObject(message)}.");
 			}
-			return Mapper.Map<List<MessageOutputDto>>(messages);
+			return Mapper.Map<List<MessageDto>>(messages);
 		}
 	}
 }

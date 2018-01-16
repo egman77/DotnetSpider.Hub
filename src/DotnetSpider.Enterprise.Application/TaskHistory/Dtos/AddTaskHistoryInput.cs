@@ -2,7 +2,7 @@
 
 namespace DotnetSpider.Enterprise.Application.TaskHistory.Dtos
 {
-	public class AddTaskHistoryInputDto
+	public class AddTaskHistoryInput
 	{
 		[Required]
 		public virtual long TaskId { get; set; }

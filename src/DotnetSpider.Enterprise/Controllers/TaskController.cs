@@ -40,7 +40,7 @@ namespace DotnetSpider.Enterprise.Controllers
 		#region API
 
 		[HttpPost]
-		public IActionResult Running(PagingQueryInputDto input)
+		public IActionResult Running(PaginationQueryInput input)
 		{
 			return DataResult(_taskAppService.QueryRunning(input));
 		}
@@ -54,7 +54,7 @@ namespace DotnetSpider.Enterprise.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Query(PagingQueryTaskInputDto input)
+		public IActionResult Query(PaginationQueryTaskInput input)
 		{
 			input.Sort = "desc";
 			var result = _taskAppService.Query(input);
@@ -62,7 +62,7 @@ namespace DotnetSpider.Enterprise.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Add(AddTaskInputDto item)
+		public IActionResult Add(AddTaskInput item)
 		{
 			if (ModelState.IsValid)
 			{
@@ -76,7 +76,7 @@ namespace DotnetSpider.Enterprise.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Modify(ModifyTaskInputDto item)
+		public IActionResult Modify(ModifyTaskInput item)
 		{
 			if (ModelState.IsValid)
 			{
@@ -126,7 +126,7 @@ namespace DotnetSpider.Enterprise.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult IncreaseRunning([FromBody]TaskIdInputDto input)
+		public IActionResult IncreaseRunning([FromBody]TaskIdInput input)
 		{
 			_taskAppService.IncreaseRunning(input);
 			return Success();
@@ -134,7 +134,7 @@ namespace DotnetSpider.Enterprise.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult ReduceRunning([FromBody]TaskIdInputDto input)
+		public IActionResult ReduceRunning([FromBody]TaskIdInput input)
 		{
 			_taskAppService.ReduceRunning(input);
 			return Success();

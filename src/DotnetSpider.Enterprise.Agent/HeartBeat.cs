@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotnetSpider.Enterprise.Agent.Process;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -39,17 +40,17 @@ namespace DotnetSpider.Enterprise.Agent
 		{
 			var heartBeat = new HeartBeat
 			{
-				NodeId = Config.NodeId,
-				Ip = Config.Ip,
+				NodeId = Env.NodeId,
+				Ip = Env.Ip,
 				CPULoad = Convert.ToInt32(GetCpuLoad()),
-				Os = Config.Os,
-				Version = Config.Version,
+				Os = Env.Os,
+				Version = Env.Version,
 				CPUCoreCount = Environment.ProcessorCount,
-				Type = Config.NodeType,
-				ProcessCount = CommandExecutor.ProcessCount
+				Type = Env.NodeType,
+				ProcessCount = ProcessManager.ProcessCount
 			};
 
-			if (Config.IsRunningOnWindows)
+			if (Env.IsRunningOnWindows)
 			{
 				MEMORYSTATUS mStatus = new MEMORYSTATUS();
 				GlobalMemoryStatus(ref mStatus);
@@ -80,7 +81,7 @@ namespace DotnetSpider.Enterprise.Agent
 
 		private static decimal GetCpuLoad()
 		{
-			if (Config.IsRunningOnWindows)
+			if (Env.IsRunningOnWindows)
 			{
 				if (!IsServer2008)
 				{
@@ -95,7 +96,7 @@ namespace DotnetSpider.Enterprise.Agent
 				}
 				else
 				{
-					Process process = new Process
+					var process = new System.Diagnostics.Process
 					{
 						StartInfo =
 						{

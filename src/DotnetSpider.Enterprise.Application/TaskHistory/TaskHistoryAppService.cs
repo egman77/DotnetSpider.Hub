@@ -19,18 +19,16 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 		{
 		}
 
-		public void Add(AddTaskHistoryInputDto input)
+		public void Add(AddTaskHistoryInput input)
 		{
 			var taskHistory = Mapper.Map<Domain.Entities.TaskHistory>(input);
 			DbContext.TaskHistory.Add(taskHistory);
 			DbContext.SaveChanges();
 		}
 
-		public PagingQueryOutputDto Query(PagingQueryTaskHistoryInputDto input)
+		public PaginationQueryDto Query(PaginationQueryTaskHistoryInput input)
 		{
-			input.Validate();
-
-			var output = new PagingQueryOutputDto
+			var output = new PaginationQueryDto
 			{
 				Page = input.Page,
 				Size = input.Size
@@ -51,12 +49,12 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 				statuses = new List<Domain.Entities.TaskStatus>(0);
 			}
 
-			var result = new List<TaskHistoryOutputDto>(taskHistories.Count);
-			var statusOutputs = Mapper.Map<List<TaskStatusOutputDto>>(statuses);
+			var result = new List<PaginationQueryTaskHistoryDto>(taskHistories.Count);
+			var statusOutputs = Mapper.Map<List<TaskStatusDto>>(statuses);
 
 			foreach (var item in taskHistories)
 			{
-				result.Add(new TaskHistoryOutputDto
+				result.Add(new PaginationQueryTaskHistoryDto
 				{
 					Identity = item.Identity,
 					TaskId = input.TaskId,
