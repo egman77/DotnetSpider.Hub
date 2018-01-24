@@ -1,11 +1,11 @@
 ﻿using DotnetSpider.Enterprise.Application;
 using DotnetSpider.Enterprise.Application.AuthMessage;
-using DotnetSpider.Enterprise.Application.Hangfire;
 using DotnetSpider.Enterprise.Application.Log;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Pipeline;
 using DotnetSpider.Enterprise.Application.Report;
+using DotnetSpider.Enterprise.Application.Scheduler;
 using DotnetSpider.Enterprise.Application.System;
 using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Application.TaskHistory;
@@ -38,7 +38,7 @@ namespace DotnetSpider.Enterprise
 			services.AddScoped<ITaskHistoryAppService, TaskHistoryAppService>();
 			services.AddScoped<IReportAppService, ReportAppService>();
 			services.AddScoped<IPipelineAppService, PipelineAppService>();
-			services.AddScoped<IHangfireAppService, HangfireAppService>();
+			services.AddScoped<ISchedulerAppService, SchedulerAppService>();
 			services.AddScoped<ISystemAppService, SystemAppService>();
 
 		}

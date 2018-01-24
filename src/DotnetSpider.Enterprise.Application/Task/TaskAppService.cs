@@ -16,8 +16,7 @@ using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using DotnetSpider.Enterprise.Application.System;
-using DotnetSpider.Enterprise.Application.Hangfire;
-using Newtonsoft.Json;
+using DotnetSpider.Enterprise.Application.Scheduler;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -27,9 +26,9 @@ namespace DotnetSpider.Enterprise.Application.Task
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
 		private readonly ISystemAppService _systemAppService;
-		private readonly IHangfireAppService _hangfireAppService;
+		private readonly ISchedulerAppService _hangfireAppService;
 
-		public TaskAppService(IHangfireAppService hangfireAppService, ISystemAppService systemAppService,
+		public TaskAppService(ISchedulerAppService hangfireAppService, ISystemAppService systemAppService,
 			ITaskHistoryAppService taskHistoryAppService,
 			IMessageAppService messageAppService,
 			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager,
@@ -44,91 +43,100 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public PaginationQueryDto Query(PaginationQueryTaskInput input)
 		{
-			PaginationQueryDto result;
+			if (input == null)
+			{
+				throw new ArgumentNullException($"{nameof(input)} should not be null.");
+			}
+			PaginationQueryDto output;
 			if (string.IsNullOrWhiteSpace(input.Keyword?.Trim()))
 			{
-				result = DbContext.Task.PageList(input, t => !t.IsDeleted, t => t.CreationTime);
+				output = DbContext.Task.PageList(input, t => !t.IsDeleted, t => t.CreationTime);
 			}
 			else
 			{
-				result = DbContext.Task.PageList(input, t => t.Name.Contains(input.Keyword) && !t.IsDeleted, t => t.CreationTime);
+				output = DbContext.Task.PageList(input, t => t.Name.Contains(input.Keyword) && !t.IsDeleted, t => t.CreationTime);
 			}
-
-			PaginationQueryDto output = new PaginationQueryDto
-			{
-				Page = result.Page,
-				Result = Mapper.Map<List<TaskDto>>(result.Result),
-				Size = result.Size,
-				Total = result.Total
-			};
+			output.Result = Mapper.Map<List<TaskDto>>(output.Result);
 			return output;
 		}
 
-		public void Add(AddTaskInput item)
+		public void Add(AddTaskInput input)
 		{
-			var task = Mapper.Map<Domain.Entities.Task>(item);
+			if (input == null)
+			{
+				Logger.LogError($"{nameof(input)} should not be null.");
+				return;
+			}
+			var task = Mapper.Map<Domain.Entities.Task>(input);
 
-			item.ApplicationName = item.ApplicationName.Trim();
-			item.Arguments = item.Arguments?.Trim();
-			item.Cron = item.Cron.Trim();
-			item.Version = item.Version.Trim();
-			item.Name = item.Name.Trim();
+			input.ApplicationName = input.ApplicationName.Trim();
+			input.Arguments = input.Arguments?.Trim();
+			input.Cron = input.Cron.Trim();
+			input.Version = input.Version.Trim();
+			input.Name = input.Name.Trim();
 
 			var cron = task.Cron;
 			task.Cron = DotnetSpiderConsts.UnTriggerCron;
 			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
-			if (cron != DotnetSpiderConsts.UnTriggerCron && _hangfireAppService.AddOrUpdateJob(task.Id.ToString(), cron))
+			if (cron != DotnetSpiderConsts.UnTriggerCron)
 			{
+				_hangfireAppService.Create(task.Id.ToString(), cron);
 				task.Cron = cron;
 				DbContext.Task.Update(task);
 				DbContext.SaveChanges();
 			}
 		}
 
-		public void Modify(ModifyTaskInput item)
+		public void Modify(ModifyTaskInput input)
 		{
-			var task = DbContext.Task.FirstOrDefault(a => a.Id == item.Id);
+			if (input == null)
+			{
+				Logger.LogError($"{nameof(input)} should not be null.");
+				return;
+			}
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == input.Id);
 			if (task == null)
 			{
 				throw new Exception("Unfound task.");
 			}
-			task.Analysts = item.Analysts?.Trim();
-			task.ApplicationName = item.ApplicationName?.Trim();
-			task.Arguments = item.Arguments?.Trim();
+			task.Analysts = input.Analysts?.Trim();
+			task.ApplicationName = input.ApplicationName?.Trim();
+			task.Arguments = input.Arguments?.Trim();
 
-			task.Cron = item.Cron;
-			task.Description = item.Description?.Trim();
-			task.Developers = item.Developers?.Trim();
+			task.Cron = input.Cron;
+			task.Description = input.Description?.Trim();
+			task.Developers = input.Developers?.Trim();
 
-			task.Name = item.Name?.Trim();
-			task.NodeCount = item.NodeCount;
-			task.NodeRunningCount = item.NodeRunningCount;
-			task.Os = item.Os?.Trim();
-			task.Owners = item.Owners?.Trim();
-			task.Tags = item.Tags?.Trim();
-			task.NodeType = item.NodeType;
-			task.Version = item.Version?.Trim();
-			task.IsSingle = item.IsSingle;
+			task.Name = input.Name?.Trim();
+			task.NodeCount = input.NodeCount;
+			task.NodeRunningCount = input.NodeRunningCount;
+			task.Os = input.Os?.Trim();
+			task.Owners = input.Owners?.Trim();
+			task.Tags = input.Tags?.Trim();
+			task.NodeType = input.NodeType;
+			task.Version = input.Version?.Trim();
+			task.IsSingle = input.IsSingle;
 
-			if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
+			if (!input.IsEnabled && task.IsEnabled && task.Cron == DotnetSpiderConsts.UnTriggerCron)
 			{
-				_hangfireAppService.RemoveJob(task.Id.ToString());
-			}
-			else
-			{
-				_hangfireAppService.AddOrUpdateJob(task.Id.ToString(), string.Join(" ", task.Cron));
+				_hangfireAppService.Delete(task.Id.ToString());
 			}
 
-			task.IsEnabled = item.IsEnabled;
+			if (input.IsEnabled)
+			{
+				_hangfireAppService.Update(task.Id.ToString(), string.Join(" ", task.Cron));
+			}
+
+			task.IsEnabled = input.IsEnabled;
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
 		}
 
 		public void Run(long taskId)
 		{
-			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && a.Name == "RUN");
+			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && Domain.Entities.Message.RunMessageName == a.Name);
 			if (msg == null)
 			{
 				var task = CheckStatusOfTask(taskId);
@@ -160,13 +168,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 
 			// 如果运行的命令还没有被节点消费, 则直接删除运行消息, 减少节点的消耗。
-			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && m.Name == Domain.Entities.Message.RunMessageName);
+			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && Domain.Entities.Message.RunMessageName == m.Name);
 			if (runMessage != null)
 			{
 				DbContext.Message.Remove(runMessage);
 			}
 
-			var cancelMsg = DbContext.Message.FirstOrDefault(a => a.TaskId == task.Id && a.Name == "CANCEL");
+			var cancelMsg = DbContext.Message.FirstOrDefault(a => a.TaskId == task.Id && Domain.Entities.Message.CanleMessageName == a.Name);
 			if (cancelMsg != null)
 			{
 				return;
@@ -182,7 +190,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
 			{
-				_hangfireAppService.RemoveJob(task.Id.ToString());
+				_hangfireAppService.Delete(task.Id.ToString());
 				task.IsDeleted = true;
 				DbContext.SaveChanges();
 				Logger.LogInformation($"Remove task {taskId}.");
@@ -198,7 +206,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 			task.IsEnabled = false;
 
-			_hangfireAppService.RemoveJob(task.Id.ToString());
+			_hangfireAppService.Delete(task.Id.ToString());
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
 			Logger.LogInformation($"Disable task {taskId}.");
@@ -212,16 +220,21 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new DotnetSpiderException("任务不存在!");
 			}
 			task.IsEnabled = true;
-			if (_hangfireAppService.AddOrUpdateJob(task.Id.ToString(), task.Cron))
-			{
-				DbContext.Task.Update(task);
-				DbContext.SaveChanges();
-				Logger.LogInformation($"Enable task {taskId}.");
-			}
+
+			_hangfireAppService.Create(task.Id.ToString(), task.Cron);
+			DbContext.Task.Update(task);
+			DbContext.SaveChanges();
+			Logger.LogInformation($"Enable task {taskId}.");
 		}
 
 		public void IncreaseRunning(TaskIdInput input)
 		{
+			if (input == null)
+			{
+				Logger.LogError($"{nameof(input)} should not be null.");
+				return;
+			}
+
 			if (IsAuth())
 			{
 				var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
@@ -241,6 +254,12 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void ReduceRunning(TaskIdInput input)
 		{
+			if (input == null)
+			{
+				Logger.LogError($"{nameof(input)} should not be null.");
+				return;
+			}
+
 			if (IsAuth())
 			{
 				var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
@@ -267,6 +286,10 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public PaginationQueryDto QueryRunning(PaginationQueryInput input)
 		{
+			if (input == null)
+			{
+				throw new ArgumentNullException($"{nameof(input)} should not be null.");
+			}
 			PaginationQueryDto output = DbContext.Task.PageList(input, d => d.IsRunning, d => d.Id);
 			output.Result = Mapper.Map<List<TaskDto>>(output.Result);
 			return output;
@@ -376,11 +399,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
 				{
-					_hangfireAppService.RemoveJob(task.Id.ToString());
+					_hangfireAppService.Delete(task.Id.ToString());
 				}
 				else
 				{
-					_hangfireAppService.AddOrUpdateJob(task.Id.ToString(), string.Join(" ", task.Cron));
+					_hangfireAppService.Create(task.Id.ToString(), string.Join(" ", task.Cron));
 				}
 			}
 		}

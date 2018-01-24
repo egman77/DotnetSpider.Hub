@@ -10,7 +10,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		string MsSqlConnectionString { get; }
 		string MySqlConnectionString { get; }
 		string SchedulerUrl { get; }
-		string SchedulerCallbackHost { get; }
+		string SchedulerCallback { get; }
 		string HostUrl { get; set; }
 		string[] Tokens { get; set; }
 		byte[] SqlEncryptKey { get; set; }

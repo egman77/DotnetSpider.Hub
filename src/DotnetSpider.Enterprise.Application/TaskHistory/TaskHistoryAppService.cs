@@ -6,6 +6,7 @@ using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,6 +22,11 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 
 		public void Add(AddTaskHistoryInput input)
 		{
+			if (input == null)
+			{
+				Logger.LogError($"{nameof(input)} should not be null.");
+				return;
+			}
 			var taskHistory = Mapper.Map<Domain.Entities.TaskHistory>(input);
 			DbContext.TaskHistory.Add(taskHistory);
 			DbContext.SaveChanges();
@@ -28,6 +34,10 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 
 		public PaginationQueryDto Query(PaginationQueryTaskHistoryInput input)
 		{
+			if (input == null)
+			{
+				throw new ArgumentNullException($"{nameof(input)} should not be null.");
+			}
 			var output = new PaginationQueryDto
 			{
 				Page = input.Page,

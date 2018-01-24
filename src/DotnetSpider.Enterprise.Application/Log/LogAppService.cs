@@ -1,5 +1,4 @@
 ﻿using DotnetSpider.Enterprise.Application.Log.Dto;
-using DotnetSpider.Enterprise.Application.Task.Dtos;
 using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
@@ -8,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,6 +25,7 @@ namespace DotnetSpider.Enterprise.Application.Log
 		{
 			if (input == null)
 			{
+				Logger.LogError($"{nameof(input)} should not be null.");
 				return;
 			}
 			if (IsAuth())
@@ -44,6 +45,10 @@ namespace DotnetSpider.Enterprise.Application.Log
 
 		public PaginationQueryLogDto Query(PaginationQueryLogInput input)
 		{
+			if (input == null)
+			{
+				throw new ArgumentNullException($"{nameof(input)} should not be null.");
+			}
 			var client = new MongoClient(Configuration.LogMongoConnectionString);
 			var database = client.GetDatabase("dotnetspider");
 			var collection = database.GetCollection<BsonDocument>(input.Identity);

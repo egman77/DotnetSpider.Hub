@@ -22,6 +22,11 @@ namespace DotnetSpider.Enterprise.Application.Message
 
 		public void Add(AddMessageInput input)
 		{
+			if (input == null)
+			{
+				Logger.LogError($"{nameof(input)} should not be null.");
+				return;
+			}
 			var message = Mapper.Map<Domain.Entities.Message>(input);
 			DbContext.Message.Add(message);
 			DbContext.SaveChanges();
@@ -30,6 +35,11 @@ namespace DotnetSpider.Enterprise.Application.Message
 
 		public void Add(IEnumerable<AddMessageInput> input)
 		{
+			if (input == null)
+			{
+				Logger.LogError($"{nameof(input)} should not be null.");
+				return;
+			}
 			var messages = Mapper.Map<List<Domain.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
 			DbContext.SaveChanges();

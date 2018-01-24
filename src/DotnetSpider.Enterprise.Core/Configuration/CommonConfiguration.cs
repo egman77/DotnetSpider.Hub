@@ -52,12 +52,12 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 			}
 		}
 
-		public string SchedulerCallbackHost
+		public string SchedulerCallback
 		{
 			get
 			{
 				var section = AppConfiguration.GetSection(DotnetSpiderConsts.DefaultSetting);
-				return section.GetValue<string>(DotnetSpiderConsts.SchedulerCallbackHost);
+				return section.GetValue<string>(DotnetSpiderConsts.SchedulerCallback);
 			}
 		}
 

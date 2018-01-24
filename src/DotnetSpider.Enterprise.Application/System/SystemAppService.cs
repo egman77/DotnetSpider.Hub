@@ -1,6 +1,6 @@
-﻿using DotnetSpider.Enterprise.Application.Hangfire;
-using DotnetSpider.Enterprise.Application.Message;
+﻿using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Node;
+using DotnetSpider.Enterprise.Application.Scheduler;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.Domain.Entities;
@@ -14,13 +14,13 @@ namespace DotnetSpider.Enterprise.Application.System
 {
 	public class SystemAppService : AppServiceBase, ISystemAppService
 	{
-		private readonly IHangfireAppService _hangfireAppService;
+		private readonly ISchedulerAppService _hangfireAppService;
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
 
 		public const string ScanRunningTaskName = "System.DotnetSpider.ScanRunningTask";
 
-		public SystemAppService(INodeAppService nodeAppService, IMessageAppService messageAppService, IHangfireAppService hangfireAppService,
+		public SystemAppService(INodeAppService nodeAppService, IMessageAppService messageAppService, ISchedulerAppService hangfireAppService,
 			ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
 			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
@@ -52,7 +52,7 @@ namespace DotnetSpider.Enterprise.Application.System
 				DbContext.Task.Add(scanRunningTask);
 				DbContext.SaveChanges();
 			}
-			_hangfireAppService.AddOrUpdateJob(scanRunningTask.Id.ToString(), "0/15 * * * *");
+			_hangfireAppService.Create(scanRunningTask.Id.ToString(), "0/15 * * * *");
 		}
 
 		public void Execute(string name, string arguments)

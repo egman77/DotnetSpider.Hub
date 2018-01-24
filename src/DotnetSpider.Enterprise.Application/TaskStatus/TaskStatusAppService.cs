@@ -10,7 +10,6 @@ using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace DotnetSpider.Enterprise.Application.TaskStatus
 {
@@ -24,6 +23,11 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 
 		public void AddOrUpdate(AddOrUpdateTaskStatusInput input)
 		{
+			if (input == null)
+			{
+				Logger.LogError($"{nameof(input)} should not be null.");
+				return;
+			}
 			if (!IsAuth())
 			{
 				throw new DotnetSpiderException("Access Denied.");
@@ -56,6 +60,10 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 
 		public PaginationQueryDto Query(PaginationQueryTaskStatusInput input)
 		{
+			if (input == null)
+			{
+				throw new ArgumentNullException($"{nameof(input)} should not be null.");
+			}
 			PaginationQueryDto output;
 			Expression<Func<Domain.Entities.TaskStatus, bool>> where = null;
 			var status = input.Status?.ToLower().Trim();

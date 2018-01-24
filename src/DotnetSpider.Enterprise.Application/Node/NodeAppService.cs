@@ -52,6 +52,11 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public List<MessageDto> Heartbeat(NodeHeartbeatInput input)
 		{
+			if (input == null)
+			{
+				Logger.LogError($"{nameof(input)} should not be null.");
+				return new List<MessageDto>();
+			}
 			if (IsAuth())
 			{
 				AddHeartbeat(input);
@@ -64,6 +69,10 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public PaginationQueryDto Query(PaginationQueryInput input)
 		{
+			if (input == null)
+			{
+				throw new ArgumentNullException($"{nameof(input)} should not be null.");
+			}
 			PaginationQueryDto output = new PaginationQueryDto();
 			switch (input.SortKey)
 			{

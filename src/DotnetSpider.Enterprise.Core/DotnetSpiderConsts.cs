@@ -11,7 +11,7 @@
 		public const string UrlRegexPattern = @"((http|ftp|https)://)(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\&%_\./-~-,#]*)?(\?[a-zA-Z0-9\&%_\./-~-,#]*)?";
 
 		public const string SchedulerUrl = "scheduler.url";
-		public const string SchedulerCallbackHost = "scheduler.callbackHost";
+		public const string SchedulerCallback = "scheduler.callback";
 		public const string AuthorizeApi = "authorizeApi";
 		public const string Tokens = "tokens";
 		public const string UnTriggerCron = "* * * * 2999";

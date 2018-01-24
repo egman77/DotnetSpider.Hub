@@ -1,6 +1,6 @@
-﻿namespace DotnetSpider.Enterprise.Application.Hangfire.Dtos
+﻿namespace DotnetSpider.Enterprise.Application.Scheduler.Dtos
 {
-	public class HangfireJobDto
+	public class SchedulerJobDto
 	{
 		public virtual string Name { get; set; }
 
