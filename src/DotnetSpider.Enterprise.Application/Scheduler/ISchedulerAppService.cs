@@ -1,9 +1,11 @@
-﻿namespace DotnetSpider.Enterprise.Application.Scheduler
+﻿using DotnetSpider.Enterprise.Application.Scheduler.Dtos;
+
+namespace DotnetSpider.Enterprise.Application.Scheduler
 {
 	public interface ISchedulerAppService
 	{
-		void Create(string taskId, string cron);
-		void Update(string taskId, string cron);
-		void Delete(string taskId);
+		void Create(SchedulerJobDto job);
+		void Update(SchedulerJobDto job);
+		void Delete(string id);
 	}
 }

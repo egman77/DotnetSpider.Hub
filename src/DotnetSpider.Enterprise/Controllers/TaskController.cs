@@ -47,9 +47,9 @@ namespace DotnetSpider.Enterprise.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult Fire(long data)
+		public IActionResult Fire([FromBody]TaskIdInput input)
 		{
-			_taskAppService.Run(data);
+			_taskAppService.Run(input.TaskId);
 			return Success();
 		}
 

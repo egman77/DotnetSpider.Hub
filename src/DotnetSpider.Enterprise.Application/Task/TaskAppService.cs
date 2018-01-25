@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using DotnetSpider.Enterprise.Application.System;
 using DotnetSpider.Enterprise.Application.Scheduler;
+using DotnetSpider.Enterprise.Application.Scheduler.Dtos;
+using Newtonsoft.Json;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -26,15 +28,15 @@ namespace DotnetSpider.Enterprise.Application.Task
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
 		private readonly ISystemAppService _systemAppService;
-		private readonly ISchedulerAppService _hangfireAppService;
+		private readonly ISchedulerAppService _schedulerAppService;
 
-		public TaskAppService(ISchedulerAppService hangfireAppService, ISystemAppService systemAppService,
+		public TaskAppService(ISchedulerAppService schedulerAppService, ISystemAppService systemAppService,
 			ITaskHistoryAppService taskHistoryAppService,
 			IMessageAppService messageAppService,
 			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager,
 			ApplicationDbContext dbcontext, ILoggerFactory loggerFactory) : base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
-			_hangfireAppService = hangfireAppService;
+			_schedulerAppService = schedulerAppService;
 			_systemAppService = systemAppService;
 			_taskHistoryAppService = taskHistoryAppService;
 			_messageAppService = messageAppService;
@@ -82,7 +84,17 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 			if (cron != DotnetSpiderConsts.UnTriggerCron)
 			{
-				_hangfireAppService.Create(task.Id.ToString(), cron);
+
+				var taskId = task.Id.ToString();
+				var job = new SchedulerJobDto
+				{
+					Id = taskId,
+					Name = task.Name,
+					Cron = cron,
+					Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+					Data = JsonConvert.SerializeObject(new { TaskId = taskId })
+				};
+				_schedulerAppService.Create(job);
 				task.Cron = cron;
 				DbContext.Task.Update(task);
 				DbContext.SaveChanges();
@@ -121,12 +133,21 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 			if (!input.IsEnabled && task.IsEnabled && task.Cron == DotnetSpiderConsts.UnTriggerCron)
 			{
-				_hangfireAppService.Delete(task.Id.ToString());
+				_schedulerAppService.Delete(task.Id.ToString());
 			}
 
 			if (input.IsEnabled)
 			{
-				_hangfireAppService.Update(task.Id.ToString(), string.Join(" ", task.Cron));
+				var taskId = task.Id.ToString();
+				var job = new SchedulerJobDto
+				{
+					Id = taskId,
+					Name = task.Name,
+					Cron = task.Cron,
+					Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+					Data = JsonConvert.SerializeObject(new { TaskId = taskId })
+				};
+				_schedulerAppService.Update(job);
 			}
 
 			task.IsEnabled = input.IsEnabled;
@@ -190,7 +211,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
 			{
-				_hangfireAppService.Delete(task.Id.ToString());
+				_schedulerAppService.Delete(task.Id.ToString());
 				task.IsDeleted = true;
 				DbContext.SaveChanges();
 				Logger.LogInformation($"Remove task {taskId}.");
@@ -206,7 +227,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 			task.IsEnabled = false;
 
-			_hangfireAppService.Delete(task.Id.ToString());
+			_schedulerAppService.Delete(task.Id.ToString());
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
 			Logger.LogInformation($"Disable task {taskId}.");
@@ -221,7 +242,16 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 			task.IsEnabled = true;
 
-			_hangfireAppService.Create(task.Id.ToString(), task.Cron);
+			var taskIdStr = taskId.ToString();
+			var job = new SchedulerJobDto
+			{
+				Id = taskIdStr,
+				Name = task.Name,
+				Cron = task.Cron,
+				Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+				Data = JsonConvert.SerializeObject(new { TaskId = taskIdStr })
+			};
+			_schedulerAppService.Create(job);
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
 			Logger.LogInformation($"Enable task {taskId}.");
@@ -399,11 +429,20 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
 				{
-					_hangfireAppService.Delete(task.Id.ToString());
+					_schedulerAppService.Delete(task.Id.ToString());
 				}
 				else
 				{
-					_hangfireAppService.Create(task.Id.ToString(), string.Join(" ", task.Cron));
+					var taskId = task.Id.ToString();
+					var job = new SchedulerJobDto
+					{
+						Id = taskId,
+						Name = task.Name,
+						Cron = task.Cron,
+						Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+						Data = JsonConvert.SerializeObject(new { TaskId = taskId })
+					};
+					_schedulerAppService.Create(job);
 				}
 			}
 		}

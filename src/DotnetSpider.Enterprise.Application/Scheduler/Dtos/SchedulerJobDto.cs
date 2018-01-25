@@ -2,6 +2,8 @@
 {
 	public class SchedulerJobDto
 	{
+		public virtual string Id { get; set; }
+
 		public virtual string Name { get; set; }
 
 		public virtual string Cron { get; set; }

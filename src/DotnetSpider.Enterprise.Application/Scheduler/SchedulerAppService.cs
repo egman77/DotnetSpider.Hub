@@ -28,16 +28,9 @@ namespace DotnetSpider.Enterprise.Application.Scheduler
 			});
 		}
 
-		public void Create(string taskId, string cron)
+		public void Create(SchedulerJobDto job)
 		{
-			var json = JsonConvert.SerializeObject(new SchedulerJobDto
-			{
-				Name = taskId.ToString(),
-				Cron = cron,
-				Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
-				Data = taskId.ToString()
-			});
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			var content = new StringContent(JsonConvert.SerializeObject(job), Encoding.UTF8, "application/json");
 			try
 			{
 				_retryPolicy.Execute(() =>
@@ -62,15 +55,9 @@ namespace DotnetSpider.Enterprise.Application.Scheduler
 			});
 		}
 
-		public void Update(string taskId, string cron)
+		public void Update(SchedulerJobDto job)
 		{
-			var json = JsonConvert.SerializeObject(new SchedulerJobDto
-			{
-				Name = taskId.ToString(),
-				Cron = cron,
-				Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
-				Data = taskId.ToString()
-			});
+			var json = JsonConvert.SerializeObject(job);
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 			try
 			{

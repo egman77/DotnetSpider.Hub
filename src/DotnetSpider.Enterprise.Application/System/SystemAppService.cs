@@ -1,12 +1,14 @@
 ﻿using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Scheduler;
+using DotnetSpider.Enterprise.Application.Scheduler.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 
@@ -14,17 +16,17 @@ namespace DotnetSpider.Enterprise.Application.System
 {
 	public class SystemAppService : AppServiceBase, ISystemAppService
 	{
-		private readonly ISchedulerAppService _hangfireAppService;
+		private readonly ISchedulerAppService _schedulerAppService;
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
 
 		public const string ScanRunningTaskName = "System.DotnetSpider.ScanRunningTask";
 
-		public SystemAppService(INodeAppService nodeAppService, IMessageAppService messageAppService, ISchedulerAppService hangfireAppService,
+		public SystemAppService(INodeAppService nodeAppService, IMessageAppService messageAppService, ISchedulerAppService schedulerAppService,
 			ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
 			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
-			_hangfireAppService = hangfireAppService;
+			_schedulerAppService = schedulerAppService;
 			_nodeAppService = nodeAppService;
 			_messageAppService = messageAppService;
 		}
@@ -52,7 +54,16 @@ namespace DotnetSpider.Enterprise.Application.System
 				DbContext.Task.Add(scanRunningTask);
 				DbContext.SaveChanges();
 			}
-			_hangfireAppService.Create(scanRunningTask.Id.ToString(), "0/15 * * * *");
+			var taskId = scanRunningTask.Id.ToString();
+			var job = new SchedulerJobDto
+			{
+				Id = taskId,
+				Name = scanRunningTask.Name,
+				Cron = "0/15 * * * *",
+				Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+				Data = JsonConvert.SerializeObject(new { TaskId = taskId })
+			};
+			_schedulerAppService.Create(job);
 		}
 
 		public void Execute(string name, string arguments)
