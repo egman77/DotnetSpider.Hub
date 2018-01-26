@@ -30,7 +30,7 @@
             size: dsApp.queryString('size') || 60,
             newTask: $.extend({}, emptyTask),
             total: 0,
-            keyword: dsApp.getFilter('keyword') || '',
+            keyword: decodeURIComponent(dsApp.getFilter('keyword') || ''),
             isView: false,
             errorText: {
                 name: '', applicationName: '', version: '', arguments: ''
@@ -109,7 +109,7 @@
                 }
             },
             query: function () {
-                window.location.href = 'task?filter=keyword::' + $('#queryKeyword').val() + '&page=' + 1 + '&size=' + dsApp.queryString('size');
+                window.location.href = 'task?filter=keyword::' + $('#queryKeyword').val() + '&page=' + 1 + '&size=' + this.$data.size;
             },
             onKeyPress: function (evt) {
                 if (evt.charCode === 13) {

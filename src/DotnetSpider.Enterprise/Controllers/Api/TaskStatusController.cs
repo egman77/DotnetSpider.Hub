@@ -34,7 +34,7 @@ namespace DotnetSpider.Enterprise.Controllers.Api
 		{
 			if (input == null)
 			{
-				return Forbid();
+				return NoContent();
 			}
 			_taskStatusAppService.AddOrUpdate(input);
 			return Ok();
