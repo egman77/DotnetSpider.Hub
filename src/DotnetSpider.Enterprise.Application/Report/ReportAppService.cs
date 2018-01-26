@@ -23,7 +23,27 @@ namespace DotnetSpider.Enterprise.Application.Report
 			_nodeAppService = nodeAppService;
 		}
 
-		public HomePageDashboardDto GetHomePageDashboard()
+		public dynamic Query(FilterQueryInput input)
+		{
+			var filters = input.ToDictionary();
+			if (!filters.ContainsKey("type"))
+			{
+				return null;
+			}
+			switch (filters["type"])
+			{
+				case "homedashboad":
+					{
+						return CalculateHomeDashboardDto();
+					}
+				default:
+					{
+						return null;
+					}
+			}
+		}
+
+		private HomePageDashboardDto CalculateHomeDashboardDto()
 		{
 			HomePageDashboardDto output = new HomePageDashboardDto();
 			var client = new MongoClient(Configuration.LogMongoConnectionString);

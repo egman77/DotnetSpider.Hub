@@ -9,12 +9,12 @@ namespace DotnetSpider.Enterprise.Application.Node
 	{
 		void Enable(string nodeId);
 		void Disable(string nodeId);
-		List<MessageDto> Heartbeat(NodeHeartbeatInput input);
 		PaginationQueryDto Query(PaginationQueryInput input);
 		List<NodeDto> GetAvailable(string os, int type, int nodeCount);
 		List<NodeDto> GetAllOnline();
 		void Exit(string nodeId);
-		void Remove(string nodeId);
+		void Delete(string nodeId);
+		void Control(string nodeId, ActionType action);
 		int GetOnlineNodeCount();
 	}
 }

@@ -1,7 +1,8 @@
 ﻿$(function () {
     setMenuActive('task');
+
     var cron;
-    var interval = null;
+
     var emptyTask = {
         id: 0,
         name: '',
@@ -19,22 +20,23 @@
         nodeType: 1,
         isSingle: true
     };
+
+
     var tasksVUE = new Vue({
         el: '#tasksView',
         data: {
             tasks: [],
-            total: 0,
-            size: 50,
-            keyword: '',
-            page: 1,
+            page: dsApp.queryString('page') || 1,
+            size: dsApp.queryString('size') || 60,
             newTask: $.extend({}, emptyTask),
+            total: 0,
+            keyword: dsApp.getFilter('keyword') || '',
             isView: false,
             errorText: {
                 name: '', applicationName: '', version: '', arguments: ''
             }
         },
         mounted: function () {
-            this.$data.page = 1;
             loadTasks(this);
         },
         computed: {
@@ -107,8 +109,7 @@
                 }
             },
             query: function () {
-                tasksVUE.$data.keyword = $('#queryKeyword').val();
-                loadTasks(tasksVUE);
+                window.location.href = 'task?filter=keyword::' + $('#queryKeyword').val() + '&page=' + 1 + '&size=' + dsApp.queryString('size');
             },
             onKeyPress: function (evt) {
                 if (evt.charCode === 13) {
@@ -116,18 +117,18 @@
                     this["query"]();
                 }
             },
-            saveSpider: function () {
+            save: function () {
                 if (Object.getOwnPropertyNames(this.errorText).length > 1) return;
 
                 var task = this.newTask;
                 if (task.id > 0) {
-                    dsApp.post("/task/modify", task, function () {
+                    dsApp.put("api/v1.0/task", task, function () {
                         $("#CreateNewTaskModal").modal("hide");
                         loadTasks(tasksVUE);
                     });
                 }
                 else {
-                    dsApp.post("/task/add", task, function () {
+                    dsApp.post("api/v1.0/task", task, function () {
                         $("#CreateNewTaskModal").modal("hide");
                         loadTasks(tasksVUE);
                     });
@@ -135,7 +136,7 @@
             },
             run: function (task) {
                 var that = this;
-                dsApp.post("/task/run", { taskId: task.id }, function () {
+                dsApp.get("api/v1.0/task/" + task.id + '?action=run', function () {
                     swal("Operation Succeed!", "Task is prepare to run.", "success");
                     loadTasks(that);
                 });
@@ -151,7 +152,7 @@
                     confirmButtonText: "Yes, do it!",
                     closeOnConfirm: false
                 }, function () {
-                    dsApp.post("/task/remove", { taskId: task.id }, function () {
+                    dsApp.delete("api/v1.0/task/" + task.id, function () {
                         swal("Operation Succeed!", "Task was removed.", "success");
                         loadTasks(that);
                     });
@@ -159,7 +160,7 @@
             },
             exit: function (id) {
                 var that = this;
-                dsApp.post("/task/exit", { taskId: id }, function () {
+                dsApp.get("api/v1.0/task/" + id + '?action=exit', function () {
                     swal("Operation Succeed!", "Task would be exited.", "success");
                     loadTasks(that);
                 });
@@ -205,7 +206,7 @@
                     confirmButtonText: "Yes, do it!",
                     closeOnConfirm: false
                 }, function () {
-                    dsApp.post("/task/disable", { taskId: task.id }, function () {
+                    dsApp.get("api/v1.0/task/" + task.id + '?action=disable', function () {
                         swal("Operation Succeed!", "Task was disabled.", "success");
                         loadTasks(that);
                     });
@@ -213,7 +214,7 @@
             },
             enable: function (task) {
                 var that = this;
-                dsApp.post("/task/enable", { taskId: task.id }, function () {
+                dsApp.get("api/v1.0/task/" + task.id + '?action=enable', function () {
                     swal("Operation Succeed!", "Task was enabled.", "success");
                     loadTasks(that);
                 });
@@ -228,34 +229,13 @@
         tasksVUE.$data.newTask.cron = info.cron;
     });
 
-    function queryString(name) {
-        var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
-        if (result === null || result.length < 1) {
-            return "";
-        }
-        return result[1];
-    }
-
-    var lastQuery;
-
     function loadTasks(vue) {
-        var url = '/Task/Query';
-        var keywrod = vue.$data.keyword || '';
-        var query = { page: vue.$data.page, size: vue.size, keyword: keywrod };
-
-        dsApp.post(url, query, function (result) {
-            var rd = result.result.result;
-
-            $(rd).each(function () {
-                this.running = false;
-            });
-
-            vue.$data.tasks = rd;
-            vue.$data.total = result.result.total;
-
-            dsApp.ui.initPagination('#pagination', result.result, function (page) {
-                vue.$data.page = page;
-                loadTasks(vue);
+        var url = 'api/v1.0/task?filter=keyword::' + vue.$data.keyword + '&page=' + vue.$data.page + '&size=' + vue.$data.size;
+        dsApp.get(url, function (result) {
+            vue.$data.tasks = result.data.result;
+            vue.$data.total = result.data.total;
+            dsApp.ui.initPagination('#pagination', result.data, function (page) {
+                window.location.href = 'task?filter=keyword::' + vue.$data.keyword + '&page=' + page + '&size=' + vue.$data.size;
             });
         });
     }

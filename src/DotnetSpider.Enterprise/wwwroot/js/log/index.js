@@ -1,76 +1,61 @@
 ﻿$(function () {
     setMenuActive('task');
 
-    var nodeId = queryString('nodeId');
-    var identity = queryString('identity');
-    var refresh = queryString('refresh') == '1';
-    var lastQuery;
-
-    var tasksVUE = new Vue({
+    var LOGSVUE = new Vue({
         el: '#logView',
         data: {
             columns: [],
             logs: [],
-            logsPaging: {
-                total: 0,
-                size: 10,
-                keyword: '',
-                page: 1
-            }
+            total: 0,
+            nodeId: dsApp.getFilter('nodeId') || '',
+            identity: dsApp.getFilter('identity') || '',
+            size: dsApp.queryString('size') || 40,
+            page: dsApp.queryString('page') || 1,
+            logType: dsApp.getFilter('logType') || 'All',
+            taskName: decodeURIComponent(dsApp.getFilter('taskName') || '')
         },
         mounted: function () {
-            var that = this;
-            $("#logType").val('');
-            that.logsPaging.total = 0;
-            that.logsPaging.page = 1;
-            lastQuery = null;
-            loadLogs(that);
+            loadLogs(this);
         },
         methods: {
-            searchResults: function () {
-                var that = this;
-                that.logsPaging.total = 0;
-                that.logsPaging.page = 1;
-                lastQuery = null;
-                loadLogs();
+            searchResults: function (type) {
+                var url = 'log?filter=identity::' + this.$data.identity
+                    + '|nodeId::' + this.$data.nodeId
+                    + '|logType::' + type
+                    + '|taskName::' + this.$data.taskName
+                    + '|start::' + ($("#startDate").val() || '')
+                    + '|end::' + ($("#endDate").val() || '')
+                    + '&page=' + this.$data.page
+                    + '&size=' + this.$data.size;
+                window.location.href = url;
             }
         }
     });
 
-    function queryString(name) {
-        var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
-        if (result == null || result.length < 1) {
-            return "";
-        }
-        return result[1];
-    }
-
     function loadLogs(vue) {
-        var logVue = tasksVUE || vue;
-        var query;
-        if (!lastQuery) {
-            query = {
-                identity: identity,
-                nodeId: nodeId,
-                //startDate: $("#startDate").val(),
-                //endDate: $("#endDate").val(),
-                page: logVue.$data.logsPaging.page,
-                size: logVue.$data.logsPaging.size,
-                logType: $("#logType").val(),
-            };
-            lastQuery = query;
-        }
-        else query = lastQuery;
+        var url = 'api/v1.0/log?filter=identity::' + vue.$data.identity
+            + '|nodeId::' + vue.$data.nodeId
+            + '|logType::' + vue.$data.logType
+            + '|taskName::' + vue.$data.taskName
+            + '|start::' + ($("#startDate").val() || '')
+            + '|end::' + ($("#endDate").val() || '')
+            + '&page=' + vue.$data.page
+            + '&size=' + vue.$data.size;
+        dsApp.get(url, function (result) {
+            vue.$data.columns = result.data.columns;
+            vue.$data.logs = result.data.values;
+            vue.$data.total = result.data.total;
 
-        dsApp.post('/log/query', query, function (result) {
-            logVue.$data.columns = result.result.columns;
-            logVue.$data.logs = result.result.values;
-            logVue.$data.logsPaging.total = result.result.total;
-
-            dsApp.ui.initPagination('#logsPagination', result.result, function (page) {
-                logVue.$data.logsPaging.page = page;
-                if (lastQuery) lastQuery.page = page;
-                loadLogs();
+            dsApp.ui.initPagination('#pagination', result.data, function (page) {
+                var url = 'log?filter=identity::' + vue.$data.identity
+                    + '|nodeId::' + vue.$data.nodeId
+                    + '|logType::' + vue.$data.logType
+                    + '|taskName::' + vue.$data.taskName
+                    + '|start::' + ($("#startDate").val() || '')
+                    + '|end::' + ($("#endDate").val() || '')
+                    + '&page=' + page
+                    + '&size=' + vue.$data.size;
+                window.location.href = url;
             });
         });
     }

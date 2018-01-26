@@ -2,11 +2,8 @@
 
 namespace DotnetSpider.Enterprise.Application.Task.Dtos
 {
-	public class ModifyTaskInput
+	public class CreateTaskInput
 	{
-		[Required]
-		public long Id { get; set; }
-
 		/// <summary>
 		/// 程序集名称
 		/// </summary>
@@ -20,8 +17,6 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		[StringLength(50)]
 		[Required]
 		public virtual string Cron { get; set; }
-
-		public virtual int NodeType { get; set; }
 
 		/// <summary>
 		/// 附加参数
@@ -52,6 +47,8 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		/// </summary>
 		public virtual int NodeRunningCount { get; set; }
 
+		public virtual int NodeType { get; set; }
+
 		/// <summary>
 		/// 所需节点数
 		/// </summary>
@@ -80,6 +77,10 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 		[StringLength(100)]
 		public virtual string Version { get; set; }
 
+		public virtual bool IsSingle { get; set; }
+
+		public virtual bool IsDelete { get; set; }
+
 		[StringLength(20)]
 		public virtual string Os { get; set; }
 
@@ -87,7 +88,5 @@ namespace DotnetSpider.Enterprise.Application.Task.Dtos
 
 		[StringLength(32)]
 		public virtual string LastIdentity { get; set; }
-
-		public virtual bool IsSingle { get; set; }
 	}
 }

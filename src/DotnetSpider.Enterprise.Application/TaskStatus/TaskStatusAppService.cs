@@ -28,10 +28,6 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 				Logger.LogError($"{nameof(input)} should not be null.");
 				return;
 			}
-			if (!IsAuth())
-			{
-				throw new DotnetSpiderException("Access Denied.");
-			}
 
 			var oldRecord = DbContext.TaskStatus.FirstOrDefault(ts => ts.Identity == input.Identity && ts.NodeId == input.NodeId);//
 			if (oldRecord == null)
@@ -58,7 +54,7 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 			DbContext.SaveChanges();
 		}
 
-		public PaginationQueryDto Query(PaginationQueryTaskStatusInput input)
+		public PaginationQueryDto Find(PaginationQueryInput input)
 		{
 			if (input == null)
 			{
@@ -66,11 +62,12 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 			}
 			PaginationQueryDto output;
 			Expression<Func<Domain.Entities.TaskStatus, bool>> where = null;
-			var status = input.Status?.ToLower().Trim();
+			var status = input.GetFilterValue("status")?.ToLower().Trim();
+			var keyword = input.GetFilterValue("keyword")?.ToLower().Trim();
 			List<Domain.Entities.Task> tasks;
 			List<long> taskIds;
 			List<Domain.Entities.TaskStatus> taskStatuses;
-			if (string.IsNullOrWhiteSpace(input.Keyword) && string.IsNullOrEmpty(input.Keyword))
+			if (string.IsNullOrWhiteSpace(keyword))
 			{
 				if (!string.IsNullOrEmpty(status) && "all" != status)
 				{
@@ -83,7 +80,7 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 			}
 			else
 			{
-				tasks = DbContext.Task.Where(t => t.Name.ToLower().Contains(input.Keyword.ToLower())).ToList();
+				tasks = DbContext.Task.Where(t => t.Name.ToLower().Contains(keyword)).ToList();
 				taskIds = tasks.Select(t => t.Id).ToList();
 				if (!string.IsNullOrEmpty(status) && "all" != status)
 				{

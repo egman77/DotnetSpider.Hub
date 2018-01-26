@@ -4,10 +4,9 @@
         el: '#nodesView',
         data: {
             nodes: [],
-            size: 50,
-            total: 0,
-            sort: '',
-            page: 1
+            page: dsApp.queryString('page') || 1,
+            size: dsApp.queryString('size') || 60,
+            total: 0
         },
         mounted: function () {
             loadNodes(this);
@@ -24,7 +23,7 @@
                     confirmButtonText: "Yes, do it!",
                     closeOnConfirm: true
                 }, function () {
-                    dsApp.post("/Node/Disable", { nodeId: nodeId }, function () {
+                    dsApp.get("api/v1.0/node/" + nodeId + '?action=disable', function () {
                         swal("Operation Succeed!", "Node was disabled.", "success");
                         loadNodes(that);
                     });
@@ -32,7 +31,7 @@
             },
             enable: function (nodeId) {
                 var that = this;
-                dsApp.post("/Node/Enable", { nodeId: nodeId }, function () {
+                dsApp.get("api/v1.0/node/" + nodeId + '?action=enable', function () {
                     loadNodes(that);
                 });
             },
@@ -47,7 +46,7 @@
                     confirmButtonText: "Yes, do it!",
                     closeOnConfirm: true
                 }, function () {
-                    dsApp.post("/Node/Exit", { nodeId: nodeId }, function () {
+                    dsApp.get("api/v1.0/node/" + nodeId + '?action=exit', function () {
                         swal("Operation Succeed!", "Message was sent please check it manuly.", "success");
                         loadNodes(that);
                     });
@@ -64,7 +63,7 @@
                     confirmButtonText: "Yes, do it!",
                     closeOnConfirm: true
                 }, function () {
-                    dsApp.post("/Node/Remove", { nodeId: nodeId }, function () {
+                    dsApp.delete("api/v1.0/node/" + nodeId, function () {
                         swal("Operation Succeed!", "Node was removed.", "success");
                         loadNodes(that);
                     });
@@ -75,13 +74,13 @@
 
 
     function loadNodes(vue) {
-        var url = '/Node/Query';
-        dsApp.post(url, { page: vue.$data.page, size: vue.size, sort: vue.sort }, function (result) {
-            vue.$data.nodes = result.result.result;
-            vue.$data.total = result.result.total;
-            dsApp.ui.initPagination('#pagination', result.result, function (page) {
-                vue.$data.page = page;
-                loadNodes(vue);
+        var url = 'api/v1.0/node?page=' + vue.$data.page + '&size=' + vue.$data.size;
+        dsApp.get(url, function (result) {
+            vue.$data.nodes = result.data.result;
+            vue.$data.total = result.data.total;
+
+            dsApp.ui.initPagination('#pagination', result.data, function (page) {
+                window.location.href = 'node?page=' + vue.$data.page + '&size=' + vue.$data.size;
             });
         });
     }

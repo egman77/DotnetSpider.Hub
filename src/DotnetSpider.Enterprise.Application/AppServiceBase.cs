@@ -37,22 +37,5 @@ namespace DotnetSpider.Enterprise.Application
 
 			return user;
 		}
-
-		protected bool IsAuth()
-		{
-			if (!Configuration.AuthorizeApi)
-			{
-				return true;
-			}
-			if (Session.Request.Headers.ContainsKey("DotnetSpiderToken"))
-			{
-				var token = Session.Request.Headers["DotnetSpiderToken"].ToString();
-				return Configuration.Tokens.Contains(token);
-			}
-			else
-			{
-				return false;
-			}
-		}
 	}
 }

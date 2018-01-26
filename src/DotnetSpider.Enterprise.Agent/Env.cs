@@ -102,7 +102,7 @@ namespace DotnetSpider.Enterprise.Agent
 			PackageUrl = _configuration.GetValue<string>("packageUrl");
 			ServerUrl = _configuration.GetValue<string>("serverUrl");
 			HeartbeatInterval = _configuration.GetValue<int>("heartbeatInterval");
-			HeartbeatUrl = $"{ServerUrl}node/heartbeat";
+			HeartbeatUrl = $"{ServerUrl}api/v1.0/nodeheartbeat";
 			ApiToken = _configuration.GetValue<string>("apiToken");
 			NodeType = _configuration.GetValue<int>("type");
 		}

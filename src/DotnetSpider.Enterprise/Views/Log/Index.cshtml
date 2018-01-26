@@ -34,30 +34,20 @@
             <div class="card">
                 <div class="header">
                     <h2>
-                        RUNNING LOGS
+                        RUNNING LOGS: &nbsp;<span v-text="taskName + ' ' + identity"></span>
                     </h2>
                 </div>
                 <div class="body">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="col-sm-6">
-                                <input id="startDate" type="text" onClick="WdatePicker()" placeholder="Start time" class="form-control" />
-                            </div>
-                            <div class="col-sm-6">
-                                <input id="endDate" type="text" class="form-control" placeholder="End time" onClick="WdatePicker()" />
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <select id="logType">
-                                <option value="">All</option>
-                                <option value="Info">Info</option>
-                                <option value="Warn">Warn</option>
-                                <option value="Error">Error</option>
-                            </select>&nbsp;
-                            <input type="button" @@click="searchResults()" class="btn btn-primary waves-effect" value="OK" />
-                        </div>
+                    <div class="row" style="margin-left:10px; margin-bottom:10px;">
+                        <input name="logType" type="radio" id="All" value="All" v-model="logType" @@click="searchResults('All')" />
+                        <label for="All">All</label>
+                        <input name="logType" type="radio" id="Info" value="Info" v-model="logType"@@click="searchResults('Info')" />
+                        <label for="Info">Info</label>
+                        <input name="logType" type="radio" id="Warn" value="Warn" v-model="logType" @@click="searchResults('Warn')"/>
+                        <label for="Warn">Warn</label>
+                        <input name="logType" type="radio" id="Error" value="Error" v-model="logType" @@click="searchResults('Error')"/>
+                        <label for="Error">Error</label>
                     </div>
-
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
                         <div id="tasksVIEW" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                             <div class="table-responsive">
@@ -79,9 +69,8 @@
                                     </tbody>
                                 </table>
 
-                                <div v-show="logs.length>0" class="dataTables_info">Showing <span v-text="logsPaging.page"></span> to <span v-text="logsPaging.size"></span> of <span v-text="logsPaging.total"></span> entries</div>
-                                <div v-show="logs.length>0" class="dataTables_paginate paging_simple_numbers" id="logsPagination">
-                                    <ul class="pagination"></ul>
+                                <div v-show="logs.length>0" class="dataTables_info">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
+                                <div v-show="logs.length>0" class="dataTables_paginate paging_simple_numbers" id="pagination">
                                 </div>
                             </div>
                         </div>

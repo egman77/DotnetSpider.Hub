@@ -170,10 +170,17 @@ namespace DotnetSpider.Enterprise.Agent
 					var result = response.Content.ReadAsStringAsync().Result;
 					if (!string.IsNullOrEmpty(result))
 					{
-						var commands = JsonConvert.DeserializeObject<Messsage[]>(result);
-						foreach (var command in commands)
+						var jobj = JsonConvert.DeserializeObject<StandardResult>(result);
+						if (jobj.Status == Status.Success && jobj.Data != null)
 						{
-							CommandExecutor.Execute(command, this);
+							foreach (var command in jobj.Data.ToObject<Messsage[]>())
+							{
+								CommandExecutor.Execute(command, this);
+							}
+						}
+						else
+						{
+							Logger.Error($"Heartbeart failed: {jobj.Message}");
 						}
 					}
 				});

@@ -2,7 +2,7 @@
 
 namespace DotnetSpider.Enterprise.Application.Message.Dtos
 {
-	public class AddMessageInput
+	public class CreateMessageInput
 	{
 		[Required]
 		[StringLength(32)]

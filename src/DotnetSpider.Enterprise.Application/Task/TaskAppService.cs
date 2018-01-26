@@ -19,6 +19,7 @@ using DotnetSpider.Enterprise.Application.System;
 using DotnetSpider.Enterprise.Application.Scheduler;
 using DotnetSpider.Enterprise.Application.Scheduler.Dtos;
 using Newtonsoft.Json;
+using System.Linq.Expressions;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -43,26 +44,60 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_nodeAppService = nodeAppService;
 		}
 
-		public PaginationQueryDto Query(PaginationQueryTaskInput input)
+		public PaginationQueryDto Find(PaginationQueryInput input)
 		{
 			if (input == null)
 			{
 				throw new ArgumentNullException($"{nameof(input)} should not be null.");
 			}
+			input.Validate();
 			PaginationQueryDto output;
-			if (string.IsNullOrWhiteSpace(input.Keyword?.Trim()))
+
+			Expression<Func<Domain.Entities.Task, bool>> where = t => !t.IsDeleted;
+
+			var keyword = input.GetFilterValue("keyword");
+
+			if (!string.IsNullOrWhiteSpace(keyword))
 			{
-				output = DbContext.Task.PageList(input, t => !t.IsDeleted, t => t.CreationTime);
+				where = where.AndAlso(t => t.Name.Contains(keyword));
 			}
-			else
+
+			var isRunning = input.GetFilterValue("isrunning");
+			if (!string.IsNullOrWhiteSpace(isRunning))
 			{
-				output = DbContext.Task.PageList(input, t => t.Name.Contains(input.Keyword) && !t.IsDeleted, t => t.CreationTime);
+				if ("true" == isRunning.ToLower())
+				{
+					where = where.AndAlso(t => t.IsRunning);
+				}
+				else
+				{
+					where = where.AndAlso(t => !t.IsRunning);
+				}
+			}
+
+			switch (input.Sort)
+			{
+				case "name":
+					{
+						output = DbContext.Task.PageList(input, where, t => t.Name);
+						break;
+					}
+				case "nodecount":
+					{
+						output = DbContext.Task.PageList(input, where, t => t.NodeCount);
+						break;
+					}
+				default:
+					{
+						output = DbContext.Task.PageList(input, where, t => t.CreationTime);
+						break;
+					}
 			}
 			output.Result = Mapper.Map<List<TaskDto>>(output.Result);
 			return output;
 		}
 
-		public void Add(AddTaskInput input)
+		public void Create(CreateTaskInput input)
 		{
 			if (input == null)
 			{
@@ -91,7 +126,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 					Id = taskId,
 					Name = task.Name,
 					Cron = cron,
-					Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+					Url = string.Format(Configuration.SchedulerCallback, taskId),
 					Data = JsonConvert.SerializeObject(new { TaskId = taskId })
 				};
 				_schedulerAppService.Create(job);
@@ -101,7 +136,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 		}
 
-		public void Modify(ModifyTaskInput input)
+		public void Update(UpdateTaskInput input)
 		{
 			if (input == null)
 			{
@@ -206,7 +241,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			DbContext.SaveChanges();
 		}
 
-		public void Remove(long taskId)
+		public void Delete(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
@@ -257,61 +292,36 @@ namespace DotnetSpider.Enterprise.Application.Task
 			Logger.LogInformation($"Enable task {taskId}.");
 		}
 
-		public void IncreaseRunning(TaskIdInput input)
+		public void IncreaseRunning(long taskId)
 		{
-			if (input == null)
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
+			if (task == null)
 			{
-				Logger.LogError($"{nameof(input)} should not be null.");
-				return;
+				throw new DotnetSpiderException("任务不存在!");
 			}
-
-			if (IsAuth())
-			{
-				var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
-				if (task == null)
-				{
-					throw new DotnetSpiderException("任务不存在!");
-				}
-				task.NodeRunningCount += 1;
-				DbContext.SaveChanges();
-				Logger.LogInformation($"IncreaseRunning task { input.TaskId}.");
-			}
-			else
-			{
-				throw new DotnetSpiderException("Access Denied.");
-			}
+			task.NodeRunningCount += 1;
+			DbContext.SaveChanges();
+			Logger.LogInformation($"IncreaseRunning task { taskId}.");
 		}
 
-		public void ReduceRunning(TaskIdInput input)
+		public void ReduceRunning(long taskId)
 		{
-			if (input == null)
+			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
+			if (task == null)
 			{
-				Logger.LogError($"{nameof(input)} should not be null.");
-				return;
+				throw new DotnetSpiderException("任务不存在!");
 			}
+			if (task.NodeRunningCount > 0)
+			{
+				task.NodeRunningCount -= 1;
+			}
+			if (task.NodeRunningCount == 0)
+			{
+				task.IsRunning = false;
+			}
+			Logger.LogInformation($"ReduceRunning task { taskId}.");
+			DbContext.SaveChanges();
 
-			if (IsAuth())
-			{
-				var task = DbContext.Task.FirstOrDefault(a => a.Id == input.TaskId);
-				if (task == null)
-				{
-					throw new DotnetSpiderException("任务不存在!");
-				}
-				if (task.NodeRunningCount > 0)
-				{
-					task.NodeRunningCount -= 1;
-				}
-				if (task.NodeRunningCount == 0)
-				{
-					task.IsRunning = false;
-				}
-				Logger.LogInformation($"ReduceRunning task { input.TaskId}.");
-				DbContext.SaveChanges();
-			}
-			else
-			{
-				throw new DotnetSpiderException("Access Denied.");
-			}
 		}
 
 		public PaginationQueryDto QueryRunning(PaginationQueryInput input)
@@ -325,7 +335,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			return output;
 		}
 
-		public AddTaskInput Get(long taskId)
+		public CreateTaskInput Find(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -333,7 +343,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new DotnetSpiderException("任务不存在.");
 			}
 
-			return Mapper.Map<AddTaskInput>(task);
+			return Mapper.Map<CreateTaskInput>(task);
 		}
 
 		/// <summary>
@@ -396,11 +406,11 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 
 			var identity = Guid.NewGuid().ToString("N");
-			var messages = new List<AddMessageInput>();
+			var messages = new List<CreateMessageInput>();
 			foreach (var node in nodes)
 			{
 				var arguments = string.Concat(task.Arguments, task.IsSingle ? " -tid:" : " ", task.Id, task.IsSingle ? " -i:" : " ", identity);
-				var msg = new AddMessageInput
+				var msg = new CreateMessageInput
 				{
 					TaskId = task.Id,
 					ApplicationName = task.ApplicationName,
@@ -411,7 +421,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				};
 				messages.Add(msg);
 			}
-			_messageAppService.Add(messages);
+			_messageAppService.Create(messages);
 
 			var taskHistory = new AddTaskHistoryInput
 			{
@@ -444,6 +454,47 @@ namespace DotnetSpider.Enterprise.Application.Task
 					};
 					_schedulerAppService.Create(job);
 				}
+			}
+		}
+
+		public void Control(long taskId, ActionType action)
+		{
+			if (action != ActionType.Increase && action != ActionType.Reduce && Session.UserId == null)
+			{
+				throw new DotnetSpiderException("Auth denied.");
+			}
+			switch (action)
+			{
+				case ActionType.Disable:
+					{
+						Disable(taskId);
+						break;
+					}
+				case ActionType.Enable:
+					{
+						Enable(taskId);
+						break;
+					}
+				case ActionType.Exit:
+					{
+						Exit(taskId);
+						break;
+					}
+				case ActionType.Run:
+					{
+						Run(taskId);
+						break;
+					}
+				case ActionType.Increase:
+					{
+						IncreaseRunning(taskId);
+						break;
+					}
+				case ActionType.Reduce:
+					{
+						ReduceRunning(taskId);
+						break;
+					}
 			}
 		}
 	}

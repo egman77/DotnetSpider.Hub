@@ -1,28 +1,24 @@
 ﻿// Write your Javascript code.
 var dsApp = {};
+
+dsApp.queryString = function (name) {
+    var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result === null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+}
+
 dsApp.post = function (url, data, success, error) {
     $.post(url, data, function (result, status, request) {
-        if (status === "success") {
-            if (result && result.success) {
-                if (success) {
-                    success(result);
-                }
-            } else {
-                if (error) {
-                    error(result);
-                } else {
-                    if (swal) {
-                        if (result.message) {
-                            swal("Oops...", result.message, "error");
-                        }
-                    }
-                }
+        if (result && result.status === "Success") {
+            if (success) {
+                success(result);
             }
         } else {
             if (error) {
                 error(result);
-            }
-            else {
+            } else {
                 if (swal) {
                     if (result.message) {
                         swal("Oops...", result.message, "error");
@@ -43,7 +39,7 @@ dsApp.post = function (url, data, success, error) {
 
 dsApp.get = function (url, success, error) {
     $.get(url, function (result, status, request) {
-        if (result && result.success) {
+        if (result && result.status === "Success") {
             if (success) {
                 success(result);
             }
@@ -65,6 +61,76 @@ dsApp.get = function (url, success, error) {
         } else {
             if (swal) {
                 swal("Oops...", result.message, "Internal error.");
+            }
+        }
+    });
+}
+
+dsApp.delete = function (url, success, error) {
+    $.ajax({
+        url: url,
+        type: 'DELETE',
+        success: function (result) {
+            if (result && result.status === "Success") {
+                if (success) {
+                    success(result);
+                }
+            } else {
+                if (error) {
+                    error(result);
+                }
+                else {
+                    if (swal) {
+                        if (result.message) {
+                            swal(result.message);
+                        }
+                    }
+                }
+            }
+        },
+        error: function (result) {
+            if (error) {
+                error(result);
+            } else {
+                if (swal) {
+                    swal("Oops...", result.message, "Internal error.");
+                }
+            }
+        }
+    });
+}
+
+
+dsApp.put = function (url, data, success, error) {
+    $.ajax({
+        url: url,
+        data: data,
+        type: 'PUT',
+        success: function (result) {
+            if (result && result.status === "Success") {
+                if (success) {
+                    success(result);
+                }
+            } else {
+                if (error) {
+                    error(result);
+                }
+                else {
+                    if (swal) {
+                        if (result.message) {
+                            swal(result.message);
+                        }
+                    }
+                }
+            }
+        },
+        error: function (result) {
+            if (error) {
+                error(result);
+            } else {
+                if (swal) {
+                    swal("Oops...", result.message, "Internal error.");
+                }
             }
         }
     });
@@ -108,6 +174,20 @@ dsApp.ui.initPagination = function (query, option, click) {
     }
     dsApp.pagers[query] = false;
     $(query).twbsPagination(currOption);
+}
+
+dsApp.getFilter = function (key) {
+    var filter = dsApp.queryString('filter');
+    if (!filter) {
+        return '';
+    }
+    var kvs = filter.split('|');
+    var filters = {};
+    for (i = 0; i < kvs.length; ++i) {
+        var kv = kvs[i].split('::');
+        filters[kv[0]] = kv[1];
+    }
+    return filters[key];
 }
 
 function setMenuActive(id) {

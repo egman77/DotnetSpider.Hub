@@ -24,29 +24,29 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 
 			if (orderyBy == null)
 			{
-				if (input.IsSortByDesc())
+				if (input.SortByDesc)
 				{
-					entities = entities.OrderByDescending(e => e.Id).Skip((input.Page - 1) * input.Size).Take(input.Size);
+					entities = entities.OrderByDescending(e => e.Id).Skip((input.Page.Value - 1) * input.Size.Value).Take(input.Size.Value);
 				}
 				else
 				{
-					entities = entities.Skip((input.Page - 1) * input.Size).Take(input.Size);
+					entities = entities.Skip((input.Page.Value - 1) * input.Size.Value).Take(input.Size.Value);
 				}
 			}
 			else
 			{
-				if (input.IsSortByDesc())
+				if (input.SortByDesc)
 				{
-					entities = entities.OrderByDescending(orderyBy).Skip((input.Page - 1) * input.Size).Take(input.Size);
+					entities = entities.OrderByDescending(orderyBy).Skip((input.Page.Value - 1) * input.Size.Value).Take(input.Size.Value);
 				}
 				else
 				{
-					entities = entities.OrderBy(orderyBy).Skip((input.Page - 1) * input.Size).Take(input.Size);
+					entities = entities.OrderBy(orderyBy).Skip((input.Page.Value - 1) * input.Size.Value).Take(input.Size.Value);
 				}
 			}
 
-			output.Page = input.Page;
-			output.Size = input.Size;
+			output.Page = input.Page.Value;
+			output.Size = input.Size.Value;
 			output.Result = entities.ToList();
 			return output;
 		}

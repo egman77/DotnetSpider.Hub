@@ -1,6 +1,7 @@
 ﻿using DotnetSpider.Enterprise.Core;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace DotnetSpider.Enterprise
@@ -19,14 +20,19 @@ namespace DotnetSpider.Enterprise
 			_logger.LogError(context.Exception.ToString());
 			context.HttpContext.Response.StatusCode = 206;
 			string info;
+
 			if (context.Exception is DotnetSpiderException)
 			{
-				info = $"{{\"success\" : false, \"message\" : \"{context.Exception.Message}\"}}";
+				info = JsonConvert.SerializeObject(new StandardResult { Code = 101, Message = context.Exception.Message, Status = Status.Error });
+
+				_logger.LogError(context.Exception.ToString());
 			}
 			else
 			{
-				info = $"{{\"success\" : false, \"message\" : \"内部错误\"}}";
+				_logger.LogError(context.Exception.ToString());
+				info = JsonConvert.SerializeObject(new StandardResult { Code = 102, Message = "Internal error.", Status = Status.Error });
 			}
+
 			var bytes = Encoding.UTF8.GetBytes(info);
 			context.ExceptionHandled = true;
 			context.HttpContext.Response.ContentType = "application/json; charset=utf-8";

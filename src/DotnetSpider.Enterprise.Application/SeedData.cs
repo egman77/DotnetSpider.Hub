@@ -37,7 +37,7 @@ namespace DotnetSpider.Enterprise.Application
 		private static void InitData(ApplicationDbContext context)
 		{
 			var random = new Random();
-			for (int i = 0; i < 5; ++i)
+			for (int i = 0; i < 100; ++i)
 			{
 				Domain.Entities.Task task = new Domain.Entities.Task
 				{

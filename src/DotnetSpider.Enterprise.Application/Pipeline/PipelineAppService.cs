@@ -52,10 +52,6 @@ namespace DotnetSpider.Enterprise.Application.Pipeline
 
 		public int Process(Stream content)
 		{
-			if (!IsAuth())
-			{
-				throw new DotnetSpiderException("Access Denied.");
-			}
 			var memory = new MemoryStream();
 			content.CopyTo(memory);
 

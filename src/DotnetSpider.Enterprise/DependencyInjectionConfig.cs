@@ -3,6 +3,7 @@ using DotnetSpider.Enterprise.Application.AuthMessage;
 using DotnetSpider.Enterprise.Application.Log;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Node;
+using DotnetSpider.Enterprise.Application.NodeHeartbeat;
 using DotnetSpider.Enterprise.Application.Pipeline;
 using DotnetSpider.Enterprise.Application.Report;
 using DotnetSpider.Enterprise.Application.Scheduler;
@@ -40,6 +41,7 @@ namespace DotnetSpider.Enterprise
 			services.AddScoped<IPipelineAppService, PipelineAppService>();
 			services.AddScoped<ISchedulerAppService, SchedulerAppService>();
 			services.AddScoped<ISystemAppService, SystemAppService>();
+			services.AddScoped<INodeHeartbeatAppService, NodeHeartbeatAppService>();
 
 		}
 	}

@@ -15,12 +15,12 @@ namespace DotnetSpider.Enterprise.Application.Message
 	public class MessageAppService : AppServiceBase, IMessageAppService
 	{
 		public MessageAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
 			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 		}
 
-		public void Add(AddMessageInput input)
+		public void Create(CreateMessageInput input)
 		{
 			if (input == null)
 			{
@@ -30,10 +30,10 @@ namespace DotnetSpider.Enterprise.Application.Message
 			var message = Mapper.Map<Domain.Entities.Message>(input);
 			DbContext.Message.Add(message);
 			DbContext.SaveChanges();
-			Logger.LogWarning($"Add message {input}.");
+			Logger.LogWarning($"Crate message {input} success.");
 		}
 
-		public void Add(IEnumerable<AddMessageInput> input)
+		public void Create(IEnumerable<CreateMessageInput> input)
 		{
 			if (input == null)
 			{
@@ -43,25 +43,25 @@ namespace DotnetSpider.Enterprise.Application.Message
 			var messages = Mapper.Map<List<Domain.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
 			DbContext.SaveChanges();
-			Logger.LogWarning($"Add messages {input}.");
+			Logger.LogWarning($"Crate messages {input} success.");
 		}
 
-		public List<MessageDto> Query(string nodeId)
+		public IEnumerable<MessageDto> Consume(string nodeId)
 		{
-			var messages = DbContext.Message.Where(m => m.NodeId == nodeId).ToList();
+			var messages = DbContext.Message.Where(m => m.NodeId == nodeId);
 			var messageHistories = Mapper.Map<List<MessageHistory>>(messages);
-			foreach (var history in messageHistories)
+			foreach (var messageHistory in messageHistories)
 			{
-				history.Id = 0;
+				messageHistory.Id = 0;
 			}
 			DbContext.MessageHistory.AddRange(messageHistories);
 			DbContext.Message.RemoveRange(messages);
 			DbContext.SaveChanges();
-			foreach (var message in messages)
+			if (messages.Count() > 0)
 			{
-				Logger.LogWarning($"Consume message: {JsonConvert.SerializeObject(message)}.");
+				Logger.LogWarning($"Consume messages: {JsonConvert.SerializeObject(messages)}.");
 			}
-			return Mapper.Map<List<MessageDto>>(messages);
+			return Mapper.Map<IEnumerable<MessageDto>>(messages);
 		}
 	}
 }

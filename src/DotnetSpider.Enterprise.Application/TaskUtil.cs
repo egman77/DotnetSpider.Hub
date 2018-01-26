@@ -13,10 +13,10 @@ namespace DotnetSpider.Enterprise.Application
 		{
 			var runningNodes = nodeAppService.GetAllOnline();
 
-			var messages = new List<AddMessageInput>();
+			var messages = new List<CreateMessageInput>();
 			foreach (var status in runningNodes)
 			{
-				var msg = new AddMessageInput
+				var msg = new CreateMessageInput
 				{
 					ApplicationName = "NULL",
 					TaskId = task.Id,
@@ -26,7 +26,7 @@ namespace DotnetSpider.Enterprise.Application
 				logger?.LogWarning($"Add CANCLE message: {JsonConvert.SerializeObject(msg)}.");
 				messages.Add(msg);
 			}
-			messageAppService.Add(messages);
+			messageAppService.Create(messages);
 
 			task.IsRunning = false;
 			task.NodeRunningCount = 0;

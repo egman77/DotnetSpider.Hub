@@ -9,30 +9,15 @@ namespace DotnetSpider.Enterprise.Controllers
 {
 	public class HomeController : AppControllerBase
 	{
-		private readonly IReportAppService _reportAppService;
-
-		public HomeController(IReportAppService reportAppService, IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
+		public HomeController(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
 			: base(appSession, loggerFactory, commonConfiguration)
 		{
-			_reportAppService = reportAppService;
 		}
 
 		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();
-		}
-
-		[HttpPost]
-		public IActionResult Dashboard()
-		{
-			return DataResult(_reportAppService.GetHomePageDashboard());
-		}
-
-		[HttpGet]
-		public IActionResult ThrowException()
-		{
-			throw new DotnetSpiderException("TEST EXCEPTION.");
 		}
 	}
 }

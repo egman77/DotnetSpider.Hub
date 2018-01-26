@@ -28,63 +28,62 @@ namespace DotnetSpider.Enterprise.Application.Log
 				Logger.LogError($"{nameof(input)} should not be null.");
 				return;
 			}
-			if (IsAuth())
+
+			if (string.IsNullOrEmpty(input.Identity) || input.LogInfo == null)
 			{
-				if (string.IsNullOrEmpty(input.Identity) || input.LogInfo == null)
-				{
-					return;
-				}
-				var client = new MongoClient(Configuration.LogMongoConnectionString);
-				var database = client.GetDatabase("dotnetspider");
-				var collection = database.GetCollection<BsonDocument>(input.Identity);
-				await collection.InsertOneAsync(BsonDocument.Parse(input.LogInfo.ToString()));
 				return;
 			}
-			throw new DotnetSpiderException("Access Denied.");
+			var client = new MongoClient(Configuration.LogMongoConnectionString);
+			var database = client.GetDatabase("dotnetspider");
+			var collection = database.GetCollection<BsonDocument>(input.Identity);
+			await collection.InsertOneAsync(BsonDocument.Parse(input.LogInfo.ToString()));
 		}
 
-		public PaginationQueryLogDto Query(PaginationQueryLogInput input)
+		public PaginationQueryLogDto Find(PaginationQueryInput input)
 		{
 			if (input == null)
 			{
 				throw new ArgumentNullException($"{nameof(input)} should not be null.");
 			}
-			var client = new MongoClient(Configuration.LogMongoConnectionString);
-			var database = client.GetDatabase("dotnetspider");
-			var collection = database.GetCollection<BsonDocument>(input.Identity);
-
 			var result = new PaginationQueryLogDto
 			{
-				Page = input.Page,
-				Size = input.Size,
+				Page = input.Page.Value,
+				Size = input.Size.Value,
 				Columns = new List<string>(),
 				Values = new List<List<string>>()
 			};
+			var identity = input.GetFilterValue("identity")?.Trim();
+			if (string.IsNullOrWhiteSpace(identity))
+			{
+				return result;
+			}
+			var client = new MongoClient(Configuration.LogMongoConnectionString);
+			var database = client.GetDatabase("dotnetspider");
+			var collection = database.GetCollection<BsonDocument>(identity);
 
 			List<BsonDocument> list = null;
 			var queryBson = new BsonDocument();
-			if (!string.IsNullOrEmpty(input.NodeId))
+			var nodeId = input.GetFilterValue("nodeid")?.Trim();
+
+			if (!string.IsNullOrWhiteSpace(nodeId))
 			{
-				queryBson.Add("NodeId", input.NodeId);
+				queryBson.Add("NodeId", nodeId);
 			}
-			if (!string.IsNullOrEmpty(input.LogType) && input.LogType.ToLower() != "all")
+			var logType = input.GetFilterValue("logtype");
+			if (!string.IsNullOrWhiteSpace(logType) && "all" != logType.Trim().ToLower())
 			{
-				queryBson.Add("Level", input.LogType);
+				queryBson.Add("Level", logType);
 			}
-			else
-			{
-				list = collection.Find(new BsonDocument()).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
-				result.Total = collection.Find(new BsonDocument()).Count();
-			}
-			list = collection.Find(new BsonDocument()).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
-			result.Total = collection.Find(new BsonDocument()).Count();
+
+			list = collection.Find(queryBson).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
+			result.Total = collection.Find(queryBson).Count();
 
 			if (list.Count > 0)
 			{
 				var head = list.First();
 				foreach (var hi in head.Elements)
 				{
-					if (hi.Name == "_id")
+					if (hi.Name == "_id" || hi.Name.ToLower() == "identity")
 					{
 						continue;
 					}
@@ -93,7 +92,7 @@ namespace DotnetSpider.Enterprise.Application.Log
 				foreach (var item in list)
 				{
 					var vlist = new List<string>();
-					foreach (var v in item.Elements.Where(a => a.Name != "_id"))
+					foreach (var v in item.Elements.Where(a => a.Name != "_id" && a.Name.ToLower() != "identity"))
 					{
 						vlist.Add(v.Value is BsonNull ? string.Empty : v.Value.ToString());
 					}

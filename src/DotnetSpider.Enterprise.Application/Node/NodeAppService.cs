@@ -50,23 +50,6 @@ namespace DotnetSpider.Enterprise.Application.Node
 			}
 		}
 
-		public List<MessageDto> Heartbeat(NodeHeartbeatInput input)
-		{
-			if (input == null)
-			{
-				Logger.LogError($"{nameof(input)} should not be null.");
-				return new List<MessageDto>();
-			}
-			if (IsAuth())
-			{
-				AddHeartbeat(input);
-				RefreshOnlineStatus(input);
-				DbContext.SaveChanges();
-				return _messageAppService.Query(input.NodeId);
-			}
-			throw new DotnetSpiderException("Access Denied.");
-		}
-
 		public PaginationQueryDto Query(PaginationQueryInput input)
 		{
 			if (input == null)
@@ -74,7 +57,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 				throw new ArgumentNullException($"{nameof(input)} should not be null.");
 			}
 			PaginationQueryDto output = new PaginationQueryDto();
-			switch (input.SortKey)
+			switch (input.Sort)
 			{
 				case "enable":
 					{
@@ -193,35 +176,6 @@ namespace DotnetSpider.Enterprise.Application.Node
 			return value.TotalSeconds < 60;
 		}
 
-		private void AddHeartbeat(NodeHeartbeatInput input)
-		{
-			var heartbeat = Mapper.Map<NodeHeartbeat>(input);
-			DbContext.NodeHeartbeat.Add(heartbeat);
-		}
-
-		private void RefreshOnlineStatus(NodeHeartbeatInput input)
-		{
-			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == input.NodeId);
-			if (node != null)
-			{
-				node.IsOnline = true;
-				node.Type = input.Type;
-				node.Os = input.Os;
-				node.LastModificationTime = DateTime.Now;
-			}
-			else
-			{
-				node = new Domain.Entities.Node();
-				node.NodeId = input.NodeId;
-				node.IsEnable = true;
-				node.IsOnline = true;
-				node.CreationTime = DateTime.Now;
-				node.Type = input.Type;
-				node.Os = input.Os;
-				node.LastModificationTime = DateTime.Now;
-				DbContext.Node.Add(node);
-			}
-		}
 
 		public List<NodeDto> GetAllOnline()
 		{
@@ -238,7 +192,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public void Exit(string nodeId)
 		{
-			var message = new AddMessageInput
+			var message = new CreateMessageInput
 			{
 				ApplicationName = "NULL",
 				Name = Domain.Entities.Message.ExitMessageName,
@@ -246,10 +200,10 @@ namespace DotnetSpider.Enterprise.Application.Node
 				TaskId = 0
 			};
 			Logger.LogInformation($"Exit node: {nodeId}.");
-			_messageAppService.Add(message);
+			_messageAppService.Create(message);
 		}
 
-		public void Remove(string nodeId)
+		public void Delete(string nodeId)
 		{
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
@@ -259,6 +213,28 @@ namespace DotnetSpider.Enterprise.Application.Node
 				DbContext.Node.Remove(node);
 				DbContext.SaveChanges();
 				Logger.LogInformation($"Remove node: {nodeId}.");
+			}
+		}
+
+		public void Control(string nodeId, ActionType action)
+		{
+			switch (action)
+			{
+				case ActionType.Disable:
+					{
+						Disable(nodeId);
+						break;
+					}
+				case ActionType.Enable:
+					{
+						Enable(nodeId);
+						break;
+					}
+				case ActionType.Exit:
+					{
+						Exit(nodeId);
+						break;
+					}
 			}
 		}
 	}

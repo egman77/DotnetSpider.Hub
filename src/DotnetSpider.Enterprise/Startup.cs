@@ -186,7 +186,7 @@ namespace DotnetSpider.Enterprise
 				SeedData.Initialize(app.ApplicationServices);
 			}
 
-			//if (!env.IsDevelopment())
+			if (!env.IsDevelopment())
 			{
 				SeedData.InitializeScheduler(app.ApplicationServices);
 			}

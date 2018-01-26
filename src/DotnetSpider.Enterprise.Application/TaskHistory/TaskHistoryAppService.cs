@@ -32,7 +32,7 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 			DbContext.SaveChanges();
 		}
 
-		public PaginationQueryDto Query(PaginationQueryTaskHistoryInput input)
+		public PaginationQueryDto Find(PaginationQueryInput input)
 		{
 			if (input == null)
 			{
@@ -40,11 +40,11 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 			}
 			var output = new PaginationQueryDto
 			{
-				Page = input.Page,
-				Size = input.Size
+				Page = input.Page.Value,
+				Size = input.Size.Value
 			};
-
-			var taskHistoryOutput = DbContext.TaskHistory.PageList(input, a => a.TaskId == input.TaskId, t => t.CreationTime);
+			var taskId = long.Parse(input.GetFilterValue("taskid"));
+			var taskHistoryOutput = DbContext.TaskHistory.PageList(input, a => a.TaskId == taskId, t => t.CreationTime);
 
 			output.Total = taskHistoryOutput.Total;
 			var taskHistories = taskHistoryOutput.Result as List<Domain.Entities.TaskHistory>;
@@ -67,7 +67,6 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 				result.Add(new PaginationQueryTaskHistoryDto
 				{
 					Identity = item.Identity,
-					TaskId = input.TaskId,
 					CreationTime = item.CreationTime.ToString("yyyy/MM/dd HH:mm:ss"),
 					Statuses = statusOutputs.Where(a => a.Identity == item.Identity).ToList()
 				});

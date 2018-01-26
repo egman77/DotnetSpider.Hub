@@ -1,4 +1,5 @@
 ﻿using DotnetSpider.Enterprise.Application.Log.Dto;
+using DotnetSpider.Enterprise.Domain;
 
 namespace DotnetSpider.Enterprise.Application.Log
 {
@@ -6,7 +7,7 @@ namespace DotnetSpider.Enterprise.Application.Log
 	{
 		void Add(AddLogInput input);
 
-		PaginationQueryLogDto Query(PaginationQueryLogInput input);
+		PaginationQueryLogDto Find(PaginationQueryInput input);
 
 		void Clear();
 	}

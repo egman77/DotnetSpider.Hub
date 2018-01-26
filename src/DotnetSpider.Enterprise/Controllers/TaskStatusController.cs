@@ -10,37 +10,15 @@ namespace DotnetSpider.Enterprise.Controllers
 {
 	public class TaskStatusController : AppControllerBase
 	{
-		private readonly ITaskStatusAppService _taskStatusAppService;
-
-		public TaskStatusController(ITaskStatusAppService taskStatusAppService, IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
+		public TaskStatusController(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
 			: base(appSession, loggerFactory, commonConfiguration)
 		{
-			_taskStatusAppService = taskStatusAppService;
 		}
 
 		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();
-		}
-
-		[HttpPost]
-		public IActionResult Query(PaginationQueryTaskStatusInput input)
-		{
-			input.Sort = "desc";
-			return DataResult(_taskStatusAppService.Query(input));
-		}
-
-		[HttpPost]
-		[AllowAnonymous]
-		public IActionResult AddOrUpdate([FromBody]AddOrUpdateTaskStatusInput input)
-		{
-			if (input == null)
-			{
-				return Forbid();
-			}
-			_taskStatusAppService.AddOrUpdate(input);
-			return Ok();
 		}
 	}
 }

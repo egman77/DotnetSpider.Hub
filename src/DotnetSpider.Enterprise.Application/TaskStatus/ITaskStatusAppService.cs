@@ -6,6 +6,6 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 	public interface ITaskStatusAppService
 	{
 		void AddOrUpdate(AddOrUpdateTaskStatusInput input);
-		PaginationQueryDto Query(PaginationQueryTaskStatusInput input);
+		PaginationQueryDto Find(PaginationQueryInput input);
 	}
 }
