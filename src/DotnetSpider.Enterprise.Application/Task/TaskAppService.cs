@@ -7,7 +7,6 @@ using DotnetSpider.Enterprise.Application.Task.Dtos;
 using AutoMapper;
 using System.Linq;
 using DotnetSpider.Enterprise.Core;
-using MongoDB.Driver;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.TaskHistory;
 using DotnetSpider.Enterprise.Application.Node;

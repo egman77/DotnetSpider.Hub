@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DotnetSpider.Enterprise.Application.Node.Dto;
-using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using DotnetSpider.Enterprise.Domain.Entities;
@@ -21,7 +20,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 	{
 		private readonly IMessageAppService _messageAppService;
 
-		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService, ICommonConfiguration configuration,
+		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService,
+			ICommonConfiguration configuration,
 			IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
 			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
@@ -56,7 +56,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 			{
 				throw new ArgumentNullException($"{nameof(input)} should not be null.");
 			}
-			PaginationQueryDto output = new PaginationQueryDto();
+
+			PaginationQueryDto output;
 			switch (input.Sort)
 			{
 				case "enable":
@@ -80,8 +81,9 @@ namespace DotnetSpider.Enterprise.Application.Node
 						break;
 					}
 			}
+
 			List<NodeDto> nodeOutputs = new List<NodeDto>();
-			var nodes = output.Result as List<Domain.Entities.Node>;
+			var nodes = (List<Domain.Entities.Node>)output.Result;
 
 			foreach (var node in nodes)
 			{
@@ -93,7 +95,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 				if (nodeOutput.IsOnline)
 				{
-					var lastHeartbeat = DbContext.NodeHeartbeat.OrderByDescending(t => t.Id).FirstOrDefault(h => h.NodeId == node.NodeId);
+					var lastHeartbeat = DbContext.NodeHeartbeat.OrderByDescending(t => t.Id)
+						.FirstOrDefault(h => h.NodeId == node.NodeId);
 					nodeOutput.CPULoad = lastHeartbeat.CPULoad;
 					nodeOutput.FreeMemory = lastHeartbeat.FreeMemory;
 					nodeOutput.Ip = lastHeartbeat.Ip;
@@ -116,35 +119,42 @@ namespace DotnetSpider.Enterprise.Application.Node
 					nodeOutput.Type = 1;
 					nodeOutput.Version = "UNKONW";
 				}
+
 				nodeOutputs.Add(nodeOutput);
 			}
+
 			output.Result = nodeOutputs;
 			return output;
 		}
 
 		public List<NodeDto> GetAvailable(string os, int type, int nodeCount)
 		{
-			List<Domain.Entities.Node> nodes = null;
+			List<Domain.Entities.Node> nodes;
 			var compareTime = DateTime.Now.AddSeconds(-60);
 
 			if (string.IsNullOrEmpty(os) || "all" == os.ToLower())
 			{
-				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Type == type && a.LastModificationTime > compareTime).ToList();
+				nodes = DbContext.Node.Where(a =>
+					a.IsEnable && a.IsOnline && a.Type == type && a.LastModificationTime > compareTime).ToList();
 			}
 			else
 			{
-				nodes = DbContext.Node.Where(a => a.IsEnable && a.IsOnline && a.Os.Contains(os) && a.Type == type && a.LastModificationTime > compareTime).ToList();
+				nodes = DbContext.Node.Where(a =>
+					a.IsEnable && a.IsOnline && a.Os.Contains(os) && a.Type == type &&
+					a.LastModificationTime > compareTime).ToList();
 			}
 
 			var availableNodes = new List<Domain.Entities.Node>();
 			foreach (var node in nodes)
 			{
-				var heartbeat = DbContext.NodeHeartbeat.OrderByDescending(a => a.Id).FirstOrDefault(a => a.NodeId == node.NodeId);
+				var heartbeat = DbContext.NodeHeartbeat.OrderByDescending(a => a.Id)
+					.FirstOrDefault(a => a.NodeId == node.NodeId);
 				if (heartbeat.CPULoad < 90 && heartbeat.FreeMemory > 150)
 				{
 					availableNodes.Add(node);
 				}
 			}
+
 			if (availableNodes.Count == 0)
 			{
 				// TODO SEND REPORT
@@ -172,8 +182,13 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		private bool IsOnlineNode(Domain.Entities.Node node)
 		{
-			var value = (DateTime.Now - node.LastModificationTime).Value;
-			return value.TotalSeconds < 60;
+			if (node.LastModificationTime != null)
+			{
+				var value = (DateTime.Now - node.LastModificationTime).Value;
+				return value.TotalSeconds < 60;
+			}
+
+			return false;
 		}
 
 
@@ -209,7 +224,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 			if (node != null)
 			{
 				var nodeIdParameter = new SqlParameter("NodeId", nodeId);
-				DbContext.Database.ExecuteSqlCommand($"DELETE FROM NodeHeartbeat WHERE NodeId=@NodeId", nodeIdParameter);
+				DbContext.Database.ExecuteSqlCommand($"DELETE FROM NodeHeartbeat WHERE NodeId=@NodeId",
+					nodeIdParameter);
 				DbContext.Node.Remove(node);
 				DbContext.SaveChanges();
 				Logger.LogInformation($"Remove node: {nodeId}.");

@@ -1,5 +1,4 @@
-﻿using DotnetSpider.Enterprise.Application.Report.Dtos;
-using DotnetSpider.Enterprise.Domain;
+﻿using DotnetSpider.Enterprise.Domain;
 
 namespace DotnetSpider.Enterprise.Application.Report
 {

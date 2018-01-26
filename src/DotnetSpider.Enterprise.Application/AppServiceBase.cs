@@ -4,7 +4,6 @@ using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 
 namespace DotnetSpider.Enterprise.Application
 {
@@ -28,14 +27,19 @@ namespace DotnetSpider.Enterprise.Application
 
 		protected virtual Domain.Entities.ApplicationUser GetCurrentUser()
 		{
-			var userId = Session.UserId.Value;
-			var user = UserManager.GetUserById(userId);
-			if (user == null)
+			if (Session.UserId != null)
 			{
-				throw new DotnetSpiderException("There is no current user!");
+				var userId = Session.UserId.Value;
+				var user = UserManager.GetUserById(userId);
+				if (user == null)
+				{
+					throw new DotnetSpiderException("There is no current user!");
+				}
+
+				return user;
 			}
 
-			return user;
+			return null;
 		}
 	}
 }

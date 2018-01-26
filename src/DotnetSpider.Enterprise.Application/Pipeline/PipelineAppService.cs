@@ -13,7 +13,6 @@ using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using MessagePack;
 using Microsoft.Extensions.Logging;
-using DotnetSpider.Enterprise.Core;
 
 namespace DotnetSpider.Enterprise.Application.Pipeline
 {

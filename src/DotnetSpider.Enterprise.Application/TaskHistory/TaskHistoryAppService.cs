@@ -47,8 +47,8 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 			var taskHistoryOutput = DbContext.TaskHistory.PageList(input, a => a.TaskId == taskId, t => t.CreationTime);
 
 			output.Total = taskHistoryOutput.Total;
-			var taskHistories = taskHistoryOutput.Result as List<Domain.Entities.TaskHistory>;
-			List<Domain.Entities.TaskStatus> statuses = null;
+			var taskHistories =(List<Domain.Entities.TaskHistory>) taskHistoryOutput.Result;
+			List<Domain.Entities.TaskStatus> statuses;
 			if (taskHistories.Count > 0)
 			{
 				var identities = taskHistories.Select(r => r.Identity);

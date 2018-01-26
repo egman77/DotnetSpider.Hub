@@ -87,7 +87,7 @@ namespace DotnetSpider.Enterprise.Application.System
 				var status = DbContext.TaskStatus.Where(ts => ts.TaskId == id).OrderByDescending(ts => ts.LastModificationTime).FirstOrDefault();
 				if (status != null)
 				{
-					if (status.LastModificationTime.Value != null)
+					if (status.LastModificationTime != null)
 					{
 						if ((DateTime.Now - status.LastModificationTime.Value).TotalSeconds > 3600)
 						{

@@ -51,7 +51,7 @@ namespace DotnetSpider.Enterprise.Application.Report
 			var database = client.GetDatabase("dotnetspider");
 
 			BsonDocumentCommand<BsonDocument> command = new BsonDocumentCommand<BsonDocument>(new BsonDocument { { "dbStats", 1 }, { "scale", 1024 } });
-			var result = database.RunCommand<BsonDocument>(command);
+			var result = database.RunCommand(command);
 			var storageSize = result.GetValue("storageSize").ToInt64();
 
 			var nodes = _nodeAppService.Query(new PaginationQueryInput { Page = 1, Size = 10 });

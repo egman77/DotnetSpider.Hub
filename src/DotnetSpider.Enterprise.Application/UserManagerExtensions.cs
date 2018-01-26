@@ -8,9 +8,9 @@ namespace DotnetSpider.Enterprise.Application
 {
 	public static class UserManagerExtensions
 	{
-		public static bool CheckPermission(this UserManager<Domain.Entities.ApplicationUser> userManager, IHttpContextAccessor accessor, string claimName, bool throwException = true)
+		public static bool CheckPermission(this UserManager<ApplicationUser> userManager, IHttpContextAccessor accessor, string claimName, bool throwException = true)
 		{
-			var hasClaim = userManager.HasClaim(accessor, claimName);
+			var hasClaim = HasClaim(accessor, claimName);
 			if (throwException)
 			{
 				if (!hasClaim)
@@ -26,7 +26,7 @@ namespace DotnetSpider.Enterprise.Application
 			return userManager.Users.FirstOrDefault(u => u.Id == id);
 		}
 
-		public static bool HasClaim(this UserManager<Domain.Entities.ApplicationUser> userManager, IHttpContextAccessor accessor, string claimName)
+		public static bool HasClaim(IHttpContextAccessor accessor, string claimName)
 		{
 			return accessor.HttpContext.User.Claims.Any(c => c.Value == claimName);
 		}

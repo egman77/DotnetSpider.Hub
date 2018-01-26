@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DotnetSpider.Enterprise.Core
 {
-	public static class Encrypt
+	public static class CryptoUtil
 	{
 		private const string AesKey = "wtt0wI9Q<K}kC;8)Qvbifo7*IO#VF/.K";
 		private const string AesVector = "DX&crmK]P@&U=#*R";
@@ -35,7 +35,7 @@ namespace DotnetSpider.Enterprise.Core
 		/// </summary>
 		/// <param name="plainStr">明文字符串</param>
 		/// <returns>密文</returns>
-		public static string AESEncrypt(string plainStr)
+		public static string AesEncrypt(string plainStr)
 		{
 			byte[] bKey = Encoding.UTF8.GetBytes(AesKey);
 			byte[] bIV = Encoding.UTF8.GetBytes(AesVector);
@@ -55,9 +55,11 @@ namespace DotnetSpider.Enterprise.Core
 					}
 				}
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
+				// ignored
 			}
+
 			aes.Dispose();
 
 			return encrypt;
@@ -69,9 +71,9 @@ namespace DotnetSpider.Enterprise.Core
 		/// <param name="plainStr">明文字符串</param>
 		/// <param name="returnNull">加密失败时是否返回 null，false 返回 String.Empty</param>
 		/// <returns>密文</returns>
-		public static string AESEncrypt(string plainStr, bool returnNull)
+		public static string AesEncrypt(string plainStr, bool returnNull)
 		{
-			string encrypt = AESEncrypt(plainStr);
+			string encrypt = AesEncrypt(plainStr);
 			return returnNull ? encrypt : (encrypt == null ? String.Empty : encrypt);
 		}
 
@@ -80,10 +82,10 @@ namespace DotnetSpider.Enterprise.Core
 		/// </summary>
 		/// <param name="encryptStr">密文字符串</param>
 		/// <returns>明文</returns>
-		public static string AESDecrypt(string encryptStr)
+		public static string AesDecrypt(string encryptStr)
 		{
 			byte[] bKey = Encoding.UTF8.GetBytes(AesKey);
-			byte[] bIV = Encoding.UTF8.GetBytes(AesVector);
+			byte[] bIv = Encoding.UTF8.GetBytes(AesVector);
 			byte[] byteArray = Convert.FromBase64String(encryptStr);
 
 			string decrypt = null;
@@ -92,7 +94,7 @@ namespace DotnetSpider.Enterprise.Core
 			{
 				using (MemoryStream mStream = new MemoryStream())
 				{
-					using (CryptoStream cStream = new CryptoStream(mStream, aes.CreateDecryptor(bKey, bIV), CryptoStreamMode.Write))
+					using (CryptoStream cStream = new CryptoStream(mStream, aes.CreateDecryptor(bKey, bIv), CryptoStreamMode.Write))
 					{
 						cStream.Write(byteArray, 0, byteArray.Length);
 						cStream.FlushFinalBlock();
@@ -100,9 +102,11 @@ namespace DotnetSpider.Enterprise.Core
 					}
 				}
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
+				// ignored
 			}
+
 			aes.Dispose();
 
 			return decrypt;
@@ -114,10 +118,10 @@ namespace DotnetSpider.Enterprise.Core
 		/// <param name="encryptStr">密文字符串</param>
 		/// <param name="returnNull">解密失败时是否返回 null，false 返回 String.Empty</param>
 		/// <returns>明文</returns>
-		public static string AESDecrypt(string encryptStr, bool returnNull)
+		public static string AesDecrypt(string encryptStr, bool returnNull)
 		{
-			string decrypt = AESDecrypt(encryptStr);
-			return returnNull ? decrypt : (decrypt == null ? String.Empty : decrypt);
+			string decrypt = AesDecrypt(encryptStr);
+			return returnNull ? decrypt : (decrypt ?? String.Empty);
 		}
 	}
 }

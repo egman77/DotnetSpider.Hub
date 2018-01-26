@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using AutoMapper;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
-using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
@@ -74,9 +73,10 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 					where = d => d.Status.ToLower() == status;
 				}
 				output = DbContext.TaskStatus.PageList(input, where, d => d.Id);
-				taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
+				taskStatuses = (List<Domain.Entities.TaskStatus>)output.Result ;
 				taskIds = taskStatuses.Select(t => t.TaskId).ToList();
-				tasks = DbContext.Task.Where(t => taskIds.Contains(t.Id)).ToList();
+				var ids = taskIds;
+				tasks = DbContext.Task.Where(t => ids.Contains(t.Id)).ToList();
 			}
 			else
 			{
@@ -84,18 +84,18 @@ namespace DotnetSpider.Enterprise.Application.TaskStatus
 				taskIds = tasks.Select(t => t.Id).ToList();
 				if (!string.IsNullOrEmpty(status) && "all" != status)
 				{
-					where = d => d.Status.ToLower() == status && taskIds.Contains(d.TaskId);
+					var ids = taskIds;
+					where = d => d.Status.ToLower() == status && ids.Contains(d.TaskId);
 				}
 				else
 				{
-					where = d => taskIds.Contains(d.TaskId);
+					var ids = taskIds;
+					where = d => ids.Contains(d.TaskId);
 				}
 				output = DbContext.TaskStatus.PageList(input, where, d => d.Id);
-				taskStatuses = output.Result as List<Domain.Entities.TaskStatus>;
+				taskStatuses =(List<Domain.Entities.TaskStatus>) output.Result  ;
 			}
-			var taskStatusOutputs = new List<TaskStatusDto>();
-
-			taskIds = taskStatuses.Select(t => t.TaskId).ToList();
+			var taskStatusOutputs = new List<TaskStatusDto>();			
 			foreach (var taskStatus in taskStatuses)
 			{
 				var taskStatusOutput = new TaskStatusDto();

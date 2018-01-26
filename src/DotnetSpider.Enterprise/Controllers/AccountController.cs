@@ -31,7 +31,7 @@ namespace DotnetSpider.Enterprise.Controllers
 
 		[HttpGet]
 		[AllowAnonymous]
-		public IActionResult Login(string returnUrl = null)
+		public IActionResult Login()
 		{
 			return View();
 		}
@@ -62,7 +62,7 @@ namespace DotnetSpider.Enterprise.Controllers
 					}
 					else
 					{
-						var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: true);
+						var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
 						if (result.Succeeded)
 						{
 							return Json(new { Success = true, ReturnUrl = "/Home" });
@@ -70,7 +70,7 @@ namespace DotnetSpider.Enterprise.Controllers
 
 						if (result.RequiresTwoFactor)
 						{
-							return RedirectToAction(nameof(SendSecurityCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+							return RedirectToAction(nameof(SendSecurityCode), new { ReturnUrl = returnUrl, model.RememberMe });
 						}
 						if (result.IsLockedOut)
 						{

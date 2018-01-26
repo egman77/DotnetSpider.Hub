@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DotnetSpider.Enterprise.Application.NodeHeartbeat;
+﻿using DotnetSpider.Enterprise.Application.NodeHeartbeat;
 using DotnetSpider.Enterprise.Application.NodeHeartbeat.Dto;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;

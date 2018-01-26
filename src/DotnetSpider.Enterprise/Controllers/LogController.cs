@@ -1,9 +1,5 @@
-﻿using DotnetSpider.Enterprise.Application.Log;
-using DotnetSpider.Enterprise.Application.Log.Dto;
-using DotnetSpider.Enterprise.Application.Task.Dtos;
-using DotnetSpider.Enterprise.Core.Configuration;
+﻿using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

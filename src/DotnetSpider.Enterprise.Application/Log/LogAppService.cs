@@ -1,5 +1,4 @@
 ﻿using DotnetSpider.Enterprise.Application.Log.Dto;
-using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
@@ -61,7 +60,6 @@ namespace DotnetSpider.Enterprise.Application.Log
 			var database = client.GetDatabase("dotnetspider");
 			var collection = database.GetCollection<BsonDocument>(identity);
 
-			List<BsonDocument> list = null;
 			var queryBson = new BsonDocument();
 			var nodeId = input.GetFilterValue("nodeid")?.Trim();
 
@@ -75,7 +73,7 @@ namespace DotnetSpider.Enterprise.Application.Log
 				queryBson.Add("Level", logType);
 			}
 
-			list = collection.Find(queryBson).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
+			var list = collection.Find(queryBson).Skip((input.Page - 1) * input.Size).Limit(input.Size).Sort(Builders<BsonDocument>.Sort.Descending("_id")).ToList();
 			result.Total = collection.Find(queryBson).Count();
 
 			if (list.Count > 0)
