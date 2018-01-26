@@ -16,25 +16,24 @@
                     <h2>
                         TASK STATUS
                     </h2>
-                    <button type="button" class="pull-right btn bg-blue btn-lg waves-effect waves-float" @@click="query()">SEARCH</button>
                 </div>
                 <div class="body">
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row" style="margin-left:10px;">
-                            <input name="status" type="radio" id="Init" value="Init" v-model="status" />
+                            <input name="status" type="radio" id="Init" value="Init" v-model="status" @@click="statusChanged('Init')"/>
                             <label for="Init">Init</label>
-                            <input name="status" type="radio" id="Running" value="Running" v-model="status" />
+                            <input name="status" type="radio" id="Running" value="Running" v-model="status" @@click="statusChanged('Running')"/>
                             <label for="Running">Running</label>
-                            <input name="status" type="radio" id="Stopped" value="Stopped" v-model="status" />
+                            <input name="status" type="radio" id="Stopped" value="Stopped" v-model="status" @@click="statusChanged('Stopped')"/>
                             <label for="Stopped">Stopped</label>
-                            <input name="status" type="radio" id="Exited" value="Exited" v-model="status" />
+                            <input name="status" type="radio" id="Exited" value="Exited" v-model="status" @@click="statusChanged('Exited')"/>
                             <label for="Exited">Exited</label>
-                            <input name="status" type="radio" id="Finished" value="Finished" v-model="status" />
+                            <input name="status" type="radio" id="Finished" value="Finished" v-model="status" @@click="statusChanged('Finished')"/>
                             <label for="Finished">Finished</label>
-                            <input name="status" type="radio" id="All" value="All" v-model="status" />
+                            <input name="status" type="radio" id="All" value="All" v-model="status" @@click="statusChanged('All')"/>
                             <label for="All">All</label>
                             <span style="margin-left:10px;">Keyword:</span>
-                            <input style="width:400px;" type="search" v-model="keyword" class="form-control input-sm" placeholder="">
+                            <input style="width:400px;" type="search" v-model="keyword" class="form-control input-sm" placeholder="" v-on:keypress="query($event)">
                         </div>
                         <br />
                         <div class="table-responsive">
