@@ -9,8 +9,8 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 		public virtual string NodeId { get; set; }
 		[StringLength(20)]
 		public virtual string Ip { get; set; }
-		public virtual int CPULoad { get; set; }
-		public virtual int CPUCoreCount { get; set; }
+		public virtual int CpuLoad { get; set; }
+		public virtual int CpuCoreCount { get; set; }
 		public virtual long FreeMemory { get; set; }
 		public virtual long TotalMemory { get; set; }
 		public virtual int ProcessCount { get; set; }

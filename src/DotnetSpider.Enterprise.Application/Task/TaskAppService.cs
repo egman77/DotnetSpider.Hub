@@ -178,7 +178,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 					Id = taskId,
 					Name = task.Name,
 					Cron = task.Cron,
-					Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+					Url = string.Format(Configuration.SchedulerCallback, taskId),
 					Data = JsonConvert.SerializeObject(new { TaskId = taskId })
 				};
 				_schedulerAppService.Update(job);
@@ -282,7 +282,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				Id = taskIdStr,
 				Name = task.Name,
 				Cron = task.Cron,
-				Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+				Url = string.Format(Configuration.SchedulerCallback, taskId),
 				Data = JsonConvert.SerializeObject(new { TaskId = taskIdStr })
 			};
 			_schedulerAppService.Create(job);
@@ -448,7 +448,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 						Id = taskId,
 						Name = task.Name,
 						Cron = task.Cron,
-						Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+						Url = string.Format(Configuration.SchedulerCallback, taskId),
 						Data = JsonConvert.SerializeObject(new { TaskId = taskId })
 					};
 					_schedulerAppService.Create(job);

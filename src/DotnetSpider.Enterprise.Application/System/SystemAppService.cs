@@ -60,7 +60,7 @@ namespace DotnetSpider.Enterprise.Application.System
 				Id = taskId,
 				Name = scanRunningTask.Name,
 				Cron = "0/15 * * * *",
-				Url = $"{Configuration.SchedulerCallback}{(Configuration.SchedulerCallback.EndsWith("/") ? "" : "/")}Task/Fire",
+				Url = string.Format(Configuration.SchedulerCallback, taskId),
 				Data = JsonConvert.SerializeObject(new { TaskId = taskId })
 			};
 			_schedulerAppService.Create(job);

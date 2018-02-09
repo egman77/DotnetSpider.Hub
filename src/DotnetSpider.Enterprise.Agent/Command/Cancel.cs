@@ -1,10 +1,8 @@
 ﻿using DotnetSpider.Enterprise.Agent.Process;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Agent.Command
 {
@@ -20,7 +18,7 @@ namespace DotnetSpider.Enterprise.Agent.Command
 				return;
 			}
 
-			ProcessDetail processInfo = ProcessManager.GetProcessDetail(command.TaskId);
+			ProcessInfo processInfo = ProcessManager.GetProcessDetail(command.TaskId);
 			if (processInfo != null)
 			{
 				var process = processInfo.Process;
@@ -62,13 +60,10 @@ namespace DotnetSpider.Enterprise.Agent.Command
 			if (Env.IsRunningOnWindows)
 			{
 				var taskIdMmf = MemoryMappedFile.OpenExisting(taskId, MemoryMappedFileRights.Write);
-				if (taskIdMmf != null)
+				using (MemoryMappedViewStream stream = taskIdMmf.CreateViewStream())
 				{
-					using (MemoryMappedViewStream stream = taskIdMmf.CreateViewStream())
-					{
-						var writer = new BinaryWriter(stream);
-						writer.Write(1);
-					}
+					var writer = new BinaryWriter(stream);
+					writer.Write(1);
 				}
 			}
 			else

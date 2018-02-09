@@ -1,16 +1,13 @@
 ﻿using NLog;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Agent.Process
 {
 	public class ProcessManager
 	{
 		protected readonly static ILogger Logger = LogManager.GetCurrentClassLogger();
-		private static readonly ConcurrentDictionary<long, ProcessDetail> Processes = new ConcurrentDictionary<long, ProcessDetail>();
+		private static readonly ConcurrentDictionary<long, ProcessInfo> Processes = new ConcurrentDictionary<long, ProcessInfo>();
 
 		public static int ProcessCount => Processes.Count;
 
@@ -41,10 +38,10 @@ namespace DotnetSpider.Enterprise.Agent.Process
 			process.Exited += (a, b) =>
 			{
 				Logger.Info($"Process of task {taskId} exited.");
-				ProcessDetail p;
+				ProcessInfo p;
 				Processes.TryRemove(taskId, out p);
 			};
-			Processes.TryAdd(taskId, new ProcessDetail
+			Processes.TryAdd(taskId, new ProcessInfo
 			{
 				TaskId = taskId.ToString(),
 				Process = process,
@@ -52,9 +49,9 @@ namespace DotnetSpider.Enterprise.Agent.Process
 			});
 		}
 
-		public static ProcessDetail GetProcessDetail(long taskId)
+		public static ProcessInfo GetProcessDetail(long taskId)
 		{
-			ProcessDetail processDetail;
+			ProcessInfo processDetail;
 			if (Processes.TryGetValue(taskId, out processDetail))
 			{
 				return processDetail;

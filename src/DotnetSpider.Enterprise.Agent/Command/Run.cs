@@ -1,9 +1,7 @@
 ﻿using DotnetSpider.Enterprise.Agent.Process;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Agent.Command
 {

@@ -97,13 +97,13 @@ namespace DotnetSpider.Enterprise.Application.Node
 				{
 					var lastHeartbeat = DbContext.NodeHeartbeat.OrderByDescending(t => t.Id)
 						.FirstOrDefault(h => h.NodeId == node.NodeId);
-					nodeOutput.CPULoad = lastHeartbeat.CPULoad;
+					nodeOutput.CPULoad = lastHeartbeat.CpuLoad;
 					nodeOutput.FreeMemory = lastHeartbeat.FreeMemory;
 					nodeOutput.Ip = lastHeartbeat.Ip;
 					nodeOutput.Os = lastHeartbeat.Os;
 					nodeOutput.ProcessCount = lastHeartbeat.ProcessCount;
 					nodeOutput.Type = lastHeartbeat.Type;
-					nodeOutput.CPUCoreCount = lastHeartbeat.CPUCoreCount;
+					nodeOutput.CPUCoreCount = lastHeartbeat.CpuCoreCount;
 					nodeOutput.TotalMemory = lastHeartbeat.TotalMemory;
 					nodeOutput.Version = lastHeartbeat.Version;
 				}
@@ -149,7 +149,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			{
 				var heartbeat = DbContext.NodeHeartbeat.OrderByDescending(a => a.Id)
 					.FirstOrDefault(a => a.NodeId == node.NodeId);
-				if (heartbeat.CPULoad < 90 && heartbeat.FreeMemory > 150)
+				if (heartbeat.CpuLoad < 90 && heartbeat.FreeMemory > 150)
 				{
 					availableNodes.Add(node);
 				}

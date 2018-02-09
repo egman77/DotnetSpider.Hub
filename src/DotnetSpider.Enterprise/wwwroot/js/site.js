@@ -20,8 +20,8 @@ dsApp.post = function (url, data, success, error) {
                 error(result);
             } else {
                 if (swal) {
-                    if (result.message) {
-                        swal("Oops...", result.message, "error");
+                    if (result.Message) {
+                        swal("Oops...", result.Message, "error");
                     }
                 }
             }
@@ -49,8 +49,8 @@ dsApp.get = function (url, success, error) {
             }
             else {
                 if (swal) {
-                    if (result.message) {
-                        swal(result.message);
+                    if (result.Message) {
+                        swal("Oops...", result.Message, "error");
                     }
                 }
             }
@@ -60,7 +60,7 @@ dsApp.get = function (url, success, error) {
             error(result);
         } else {
             if (swal) {
-                swal("Oops...", result.message, "Internal error.");
+                swal("Oops...", result.Message, "error");
             }
         }
     });
@@ -81,8 +81,8 @@ dsApp.delete = function (url, success, error) {
                 }
                 else {
                     if (swal) {
-                        if (result.message) {
-                            swal(result.message);
+                        if (result.Message) {
+                            swal("Oops...", result.Message, "error");
                         }
                     }
                 }
@@ -93,7 +93,7 @@ dsApp.delete = function (url, success, error) {
                 error(result);
             } else {
                 if (swal) {
-                    swal("Oops...", result.message, "Internal error.");
+                    swal("Oops...", result.Message, "error");
                 }
             }
         }
@@ -117,8 +117,8 @@ dsApp.put = function (url, data, success, error) {
                 }
                 else {
                     if (swal) {
-                        if (result.message) {
-                            swal(result.message);
+                        if (result.Message) {
+                            swal("Oops...", result.Message, "error");
                         }
                     }
                 }
@@ -129,7 +129,7 @@ dsApp.put = function (url, data, success, error) {
                 error(result);
             } else {
                 if (swal) {
-                    swal("Oops...", result.message, "Internal error.");
+                    swal("Oops...", result.Message, "error");
                 }
             }
         }

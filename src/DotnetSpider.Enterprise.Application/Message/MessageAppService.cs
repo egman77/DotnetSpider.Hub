@@ -30,7 +30,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 			var message = Mapper.Map<Domain.Entities.Message>(input);
 			DbContext.Message.Add(message);
 			DbContext.SaveChanges();
-			Logger.LogWarning($"Crate message {input} success.");
+			Logger.LogWarning($"Crate message {JsonConvert.SerializeObject(input)} success.");
 		}
 
 		public void Create(IEnumerable<CreateMessageInput> input)
@@ -43,12 +43,13 @@ namespace DotnetSpider.Enterprise.Application.Message
 			var messages = Mapper.Map<List<Domain.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
 			DbContext.SaveChanges();
-			Logger.LogWarning($"Crate messages {input} success.");
+			Logger.LogWarning($"Create messages {JsonConvert.SerializeObject(input)} success.");
 		}
 
 		public IEnumerable<MessageDto> Consume(string nodeId)
 		{
 			var messages = DbContext.Message.Where(m => m.NodeId == nodeId);
+			var result = Mapper.Map<List<MessageDto>>(messages);
 			var messageHistories = Mapper.Map<List<MessageHistory>>(messages);
 			foreach (var messageHistory in messageHistories)
 			{
@@ -57,11 +58,11 @@ namespace DotnetSpider.Enterprise.Application.Message
 			DbContext.MessageHistory.AddRange(messageHistories);
 			DbContext.Message.RemoveRange(messages);
 			DbContext.SaveChanges();
-			if (messages.Count() > 0)
+			if (result.Count > 0)
 			{
-				Logger.LogWarning($"Consume messages: {JsonConvert.SerializeObject(messages)}.");
+				Logger.LogWarning($"Consume messages: {JsonConvert.SerializeObject(result)}.");
 			}
-			return Mapper.Map<IEnumerable<MessageDto>>(messages);
+			return result;
 		}
 	}
 }

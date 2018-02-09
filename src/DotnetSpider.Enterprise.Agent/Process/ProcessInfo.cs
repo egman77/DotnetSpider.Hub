@@ -1,6 +1,6 @@
 ﻿namespace DotnetSpider.Enterprise.Agent.Process
 {
-	public class ProcessDetail
+	public class ProcessInfo
 	{
 		public virtual string TaskId { get; set; }
 		public virtual System.Diagnostics.Process Process { get; set; }

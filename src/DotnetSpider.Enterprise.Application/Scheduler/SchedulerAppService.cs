@@ -33,26 +33,40 @@ namespace DotnetSpider.Enterprise.Application.Scheduler
 			var content = new StringContent(JsonConvert.SerializeObject(job), Encoding.UTF8, "application/json");
 			try
 			{
-				_retryPolicy.Execute(() =>
+				var result = _retryPolicy.Execute(() =>
 				{
-					var result = Util.Client.PostAsync(Configuration.SchedulerUrl, content).Result;
-					result.EnsureSuccessStatusCode();
+					var response = Util.Client.PostAsync(Configuration.SchedulerUrl, content).Result;
+					response.EnsureSuccessStatusCode();
+					return response;
 				});
+
+				CheckResult(result);
 			}
-			catch
+			catch (Exception e)
 			{
-				throw new DotnetSpiderException("Create scheduler failed.");
+				throw new DotnetSpiderException($"Create scheduler failed: {e.Message}.");
 			}
 		}
 
 		public void Delete(string taskId)
 		{
 			var url = $"{Configuration.SchedulerUrl}{(Configuration.SchedulerUrl.EndsWith("/") ? "" : "/")}{taskId}";
-			_retryPolicy.Execute(() =>
+			try
 			{
-				var result = Util.Client.DeleteAsync(url).Result;
-				result.EnsureSuccessStatusCode();
-			});
+				var result = _retryPolicy.Execute(() =>
+				{
+					var response = Util.Client.DeleteAsync(url).Result;
+					response.EnsureSuccessStatusCode();
+
+					return response;
+				});
+
+				CheckResult(result);
+			}
+			catch (Exception e)
+			{
+				throw new DotnetSpiderException($"Create scheduler failed: {e.Message}.");
+			}
 		}
 
 		public void Update(SchedulerJobDto job)
@@ -61,15 +75,28 @@ namespace DotnetSpider.Enterprise.Application.Scheduler
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 			try
 			{
-				_retryPolicy.Execute(() =>
+				var result = _retryPolicy.Execute(() =>
 				{
-					var result = Util.Client.PutAsync(Configuration.SchedulerUrl, content).Result;
-					result.EnsureSuccessStatusCode();
+					var response = Util.Client.PutAsync(Configuration.SchedulerUrl, content).Result;
+					response.EnsureSuccessStatusCode();
+					return response;
 				});
+
+				CheckResult(result);
 			}
-			catch
+			catch (Exception e)
 			{
-				throw new DotnetSpiderException($"Update scheduler failed.");
+				throw new DotnetSpiderException($"Create scheduler failed: {e.Message}.");
+			}
+		}
+
+		private void CheckResult(HttpResponseMessage response)
+		{
+			var str = response.Content.ReadAsStringAsync().Result;
+			var json = JsonConvert.DeserializeObject<StandardResult>(str);
+			if (json.Status != Status.Success)
+			{
+				throw new Exception(json.Message);
 			}
 		}
 	}

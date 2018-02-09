@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace DotnetSpider.Enterprise.Agent
 {
@@ -21,14 +19,14 @@ namespace DotnetSpider.Enterprise.Agent
 
 			public static float operator -(CpuTick l, CpuTick r)
 			{
-				if ((l.U < r.U) ||
-					(l.N < r.N) ||
-					(l.S < r.S) ||
-					(l.I < r.I) ||
-					(l.W < r.W) ||
-					(l.X < r.X) ||
-					(l.Y < r.Y) ||
-					(l.Z < r.Z))
+				if (l.U < r.U ||
+					l.N < r.N ||
+					l.S < r.S ||
+					l.I < r.I ||
+					l.W < r.W ||
+					l.X < r.X ||
+					l.Y < r.Y ||
+					l.Z < r.Z)
 				{
 					return 0;
 				}
@@ -45,20 +43,20 @@ namespace DotnetSpider.Enterprise.Agent
 				var totFrme = uFrme + sFrme + nFrme + iFrme + wFrme + xFrme + yFrme + zFrme;
 				totFrme = totFrme < 1 ? 1 : totFrme;
 				var idle = l.I - r.I;
-				var percent = ((totFrme - idle) / (float)totFrme) * 100;
+				var percent = (totFrme - idle) / (float)totFrme * 100;
 				return percent;
 			}
 		}
 
-		private static CpuTick PreTick = new CpuTick { U = 0, N = 0, S = 0, I = 0, W = 0, X = 0, Y = 0, Z = 0 };
+		private static CpuTick _preTick = new CpuTick { U = 0, N = 0, S = 0, I = 0, W = 0, X = 0, Y = 0, Z = 0 };
 
 		public static decimal Current
 		{
 			get
 			{
 				var currentTick = GetTick();
-				var percent = currentTick - PreTick;
-				PreTick = currentTick;
+				var percent = currentTick - _preTick;
+				_preTick = currentTick;
 				return (decimal)percent;
 			}
 		}
@@ -67,7 +65,7 @@ namespace DotnetSpider.Enterprise.Agent
 		{
 			var line = File.ReadAllLines("/proc/stat")[0];
 
-			var datas = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Skip(1).Take(8).Select(n => long.Parse(n)).ToArray();
+			var datas = line.Split(new [] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Skip(1).Take(8).Select(n => long.Parse(n)).ToArray();
 			return new CpuTick
 			{
 				U = datas[0],
