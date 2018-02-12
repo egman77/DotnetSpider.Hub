@@ -458,10 +458,6 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void Control(long taskId, ActionType action)
 		{
-			if (action != ActionType.Increase && action != ActionType.Reduce && Session.UserId == null)
-			{
-				throw new DotnetSpiderException("Auth denied.");
-			}
 			switch (action)
 			{
 				case ActionType.Disable:
