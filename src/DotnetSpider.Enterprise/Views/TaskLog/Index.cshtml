@@ -41,11 +41,11 @@
                     <div class="row" style="margin-left:10px; margin-bottom:10px;">
                         <input name="logType" type="radio" id="All" value="All" v-model="logType" @@click="searchResults('All')" />
                         <label for="All">All</label>
-                        <input name="logType" type="radio" id="Info" value="Info" v-model="logType"@@click="searchResults('Info')" />
+                        <input name="logType" type="radio" id="Info" value="Info" v-model="logType" @@click="searchResults('Info')" />
                         <label for="Info">Info</label>
-                        <input name="logType" type="radio" id="Warn" value="Warn" v-model="logType" @@click="searchResults('Warn')"/>
+                        <input name="logType" type="radio" id="Warn" value="Warn" v-model="logType" @@click="searchResults('Warn')" />
                         <label for="Warn">Warn</label>
-                        <input name="logType" type="radio" id="Error" value="Error" v-model="logType" @@click="searchResults('Error')"/>
+                        <input name="logType" type="radio" id="Error" value="Error" v-model="logType" @@click="searchResults('Error')" />
                         <label for="Error">Error</label>
                     </div>
                     <div class="dataTables_wrapper form-inline dt-bootstrap">
@@ -54,7 +54,11 @@
                                 <table class="table table-bordered table-striped table-hover no-footer">
                                     <thead>
                                         <tr role="row">
-                                            <th v-for="col in columns">{{ col }}</th>
+                                            <th>NodeId</th>
+                                            <th>Logged</th>
+                                            <th>Level</th>
+                                            <th>Message</th>
+                                            <th>Exception</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,7 +68,11 @@
                                             </td>
                                         </tr>
                                         <tr role="row" v-for="(log,index) in logs">
-                                            <td v-for="item in log" v-text="item"></td>
+                                            <td><span v-text="log.nodeId"></span></td>
+                                            <td><span v-text="log.logged"></span></td>
+                                            <td><span v-text="log.level"></span></td>
+                                            <td><span v-text="log.message"></span></td>
+                                            <td><span v-text="log.exception"></span></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -87,13 +95,13 @@
         <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-select/js/bootstrap-select.js" asp-append-version="true"></script>
-        <script src="~/js/log/index.js" asp-append-version="true"></script>
+        <script src="~/js/taskLog/index.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
         <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js" asp-append-version="true"></script>
-        <script src="~/js/log/index.min.js" asp-append-version="true"></script>
+        <script src="~/js/taskLog/index.min.js" asp-append-version="true"></script>
     </environment>
     <script src="~/lib/My97DatePicker/WdatePicker.js" asp-append-version="true"></script>
 }

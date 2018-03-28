@@ -41,52 +41,46 @@ namespace DotnetSpider.Enterprise.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
 		{
-			if (ModelState.IsValid)
+			var user = _userManager.Users.FirstOrDefault(u => u.Email == model.Email);
+
+			if (user == null)
 			{
-				var user = _userManager.Users.FirstOrDefault(u => u.Email == model.Email);
+				throw new DotnetSpiderException("用户名或密码不正确。");
+			}
 
-				if (user == null)
+			if (!user.IsActive)
+			{
+				throw new DotnetSpiderException("帐户被禁用。");
+			}
+			else
+			{
+				if (!user.EmailConfirmed)
 				{
-					throw new DotnetSpiderException("用户名或密码不正确。");
-				}
-
-				if (!user.IsActive)
-				{
-					throw new DotnetSpiderException("帐户被禁用。");
+					return Json(new { Success = true, ReturnUrl = $"/Account/EmailNotConfirmed?Email={user.Email}" });
 				}
 				else
 				{
-					if (!user.EmailConfirmed)
+					var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
+					if (result.Succeeded)
 					{
-						return Json(new { Success = true, ReturnUrl = $"/Account/EmailNotConfirmed?Email={user.Email}" });
+						return Json(new { Success = true, ReturnUrl = "/Home" });
+					}
+
+					if (result.RequiresTwoFactor)
+					{
+						return RedirectToAction(nameof(SendSecurityCode), new { ReturnUrl = returnUrl, model.RememberMe });
+					}
+					if (result.IsLockedOut)
+					{
+						Logger.LogWarning(2, "User account locked out.");
+						throw new DotnetSpiderException("帐户被锁定。");
 					}
 					else
 					{
-						var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
-						if (result.Succeeded)
-						{
-							return Json(new { Success = true, ReturnUrl = "/Home" });
-						}
-
-						if (result.RequiresTwoFactor)
-						{
-							return RedirectToAction(nameof(SendSecurityCode), new { ReturnUrl = returnUrl, model.RememberMe });
-						}
-						if (result.IsLockedOut)
-						{
-							Logger.LogWarning(2, "User account locked out.");
-							throw new DotnetSpiderException("帐户被锁定。");
-						}
-						else
-						{
-							throw new DotnetSpiderException("用户名或密码不正确。");
-						}
+						throw new DotnetSpiderException("用户名或密码不正确。");
 					}
 				}
 			}
-
-			// If we got this far, something failed, redisplay form
-			throw new DotnetSpiderException("用户名或密码不正确。");
 		}
 
 		public async Task<IActionResult> Logout()

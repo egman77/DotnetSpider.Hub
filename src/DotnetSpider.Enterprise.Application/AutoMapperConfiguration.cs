@@ -4,6 +4,7 @@ using DotnetSpider.Enterprise.Application.Node.Dto;
 using DotnetSpider.Enterprise.Application.NodeHeartbeat.Dto;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
 using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
+using DotnetSpider.Enterprise.Application.TaskLog.Dto;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 using DotnetSpider.Enterprise.Domain.Entities;
 
@@ -28,6 +29,9 @@ namespace DotnetSpider.Enterprise.Application
 				config.CreateMap<Domain.Entities.Message, MessageDto>();
 				config.CreateMap<Domain.Entities.Task, TaskDto>();
 				config.CreateMap<MessageDto, NodeHeartbeatOutput>();
+				config.CreateMap<AddTaskLogInput, Domain.Entities.TaskLog>();
+				config.CreateMap<Domain.Entities.TaskLog, TaskLogOutput>();
+				
 			});
 		}
 	}

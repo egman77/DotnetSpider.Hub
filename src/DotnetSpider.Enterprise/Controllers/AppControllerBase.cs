@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using System.Text;
 using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace DotnetSpider.Enterprise.Controllers
 {
@@ -28,21 +31,19 @@ namespace DotnetSpider.Enterprise.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				throw new DotnetSpiderException($"Error parameters: {GetModelStateError()}.");
+				StringBuilder builder = new StringBuilder();
+				builder.Append($"Error request Path {context.HttpContext.Request.Path}, Query: {context.HttpContext.Request.QueryString}");
+				if (context.HttpContext.Request.Method.ToLower() == "post")
+				{
+					var memory = new MemoryStream();
+					context.HttpContext.Request.Body.CopyTo(memory);
+					var body = Encoding.UTF8.GetString(memory.ToArray());
+					builder.Append($" , Body: {body}");
+				}
+				builder.Append(".");
+				throw new DotnetSpiderException(builder.ToString());
 			}
 			base.OnActionExecuting(context);
-		}
-
-		protected string GetModelStateError()
-		{
-			foreach (var item in ModelState.Values)
-			{
-				if (item.Errors.Count > 0)
-				{
-					return item.Errors[0].ErrorMessage;
-				}
-			}
-			return "";
 		}
 
 		protected string GetIdentityResultError(IdentityResult result)

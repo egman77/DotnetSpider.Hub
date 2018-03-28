@@ -43,10 +43,10 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/log/index.min.js",
+    "outputFileName": "wwwroot/js/taskLog/index.min.js",
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
-      "wwwroot/js/log/index.js"
+      "wwwroot/js/taskLog/index.js"
     ]
   },
   {

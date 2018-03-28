@@ -24,14 +24,7 @@ namespace DotnetSpider.Enterprise.Controllers.Api
 		{
 			CheckAuth();
 
-			if (ModelState.IsValid)
-			{
-				return Success(_heartbeatAppService.Create(input));
-			}
-			else
-			{
-				return BadRequest();
-			}
+			return Success(_heartbeatAppService.Create(input));
 		}
 	}
 }

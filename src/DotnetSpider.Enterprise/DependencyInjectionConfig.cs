@@ -1,6 +1,6 @@
 ﻿using DotnetSpider.Enterprise.Application;
 using DotnetSpider.Enterprise.Application.AuthMessage;
-using DotnetSpider.Enterprise.Application.Log;
+using DotnetSpider.Enterprise.Application.TaskLog;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.NodeHeartbeat;
@@ -31,7 +31,7 @@ namespace DotnetSpider.Enterprise
 			services.AddScoped<IAppSession, AppSession>();
 
 			services.AddSingleton<ICommonConfiguration, CommonConfiguration>();
-			services.AddScoped<ILogAppService, LogAppService>();
+			services.AddScoped<ITaskLogAppService, TaskLogAppService>();
 			services.AddScoped<ITaskAppService, TaskAppService>();
 			services.AddScoped<INodeAppService, NodeAppService>();
 			services.AddScoped<IMessageAppService, MessageAppService>();

@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise.Controllers
 {
-	public class LogController : AppControllerBase
+	public class TaskLogController : AppControllerBase
 	{
-		public LogController(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
+		public TaskLogController(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
 			: base(appSession, loggerFactory, commonConfiguration)
 		{
 		}

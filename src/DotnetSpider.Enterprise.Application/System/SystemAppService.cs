@@ -80,30 +80,22 @@ namespace DotnetSpider.Enterprise.Application.System
 
 		private void ScanRunningTask()
 		{
-			var runningTasks = DbContext.Task.Where(t => t.IsRunning).ToList();
-			foreach (var task in runningTasks)
-			{
-				var id = task.Id;
-				var status = DbContext.TaskStatus.Where(ts => ts.TaskId == id).OrderByDescending(ts => ts.LastModificationTime).FirstOrDefault();
-				if (status != null)
-				{
-					if (status.LastModificationTime != null)
-					{
-						if ((DateTime.Now - status.LastModificationTime.Value).TotalSeconds > 3600)
-						{
-							TaskUtil.ExitTask(_nodeAppService, _messageAppService, task, Logger);
-						}
-					}
-					else
-					{
-						if ((DateTime.Now - status.CreationTime).TotalSeconds > 3600)
-						{
-							TaskUtil.ExitTask(_nodeAppService, _messageAppService, task, Logger);
-						}
-					}
-				}
-			}
-			DbContext.SaveChanges();
+			//var runningTasks = DbContext.Task.Where(t => t.IsRunning).ToList();
+			//foreach (var task in runningTasks)
+			//{
+			//	var id = task.Id;
+			//	var status = DbContext.TaskStatus.Where(ts => ts.TaskId == id).OrderByDescending(ts => ts.LastModificationTime).FirstOrDefault();
+			//	if (status != null)
+			//	{
+			//		var time = status.LastModificationTime != null ? status.LastModificationTime.Value : status.CreationTime;
+
+			//		if ((DateTime.Now - time).TotalSeconds > 3600)
+			//		{
+			//			TaskUtil.ExitTask(_nodeAppService, _messageAppService, task, Logger);
+			//		}
+			//	}
+			//}
+			//DbContext.SaveChanges();
 		}
 	}
 }

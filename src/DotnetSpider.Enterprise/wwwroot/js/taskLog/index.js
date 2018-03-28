@@ -4,7 +4,6 @@
     var LOGSVUE = new Vue({
         el: '#logView',
         data: {
-            columns: [],
             logs: [],
             total: 0,
             nodeId: dsApp.getFilter('nodeId') || '',
@@ -19,7 +18,7 @@
         },
         methods: {
             searchResults: function (type) {
-                var url = 'log?filter=identity::' + this.$data.identity
+                var url = 'taskLog?filter=identity::' + this.$data.identity
                     + '|nodeId::' + this.$data.nodeId
                     + '|logType::' + type
                     + '|taskName::' + this.$data.taskName
@@ -33,7 +32,7 @@
     });
 
     function loadLogs(vue) {
-        var url = 'api/v1.0/log?filter=identity::' + vue.$data.identity
+        var url = 'api/v1.0/taskLog?filter=identity::' + vue.$data.identity
             + '|nodeId::' + vue.$data.nodeId
             + '|logType::' + vue.$data.logType
             + '|taskName::' + vue.$data.taskName
@@ -42,8 +41,7 @@
             + '&page=' + vue.$data.page
             + '&size=' + vue.$data.size;
         dsApp.get(url, function (result) {
-            vue.$data.columns = result.data.columns;
-            vue.$data.logs = result.data.values;
+            vue.$data.logs = result.data.result;
             vue.$data.total = result.data.total;
 
             dsApp.ui.initPagination('#pagination', result.data, function (page) {

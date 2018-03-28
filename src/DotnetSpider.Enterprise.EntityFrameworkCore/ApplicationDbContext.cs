@@ -18,6 +18,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 		public DbSet<Task> Task { get; set; }
 		public DbSet<TaskHistory> TaskHistory { get; set; }
 		public DbSet<TaskStatus> TaskStatus { get; set; }
+		public DbSet<TaskLog> TaskLog { get; set; }
 
 		private readonly IHttpContextAccessor _accessor;
 
@@ -39,6 +40,7 @@ namespace DotnetSpider.Enterprise.EntityFrameworkCore
 			builder.Entity<ApplicationUserRole>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Roles).HasForeignKey(pt => pt.UserId);
 			builder.Entity<ApplicationUserLogin>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Logins).HasForeignKey(pt => pt.UserId);
 			builder.Entity<Node>().HasAlternateKey(c => c.NodeId).HasName("AlternateKey_NodeId");
+			builder.Entity<TaskLog>().HasAlternateKey(c => c.Identity).HasName("AlternateKey_Identity");
 		}
 
 		public override int SaveChanges()

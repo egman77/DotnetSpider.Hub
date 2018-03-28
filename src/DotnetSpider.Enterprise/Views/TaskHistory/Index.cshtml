@@ -62,7 +62,7 @@
                                                         <th>AVG PROCESS</th>
                                                         <th>AVG PIPELINE</th>
                                                         <th>
-                                                            <a :href="'/log?filter=identity::' + batch.identity +'|taskName::'+ taskName">VIEW LOGS</a>
+                                                            <a :href="'/taskLog?filter=identity::' + batch.identity +'|taskName::'+ taskName">VIEW LOGS</a>
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -81,7 +81,7 @@
                                                         <td v-text="status.avgDownloadSpeed"></td>
                                                         <td v-text="status.avgProcessorSpeed"></td>
                                                         <td v-text="status.avgPipelineSpeed"></td>
-                                                        <td><a :href="'/log?filter=identity::'+batch.identity+'|nodeId::'+status.nodeId+'|taskName::'+ taskName"><i title="node log">VIEW LOGS</i></a></td>
+                                                        <td><a :href="'/taskLog?filter=identity::'+batch.identity+'|nodeId::'+status.nodeId+'|taskName::'+ taskName"><i title="node log">VIEW LOGS</i></a></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
