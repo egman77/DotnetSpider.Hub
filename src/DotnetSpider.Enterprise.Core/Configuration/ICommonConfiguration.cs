@@ -5,8 +5,6 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 	public interface ICommonConfiguration
 	{
 		IConfigurationRoot AppConfiguration { get; set; }
-
-		string LogMongoConnectionString { get; }
 		string MsSqlConnectionString { get; }
 		string MySqlConnectionString { get; }
 		string SchedulerUrl { get; }
@@ -15,5 +13,6 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		string[] Tokens { get; set; }
 		byte[] SqlEncryptKey { get; set; }
 		bool AuthorizeApi { get; }
+		bool RecordGloabException { get; }
 	}
 }

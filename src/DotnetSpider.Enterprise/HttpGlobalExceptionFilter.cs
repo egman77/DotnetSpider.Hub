@@ -1,4 +1,5 @@
 ﻿using DotnetSpider.Enterprise.Core;
+using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -9,27 +10,31 @@ namespace DotnetSpider.Enterprise
 	public class HttpGlobalExceptionFilter : IExceptionFilter
 	{
 		private readonly ILogger<HttpGlobalExceptionFilter> _logger;
+		private readonly ICommonConfiguration _commonConfiguration;
 
-		public HttpGlobalExceptionFilter(ILogger<HttpGlobalExceptionFilter> logger)
+		public HttpGlobalExceptionFilter(ILogger<HttpGlobalExceptionFilter> logger, ICommonConfiguration commonConfiguration)
 		{
 			_logger = logger;
+			_commonConfiguration = commonConfiguration;
 		}
 
 		public void OnException(ExceptionContext context)
 		{
-			_logger.LogError(context.Exception.ToString());
 			context.HttpContext.Response.StatusCode = 206;
+
+			if (_commonConfiguration.RecordGloabException)
+			{
+				_logger.LogError(context.Exception.ToString());
+			}
+
 			string info;
 
 			if (context.Exception is DotnetSpiderException)
 			{
 				info = JsonConvert.SerializeObject(new StandardResult { Code = 101, Message = context.Exception.Message, Status = Status.Error });
-
-				_logger.LogError(context.Exception.ToString());
 			}
 			else
 			{
-				_logger.LogError(context.Exception.ToString());
 				info = JsonConvert.SerializeObject(new StandardResult { Code = 102, Message = "Internal error.", Status = Status.Error });
 			}
 

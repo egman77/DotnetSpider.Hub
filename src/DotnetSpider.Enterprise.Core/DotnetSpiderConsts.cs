@@ -13,6 +13,7 @@
 		public const string SchedulerUrl = "scheduler.url";
 		public const string SchedulerCallback = "scheduler.callback";
 		public const string AuthorizeApi = "authorizeApi";
+		public const string RecordGloabException = "recordGloabException";
 		public const string Tokens = "tokens";
 		public const string UnTriggerCron = "* * * * 2999";
 		public const string SqlEncryptCode = "sqlEncryptCode";

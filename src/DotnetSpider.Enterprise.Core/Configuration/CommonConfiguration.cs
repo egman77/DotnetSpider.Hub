@@ -34,15 +34,6 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 			}
 		}
 
-		public string LogMongoConnectionString
-		{
-			get
-			{
-				var logMongoConnectionString = AppConfiguration.GetSection("ConnectionStrings");
-				return logMongoConnectionString.GetValue<string>(DotnetSpiderConsts.LogMongoConnectionName);
-			}
-		}
-
 		public string SchedulerUrl
 		{
 			get
@@ -68,6 +59,15 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		public string[] Tokens { get; set; }
 
 		public bool AuthorizeApi
+		{
+			get
+			{
+				var section = AppConfiguration.GetSection(DotnetSpiderConsts.DefaultSetting);
+				return section.GetValue<bool>(DotnetSpiderConsts.AuthorizeApi);
+			}
+		}
+
+		public bool RecordGloabException
 		{
 			get
 			{

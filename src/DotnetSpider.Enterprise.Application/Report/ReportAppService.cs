@@ -1,13 +1,14 @@
 ﻿using DotnetSpider.Enterprise.Application.Report.Dtos;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
-using MongoDB.Driver;
 using System.Linq;
 using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Identity;
-using MongoDB.Bson;
 using Microsoft.Extensions.Logging;
+using System.Data.SqlClient;
+using Dapper;
+using DotnetSpider.Enterprise.Core;
 
 namespace DotnetSpider.Enterprise.Application.Report
 {
@@ -45,14 +46,18 @@ namespace DotnetSpider.Enterprise.Application.Report
 
 		private HomePageDashboardDto CalculateHomeDashboardDto()
 		{
+			throw new DotnetSpiderException("asdfasdf");
 			HomePageDashboardDto output = new HomePageDashboardDto();
-			var client = new MongoClient(Configuration.LogMongoConnectionString);
 
-			var database = client.GetDatabase("dotnetspider");
+			long storageSize = 0;
 
-			BsonDocumentCommand<BsonDocument> command = new BsonDocumentCommand<BsonDocument>(new BsonDocument { { "dbStats", 1 }, { "scale", 1024 } });
-			var result = database.RunCommand(command);
-			var storageSize = result.GetValue("storageSize").ToInt64();
+
+			using (var conn = new SqlConnection(Configuration.MsSqlConnectionString))
+			{
+				var dbSpaceUsed = conn.Query<DbSpaceUsedDto>(" exec  sp_spaceused 'TaskLog'").First();
+				storageSize = long.Parse(dbSpaceUsed.Reserved.Replace("KB", ""));
+			}
+
 
 			var nodes = _nodeAppService.Query(new PaginationQueryInput { Page = 1, Size = 10 });
 			output.NodeTotalCount = (int)nodes.Total;
