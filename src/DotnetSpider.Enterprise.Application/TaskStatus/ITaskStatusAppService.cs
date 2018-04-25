@@ -1,5 +1,5 @@
 ﻿using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
-using DotnetSpider.Enterprise.Domain;
+using DotnetSpider.Enterprise.Core;
 
 namespace DotnetSpider.Enterprise.Application.TaskStatus
 {

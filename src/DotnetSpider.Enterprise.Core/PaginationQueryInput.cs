@@ -1,4 +1,6 @@
-﻿namespace DotnetSpider.Enterprise.Domain
+﻿using DotnetSpider.Enterprise.Core.Entities;
+
+namespace DotnetSpider.Enterprise.Core
 {
 	public class PaginationQueryInput : FilterQueryInput
 	{

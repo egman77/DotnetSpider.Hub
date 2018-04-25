@@ -11,8 +11,8 @@ using DotnetSpider.Enterprise.Application.System;
 using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Application.TaskHistory;
 using DotnetSpider.Enterprise.Application.TaskStatus;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 

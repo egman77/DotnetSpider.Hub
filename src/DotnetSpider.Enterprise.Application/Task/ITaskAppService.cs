@@ -1,5 +1,5 @@
 ﻿using DotnetSpider.Enterprise.Application.Task.Dtos;
-using DotnetSpider.Enterprise.Domain;
+using DotnetSpider.Enterprise.Core;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {

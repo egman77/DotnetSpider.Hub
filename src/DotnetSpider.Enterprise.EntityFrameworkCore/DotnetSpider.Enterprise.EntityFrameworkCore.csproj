@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotnetSpider.Enterprise.Core\DotnetSpider.Enterprise.Core.csproj" />
-    <ProjectReference Include="..\DotnetSpider.Enterprise.Domain\DotnetSpider.Enterprise.Domain.csproj" />
   </ItemGroup>
 
 </Project>

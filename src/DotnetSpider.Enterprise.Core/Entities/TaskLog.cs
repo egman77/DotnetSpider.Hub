@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace DotnetSpider.Enterprise.Domain.Entities
+namespace DotnetSpider.Enterprise.Core.Entities
 {
 	public class TaskLog : Entity<long>
 	{

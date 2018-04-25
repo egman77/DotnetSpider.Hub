@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using DotnetSpider.Enterprise.Application.Task.Dtos;
@@ -19,6 +18,7 @@ using DotnetSpider.Enterprise.Application.Scheduler;
 using DotnetSpider.Enterprise.Application.Scheduler.Dtos;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.Application.Task
 {
@@ -33,7 +33,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		public TaskAppService(ISchedulerAppService schedulerAppService, ISystemAppService systemAppService,
 			ITaskHistoryAppService taskHistoryAppService,
 			IMessageAppService messageAppService,
-			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager,
+			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager,
 			ApplicationDbContext dbcontext, ILoggerFactory loggerFactory) : base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 			_schedulerAppService = schedulerAppService;
@@ -52,7 +52,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			input.Validate();
 			PaginationQueryDto output;
 
-			Expression<Func<Domain.Entities.Task, bool>> where = t => !t.IsDeleted;
+			Expression<Func<Core.Entities.Task, bool>> where = t => !t.IsDeleted;
 
 			var keyword = input.GetFilterValue("keyword");
 
@@ -103,7 +103,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				Logger.LogError($"{nameof(input)} should not be null.");
 				return;
 			}
-			var task = Mapper.Map<Domain.Entities.Task>(input);
+			var task = Mapper.Map<Core.Entities.Task>(input);
 
 			input.ApplicationName = input.ApplicationName.Trim();
 			input.Arguments = input.Arguments?.Trim();
@@ -191,7 +191,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 
 		public void Run(long taskId)
 		{
-			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && Domain.Entities.Message.RunMessageName == a.Name);
+			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && Core.Entities.Message.RunMessageName == a.Name);
 			if (msg == null)
 			{
 				var task = CheckStatusOfTask(taskId);
@@ -223,13 +223,13 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 
 			// 如果运行的命令还没有被节点消费, 则直接删除运行消息, 减少节点的消耗。
-			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && Domain.Entities.Message.RunMessageName == m.Name);
+			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && Core.Entities.Message.RunMessageName == m.Name);
 			if (runMessage != null)
 			{
 				DbContext.Message.Remove(runMessage);
 			}
 
-			var cancelMsg = DbContext.Message.FirstOrDefault(a => a.TaskId == task.Id && Domain.Entities.Message.CanleMessageName == a.Name);
+			var cancelMsg = DbContext.Message.FirstOrDefault(a => a.TaskId == task.Id && Core.Entities.Message.CanleMessageName == a.Name);
 			if (cancelMsg != null)
 			{
 				return;
@@ -351,7 +351,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		/// </summary>
 		/// <param name="taskId">任务ID</param>
 		/// <returns>任务对象</returns>
-		private Domain.Entities.Task CheckStatusOfTask(long taskId)
+		private Core.Entities.Task CheckStatusOfTask(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 
@@ -376,7 +376,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				throw new DotnetSpiderException("任务正在运行中");
 			}
 
-			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && m.Name == Domain.Entities.Message.RunMessageName);
+			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && m.Name == Core.Entities.Message.RunMessageName);
 			if (runMessage != null)
 			{
 				throw new DotnetSpiderException("已发送运行命令");
@@ -394,7 +394,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			return task;
 		}
 
-		private string PushTask(Domain.Entities.Task task)
+		private string PushTask(Core.Entities.Task task)
 		{
 			var nodes = _nodeAppService.GetAvailable(task.Os, task.NodeType, task.NodeCount);
 
@@ -413,7 +413,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				{
 					TaskId = task.Id,
 					ApplicationName = task.ApplicationName,
-					Name = Domain.Entities.Message.RunMessageName,
+					Name = Core.Entities.Message.RunMessageName,
 					NodeId = node.NodeId,
 					Version = task.Version,
 					Arguments = arguments

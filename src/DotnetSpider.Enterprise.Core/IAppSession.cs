@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
-namespace DotnetSpider.Enterprise.Domain
+namespace DotnetSpider.Enterprise.Core
 {
 	public interface IAppSession
 	{

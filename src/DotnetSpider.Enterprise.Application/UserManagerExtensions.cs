@@ -1,8 +1,8 @@
 ﻿using DotnetSpider.Enterprise.Core;
-using DotnetSpider.Enterprise.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.Application
 {

@@ -4,10 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
-using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.Application.User;
 using DotnetSpider.Enterprise.Application.Task;
 using DotnetSpider.Enterprise.Application.System;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.Application
 {
@@ -39,7 +39,7 @@ namespace DotnetSpider.Enterprise.Application
 			var random = new Random();
 			for (int i = 0; i < 100; ++i)
 			{
-				Domain.Entities.Task task = new Domain.Entities.Task
+				Core.Entities.Task task = new Core.Entities.Task
 				{
 					ApplicationName = "dotnet",
 					Cron = $"* * * {i} *",

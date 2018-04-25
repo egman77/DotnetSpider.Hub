@@ -4,9 +4,9 @@ using System.Linq;
 using AutoMapper;
 using DotnetSpider.Enterprise.Application.NodeHeartbeat.Dto;
 using DotnetSpider.Enterprise.Application.Message;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
-using DotnetSpider.Enterprise.Domain.Entities;
+using DotnetSpider.Enterprise.Core.Entities;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -41,7 +41,7 @@ namespace DotnetSpider.Enterprise.Application.NodeHeartbeat
 
 		private void CreateHeartbeat(NodeHeartbeatInput input)
 		{
-			var heartbeat = Mapper.Map<Domain.Entities.NodeHeartbeat>(input);
+			var heartbeat = Mapper.Map<Core.Entities.NodeHeartbeat>(input);
 			DbContext.NodeHeartbeat.Add(heartbeat);
 		}
 
@@ -57,7 +57,7 @@ namespace DotnetSpider.Enterprise.Application.NodeHeartbeat
 			}
 			else
 			{
-				node = new Domain.Entities.Node();
+				node = new Core.Entities.Node();
 				node.NodeId = input.NodeId;
 				node.IsEnable = true;
 				node.IsOnline = true;

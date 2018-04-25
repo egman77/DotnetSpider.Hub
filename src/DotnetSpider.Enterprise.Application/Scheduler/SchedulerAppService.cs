@@ -1,8 +1,6 @@
 ﻿using DotnetSpider.Enterprise.Application.Scheduler.Dtos;
 using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
-using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -12,6 +10,7 @@ using Polly.Retry;
 using System;
 using System.Net.Http;
 using System.Text;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.Application.Scheduler
 {
@@ -35,7 +34,7 @@ namespace DotnetSpider.Enterprise.Application.Scheduler
 			{
 				var result = _retryPolicy.Execute(() =>
 				{
-					var response = Util.Client.PostAsync(Configuration.SchedulerUrl, content).Result;
+					var response = HttpClientUtil.DefaultClient.PostAsync(Configuration.SchedulerUrl, content).Result;
 					response.EnsureSuccessStatusCode();
 					return response;
 				});
@@ -55,7 +54,7 @@ namespace DotnetSpider.Enterprise.Application.Scheduler
 			{
 				var result = _retryPolicy.Execute(() =>
 				{
-					var response = Util.Client.DeleteAsync(url).Result;
+					var response = HttpClientUtil.DefaultClient.DeleteAsync(url).Result;
 					response.EnsureSuccessStatusCode();
 
 					return response;
@@ -77,7 +76,7 @@ namespace DotnetSpider.Enterprise.Application.Scheduler
 			{
 				var result = _retryPolicy.Execute(() =>
 				{
-					var response = Util.Client.PutAsync(Configuration.SchedulerUrl, content).Result;
+					var response = HttpClientUtil.DefaultClient.PutAsync(Configuration.SchedulerUrl, content).Result;
 					response.EnsureSuccessStatusCode();
 					return response;
 				});

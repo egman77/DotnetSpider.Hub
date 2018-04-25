@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using DotnetSpider.Enterprise.Application.Node.Dto;
-using DotnetSpider.Enterprise.Domain;
+using DotnetSpider.Enterprise.Core;
 
 namespace DotnetSpider.Enterprise.Application.Node
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DotnetSpider.Enterprise.Domain
+namespace DotnetSpider.Enterprise.Core.Entities
 {
 	public interface IAuditedEntity
 	{
@@ -35,6 +35,5 @@ namespace DotnetSpider.Enterprise.Domain
 	/// </summary>
 	public abstract class AuditedEntity : AuditedEntity<long>
 	{
-
 	}
 }

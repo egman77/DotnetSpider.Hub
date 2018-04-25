@@ -1,7 +1,7 @@
 ﻿using DotnetSpider.Enterprise.Application.NodeHeartbeat;
 using DotnetSpider.Enterprise.Application.NodeHeartbeat.Dto;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

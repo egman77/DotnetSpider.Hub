@@ -1,5 +1,5 @@
-﻿using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
+﻿using DotnetSpider.Enterprise.Core;
+using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

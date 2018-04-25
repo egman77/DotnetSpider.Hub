@@ -6,7 +6,7 @@ using DotnetSpider.Enterprise.Application.Task.Dtos;
 using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
 using DotnetSpider.Enterprise.Application.TaskLog.Dto;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
-using DotnetSpider.Enterprise.Domain.Entities;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.Application
 {
@@ -16,21 +16,21 @@ namespace DotnetSpider.Enterprise.Application
 		{
 			Mapper.Initialize((config) =>
 			{
-				config.CreateMap<CreateTaskInput, Domain.Entities.Task>();
-				config.CreateMap<Domain.Entities.Task, CreateTaskInput>();
-				config.CreateMap<NodeHeartbeatInput, Domain.Entities.NodeHeartbeat>();
-				config.CreateMap<MessageHistory, Domain.Entities.Message>();
-				config.CreateMap<Domain.Entities.Message, MessageHistory>();
-				config.CreateMap<Domain.Entities.Node, NodeDto>();
-				config.CreateMap<AddOrUpdateTaskStatusInput, Domain.Entities.TaskStatus>();
-				config.CreateMap<Domain.Entities.TaskStatus, TaskStatusDto>();
-				config.CreateMap<AddTaskHistoryInput, Domain.Entities.TaskHistory>();
-				config.CreateMap<CreateMessageInput, Domain.Entities.Message>();
-				config.CreateMap<Domain.Entities.Message, MessageDto>();
-				config.CreateMap<Domain.Entities.Task, TaskDto>();
+				config.CreateMap<CreateTaskInput, Core.Entities.Task>();
+				config.CreateMap<Core.Entities.Task, CreateTaskInput>();
+				config.CreateMap<NodeHeartbeatInput, Core.Entities.NodeHeartbeat>();
+				config.CreateMap<MessageHistory, Core.Entities.Message>();
+				config.CreateMap<Core.Entities.Message, MessageHistory>();
+				config.CreateMap<Core.Entities.Node, NodeDto>();
+				config.CreateMap<AddOrUpdateTaskStatusInput, Core.Entities.TaskStatus>();
+				config.CreateMap<Core.Entities.TaskStatus, TaskStatusDto>();
+				config.CreateMap<AddTaskHistoryInput, Core.Entities.TaskHistory>();
+				config.CreateMap<CreateMessageInput, Core.Entities.Message>();
+				config.CreateMap<Core.Entities.Message, MessageDto>();
+				config.CreateMap<Core.Entities.Task, TaskDto>();
 				config.CreateMap<MessageDto, NodeHeartbeatOutput>();
-				config.CreateMap<AddTaskLogInput, Domain.Entities.TaskLog>();
-				config.CreateMap<Domain.Entities.TaskLog, TaskLogOutput>();
+				config.CreateMap<AddTaskLogInput, Core.Entities.TaskLog>();
+				config.CreateMap<Core.Entities.TaskLog, TaskLogOutput>();
 				
 			});
 		}

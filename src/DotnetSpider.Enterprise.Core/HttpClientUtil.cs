@@ -3,9 +3,9 @@ using System.Net.Http;
 
 namespace DotnetSpider.Enterprise.Core
 {
-	public static class Util
+	public static class HttpClientUtil
 	{
-		public static HttpClient Client = new HttpClient(new HttpClientHandler
+		public static HttpClient DefaultClient = new HttpClient(new HttpClientHandler
 		{
 			AllowAutoRedirect = true,
 			AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,

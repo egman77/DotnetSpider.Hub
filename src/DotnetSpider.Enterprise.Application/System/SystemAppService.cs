@@ -3,14 +3,14 @@ using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Scheduler;
 using DotnetSpider.Enterprise.Application.Scheduler.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
-using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using DotnetSpider.Enterprise.Core;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.Application.System
 {
@@ -33,10 +33,10 @@ namespace DotnetSpider.Enterprise.Application.System
 
 		public void Register()
 		{
-			Domain.Entities.Task scanRunningTask = DbContext.Task.FirstOrDefault(t => t.Name.StartsWith(ScanRunningTaskName));
+			Core.Entities.Task scanRunningTask = DbContext.Task.FirstOrDefault(t => t.Name.StartsWith(ScanRunningTaskName));
 			if (scanRunningTask == null)
 			{
-				scanRunningTask = new Domain.Entities.Task
+				scanRunningTask = new Core.Entities.Task
 				{
 					ApplicationName = "DotnetSpider.Enterprise",
 					Cron = $"0/15 * * * *",

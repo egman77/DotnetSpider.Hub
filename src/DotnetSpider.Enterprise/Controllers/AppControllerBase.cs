@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

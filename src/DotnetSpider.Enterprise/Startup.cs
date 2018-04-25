@@ -9,7 +9,6 @@ using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using DotnetSpider.Enterprise.Domain.Entities;
 using Microsoft.Extensions.Logging;
 using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Application;
@@ -23,6 +22,7 @@ using DotnetSpider.Enterprise.Configuration;
 using NLog.Extensions.Logging;
 using NLog;
 using System.Text;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise
 {

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using DotnetSpider.Enterprise.Application.Node.Dto;
-using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
-using DotnetSpider.Enterprise.Domain.Entities;
 using AutoMapper;
 using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
+using DotnetSpider.Enterprise.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
@@ -83,7 +83,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			}
 
 			List<NodeDto> nodeOutputs = new List<NodeDto>();
-			var nodes = (List<Domain.Entities.Node>)output.Result;
+			var nodes = (List<Core.Entities.Node>)output.Result;
 
 			foreach (var node in nodes)
 			{
@@ -129,7 +129,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public List<NodeDto> GetAvailable(string os, int type, int nodeCount)
 		{
-			List<Domain.Entities.Node> nodes;
+			List<Core.Entities.Node> nodes;
 			var compareTime = DateTime.Now.AddSeconds(-60);
 
 			if (string.IsNullOrEmpty(os) || "all" == os.ToLower())
@@ -144,7 +144,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 					a.LastModificationTime > compareTime).ToList();
 			}
 
-			var availableNodes = new List<Domain.Entities.Node>();
+			var availableNodes = new List<Core.Entities.Node>();
 			foreach (var node in nodes)
 			{
 				var heartbeat = DbContext.NodeHeartbeat.OrderByDescending(a => a.Id)
@@ -165,7 +165,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 				if (availableNodes.Count > nodeCount)
 				{
 					Random random = new Random();
-					var newList = new List<Domain.Entities.Node>();
+					var newList = new List<Core.Entities.Node>();
 					foreach (var item in availableNodes)
 					{
 						newList.Insert(random.Next(newList.Count), item);
@@ -180,7 +180,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			}
 		}
 
-		private bool IsOnlineNode(Domain.Entities.Node node)
+		private bool IsOnlineNode(Core.Entities.Node node)
 		{
 			if (node.LastModificationTime != null)
 			{
@@ -210,7 +210,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			var message = new CreateMessageInput
 			{
 				ApplicationName = "NULL",
-				Name = Domain.Entities.Message.ExitMessageName,
+				Name = Core.Entities.Message.ExitMessageName,
 				NodeId = nodeId,
 				TaskId = 0
 			};

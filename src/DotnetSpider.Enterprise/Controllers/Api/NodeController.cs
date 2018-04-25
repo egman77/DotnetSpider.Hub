@@ -1,7 +1,7 @@
 ﻿using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Application.Node.Dto;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

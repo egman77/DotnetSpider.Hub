@@ -2,20 +2,21 @@
 using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
 using DotnetSpider.Enterprise.Application.TaskStatus.Dtos;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DotnetSpider.Enterprise.Core;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.Application.TaskHistory
 {
 	public class TaskHistoryAppService : AppServiceBase, ITaskHistoryAppService
 	{
 		public TaskHistoryAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
-			UserManager<Domain.Entities.ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
 			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 		}
@@ -27,7 +28,7 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 				Logger.LogError($"{nameof(input)} should not be null.");
 				return;
 			}
-			var taskHistory = Mapper.Map<Domain.Entities.TaskHistory>(input);
+			var taskHistory = Mapper.Map<Core.Entities.TaskHistory>(input);
 			DbContext.TaskHistory.Add(taskHistory);
 			DbContext.SaveChanges();
 		}
@@ -47,8 +48,8 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 			var taskHistoryOutput = DbContext.TaskHistory.PageList(input, a => a.TaskId == taskId, t => t.CreationTime);
 
 			output.Total = taskHistoryOutput.Total;
-			var taskHistories =(List<Domain.Entities.TaskHistory>) taskHistoryOutput.Result;
-			List<Domain.Entities.TaskStatus> statuses;
+			var taskHistories =(List<Core.Entities.TaskHistory>) taskHistoryOutput.Result;
+			List<Core.Entities.TaskStatus> statuses;
 			if (taskHistories.Count > 0)
 			{
 				var identities = taskHistories.Select(r => r.Identity);
@@ -56,7 +57,7 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 			}
 			else
 			{
-				statuses = new List<Domain.Entities.TaskStatus>(0);
+				statuses = new List<Core.Entities.TaskStatus>(0);
 			}
 
 			var result = new List<PaginationQueryTaskHistoryDto>(taskHistories.Count);

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
-namespace DotnetSpider.Enterprise.Domain.Entities
+namespace DotnetSpider.Enterprise.Core.Entities
 {
 	public class ApplicationUser : IdentityUser<long>, IAuditedEntity
 	{
@@ -29,7 +29,6 @@ namespace DotnetSpider.Enterprise.Domain.Entities
 
 		public ApplicationRole()
 		{
-
 		}
 
 		public ApplicationRole(string roleName)

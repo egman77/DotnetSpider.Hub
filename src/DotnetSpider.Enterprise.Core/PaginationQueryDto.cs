@@ -1,4 +1,4 @@
-﻿namespace DotnetSpider.Enterprise.Domain
+﻿namespace DotnetSpider.Enterprise.Core
 {
 	public class PaginationQueryDto
 	{

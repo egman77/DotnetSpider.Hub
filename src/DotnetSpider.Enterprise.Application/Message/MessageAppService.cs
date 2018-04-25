@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using DotnetSpider.Enterprise.Domain.Entities;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
+using DotnetSpider.Enterprise.Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -27,7 +27,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 				Logger.LogError($"{nameof(input)} should not be null.");
 				return;
 			}
-			var message = Mapper.Map<Domain.Entities.Message>(input);
+			var message = Mapper.Map<Core.Entities.Message>(input);
 			DbContext.Message.Add(message);
 			DbContext.SaveChanges();
 			Logger.LogWarning($"Crate message {JsonConvert.SerializeObject(input)} success.");
@@ -40,7 +40,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 				Logger.LogError($"{nameof(input)} should not be null.");
 				return;
 			}
-			var messages = Mapper.Map<List<Domain.Entities.Message>>(input);
+			var messages = Mapper.Map<List<Core.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
 			DbContext.SaveChanges();
 			Logger.LogWarning($"Create messages {JsonConvert.SerializeObject(input)} success.");

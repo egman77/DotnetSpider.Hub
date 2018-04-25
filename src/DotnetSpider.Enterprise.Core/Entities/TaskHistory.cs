@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DotnetSpider.Enterprise.Domain.Entities
+namespace DotnetSpider.Enterprise.Core.Entities
 {
 	public class TaskHistory : AuditedEntity<long>
 	{

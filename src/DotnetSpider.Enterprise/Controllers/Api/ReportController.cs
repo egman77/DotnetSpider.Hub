@@ -1,6 +1,7 @@
 ﻿using DotnetSpider.Enterprise.Application.Report;
+using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
+using DotnetSpider.Enterprise.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

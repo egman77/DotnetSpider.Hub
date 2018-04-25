@@ -1,5 +1,5 @@
 ﻿using DotnetSpider.Enterprise.Application.TaskHistory.Dtos;
-using DotnetSpider.Enterprise.Domain;
+using DotnetSpider.Enterprise.Core;
 
 namespace DotnetSpider.Enterprise.Application.TaskHistory
 {

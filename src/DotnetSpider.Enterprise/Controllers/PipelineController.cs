@@ -1,8 +1,8 @@
 ﻿using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using DotnetSpider.Enterprise.Application.Pipeline;
+using DotnetSpider.Enterprise.Core;
 using Microsoft.AspNetCore.Authorization;
 
 namespace DotnetSpider.Enterprise.Controllers

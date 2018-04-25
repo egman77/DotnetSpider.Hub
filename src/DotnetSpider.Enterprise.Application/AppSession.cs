@@ -1,6 +1,6 @@
-﻿using DotnetSpider.Enterprise.Domain;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using DotnetSpider.Enterprise.Core;
 
 namespace DotnetSpider.Enterprise.Application
 {

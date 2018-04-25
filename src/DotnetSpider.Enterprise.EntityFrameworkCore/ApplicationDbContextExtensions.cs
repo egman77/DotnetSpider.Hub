@@ -1,8 +1,9 @@
-﻿using DotnetSpider.Enterprise.Domain;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using DotnetSpider.Enterprise.Core;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.EntityFrameworkCore
 {

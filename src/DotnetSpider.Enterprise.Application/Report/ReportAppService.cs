@@ -3,12 +3,12 @@ using DotnetSpider.Enterprise.EntityFrameworkCore;
 using System.Linq;
 using DotnetSpider.Enterprise.Application.Node;
 using DotnetSpider.Enterprise.Core.Configuration;
-using DotnetSpider.Enterprise.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.Data.SqlClient;
 using Dapper;
 using DotnetSpider.Enterprise.Core;
+using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.Application.Report
 {
@@ -18,7 +18,7 @@ namespace DotnetSpider.Enterprise.Application.Report
 		private readonly long G = 1024 * 1024;
 
 		public ReportAppService(INodeAppService nodeAppService, ApplicationDbContext dbcontext, ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<Domain.Entities.ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
 			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
 		{
 			_nodeAppService = nodeAppService;
@@ -46,7 +46,6 @@ namespace DotnetSpider.Enterprise.Application.Report
 
 		private HomePageDashboardDto CalculateHomeDashboardDto()
 		{
-			throw new DotnetSpiderException("asdfasdf");
 			HomePageDashboardDto output = new HomePageDashboardDto();
 
 			long storageSize = 0;

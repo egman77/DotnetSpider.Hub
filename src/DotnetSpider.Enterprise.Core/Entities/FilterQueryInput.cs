@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DotnetSpider.Enterprise.Domain
+namespace DotnetSpider.Enterprise.Core.Entities
 {
 	public class FilterQueryInput
 	{

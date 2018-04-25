@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using DotnetSpider.Enterprise.Domain.Entities;
+using DotnetSpider.Enterprise.Core.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using DotnetSpider.Enterprise.Domain;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace DotnetSpider.Enterprise.EntityFrameworkCore
