@@ -1,13 +1,12 @@
 ﻿using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise.Controllers
 {
 	public class RunningTaskController : AppControllerBase
 	{
-		public RunningTaskController(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration) : base(appSession, loggerFactory, commonConfiguration)
+		public RunningTaskController(IAppSession appSession, ICommonConfiguration commonConfiguration) : base(appSession, commonConfiguration)
 		{
 		}
 

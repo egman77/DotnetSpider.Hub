@@ -15,8 +15,8 @@ namespace DotnetSpider.Enterprise.Application.Message
 	public class MessageAppService : AppServiceBase, IMessageAppService
 	{
 		public MessageAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
-			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
+			IAppSession appSession, UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 		}
 
@@ -24,26 +24,26 @@ namespace DotnetSpider.Enterprise.Application.Message
 		{
 			if (input == null)
 			{
-				Logger.LogError($"{nameof(input)} should not be null.");
+				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
 			var message = Mapper.Map<Core.Entities.Message>(input);
 			DbContext.Message.Add(message);
 			DbContext.SaveChanges();
-			Logger.LogWarning($"Crate message {JsonConvert.SerializeObject(input)} success.");
+			Logger.Warning($"Crate message {JsonConvert.SerializeObject(input)} success.");
 		}
 
 		public void Create(IEnumerable<CreateMessageInput> input)
 		{
 			if (input == null)
 			{
-				Logger.LogError($"{nameof(input)} should not be null.");
+				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
 			var messages = Mapper.Map<List<Core.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
 			DbContext.SaveChanges();
-			Logger.LogWarning($"Create messages {JsonConvert.SerializeObject(input)} success.");
+			Logger.Warning($"Create messages {JsonConvert.SerializeObject(input)} success.");
 		}
 
 		public IEnumerable<MessageDto> Consume(string nodeId)
@@ -60,7 +60,7 @@ namespace DotnetSpider.Enterprise.Application.Message
 			DbContext.SaveChanges();
 			if (result.Count > 0)
 			{
-				Logger.LogWarning($"Consume messages: {JsonConvert.SerializeObject(result)}.");
+				Logger.Warning($"Consume messages: {JsonConvert.SerializeObject(result)}.");
 			}
 			return result;
 		}

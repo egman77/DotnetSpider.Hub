@@ -18,8 +18,8 @@ namespace DotnetSpider.Enterprise.Application.Report
 		private readonly long G = 1024 * 1024;
 
 		public ReportAppService(INodeAppService nodeAppService, ApplicationDbContext dbcontext, ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
-			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
+			IAppSession appSession, UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 			_nodeAppService = nodeAppService;
 		}

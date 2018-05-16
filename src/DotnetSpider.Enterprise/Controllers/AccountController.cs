@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise.Controllers
 {
@@ -21,8 +20,8 @@ namespace DotnetSpider.Enterprise.Controllers
 		public AccountController(
 			UserManager<ApplicationUser> userManager,
 			SignInManager<ApplicationUser> signInManager,
-			IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
-			: base(appSession, loggerFactory, commonConfiguration)
+			IAppSession appSession, ICommonConfiguration commonConfiguration)
+			: base(appSession, commonConfiguration)
 		{
 			_userManager = userManager;
 			_signInManager = signInManager;
@@ -55,14 +54,15 @@ namespace DotnetSpider.Enterprise.Controllers
 			{
 				if (!user.EmailConfirmed)
 				{
-					return Json(new { Success = true, ReturnUrl = $"/Account/EmailNotConfirmed?Email={user.Email}" });
+					return RedirectToLocal($"/Account/EmailNotConfirmed?Email={user.Email}");
 				}
 				else
 				{
 					var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
 					if (result.Succeeded)
 					{
-						return Json(new { Success = true, ReturnUrl = "/Home" });
+						Logger.Information("User logged in.");
+						return RedirectToLocal(returnUrl);
 					}
 
 					if (result.RequiresTwoFactor)
@@ -71,7 +71,7 @@ namespace DotnetSpider.Enterprise.Controllers
 					}
 					if (result.IsLockedOut)
 					{
-						Logger.LogWarning(2, "User account locked out.");
+						Logger.Warning("User account locked out.");
 						throw new DotnetSpiderException("帐户被锁定。");
 					}
 					else
@@ -85,7 +85,7 @@ namespace DotnetSpider.Enterprise.Controllers
 		public async Task<IActionResult> Logout()
 		{
 			await _signInManager.SignOutAsync();
-			Logger.LogInformation(4, "User logged out.");
+			Logger.Information("User logged out.");
 			return RedirectToAction(nameof(HomeController.Index), "Home");
 		}
 
@@ -101,6 +101,18 @@ namespace DotnetSpider.Enterprise.Controllers
 			var userFactors = await _userManager.GetValidTwoFactorProvidersAsync(user);
 			var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
 			return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
+		}
+
+		private IActionResult RedirectToLocal(string returnUrl)
+		{
+			if (Url.IsLocalUrl(returnUrl))
+			{
+				return Redirect(returnUrl);
+			}
+			else
+			{
+				return RedirectToAction(nameof(HomeController.Index), "Home");
+			}
 		}
 	}
 }

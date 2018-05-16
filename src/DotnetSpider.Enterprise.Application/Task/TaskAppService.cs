@@ -34,7 +34,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			ITaskHistoryAppService taskHistoryAppService,
 			IMessageAppService messageAppService,
 			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager,
-			ApplicationDbContext dbcontext, ILoggerFactory loggerFactory) : base(dbcontext, configuration, appSession, userManager, loggerFactory)
+			ApplicationDbContext dbcontext) : base(dbcontext, configuration, appSession, userManager)
 		{
 			_schedulerAppService = schedulerAppService;
 			_systemAppService = systemAppService;
@@ -100,7 +100,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		{
 			if (input == null)
 			{
-				Logger.LogError($"{nameof(input)} should not be null.");
+				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
 			var task = Mapper.Map<Core.Entities.Task>(input);
@@ -139,7 +139,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 		{
 			if (input == null)
 			{
-				Logger.LogError($"{nameof(input)} should not be null.");
+				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == input.Id);
@@ -198,7 +198,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				if (task.Name.StartsWith(DotnetSpiderConsts.SystemJobPrefix))
 				{
 					_systemAppService.Execute(task.Name, task.Arguments);
-					Logger.LogWarning($"Run task {taskId}.");
+					Logger.Warning($"Run task {taskId}.");
 				}
 				else
 				{
@@ -208,7 +208,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 						task.LastIdentity = identity;
 						task.IsRunning = true;
 						DbContext.SaveChanges();
-						Logger.LogWarning($"Run task {taskId}.");
+						Logger.Warning($"Run task {taskId}.");
 					}
 				}
 			}
@@ -248,7 +248,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 				_schedulerAppService.Delete(task.Id.ToString());
 				task.IsDeleted = true;
 				DbContext.SaveChanges();
-				Logger.LogInformation($"Remove task {taskId}.");
+				Logger.Information($"Remove task {taskId}.");
 			}
 		}
 
@@ -264,7 +264,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_schedulerAppService.Delete(task.Id.ToString());
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
-			Logger.LogInformation($"Disable task {taskId}.");
+			Logger.Information($"Disable task {taskId}.");
 		}
 
 		public void Enable(long taskId)
@@ -288,7 +288,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			_schedulerAppService.Create(job);
 			DbContext.Task.Update(task);
 			DbContext.SaveChanges();
-			Logger.LogInformation($"Enable task {taskId}.");
+			Logger.Information($"Enable task {taskId}.");
 		}
 
 		public void IncreaseRunning(long taskId)
@@ -300,7 +300,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			}
 			task.NodeRunningCount += 1;
 			DbContext.SaveChanges();
-			Logger.LogInformation($"IncreaseRunning task { taskId}.");
+			Logger.Information($"IncreaseRunning task { taskId}.");
 		}
 
 		public void ReduceRunning(long taskId)
@@ -318,7 +318,7 @@ namespace DotnetSpider.Enterprise.Application.Task
 			{
 				task.IsRunning = false;
 			}
-			Logger.LogInformation($"ReduceRunning task { taskId}.");
+			Logger.Information($"ReduceRunning task { taskId}.");
 			DbContext.SaveChanges();
 
 		}

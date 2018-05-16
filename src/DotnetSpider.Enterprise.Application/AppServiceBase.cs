@@ -3,7 +3,7 @@ using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Core.Entities;
 using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace DotnetSpider.Enterprise.Application
 {
@@ -16,13 +16,13 @@ namespace DotnetSpider.Enterprise.Application
 		protected readonly ILogger Logger;
 
 		protected AppServiceBase(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
+			IAppSession appSession, UserManager<ApplicationUser> userManager)
 		{
 			DbContext = dbcontext;
 			Configuration = configuration;
 			UserManager = userManager;
 			Session = appSession;
-			Logger = loggerFactory.CreateLogger(GetType());
+			Logger = Log.ForContext(GetType());
 		}
 
 		protected virtual ApplicationUser GetCurrentUser()

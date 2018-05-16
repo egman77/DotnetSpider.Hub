@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using Serilog;
 
 namespace DotnetSpider.Enterprise.Controllers
 {
@@ -19,10 +18,10 @@ namespace DotnetSpider.Enterprise.Controllers
 		protected readonly ILogger Logger;
 		protected readonly ICommonConfiguration Configuration;
 
-		public AppControllerBase(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
+		public AppControllerBase(IAppSession appSession, ICommonConfiguration commonConfiguration)
 		{
 			Session = appSession;
-			Logger = loggerFactory.CreateLogger(GetType());
+			Logger = Log.ForContext(GetType());
 			Configuration = commonConfiguration;
 		}
 

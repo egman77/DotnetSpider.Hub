@@ -10,7 +10,7 @@ using DotnetSpider.Enterprise.Core.Entities;
 
 namespace DotnetSpider.Enterprise.Application
 {
-	public class AutoMapperConfiguration
+	internal class AutoMapperConfiguration
 	{
 		public static void CreateMap()
 		{

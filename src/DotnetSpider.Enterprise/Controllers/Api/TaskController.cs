@@ -4,7 +4,6 @@ using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise.Controllers.Api
 {
@@ -13,8 +12,8 @@ namespace DotnetSpider.Enterprise.Controllers.Api
 	{
 		private readonly ITaskAppService _taskAppService;
 
-		public TaskController(ITaskAppService taskAppService, IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
-			: base(appSession, loggerFactory, commonConfiguration)
+		public TaskController(ITaskAppService taskAppService, IAppSession appSession, ICommonConfiguration commonConfiguration)
+			: base(appSession, commonConfiguration)
 		{
 			_taskAppService = taskAppService;
 		}

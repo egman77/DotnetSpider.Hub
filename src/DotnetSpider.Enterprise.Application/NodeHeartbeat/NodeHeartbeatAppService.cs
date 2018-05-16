@@ -17,8 +17,10 @@ namespace DotnetSpider.Enterprise.Application.NodeHeartbeat
 	{
 		private readonly IMessageAppService _messageAppService;
 
-		public NodeHeartbeatAppService(IMessageAppService messageAppService, 
-			ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory) : base(dbcontext, configuration, appSession, userManager, loggerFactory)
+		public NodeHeartbeatAppService(IMessageAppService messageAppService,
+			ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
+			UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 			_messageAppService = messageAppService;
 		}
@@ -27,7 +29,7 @@ namespace DotnetSpider.Enterprise.Application.NodeHeartbeat
 		{
 			if (input == null)
 			{
-				Logger.LogError($"{nameof(input)} should not be null.");
+				Logger.Error($"{nameof(input)} should not be null.");
 				return Enumerable.Empty<NodeHeartbeatOutput>();
 			}
 

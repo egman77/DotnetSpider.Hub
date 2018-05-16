@@ -1,5 +1,4 @@
 ﻿using DotnetSpider.Enterprise.Core.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using DotnetSpider.Enterprise.Application.Pipeline;
 using DotnetSpider.Enterprise.Core;
@@ -11,8 +10,8 @@ namespace DotnetSpider.Enterprise.Controllers
 	{
 		private readonly IPipelineAppService _pipelineAppService;
 
-		public PipelineController(IAppSession appSession, ILoggerFactory loggerFactory,
-			ICommonConfiguration commonConfiguration, IPipelineAppService pipelineAppService) : base(appSession, loggerFactory, commonConfiguration)
+		public PipelineController(IAppSession appSession,
+			ICommonConfiguration commonConfiguration, IPipelineAppService pipelineAppService) : base(appSession, commonConfiguration)
 		{
 			_pipelineAppService = pipelineAppService;
 		}

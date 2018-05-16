@@ -11,10 +11,9 @@ namespace DotnetSpider.Enterprise.Application.User
 	public class UserAppService : AppServiceBase, IUserAppService
 	{
 		public UserAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
-			UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
-			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
+			UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
-
 		}
 
 		public ApplicationUser GetUserByEmailAddress(string emailAddress)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace DotnetSpider.Enterprise.Application.TaskLog.Dto
 {

@@ -22,8 +22,8 @@ namespace DotnetSpider.Enterprise.Application.Node
 
 		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService,
 			ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
-			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
+			IAppSession appSession, UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 			_messageAppService = messageAppService;
 		}
@@ -35,7 +35,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			{
 				node.IsEnable = true;
 				DbContext.SaveChanges();
-				Logger.LogInformation($"Enable node {nodeId}.");
+				Logger.Information($"Enable node {nodeId}.");
 			}
 		}
 
@@ -46,7 +46,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 			{
 				node.IsEnable = false;
 				DbContext.SaveChanges();
-				Logger.LogInformation($"Disable node {nodeId}.");
+				Logger.Information($"Disable node {nodeId}.");
 			}
 		}
 
@@ -214,7 +214,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 				NodeId = nodeId,
 				TaskId = 0
 			};
-			Logger.LogInformation($"Exit node: {nodeId}.");
+			Logger.Information($"Exit node: {nodeId}.");
 			_messageAppService.Create(message);
 		}
 
@@ -228,7 +228,7 @@ namespace DotnetSpider.Enterprise.Application.Node
 					nodeIdParameter);
 				DbContext.Node.Remove(node);
 				DbContext.SaveChanges();
-				Logger.LogInformation($"Remove node: {nodeId}.");
+				Logger.Information($"Remove node: {nodeId}.");
 			}
 		}
 

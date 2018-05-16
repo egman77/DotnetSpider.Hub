@@ -1,14 +1,13 @@
 ﻿using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise.Controllers
 {
 	public class TaskController : AppControllerBase
 	{
-		public TaskController(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
-			: base(appSession, loggerFactory, commonConfiguration)
+		public TaskController(IAppSession appSession, ICommonConfiguration commonConfiguration)
+			: base(appSession, commonConfiguration)
 		{
 		}
 

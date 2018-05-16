@@ -1,8 +1,8 @@
 ﻿using DotnetSpider.Enterprise.Application.Message;
 using DotnetSpider.Enterprise.Application.Message.Dtos;
 using DotnetSpider.Enterprise.Application.Node;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog;
 using System.Collections.Generic;
 
 namespace DotnetSpider.Enterprise.Application
@@ -23,7 +23,7 @@ namespace DotnetSpider.Enterprise.Application
 					Name = Core.Entities.Message.CanleMessageName,
 					NodeId = status.NodeId
 				};
-				logger?.LogWarning($"Add CANCLE message: {JsonConvert.SerializeObject(msg)}.");
+				logger?.Warning($"Add CANCLE message: {JsonConvert.SerializeObject(msg)}.");
 				messages.Add(msg);
 			}
 			messageAppService.Create(messages);

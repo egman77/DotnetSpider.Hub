@@ -1,26 +1,35 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace DotnetSpider.Enterprise.Core.Configuration
 {
 	public class CommonConfiguration : ICommonConfiguration
 	{
-		public IConfigurationRoot AppConfiguration { get; set; }
+		public IConfiguration Configuration { get; private set; }
 
-		public CommonConfiguration()
+		public CommonConfiguration(IConfiguration configuration)
 		{
+			Configuration = configuration;
+
 			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "domain")))
 			{
 				HostUrl = File.ReadAllLines("domain")[0];
 			}
+
+			Tokens = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting).GetValue<string>(DotnetSpiderConsts.Tokens).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Where(t => !string.IsNullOrEmpty(t) && !string.IsNullOrWhiteSpace(t)).ToArray();
+
+			var code = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting).GetValue<string>(DotnetSpiderConsts.SqlEncryptCode).Trim();
+			SqlEncryptKey = Encoding.ASCII.GetBytes(code);
 		}
 
 		public string MsSqlConnectionString
 		{
 			get
 			{
-				var connectionStrings = AppConfiguration.GetSection("ConnectionStrings");
+				var connectionStrings = Configuration.GetSection("ConnectionStrings");
 				return connectionStrings.GetValue<string>(DotnetSpiderConsts.ConnectionName);
 			}
 		}
@@ -29,7 +38,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		{
 			get
 			{
-				var connectionStrings = AppConfiguration.GetSection("ConnectionStrings");
+				var connectionStrings = Configuration.GetSection("ConnectionStrings");
 				return connectionStrings.GetValue<string>(DotnetSpiderConsts.MySqlConnectionName);
 			}
 		}
@@ -38,7 +47,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		{
 			get
 			{
-				var section = AppConfiguration.GetSection(DotnetSpiderConsts.DefaultSetting);
+				var section = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting);
 				return section.GetValue<string>(DotnetSpiderConsts.SchedulerUrl);
 			}
 		}
@@ -47,7 +56,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		{
 			get
 			{
-				var section = AppConfiguration.GetSection(DotnetSpiderConsts.DefaultSetting);
+				var section = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting);
 				return section.GetValue<string>(DotnetSpiderConsts.SchedulerCallback);
 			}
 		}
@@ -62,7 +71,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		{
 			get
 			{
-				var section = AppConfiguration.GetSection(DotnetSpiderConsts.DefaultSetting);
+				var section = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting);
 				return section.GetValue<bool>(DotnetSpiderConsts.AuthorizeApi);
 			}
 		}
@@ -71,7 +80,7 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 		{
 			get
 			{
-				var section = AppConfiguration.GetSection(DotnetSpiderConsts.DefaultSetting);
+				var section = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting);
 				return section.GetValue<bool>(DotnetSpiderConsts.AuthorizeApi);
 			}
 		}

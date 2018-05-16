@@ -18,10 +18,11 @@
     "DotnetSpider.Enterprise": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "http://localhost:30013",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:58157/"
+      "applicationUrl": "http://localhost:30013"
     }
   }
 }

@@ -2,7 +2,6 @@
 using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise.Controllers.Api
 {
@@ -12,7 +11,7 @@ namespace DotnetSpider.Enterprise.Controllers.Api
 		private readonly ITaskHistoryAppService _taskHistoryAppService;
 
 
-		public TaskHistoryController(ITaskHistoryAppService taskHistoryAppService, IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration) : base(appSession, loggerFactory, commonConfiguration)
+		public TaskHistoryController(ITaskHistoryAppService taskHistoryAppService, IAppSession appSession, ICommonConfiguration commonConfiguration) : base(appSession, commonConfiguration)
 		{
 			_taskHistoryAppService = taskHistoryAppService;
 		}

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DotnetSpider.Enterprise.Application.Report.Dtos
+﻿namespace DotnetSpider.Enterprise.Application.Report.Dtos
 {
 	public class DbSpaceUsedDto
 	{

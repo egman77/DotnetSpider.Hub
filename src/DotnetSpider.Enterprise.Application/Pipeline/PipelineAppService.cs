@@ -42,8 +42,9 @@ namespace DotnetSpider.Enterprise.Application.Pipeline
 
 		private readonly ICryptoTransform _cryptoTransform;
 
-		public PipelineAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
-			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
+		public PipelineAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
+			IAppSession appSession, UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 			var des = DES.Create();
 			_cryptoTransform = des.CreateDecryptor(configuration.SqlEncryptKey, configuration.SqlEncryptKey);
@@ -101,7 +102,7 @@ namespace DotnetSpider.Enterprise.Application.Pipeline
 				}
 				catch (Exception e)
 				{
-					Logger.LogError($"Pipeline execute failed {json}: {e}");
+					Logger.Error($"Pipeline execute failed {json}: {e}");
 					throw e;
 				}
 			}

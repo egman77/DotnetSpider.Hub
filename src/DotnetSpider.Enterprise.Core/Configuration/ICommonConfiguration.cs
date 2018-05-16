@@ -4,14 +4,14 @@ namespace DotnetSpider.Enterprise.Core.Configuration
 {
 	public interface ICommonConfiguration
 	{
-		IConfigurationRoot AppConfiguration { get; set; }
+		IConfiguration Configuration { get; }
 		string MsSqlConnectionString { get; }
 		string MySqlConnectionString { get; }
 		string SchedulerUrl { get; }
 		string SchedulerCallback { get; }
-		string HostUrl { get; set; }
-		string[] Tokens { get; set; }
-		byte[] SqlEncryptKey { get; set; }
+		string HostUrl { get; }
+		string[] Tokens { get; }
+		byte[] SqlEncryptKey { get; }
 		bool AuthorizeApi { get; }
 		bool RecordGloabException { get; }
 	}

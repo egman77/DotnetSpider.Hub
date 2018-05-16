@@ -21,12 +21,12 @@
     <PackageReference Include="AspectCore.APM.AspNetCore" Version="0.1.4" />
     <PackageReference Include="AspectCore.APM.HttpProfiler" Version="0.1.4" />
     <PackageReference Include="AspectCore.APM.LineProtocolCollector" Version="0.1.4" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.1" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.5.2" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.2" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="2.6.1" />
   </ItemGroup>
 
   <ItemGroup>

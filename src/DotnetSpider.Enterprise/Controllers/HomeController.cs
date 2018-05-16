@@ -1,14 +1,13 @@
 ﻿using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace DotnetSpider.Enterprise.Controllers
 {
 	public class HomeController : AppControllerBase
 	{
-		public HomeController(IAppSession appSession, ILoggerFactory loggerFactory, ICommonConfiguration commonConfiguration)
-			: base(appSession, loggerFactory, commonConfiguration)
+		public HomeController(IAppSession appSession, ICommonConfiguration commonConfiguration)
+			: base(appSession, commonConfiguration)
 		{
 		}
 

@@ -1,40 +1,31 @@
 ﻿using System;
 using System.IO;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using NLog.Web;
 
 namespace DotnetSpider.Enterprise
 {
 	public class Program
 	{
+		private static string hostUrl = "http://*:5000";
+
 		public static void Main(string[] args)
 		{
-			var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-
-			try
+			if (File.Exists(Path.Combine(AppContext.BaseDirectory, "domain")))
 			{
-				string hostUrl = "http://*:5000";
-				if (File.Exists(Path.Combine(AppContext.BaseDirectory, "domain")))
-				{
-					hostUrl = File.ReadAllLines("domain")[0];
-				}
-
-				var host = new WebHostBuilder()
-					.UseKestrel()
-					.UseContentRoot(Directory.GetCurrentDirectory())
-					.UseIISIntegration()
-					.UseStartup<Startup>()
-					.UseApplicationInsights()
-					.UseUrls(hostUrl).UseNLog()
-					.Build();
-
-				host.Run();
+				hostUrl = File.ReadAllLines("domain")[0];
 			}
-			catch (Exception e)
-			{
-				logger.Error(e, "Stopped program because of exception");
-				throw;
-			}
+
+			var host = BuildWebHost(args);
+
+			host.Run();
 		}
+
+		public static IWebHost BuildWebHost(string[] args) =>
+			WebHost.CreateDefaultBuilder(args)
+			.UseContentRoot(Directory.GetCurrentDirectory())
+			.UseStartup<Startup>()
+			.UseUrls(hostUrl)
+			.Build();
 	}
 }

@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
 
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 {
-    public partial class _20180209 : Migration
+	public partial class _20180209 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -16,8 +16,8 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 	public class TaskHistoryAppService : AppServiceBase, ITaskHistoryAppService
 	{
 		public TaskHistoryAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
-			UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
-			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
+			UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 		}
 
@@ -25,7 +25,7 @@ namespace DotnetSpider.Enterprise.Application.TaskHistory
 		{
 			if (input == null)
 			{
-				Logger.LogError($"{nameof(input)} should not be null.");
+				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
 			var taskHistory = Mapper.Map<Core.Entities.TaskHistory>(input);

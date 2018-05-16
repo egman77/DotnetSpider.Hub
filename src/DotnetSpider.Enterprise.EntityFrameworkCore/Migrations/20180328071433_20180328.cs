@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
 namespace DotnetSpider.Enterprise.EntityFrameworkCore.Migrations
 {
-    public partial class _20180328 : Migration
+	public partial class _20180328 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +9,6 @@ using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using DotnetSpider.Enterprise.Core.Configuration;
 using DotnetSpider.Enterprise.Application;
 using AspectCore.APM.AspNetCore;
 using AspectCore.APM.LineProtocolCollector;
@@ -19,32 +17,20 @@ using AspectCore.APM.ApplicationProfiler;
 using AspectCore.Extensions.DependencyInjection;
 using AspectCore.APM.Core;
 using DotnetSpider.Enterprise.Configuration;
-using NLog.Extensions.Logging;
-using NLog;
-using System.Text;
 using DotnetSpider.Enterprise.Core.Entities;
+using Serilog;
 
 namespace DotnetSpider.Enterprise
 {
 	public class Startup
 	{
-		public Startup(IHostingEnvironment env)
+		private readonly IConfiguration _configuration;
+		private readonly IHostingEnvironment _env;
+
+		public Startup(IHostingEnvironment env, IConfiguration configuration)
 		{
-			IConfigurationBuilder builder;
-			if (env.IsDevelopment())
-			{
-				builder = new ConfigurationBuilder()
-					.SetBasePath(env.ContentRootPath)
-					.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-					.AddEnvironmentVariables();
-			}
-			else
-			{
-				builder = new ConfigurationBuilder()
-					.SetBasePath(env.ContentRootPath)
-					.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-					.AddEnvironmentVariables();
-			}
+			_env = env;
+			_configuration = configuration;
 
 			//if (env.IsDevelopment())
 			//{
@@ -52,22 +38,23 @@ namespace DotnetSpider.Enterprise
 			//	builder.AddUserSecrets<Startup>();
 			//}
 
-			builder.AddEnvironmentVariables();
-			Configuration = builder.Build();
+			Log.Logger = new LoggerConfiguration().Enrich.FromLogContext().ReadFrom.Configuration(_configuration)
+				.WriteTo.Console().WriteTo.File("DotnetSpider.Enterprise.log")
+				.CreateLogger();
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
-			var env = (IHostingEnvironment)services.First(s => s.ServiceType == typeof(IHostingEnvironment)).ImplementationInstance;
 			Action<ApplicationOptions> application = options =>
 			{
-				options.ApplicationName = env.ApplicationName;
-				options.Environment = env.EnvironmentName;
+				options.ApplicationName = _env.ApplicationName;
+				options.Environment = _env.EnvironmentName;
 			};
+
 			services.AddAspectCoreAPM(component =>
 			{
-				component.AddLineProtocolCollector(options => Configuration.GetLineProtocolSection().Bind(options))
+				component.AddLineProtocolCollector(options => _configuration.GetLineProtocolSection().Bind(options))
 						 .AddHttpProfiler()
 						 .AddApplicationProfiler();
 			}, application);
@@ -82,8 +69,7 @@ namespace DotnetSpider.Enterprise
 			});
 
 			services.AddEntityFrameworkSqlServer()
-				.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.UseRowNumberForPaging()));
-
+				.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"), b => b.UseRowNumberForPaging()));
 
 			services.AddIdentity<ApplicationUser, ApplicationRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
@@ -124,33 +110,26 @@ namespace DotnetSpider.Enterprise
 			// Add framework services.
 			services.AddMvc(options => { options.Filters.Add<HttpGlobalExceptionFilter>(); });
 
-			DependencyInjectionConfig.Inject(services);
-
 			//Session服务
 			services.AddSession();
 
+			services.AddDotnetSpiderEnterprise(config =>
+			{
+				config.UseConfiguration(_configuration);
+				config.UserDotnetSpiderEnterpriseServices();
+			});
+
 			return services.BuildAspectCoreServiceProvider();
 		}
-
-		public IConfigurationRoot Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
 			app.UseHttpProfiler();
 
-			var config = app.ApplicationServices.GetRequiredService<ICommonConfiguration>();
-			config.AppConfiguration = Configuration;
-			config.Tokens = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting).GetValue<string>(DotnetSpiderConsts.Tokens).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Where(t => !string.IsNullOrEmpty(t) && !string.IsNullOrWhiteSpace(t)).ToArray();
-
-			var code = Configuration.GetSection(DotnetSpiderConsts.DefaultSetting).GetValue<string>(DotnetSpiderConsts.SqlEncryptCode).Trim();
-			config.SqlEncryptKey = Encoding.ASCII.GetBytes(code);
-
-			LogManager.Configuration.Variables["connectionString"] = Configuration.GetSection("ConnectionStrings").GetValue<string>(DotnetSpiderConsts.ConnectionName);
-
-			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+			loggerFactory.AddConsole(_configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
-			loggerFactory.AddNLog();
+			loggerFactory.AddSerilog();
 
 			if (env.IsDevelopment())
 			{
@@ -163,7 +142,7 @@ namespace DotnetSpider.Enterprise
 				app.UseExceptionHandler("/Home/Error");
 			}
 
-			AuthConfigure.Configure(app, Configuration);
+			AuthConfigure.Configure(app, _configuration);
 
 			app.UseStaticFiles();
 
@@ -178,8 +157,6 @@ namespace DotnetSpider.Enterprise
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
 			});
-
-			AutoMapperConfiguration.CreateMap();
 
 			if (env.IsDevelopment())
 			{

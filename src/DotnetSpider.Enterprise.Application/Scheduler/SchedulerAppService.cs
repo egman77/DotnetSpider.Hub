@@ -19,11 +19,11 @@ namespace DotnetSpider.Enterprise.Application.Scheduler
 		private readonly RetryPolicy _retryPolicy;
 
 		public SchedulerAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
-			UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory) : base(dbcontext, configuration, appSession, userManager, loggerFactory)
+			UserManager<ApplicationUser> userManager) : base(dbcontext, configuration, appSession, userManager)
 		{
 			_retryPolicy = Policy.Handle<Exception>().Retry(5, (ex, count) =>
 			{
-				Logger.LogError($"Request scheduler.net failed [{count}]: {ex}");
+				Logger.Error($"Request scheduler.net failed [{count}]: {ex}");
 			});
 		}
 

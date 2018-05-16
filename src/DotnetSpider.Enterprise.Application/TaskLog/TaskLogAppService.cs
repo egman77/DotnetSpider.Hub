@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using DotnetSpider.Enterprise.Core.Entities;
 
@@ -16,8 +15,8 @@ namespace DotnetSpider.Enterprise.Application.TaskLog
 	public class TaskLogAppService : AppServiceBase, ITaskLogAppService
 	{
 		public TaskLogAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
-			UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
-			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
+			UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 		}
 
@@ -25,7 +24,7 @@ namespace DotnetSpider.Enterprise.Application.TaskLog
 		{
 			if (input == null)
 			{
-				Logger.LogError($"{nameof(input)} should not be null.");
+				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
 

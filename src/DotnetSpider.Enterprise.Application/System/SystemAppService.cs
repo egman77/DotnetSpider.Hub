@@ -7,7 +7,6 @@ using DotnetSpider.Enterprise.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
 using System.Linq;
 using DotnetSpider.Enterprise.Core;
 using DotnetSpider.Enterprise.Core.Entities;
@@ -22,9 +21,11 @@ namespace DotnetSpider.Enterprise.Application.System
 
 		public const string ScanRunningTaskName = "System.DotnetSpider.ScanRunningTask";
 
-		public SystemAppService(INodeAppService nodeAppService, IMessageAppService messageAppService, ISchedulerAppService schedulerAppService,
-			ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager, ILoggerFactory loggerFactory)
-			: base(dbcontext, configuration, appSession, userManager, loggerFactory)
+		public SystemAppService(INodeAppService nodeAppService, IMessageAppService messageAppService,
+			ISchedulerAppService schedulerAppService,
+			ApplicationDbContext dbcontext, ICommonConfiguration configuration,
+			IAppSession appSession, UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, appSession, userManager)
 		{
 			_schedulerAppService = schedulerAppService;
 			_nodeAppService = nodeAppService;
