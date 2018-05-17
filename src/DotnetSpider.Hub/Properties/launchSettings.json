@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "DotnetSpider.Hub": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:30012",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": ""
+    }
+  }
+}

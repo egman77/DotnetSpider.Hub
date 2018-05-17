@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00. Solution items", "00. Solution items", "{420BCCA4-2759-4EAC-90B0-F97CA854C0A4}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02. Agent", "02. Agent", "{B7CF429F-1FA2-4A20-B117-FBC76731327F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotnetSpider.Hub.Agent", "src\DotnetSpider.Hub.Agent\DotnetSpider.Hub.Agent.csproj", "{16C021E2-E907-4A01-B56A-D5F420F31993}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16C021E2-E907-4A01-B56A-D5F420F31993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C021E2-E907-4A01-B56A-D5F420F31993}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C021E2-E907-4A01-B56A-D5F420F31993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C021E2-E907-4A01-B56A-D5F420F31993}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{16C021E2-E907-4A01-B56A-D5F420F31993} = {B7CF429F-1FA2-4A20-B117-FBC76731327F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {31D8D950-D2C2-4BDE-A27E-213F10DA4323}
+	EndGlobalSection
+EndGlobal
