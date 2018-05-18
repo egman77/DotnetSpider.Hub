@@ -5,41 +5,73 @@ using DotnetSpider.Hub.Application.Task;
 using DotnetSpider.Hub.Application.User;
 using DotnetSpider.Hub.Core.Entities;
 using DotnetSpider.Hub.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DotnetSpider.Hub.Application
 {
 	public class SeedData
 	{
-		public static void Initialize(IServiceProvider serviceProvider, bool clear = false)
+		private readonly ApplicationDbContext _context;
+		private readonly IConfiguration _configuration;
+		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly IUserAppService _userAppService;
+		private readonly ITaskAppService _taskAppService;
+		private readonly ISystemAppService _systemAppService;
+
+		public SeedData(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IUserAppService userAppService, ITaskAppService taskAppService,
+		ISystemAppService systemAppService, IConfiguration configuration)
 		{
-			using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>(), null))
+			_context = context;
+			_configuration = configuration;
+			_userManager = userManager;
+			_userAppService = userAppService;
+			_taskAppService = taskAppService;
+			_systemAppService = systemAppService;
+		}
+
+		public void Init()
+		{
+			_context.Database.Migrate();
+
+			var clearDatabase = _configuration["clear"] == "true";
+			if (clearDatabase)
 			{
-				if (context.Users.Any())
-				{
-					return;   // 已经初始化过数据，直接返回
-				}
+				Clear();
+			}
 
-				Clear(context);
+			if (_context.Users.Any())
+			{
+				return; // 已经初始化过数据，直接返回
+			}
 
-				var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
-				var roleManager = serviceProvider.GetService<RoleManager<IdentityRole<long>>>();
+			CreateAdmin();
 
-				var userAppService = serviceProvider.GetService<IUserAppService>();
+			var initTestData = _configuration["initestdata"] == "true";
 
-				InitSuperAdmin(userManager, roleManager, context);
-				InitData(context);
+			if (initTestData)
+			{
+				InitTestData();
+			}
+
+			_systemAppService.Register();
+
+			var upgradeScheduler = _configuration["upgradescheduler"] == "true";
+			if (upgradeScheduler)
+			{
+				_systemAppService.UpgradeScheduler();
 			}
 		}
 
-		private static void InitData(ApplicationDbContext context)
+		private void InitTestData()
 		{
 			var random = new Random();
 			for (int i = 0; i < 100; ++i)
 			{
-				Hub.Core.Entities.Task task = new Hub.Core.Entities.Task
+				Core.Entities.Task task = new Core.Entities.Task
 				{
 					ApplicationName = "dotnet",
 					Cron = $"* * * {i} *",
@@ -54,63 +86,46 @@ namespace DotnetSpider.Hub.Application
 					Version = "abcd",
 					NodeType = 1
 				};
-				context.Task.Add(task);
+				_context.Task.Add(task);
 			}
-			context.SaveChanges();
+			_context.SaveChanges();
 		}
 
-		private static void Clear(ApplicationDbContext context)
+		private void Clear()
 		{
-			var roleClaims = context.RoleClaims.ToList();
+			var roleClaims = _context.RoleClaims;
 			foreach (var d in roleClaims)
 			{
-				context.RoleClaims.Remove(d);
+				_context.RoleClaims.Remove(d);
 			}
 
-			var roles = context.Roles.ToList();
+			var roles = _context.Roles;
 			foreach (var d in roles)
 			{
-				context.Roles.Remove(d);
+				_context.Roles.Remove(d);
 			}
 
-			var users = context.Users.ToList();
+			var users = _context.Users;
 			foreach (var d in users)
 			{
-				context.Users.Remove(d);
+				_context.Users.Remove(d);
 			}
-
-			context.SaveChanges();
+			_context.SaveChanges();
 		}
 
-		private static void InitSuperAdmin(
-			UserManager<ApplicationUser> userManager,
-			RoleManager<IdentityRole<long>> roleManager,
-			ApplicationDbContext context)
+		private void CreateAdmin()
 		{
 			//增加一个超级管理员用户
 			var superAdmin = new ApplicationUser
 			{
 				IsActive = true,
-				UserName = "service@dotnetspider.com",
-				Email = "service@dotnetspider.com",
+				UserName = "service@dotnetspider.org",
+				Email = "service@dotnetspider.org",
 				EmailConfirmed = true,
-				//IsActive = true,
-				PhoneNumber = "17701696558"//,
-										   //CreationTime = DateTime.Now,
-										   //CreatorUserId = 0,
+				PhoneNumber = "17701696558"
 			};
-			userManager.CreateAsync(superAdmin, "1qazZAQ!").Wait();
-			context.SaveChanges();
-		}
-
-		public static void InitializeScheduler(IServiceProvider serviceProvider)
-		{
-			var systemAppService = serviceProvider.GetService<ISystemAppService>();
-			systemAppService.Register();
-
-			var taskService = serviceProvider.GetService<ITaskAppService>();
-			taskService.UpgradeScheduler();
-
+			_userManager.CreateAsync(superAdmin, "1qazZAQ!").Wait();
+			_context.SaveChanges();
 		}
 	}
 }

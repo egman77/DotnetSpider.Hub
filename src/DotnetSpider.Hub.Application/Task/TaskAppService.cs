@@ -51,7 +51,7 @@ namespace DotnetSpider.Hub.Application.Task
 			input.Validate();
 			PaginationQueryDto output;
 
-			Expression<Func<Hub.Core.Entities.Task, bool>> where = t => !t.IsDeleted;
+			Expression<Func<Core.Entities.Task, bool>> where = t => !t.IsDeleted;
 
 			var keyword = input.GetFilterValue("keyword");
 
@@ -102,7 +102,7 @@ namespace DotnetSpider.Hub.Application.Task
 				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
-			var task = Mapper.Map<Hub.Core.Entities.Task>(input);
+			var task = Mapper.Map<Core.Entities.Task>(input);
 
 			input.ApplicationName = input.ApplicationName.Trim();
 			input.Arguments = input.Arguments?.Trim();
@@ -190,7 +190,7 @@ namespace DotnetSpider.Hub.Application.Task
 
 		public void Run(long taskId)
 		{
-			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && Hub.Core.Entities.Message.RunMessageName == a.Name);
+			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && Core.Entities.Message.RunMessageName == a.Name);
 			if (msg == null)
 			{
 				var task = CheckStatusOfTask(taskId);
@@ -218,17 +218,17 @@ namespace DotnetSpider.Hub.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
-				throw new Exception("Task unfound.");
+				throw new Exception($"Task {taskId} unfound.");
 			}
 
 			// 如果运行的命令还没有被节点消费, 则直接删除运行消息, 减少节点的消耗。
-			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && Hub.Core.Entities.Message.RunMessageName == m.Name);
+			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && Core.Entities.Message.RunMessageName == m.Name);
 			if (runMessage != null)
 			{
 				DbContext.Message.Remove(runMessage);
 			}
 
-			var cancelMsg = DbContext.Message.FirstOrDefault(a => a.TaskId == task.Id && Hub.Core.Entities.Message.CanleMessageName == a.Name);
+			var cancelMsg = DbContext.Message.FirstOrDefault(a => a.TaskId == task.Id && Core.Entities.Message.CanleMessageName == a.Name);
 			if (cancelMsg != null)
 			{
 				return;
@@ -350,7 +350,7 @@ namespace DotnetSpider.Hub.Application.Task
 		/// </summary>
 		/// <param name="taskId">任务ID</param>
 		/// <returns>任务对象</returns>
-		private Hub.Core.Entities.Task CheckStatusOfTask(long taskId)
+		private Core.Entities.Task CheckStatusOfTask(long taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 
@@ -375,7 +375,7 @@ namespace DotnetSpider.Hub.Application.Task
 				throw new DotnetSpiderException("任务正在运行中");
 			}
 
-			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && m.Name == Hub.Core.Entities.Message.RunMessageName);
+			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && m.Name == Core.Entities.Message.RunMessageName);
 			if (runMessage != null)
 			{
 				throw new DotnetSpiderException("已发送运行命令");
@@ -393,7 +393,7 @@ namespace DotnetSpider.Hub.Application.Task
 			return task;
 		}
 
-		private string PushTask(Hub.Core.Entities.Task task)
+		private string PushTask(Core.Entities.Task task)
 		{
 			var nodes = _nodeAppService.GetAvailable(task.Os, task.NodeType, task.NodeCount);
 
@@ -412,7 +412,7 @@ namespace DotnetSpider.Hub.Application.Task
 				{
 					TaskId = task.Id,
 					ApplicationName = task.ApplicationName,
-					Name = Hub.Core.Entities.Message.RunMessageName,
+					Name = Core.Entities.Message.RunMessageName,
 					NodeId = node.NodeId,
 					Version = task.Version,
 					Arguments = arguments
@@ -429,30 +429,6 @@ namespace DotnetSpider.Hub.Application.Task
 			};
 			_taskHistoryAppService.Add(taskHistory);
 			return identity;
-		}
-
-		public void UpgradeScheduler()
-		{
-			foreach (var task in DbContext.Task)
-			{
-				if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
-				{
-					_schedulerAppService.Delete(task.Id.ToString());
-				}
-				else
-				{
-					var taskId = task.Id.ToString();
-					var job = new SchedulerJobDto
-					{
-						Id = taskId,
-						Name = task.Name,
-						Cron = task.Cron,
-						Url = string.Format(Configuration.SchedulerCallback, taskId),
-						Data = JsonConvert.SerializeObject(new { TaskId = taskId })
-					};
-					_schedulerAppService.Create(job);
-				}
-			}
 		}
 
 		public void Control(long taskId, ActionType action)

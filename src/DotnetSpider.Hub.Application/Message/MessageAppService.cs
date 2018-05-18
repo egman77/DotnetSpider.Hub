@@ -26,7 +26,7 @@ namespace DotnetSpider.Hub.Application.Message
 				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
-			var message = Mapper.Map<Hub.Core.Entities.Message>(input);
+			var message = Mapper.Map<Core.Entities.Message>(input);
 			DbContext.Message.Add(message);
 			DbContext.SaveChanges();
 			Logger.Warning($"Crate message {JsonConvert.SerializeObject(input)} success.");
@@ -39,7 +39,7 @@ namespace DotnetSpider.Hub.Application.Message
 				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
-			var messages = Mapper.Map<List<Hub.Core.Entities.Message>>(input);
+			var messages = Mapper.Map<List<Core.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
 			DbContext.SaveChanges();
 			Logger.Warning($"Create messages {JsonConvert.SerializeObject(input)} success.");

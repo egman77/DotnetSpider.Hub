@@ -19,6 +19,5 @@ namespace DotnetSpider.Hub.Application.Task
 
 		void IncreaseRunning(long taskId);
 		void ReduceRunning(long taskId);
-		void UpgradeScheduler();
 	}
 }

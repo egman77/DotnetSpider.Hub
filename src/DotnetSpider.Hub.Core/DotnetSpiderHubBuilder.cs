@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DotnetSpider.Hub.Core
 {
-	public class DotnetSpiderEnterpriseBuilder : IDotnetSpiderEnterpriseBuilder
+	public class DotnetSpiderHubBuilder : IDotnetSpiderHubBuilder
 	{
-		public DotnetSpiderEnterpriseBuilder(IServiceCollection services)
+		public DotnetSpiderHubBuilder(IServiceCollection services)
 		{
 			Services = services;
 		}

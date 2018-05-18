@@ -82,7 +82,7 @@ namespace DotnetSpider.Hub.Application.Node
 			}
 
 			List<NodeDto> nodeOutputs = new List<NodeDto>();
-			var nodes = (List<Hub.Core.Entities.Node>)output.Result;
+			var nodes = (List<Core.Entities.Node>)output.Result;
 
 			foreach (var node in nodes)
 			{
@@ -128,7 +128,7 @@ namespace DotnetSpider.Hub.Application.Node
 
 		public List<NodeDto> GetAvailable(string os, int type, int nodeCount)
 		{
-			List<Hub.Core.Entities.Node> nodes;
+			List<Core.Entities.Node> nodes;
 			var compareTime = DateTime.Now.AddSeconds(-60);
 
 			if (string.IsNullOrEmpty(os) || "all" == os.ToLower())
@@ -143,7 +143,7 @@ namespace DotnetSpider.Hub.Application.Node
 					a.LastModificationTime > compareTime).ToList();
 			}
 
-			var availableNodes = new List<Hub.Core.Entities.Node>();
+			var availableNodes = new List<Core.Entities.Node>();
 			foreach (var node in nodes)
 			{
 				var heartbeat = DbContext.NodeHeartbeat.OrderByDescending(a => a.Id)
@@ -164,7 +164,7 @@ namespace DotnetSpider.Hub.Application.Node
 				if (availableNodes.Count > nodeCount)
 				{
 					Random random = new Random();
-					var newList = new List<Hub.Core.Entities.Node>();
+					var newList = new List<Core.Entities.Node>();
 					foreach (var item in availableNodes)
 					{
 						newList.Insert(random.Next(newList.Count), item);
@@ -179,7 +179,7 @@ namespace DotnetSpider.Hub.Application.Node
 			}
 		}
 
-		private bool IsOnlineNode(Hub.Core.Entities.Node node)
+		private bool IsOnlineNode(Core.Entities.Node node)
 		{
 			if (node.LastModificationTime != null)
 			{
@@ -209,7 +209,7 @@ namespace DotnetSpider.Hub.Application.Node
 			var message = new CreateMessageInput
 			{
 				ApplicationName = "NULL",
-				Name = Hub.Core.Entities.Message.ExitMessageName,
+				Name = Core.Entities.Message.ExitMessageName,
 				NodeId = nodeId,
 				TaskId = 0
 			};

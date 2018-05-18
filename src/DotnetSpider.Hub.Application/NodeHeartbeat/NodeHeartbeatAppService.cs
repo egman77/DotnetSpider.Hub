@@ -42,7 +42,7 @@ namespace DotnetSpider.Hub.Application.NodeHeartbeat
 
 		private void CreateHeartbeat(NodeHeartbeatInput input)
 		{
-			var heartbeat = Mapper.Map<Hub.Core.Entities.NodeHeartbeat>(input);
+			var heartbeat = Mapper.Map<Core.Entities.NodeHeartbeat>(input);
 			DbContext.NodeHeartbeat.Add(heartbeat);
 		}
 
@@ -58,7 +58,7 @@ namespace DotnetSpider.Hub.Application.NodeHeartbeat
 			}
 			else
 			{
-				node = new Hub.Core.Entities.Node();
+				node = new Core.Entities.Node();
 				node.NodeId = input.NodeId;
 				node.IsEnable = true;
 				node.IsOnline = true;

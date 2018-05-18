@@ -9,7 +9,7 @@ namespace DotnetSpider.Hub.Application
 {
 	public class TaskUtil
 	{
-		public static void ExitTask(INodeAppService nodeAppService, IMessageAppService messageAppService, Hub.Core.Entities.Task task, ILogger logger = null)
+		public static void ExitTask(INodeAppService nodeAppService, IMessageAppService messageAppService, Core.Entities.Task task, ILogger logger = null)
 		{
 			var runningNodes = nodeAppService.GetAllOnline();
 
@@ -20,7 +20,7 @@ namespace DotnetSpider.Hub.Application
 				{
 					ApplicationName = "NULL",
 					TaskId = task.Id,
-					Name = Hub.Core.Entities.Message.CanleMessageName,
+					Name = Core.Entities.Message.CanleMessageName,
 					NodeId = status.NodeId
 				};
 				logger?.Warning($"Add CANCLE message: {JsonConvert.SerializeObject(msg)}.");

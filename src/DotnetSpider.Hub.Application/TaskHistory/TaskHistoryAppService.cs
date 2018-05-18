@@ -27,7 +27,7 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
-			var taskHistory = Mapper.Map<Hub.Core.Entities.TaskHistory>(input);
+			var taskHistory = Mapper.Map<Core.Entities.TaskHistory>(input);
 			DbContext.TaskHistory.Add(taskHistory);
 			DbContext.SaveChanges();
 		}
@@ -47,8 +47,8 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 			var taskHistoryOutput = DbContext.TaskHistory.PageList(input, a => a.TaskId == taskId, t => t.CreationTime);
 
 			output.Total = taskHistoryOutput.Total;
-			var taskHistories =(List<Hub.Core.Entities.TaskHistory>) taskHistoryOutput.Result;
-			List<Hub.Core.Entities.TaskStatus> statuses;
+			var taskHistories =(List<Core.Entities.TaskHistory>) taskHistoryOutput.Result;
+			List<Core.Entities.TaskStatus> statuses;
 			if (taskHistories.Count > 0)
 			{
 				var identities = taskHistories.Select(r => r.Identity);
@@ -56,7 +56,7 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 			}
 			else
 			{
-				statuses = new List<Hub.Core.Entities.TaskStatus>(0);
+				statuses = new List<Core.Entities.TaskStatus>(0);
 			}
 
 			var result = new List<PaginationQueryTaskHistoryDto>(taskHistories.Count);

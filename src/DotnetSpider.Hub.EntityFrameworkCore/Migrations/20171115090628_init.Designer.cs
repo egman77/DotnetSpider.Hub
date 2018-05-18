@@ -19,7 +19,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                 .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.ApplicationRole", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -45,7 +45,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -110,7 +110,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Message", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.Message", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -147,7 +147,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("Message");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.MessageHistory", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.MessageHistory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -184,7 +184,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("MessageHistory");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Node", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.Node", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -217,7 +217,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("Node");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.NodeHeartbeat", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.NodeHeartbeat", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -260,7 +260,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("NodeHeartbeat");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.Task", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.Task", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -329,7 +329,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("Task");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.TaskHistory", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.TaskHistory", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -355,7 +355,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("TaskHistory");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.TaskStatus", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.TaskStatus", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -494,7 +494,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserClaim", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.ApplicationUserClaim", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>");
 
@@ -509,7 +509,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUserClaim");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserLogin", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.ApplicationUserLogin", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>");
 
@@ -521,7 +521,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUserLogin");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserRole", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.ApplicationUserRole", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<long>");
 
@@ -531,16 +531,16 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUserRole");
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.ApplicationUser", b =>
                 {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole")
+                    b.HasOne("DotnetSpider.Hub.Domain.Entities.ApplicationRole")
                         .WithMany("Users")
                         .HasForeignKey("ApplicationRoleId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole")
+                    b.HasOne("DotnetSpider.Hub.Domain.Entities.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -548,7 +548,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
                 {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole")
+                    b.HasOne("DotnetSpider.Hub.Domain.Entities.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -556,35 +556,35 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
                 {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser")
+                    b.HasOne("DotnetSpider.Hub.Domain.Entities.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserClaim", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.ApplicationUserClaim", b =>
                 {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationRole")
+                    b.HasOne("DotnetSpider.Hub.Domain.Entities.ApplicationRole")
                         .WithMany("Claims")
                         .HasForeignKey("ApplicationRoleId");
 
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", "ApplicationUser")
+                    b.HasOne("DotnetSpider.Hub.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserLogin", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.ApplicationUserLogin", b =>
                 {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", "ApplicationUser")
+                    b.HasOne("DotnetSpider.Hub.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DotnetSpider.Enterprise.Domain.Entities.ApplicationUserRole", b =>
+            modelBuilder.Entity("DotnetSpider.Hub.Domain.Entities.ApplicationUserRole", b =>
                 {
-                    b.HasOne("DotnetSpider.Enterprise.Domain.Entities.ApplicationUser", "ApplicationUser")
+                    b.HasOne("DotnetSpider.Hub.Domain.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

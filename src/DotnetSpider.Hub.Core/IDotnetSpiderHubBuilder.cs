@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DotnetSpider.Hub.Core
 {
-	public interface IDotnetSpiderEnterpriseBuilder
+	public interface IDotnetSpiderHubBuilder
 	{
 		ICommonConfiguration Configuratoin { get; }
 		IServiceCollection Services { get; }

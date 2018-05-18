@@ -5,9 +5,9 @@ namespace DotnetSpider.Hub.Core
 {
 	public static class ServiceCollectionExtensions
 	{
-		public static IDotnetSpiderEnterpriseBuilder AddDotnetSpiderEnterprise(this IServiceCollection services, Action<IDotnetSpiderEnterpriseBuilder> config)
+		public static IDotnetSpiderHubBuilder AddDotnetSpiderHub(this IServiceCollection services, Action<IDotnetSpiderHubBuilder> config)
 		{
-			IDotnetSpiderEnterpriseBuilder builder = new DotnetSpiderEnterpriseBuilder(services);
+			IDotnetSpiderHubBuilder builder = new DotnetSpiderHubBuilder(services);
 			config(builder);
 			return builder;
 		}

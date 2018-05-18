@@ -31,7 +31,7 @@ namespace DotnetSpider.Hub.Application.TaskStatus
 			var oldRecord = DbContext.TaskStatus.FirstOrDefault(ts => ts.Identity == input.Identity && ts.NodeId == input.NodeId);//
 			if (oldRecord == null)
 			{
-				var taskStatus = Mapper.Map<Hub.Core.Entities.TaskStatus>(input);
+				var taskStatus = Mapper.Map<Core.Entities.TaskStatus>(input);
 				taskStatus.CreationTime = DateTime.Now;
 				taskStatus.LastModificationTime = DateTime.Now;
 				DbContext.TaskStatus.Add(taskStatus);
@@ -60,12 +60,12 @@ namespace DotnetSpider.Hub.Application.TaskStatus
 				throw new ArgumentNullException($"{nameof(input)} should not be null.");
 			}
 			PaginationQueryDto output;
-			Expression<Func<Hub.Core.Entities.TaskStatus, bool>> where = null;
+			Expression<Func<Core.Entities.TaskStatus, bool>> where = null;
 			var status = input.GetFilterValue("status")?.ToLower().Trim();
 			var keyword = input.GetFilterValue("keyword")?.ToLower().Trim();
-			List<Hub.Core.Entities.Task> tasks;
+			List<Core.Entities.Task> tasks;
 			List<long> taskIds;
-			List<Hub.Core.Entities.TaskStatus> taskStatuses;
+			List<Core.Entities.TaskStatus> taskStatuses;
 			if (string.IsNullOrWhiteSpace(keyword))
 			{
 				if (!string.IsNullOrEmpty(status) && "all" != status)
@@ -73,7 +73,7 @@ namespace DotnetSpider.Hub.Application.TaskStatus
 					where = d => d.Status.ToLower() == status;
 				}
 				output = DbContext.TaskStatus.PageList(input, where, d => d.Id);
-				taskStatuses = (List<Hub.Core.Entities.TaskStatus>)output.Result ;
+				taskStatuses = (List<Core.Entities.TaskStatus>)output.Result ;
 				taskIds = taskStatuses.Select(t => t.TaskId).ToList();
 				var ids = taskIds;
 				tasks = DbContext.Task.Where(t => ids.Contains(t.Id)).ToList();
@@ -93,7 +93,7 @@ namespace DotnetSpider.Hub.Application.TaskStatus
 					where = d => ids.Contains(d.TaskId);
 				}
 				output = DbContext.TaskStatus.PageList(input, where, d => d.Id);
-				taskStatuses =(List<Hub.Core.Entities.TaskStatus>) output.Result  ;
+				taskStatuses =(List<Core.Entities.TaskStatus>) output.Result  ;
 			}
 			var taskStatusOutputs = new List<TaskStatusDto>();			
 			foreach (var taskStatus in taskStatuses)

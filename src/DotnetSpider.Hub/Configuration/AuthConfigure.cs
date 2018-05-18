@@ -5,7 +5,7 @@ namespace DotnetSpider.Hub.Configuration
 {
 	public class AuthConfigure
     {
-		public const string AuthenticationScheme = "DotnetSpiderEnterpriseSchema";
+		public const string AuthenticationScheme = "DotnetSpiderHubSchema";
 
 		/// <summary>
 		/// Configures the specified application.

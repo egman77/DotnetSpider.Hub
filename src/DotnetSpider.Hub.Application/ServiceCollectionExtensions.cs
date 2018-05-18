@@ -10,7 +10,10 @@ using DotnetSpider.Hub.Application.Task;
 using DotnetSpider.Hub.Application.TaskHistory;
 using DotnetSpider.Hub.Application.TaskLog;
 using DotnetSpider.Hub.Application.TaskStatus;
+using DotnetSpider.Hub.Application.User;
 using DotnetSpider.Hub.Core;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DotnetSpider.Hub.Application
@@ -22,7 +25,7 @@ namespace DotnetSpider.Hub.Application
 		/// </summary>
 		/// <param name="services"></param>
 		/// <param name="builderAction"></param>
-		public static void UserDotnetSpiderEnterpriseServices(this IDotnetSpiderEnterpriseBuilder builder)
+		public static void UseDotnetSpiderHubServices(this IDotnetSpiderHubBuilder builder)
 		{
 			AutoMapperConfiguration.CreateMap();
 
@@ -41,6 +44,14 @@ namespace DotnetSpider.Hub.Application
 			builder.Services.AddScoped<ISchedulerAppService, SchedulerAppService>();
 			builder.Services.AddScoped<ISystemAppService, SystemAppService>();
 			builder.Services.AddScoped<INodeHeartbeatAppService, NodeHeartbeatAppService>();
+			builder.Services.AddScoped<IUserAppService, UserAppService>();
+			builder.Services.AddSingleton<SeedData>();
+		}
+
+		public static void UseSeeData(this IApplicationBuilder app)
+		{
+			var seedata = app.ApplicationServices.GetRequiredService<SeedData>();
+			seedata.Init();
 		}
 	}
 }

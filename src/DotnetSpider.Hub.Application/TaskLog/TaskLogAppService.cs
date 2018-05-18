@@ -27,7 +27,7 @@ namespace DotnetSpider.Hub.Application.TaskLog
 				return;
 			}
 
-			var taskLog = Mapper.Map<Hub.Core.Entities.TaskLog>(input);
+			var taskLog = Mapper.Map<Core.Entities.TaskLog>(input);
 			DbContext.TaskLog.Add(taskLog);
 			DbContext.SaveChanges();
 		}
@@ -45,7 +45,7 @@ namespace DotnetSpider.Hub.Application.TaskLog
 				return new PaginationQueryDto { Page = input.Page.Value, Size = input.Size.Value, Total = 0, Result = null };
 			}
 
-			Expression<Func<Hub.Core.Entities.TaskLog, bool>> where = t => t.Identity == identity;
+			Expression<Func<Core.Entities.TaskLog, bool>> where = t => t.Identity == identity;
 
 			var nodeId = input.GetFilterValue("nodeid")?.Trim();
 
