@@ -14,7 +14,6 @@ namespace DotnetSpider.Hub.Controllers
 		[HttpGet]
 		public IActionResult Index()
 		{
-			Logger.Information("hello");
 			return View();
 		}
 	}
