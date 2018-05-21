@@ -5,7 +5,7 @@ namespace DotnetSpider.Hub.Application.TaskLog
 {
 	public interface ITaskLogAppService
 	{
-		void Add(AddTaskLogInput input);
+		void Add(params AddTaskLogInput[] input);
 
 		PaginationQueryDto Find(PaginationQueryInput input);
 	}

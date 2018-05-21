@@ -23,7 +23,7 @@ namespace DotnetSpider.Hub.Controllers.Api
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult Create([FromBody] AddTaskLogInput input)
+		public IActionResult Create([FromBody] params AddTaskLogInput[] input)
 		{
 			_logAppService.Add(input);
 			return Success();

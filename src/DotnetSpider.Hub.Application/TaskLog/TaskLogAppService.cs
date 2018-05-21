@@ -19,7 +19,7 @@ namespace DotnetSpider.Hub.Application.TaskLog
 		{
 		}
 
-		public void Add(AddTaskLogInput input)
+		public void Add(params AddTaskLogInput[] input)
 		{
 			if (input == null)
 			{
@@ -27,8 +27,8 @@ namespace DotnetSpider.Hub.Application.TaskLog
 				return;
 			}
 
-			var taskLog = Mapper.Map<Core.Entities.TaskLog>(input);
-			DbContext.TaskLog.Add(taskLog);
+			var taskLog = Mapper.Map<Core.Entities.TaskLog[]>(input);
+			DbContext.TaskLog.AddRange(taskLog);
 			DbContext.SaveChanges();
 		}
 
