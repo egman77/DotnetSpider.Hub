@@ -1,7 +1,6 @@
-﻿// Write your Javascript code.
-var dsApp = {};
+﻿var hub = {};
 
-dsApp.queryString = function (name) {
+hub.queryString = function (name) {
     var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
     if (result === null || result.length < 1) {
         return "";
@@ -9,9 +8,9 @@ dsApp.queryString = function (name) {
     return result[1];
 }
 
-dsApp.post = function (url, data, success, error) {
+hub.post = function (url, data, success, error) {
     $.post(url, data, function (result, status, request) {
-        if (result && result.status === "Success") {
+        if (result && result.status.toLowerCase() === "success") {
             if (success) {
                 success(result);
             }
@@ -20,8 +19,8 @@ dsApp.post = function (url, data, success, error) {
                 error(result);
             } else {
                 if (swal) {
-                    if (result.Message) {
-                        swal("Oops...", result.Message, "error");
+                    if (result.message) {
+                        swal("Sorry...", result.message, "error");
                     }
                 }
             }
@@ -31,15 +30,15 @@ dsApp.post = function (url, data, success, error) {
             error(result);
         } else {
             if (swal) {
-                swal("Oops...", result, 'error');
+                swal("Sorry...", result, 'error');
             }
         }
     });
 }
 
-dsApp.get = function (url, success, error) {
+hub.get = function (url, success, error) {
     $.get(url, function (result, status, request) {
-        if (result && result.status === "Success") {
+        if (result && result.status.toLowerCase() === "success") {
             if (success) {
                 success(result);
             }
@@ -49,8 +48,8 @@ dsApp.get = function (url, success, error) {
             }
             else {
                 if (swal) {
-                    if (result.Message) {
-                        swal("Oops...", result.Message, "error");
+                    if (result.message) {
+                        swal("Sorry...", result.message, "error");
                     }
                 }
             }
@@ -60,18 +59,18 @@ dsApp.get = function (url, success, error) {
             error(result);
         } else {
             if (swal) {
-                swal("Oops...", result.Message, "error");
+                swal("Sorry...", result.message, "error");
             }
         }
     });
 }
 
-dsApp.delete = function (url, success, error) {
+hub.delete = function (url, success, error) {
     $.ajax({
         url: url,
         type: 'DELETE',
         success: function (result) {
-            if (result && result.status === "Success") {
+            if (result && result.status.toLowerCase() === "success") {
                 if (success) {
                     success(result);
                 }
@@ -81,8 +80,8 @@ dsApp.delete = function (url, success, error) {
                 }
                 else {
                     if (swal) {
-                        if (result.Message) {
-                            swal("Oops...", result.Message, "error");
+                        if (result.message) {
+                            swal("Sorry...", result.message, "error");
                         }
                     }
                 }
@@ -93,7 +92,7 @@ dsApp.delete = function (url, success, error) {
                 error(result);
             } else {
                 if (swal) {
-                    swal("Oops...", result.Message, "error");
+                    swal("Sorry...", result.message, "error");
                 }
             }
         }
@@ -101,13 +100,13 @@ dsApp.delete = function (url, success, error) {
 }
 
 
-dsApp.put = function (url, data, success, error) {
+hub.put = function (url, data, success, error) {
     $.ajax({
         url: url,
         data: data,
         type: 'PUT',
         success: function (result) {
-            if (result && result.status === "Success") {
+            if (result && result.status.toLowerCase() === "success") {
                 if (success) {
                     success(result);
                 }
@@ -117,8 +116,8 @@ dsApp.put = function (url, data, success, error) {
                 }
                 else {
                     if (swal) {
-                        if (result.Message) {
-                            swal("Oops...", result.Message, "error");
+                        if (result.message) {
+                            swal("Sorry...", result.message, "error");
                         }
                     }
                 }
@@ -129,24 +128,24 @@ dsApp.put = function (url, data, success, error) {
                 error(result);
             } else {
                 if (swal) {
-                    swal("Oops...", result.Message, "error");
+                    swal("Sorry...", result.message, "error");
                 }
             }
         }
     });
 }
 
-dsApp.ui = {};
+hub.ui = {};
 
-dsApp.ui.setBusy = function () {
-    $("#loadMask").css("display", "");
+hub.ui.setBusy = function () {
+    $("#loading").css("display", "");
 }
-dsApp.ui.clearBusy = function () {
-    $("#loadMask").css("display", "none");
+hub.ui.clearBusy = function () {
+    $("#loading").css("display", "none");
 }
 
-dsApp.pagers = {};
-dsApp.ui.initPagination = function (query, option, click) {
+hub.pagers = {};
+hub.ui.initPagination = function (query, option, click) {
     var total = option.total || 1;
     var size = option.size || 10;
     var page = option.page || 1;
@@ -161,23 +160,23 @@ dsApp.ui.initPagination = function (query, option, click) {
         next: "Next",
         last: "Last",
         onPageClick: function (event, page) {
-            if (!dsApp.pagers[query]) {
-                dsApp.pagers[query] = true;
+            if (!hub.pagers[query]) {
+                hub.pagers[query] = true;
                 return;
             }
             click(page);
         }
     };
 
-    if (dsApp.pagers.hasOwnProperty(query)) {
+    if (hub.pagers.hasOwnProperty(query)) {
         $(query).twbsPagination("destroy");
     }
-    dsApp.pagers[query] = false;
+    hub.pagers[query] = false;
     $(query).twbsPagination(currOption);
 }
 
-dsApp.getFilter = function (key) {
-    var filter = dsApp.queryString('filter');
+hub.getFilter = function (key) {
+    var filter = hub.queryString('filter');
     if (!filter) {
         return '';
     }
@@ -188,13 +187,4 @@ dsApp.getFilter = function (key) {
         filters[kv[0]] = kv[1];
     }
     return filters[key];
-}
-
-function setMenuActive(id) {
-    $('li.active').attr('class', '');
-    $('#' + id).attr('class', 'active');
-}
-
-function logout() {
-    dsApp.post('/Account/Logout');
 }

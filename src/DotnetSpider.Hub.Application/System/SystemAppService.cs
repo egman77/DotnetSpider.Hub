@@ -20,14 +20,14 @@ namespace DotnetSpider.Hub.Application.System
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
 
-		public const string ScanRunningTaskName = "System.DotnetSpider.ScanRunningTask";
-		public const string UpgradeTaskSchedulerTaskName = "System.DotnetSpider.UpgradeTaskScheduler";
+		public static string ScanRunningTaskJobName = $"{DotnetSpiderHubConsts.JobPrefix}.ScanRunningTask";
+		public static string UpgradeTaskSchedulerTaskName = $"{DotnetSpiderHubConsts.JobPrefix}.UpgradeTaskScheduler";
 
 		public SystemAppService(INodeAppService nodeAppService, IMessageAppService messageAppService,
 			ISchedulerAppService schedulerAppService,
 			ApplicationDbContext dbcontext, ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+			UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, userManager)
 		{
 			_schedulerAppService = schedulerAppService;
 			_nodeAppService = nodeAppService;
@@ -42,18 +42,13 @@ namespace DotnetSpider.Hub.Application.System
 
 		public void Execute(string name, string arguments)
 		{
-			switch (name)
+			if (name == ScanRunningTaskJobName)
 			{
-				case ScanRunningTaskName:
-					{
-						ScanRunningTask();
-						break;
-					}
-				case UpgradeTaskSchedulerTaskName:
-					{
-						UpgradeScheduler();
-						break;
-					}
+				ScanRunningTask();
+			}
+			else if (name == UpgradeTaskSchedulerTaskName)
+			{
+				UpgradeScheduler();
 			}
 		}
 
@@ -61,7 +56,7 @@ namespace DotnetSpider.Hub.Application.System
 		{
 			foreach (var task in DbContext.Task)
 			{
-				if (task.Cron == DotnetSpiderConsts.UnTriggerCron)
+				if (task.Cron == DotnetSpiderHubConsts.IngoreCron)
 				{
 					_schedulerAppService.Delete(task.Id.ToString());
 				}
@@ -83,7 +78,7 @@ namespace DotnetSpider.Hub.Application.System
 
 		private void AddScanRunningTaskJob()
 		{
-			Core.Entities.Task scanRunningTask = DbContext.Task.FirstOrDefault(t => t.Name.StartsWith(ScanRunningTaskName));
+			Core.Entities.Task scanRunningTask = DbContext.Task.FirstOrDefault(t => t.Name == ScanRunningTaskJobName);
 			if (scanRunningTask == null)
 			{
 				scanRunningTask = new Core.Entities.Task
@@ -97,9 +92,9 @@ namespace DotnetSpider.Hub.Application.System
 					Arguments = "",
 					NodeCount = 1,
 					NodeRunningCount = 0,
-					Name = ScanRunningTaskName,
+					Name = ScanRunningTaskJobName,
 					Version = "0001",
-					NodeType = 1
+					NodeType = "HUB"
 				};
 				DbContext.Task.Add(scanRunningTask);
 				DbContext.SaveChanges();
@@ -134,7 +129,7 @@ namespace DotnetSpider.Hub.Application.System
 					NodeRunningCount = 0,
 					Name = UpgradeTaskSchedulerTaskName,
 					Version = "0001",
-					NodeType = 1
+					NodeType = "HUB"
 				};
 				DbContext.Task.Add(upgradeScheduler);
 				DbContext.SaveChanges();

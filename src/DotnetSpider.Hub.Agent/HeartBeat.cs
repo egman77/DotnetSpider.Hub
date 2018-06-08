@@ -10,7 +10,7 @@ namespace DotnetSpider.Hub.Agent
 		public long FreeMemory { get; set; }
 		public long TotalMemory { get; set; }
 		public int ProcessCount { get; set; }
-		public int Type { get; set; }
+		public string Type { get; set; }
 		public string Os { get; set; }
 		public string Version { get; set; }
 		public int CpuCoreCount { get; set; }

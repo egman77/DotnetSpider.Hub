@@ -31,23 +31,30 @@ namespace DotnetSpider.Hub.Agent.Command
 			}
 
 			string workingDirectory = Path.Combine(taskDirectory, command.Version);
-			if (!Directory.Exists(workingDirectory))
+			try
 			{
-				var packageUrl = $"{Env.PackageUrl}{command.Version}.zip";
-				try
+				if (!Directory.Exists(workingDirectory))
 				{
-					var localPackageFilePath = Path.Combine(Env.PackagesDirectory, $"{command.Version}.zip");
-					var bytes = Env.HttpClient.GetByteArrayAsync(packageUrl).Result;
-					File.WriteAllBytes(localPackageFilePath, bytes);
-					ZipFile.ExtractToDirectory(localPackageFilePath, workingDirectory);
+					var packageUrl = $"{Env.PackageUrl}{command.Version}.zip";
+					try
+					{
+						var localPackageFilePath = Path.Combine(Env.PackagesDirectory, $"{command.Version}.zip");
+						var bytes = Env.HttpClient.GetByteArrayAsync(packageUrl).Result;
+						File.WriteAllBytes(localPackageFilePath, bytes);
+						ZipFile.ExtractToDirectory(localPackageFilePath, workingDirectory);
+					}
+					catch (Exception e)
+					{
+						Logger.Error($"Download package {packageUrl} failed: {e}.");
+						throw;
+					}
 				}
-				catch (Exception e)
-				{
-					Logger.Error($"Download package {packageUrl} failed: {e}.");
-					return;
-				}
+				ProcessManager.StartProcess(command.TaskId, command.ApplicationName, command.Arguments, workingDirectory);
 			}
-			ProcessManager.StartProcess(command.TaskId, command.ApplicationName, command.Arguments, workingDirectory);
+			catch (Exception e)
+			{
+
+			}
 		}
 	}
 }

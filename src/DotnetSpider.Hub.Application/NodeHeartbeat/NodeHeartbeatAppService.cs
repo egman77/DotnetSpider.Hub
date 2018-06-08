@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DotnetSpider.Hub.Application.Message;
+using DotnetSpider.Hub.Application.Node;
 using DotnetSpider.Hub.Application.NodeHeartbeat.Dtos;
 using DotnetSpider.Hub.Core;
 using DotnetSpider.Hub.Core.Configuration;
@@ -17,9 +18,9 @@ namespace DotnetSpider.Hub.Application.NodeHeartbeat
 		private readonly IMessageAppService _messageAppService;
 
 		public NodeHeartbeatAppService(IMessageAppService messageAppService,
-			ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
+			ApplicationDbContext dbcontext, ICommonConfiguration configuration,
 			UserManager<ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+			: base(dbcontext, configuration, userManager)
 		{
 			_messageAppService = messageAppService;
 		}
@@ -31,7 +32,6 @@ namespace DotnetSpider.Hub.Application.NodeHeartbeat
 				Logger.Error($"{nameof(input)} should not be null.");
 				return Enumerable.Empty<NodeHeartbeatOutput>();
 			}
-
 			CreateHeartbeat(input);
 			RefreshOnlineStatus(input);
 			DbContext.SaveChanges();

@@ -1,82 +1,43 @@
-﻿@section styles{
-    <environment names="Development">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
-        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
-    <environment names="Staging,Production">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
-        <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
-    <style type="text/css">
-        td {
-            word-break: break-all;
-        }
-
-            td i {
-                cursor: pointer;
-            }
-    </style>
-}
-
-
-<div class="container-fluid">
-    <div class="row clearfix">
-        <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="header">
-                        <h2>
-                            RUNNING TASKS
-                        </h2>
-                        <ul class="header-dropdown m-r--5"></ul>
-                    </div>
-                    <div class="body" id="runningView">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>NAME</th>
-                                        <th>APPLICATION</th>
-                                        <th>CRON</th>
-                                        <th>NODE</th>
-                                        <th>RUNNING</th>
-                                        <th>OS</th>
-                                        <th>VERSION</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-show="tasks.length==0">
-                                        <td colspan="9">
-                                            No data to display...
-                                        </td>
-                                    </tr>
-                                    <tr v-for="task in tasks" :id="task.id">
-                                        <td><span v-text="task.name"></span></td>
-                                        <td><span v-text="task.applicationName"></span></td>
-                                        <td><span v-text="task.cron"></span></td>
-                                        <td><span v-text="task.nodeCount"></span></td>
-                                        <td><span v-text="task.nodeRunningCount"></span></td>
-                                        <td><span v-text="task.os"></span></td>
-                                        <td><span v-text="task.version"></span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div v-show="total>size" class="dataTables_info">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
-                        <div v-show="total>size" class="dataTables_paginate paging_simple_numbers" id="pagination">
-                            <ul class="pagination"></ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+﻿<h4>
+    RUNNING TASKS
+</h4>
+<div id="view" class="card">
+    <table class="bordered highlight responsive-table centered">
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>APPLICATION</th>
+                <th>CRON</th>
+                <th>NODE</th>
+                <th>RUNNING</th>
+                <th>OS</th>
+                <th>VERSION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-show="tasks.length==0">
+                <td colspan="9">
+                    No data to display...
+                </td>
+            </tr>
+            <tr v-for="task in tasks" :id="task.id">
+                <td><span v-text="task.name"></span></td>
+                <td><span v-text="task.applicationName"></span></td>
+                <td><span v-text="task.cron"></span></td>
+                <td><span v-text="task.nodeCount"></span></td>
+                <td><span v-text="task.nodeRunningCount"></span></td>
+                <td><span v-text="task.os"></span></td>
+                <td><span v-text="task.version"></span></td>
+            </tr>
+        </tbody>
+    </table>
+    <div v-show="total>size" >Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
+    <div v-show="total>size" id="pagination">
+        <ul class="pagination"></ul>
     </div>
 </div>
 @section scripts{
     <environment names="Development">
-        <script src="~/js/runningTask/index.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/js/runningTask/index.min.js" asp-append-version="true"></script>
+        <script src="~/js/runningtask.js" asp-append-version="true"></script>
     </environment>
 }

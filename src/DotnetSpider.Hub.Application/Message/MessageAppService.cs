@@ -14,8 +14,8 @@ namespace DotnetSpider.Hub.Application.Message
 	public class MessageAppService : AppServiceBase, IMessageAppService
 	{
 		public MessageAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+			UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, userManager)
 		{
 		}
 

@@ -12,16 +12,16 @@ namespace DotnetSpider.Hub.Controllers.Api
 	{
 		private readonly ITaskAppService _taskAppService;
 
-		public TaskController(ITaskAppService taskAppService, IAppSession appSession, ICommonConfiguration commonConfiguration)
-			: base(appSession, commonConfiguration)
+		public TaskController(ITaskAppService taskAppService, ICommonConfiguration commonConfiguration)
+			: base(commonConfiguration)
 		{
 			_taskAppService = taskAppService;
 		}
 
 		[HttpGet]
-		public IActionResult Find([FromQuery] PaginationQueryInput input)
+		public IActionResult Query([FromQuery] PaginationQueryTaskInput input)
 		{
-			var result = _taskAppService.Find(input);
+			var result = _taskAppService.Query(input);
 			return Success(result);
 		}
 
@@ -48,10 +48,17 @@ namespace DotnetSpider.Hub.Controllers.Api
 
 		[HttpGet("{taskId}")]
 		[AllowAnonymous]
-		public IActionResult Action(long taskId, [FromQuery] ActionType action)
+		public IActionResult Action(long taskId, [FromQuery] ActionType action = ActionType.Query)
 		{
-			_taskAppService.Control(taskId, action);
-			return Success();
+			if (action == ActionType.Query)
+			{
+				return Success(_taskAppService.GetTask(taskId));
+			}
+			else
+			{
+				_taskAppService.Control(taskId, action);
+				return Success();
+			}
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace DotnetSpider.Hub.Controllers.Api
 	{
 		private readonly INodeHeartbeatAppService _heartbeatAppService;
 
-		public NodeHeartbeatController(INodeHeartbeatAppService heartbeatAppService, IAppSession appSession, ICommonConfiguration commonConfiguration) : base(appSession, commonConfiguration)
+		public NodeHeartbeatController(INodeHeartbeatAppService heartbeatAppService, ICommonConfiguration commonConfiguration) : base(commonConfiguration)
 		{
 			_heartbeatAppService = heartbeatAppService;
 		}

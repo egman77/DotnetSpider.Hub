@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using DotnetSpider.Hub.Agent.Process;
 
 namespace DotnetSpider.Hub.Agent.Command
@@ -17,6 +18,7 @@ namespace DotnetSpider.Hub.Agent.Command
 			}
 			Logger.Info("All exists crawler processes exit success.");
 			client.Dispose();
+			Environment.Exit(0);
 		}
 	}
 }

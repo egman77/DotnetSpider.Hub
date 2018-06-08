@@ -6,12 +6,11 @@ namespace DotnetSpider.Hub.Controllers
 {
 	public class NodeController : BaseController
 	{
-		public NodeController(IAppSession appSession, ICommonConfiguration commonConfiguration)
-			: base(appSession, commonConfiguration)
+		public NodeController(ICommonConfiguration commonConfiguration)
+			: base(commonConfiguration)
 		{
 		}
 
-		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();

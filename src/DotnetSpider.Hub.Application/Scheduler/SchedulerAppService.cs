@@ -16,10 +16,12 @@ namespace DotnetSpider.Hub.Application.Scheduler
 	public class SchedulerAppService : AppServiceBase, ISchedulerAppService
 	{
 		private readonly RetryPolicy _retryPolicy;
+		private readonly IHttpClientFactory _httpClientFactory;
 
-		public SchedulerAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
-			UserManager<ApplicationUser> userManager) : base(dbcontext, configuration, appSession, userManager)
+		public SchedulerAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
+			UserManager<ApplicationUser> userManager, IHttpClientFactory  httpClientFactory) : base(dbcontext, configuration, userManager)
 		{
+			_httpClientFactory = httpClientFactory;
 			_retryPolicy = Policy.Handle<Exception>().Retry(5, (ex, count) =>
 			{
 				Logger.Error($"Request scheduler.net failed [{count}]: {ex}");
@@ -33,7 +35,7 @@ namespace DotnetSpider.Hub.Application.Scheduler
 			{
 				var result = _retryPolicy.Execute(() =>
 				{
-					var response = HttpClientUtil.DefaultClient.PostAsync(Configuration.SchedulerUrl, content).Result;
+					var response = _httpClientFactory.CreateClient().PostAsync(Configuration.SchedulerUrl, content).Result;
 					response.EnsureSuccessStatusCode();
 					return response;
 				});
@@ -42,7 +44,7 @@ namespace DotnetSpider.Hub.Application.Scheduler
 			}
 			catch (Exception e)
 			{
-				throw new DotnetSpiderException($"Create scheduler failed: {e.Message}.");
+				throw new DotnetSpiderHubException($"Create scheduler failed: {e.Message}.");
 			}
 		}
 
@@ -53,7 +55,7 @@ namespace DotnetSpider.Hub.Application.Scheduler
 			{
 				var result = _retryPolicy.Execute(() =>
 				{
-					var response = HttpClientUtil.DefaultClient.DeleteAsync(url).Result;
+					var response = _httpClientFactory.CreateClient().DeleteAsync(url).Result;
 					response.EnsureSuccessStatusCode();
 
 					return response;
@@ -63,7 +65,7 @@ namespace DotnetSpider.Hub.Application.Scheduler
 			}
 			catch (Exception e)
 			{
-				throw new DotnetSpiderException($"Create scheduler failed: {e.Message}.");
+				throw new DotnetSpiderHubException($"Create scheduler failed: {e.Message}.");
 			}
 		}
 
@@ -75,7 +77,7 @@ namespace DotnetSpider.Hub.Application.Scheduler
 			{
 				var result = _retryPolicy.Execute(() =>
 				{
-					var response = HttpClientUtil.DefaultClient.PutAsync(Configuration.SchedulerUrl, content).Result;
+					var response = _httpClientFactory.CreateClient().PutAsync(Configuration.SchedulerUrl, content).Result;
 					response.EnsureSuccessStatusCode();
 					return response;
 				});
@@ -84,7 +86,7 @@ namespace DotnetSpider.Hub.Application.Scheduler
 			}
 			catch (Exception e)
 			{
-				throw new DotnetSpiderException($"Create scheduler failed: {e.Message}.");
+				throw new DotnetSpiderHubException($"Create scheduler failed: {e.Message}.");
 			}
 		}
 

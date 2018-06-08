@@ -47,7 +47,7 @@ namespace DotnetSpider.Hub.Application.Task.Dtos
 		/// </summary>
 		public virtual int NodeRunningCount { get; set; }
 
-		public virtual int NodeType { get; set; }
+		public virtual string NodeType { get; set; }
 
 		/// <summary>
 		/// 所需节点数

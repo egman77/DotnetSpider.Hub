@@ -50,7 +50,7 @@ namespace DotnetSpider.Hub.Core.Entities
 		/// <summary>
 		/// 1 为公司内部节点  2为VPS节点
 		/// </summary>
-		public virtual int NodeType { get; set; }
+		public virtual string NodeType { get; set; }
 
 		[StringLength(32)]
 		public virtual string LastIdentity { get; set; }

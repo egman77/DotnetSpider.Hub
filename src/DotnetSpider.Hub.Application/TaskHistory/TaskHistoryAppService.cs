@@ -14,9 +14,9 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 {
 	public class TaskHistoryAppService : AppServiceBase, ITaskHistoryAppService
 	{
-		public TaskHistoryAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
+		public TaskHistoryAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
 			UserManager<ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+			: base(dbcontext, configuration, userManager)
 		{
 		}
 
@@ -32,7 +32,7 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 			DbContext.SaveChanges();
 		}
 
-		public PaginationQueryDto Find(PaginationQueryInput input)
+		public PaginationQueryDto Find(PaginationQueryTaskHistoryInput input)
 		{
 			if (input == null)
 			{
@@ -43,7 +43,7 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 				Page = input.Page.Value,
 				Size = input.Size.Value
 			};
-			var taskId = long.Parse(input.GetFilterValue("taskid"));
+			var taskId = input.TaskId;
 			var taskHistoryOutput = DbContext.TaskHistory.PageList(input, a => a.TaskId == taskId, t => t.CreationTime);
 
 			output.Total = taskHistoryOutput.Total;
@@ -59,12 +59,12 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 				statuses = new List<Core.Entities.TaskStatus>(0);
 			}
 
-			var result = new List<PaginationQueryTaskHistoryDto>(taskHistories.Count);
+			var result = new List<TaskHistoryOutput>(taskHistories.Count);
 			var statusOutputs = Mapper.Map<List<TaskStatusDto>>(statuses);
 
 			foreach (var item in taskHistories)
 			{
-				result.Add(new PaginationQueryTaskHistoryDto
+				result.Add(new TaskHistoryOutput
 				{
 					Identity = item.Identity,
 					CreationTime = item.CreationTime.ToString("yyyy/MM/dd HH:mm:ss"),

@@ -7,6 +7,6 @@ namespace DotnetSpider.Hub.Application.TaskLog
 	{
 		void Add(params AddTaskLogInput[] input);
 
-		PaginationQueryDto Find(PaginationQueryInput input);
+		PaginationQueryDto Find(PaginationQueryTaskLogInput input);
 	}
 }

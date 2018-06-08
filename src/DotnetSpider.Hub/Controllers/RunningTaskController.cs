@@ -6,11 +6,10 @@ namespace DotnetSpider.Hub.Controllers
 {
 	public class RunningTaskController : BaseController
 	{
-		public RunningTaskController(IAppSession appSession, ICommonConfiguration commonConfiguration) : base(appSession, commonConfiguration)
+		public RunningTaskController(ICommonConfiguration commonConfiguration) : base(commonConfiguration)
 		{
 		}
 
-		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();

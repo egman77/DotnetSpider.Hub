@@ -22,20 +22,17 @@ namespace DotnetSpider.Hub
 		{
 			context.HttpContext.Response.StatusCode = 206;
 
-			if (_commonConfiguration.RecordGloabException)
-			{
-				_logger.LogError(context.Exception.ToString());
-			}
+			_logger.LogError(context.Exception.ToString());
 
 			string info;
 
-			if (context.Exception is DotnetSpiderException)
+			if (context.Exception is DotnetSpiderHubException)
 			{
-				info = JsonConvert.SerializeObject(new StandardResult { Code = 101, Message = context.Exception.Message, Status = Status.Error });
+				info = $"{{\"code\": \"101\", \"message\": \"{context.Exception.Message}\", \"status\": \"{Status.Error}\" }}";
 			}
 			else
 			{
-				info = JsonConvert.SerializeObject(new StandardResult { Code = 102, Message = "Internal error.", Status = Status.Error });
+				info = $"{{\"code\": \"102\", \"message\": \"internal error.\", \"status\": \"{Status.Error}\" }}";
 			}
 
 			var bytes = Encoding.UTF8.GetBytes(info);

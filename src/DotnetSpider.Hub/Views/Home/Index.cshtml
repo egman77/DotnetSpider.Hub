@@ -1,132 +1,111 @@
-﻿@{
+﻿<h4>DASHBOARD</h4>
 
-}
+<div id="view" class="card">
 
-<div class="container-fluid" id="homeView">
-    <div class="block-header">
-        <h2>DASHBOARD</h2>
-    </div>
-
-    <!-- Widgets -->
-    <div class="row clearfix">
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-grey hover-expand-effect">
-                <div class="icon">
-                    <i class="material-icons">playlist_add_check</i>
-                </div>
-                <div class="content">
-                    <div class="text">TASKS</div>
-                    <div class="number count-to" data-from="0" v-text="dashboard.taskCount" data-speed="15" data-fresh-interval="20"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-cyan hover-expand-effect">
-                <div class="icon">
-                    <i class="material-icons">description</i>
-                </div>
-                <div class="content">
-                    <div class="text">LOGS SIZE</div>
-                    <div class="number count-to" data-from="0" v-text="dashboard.logSize" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-light-green hover-expand-effect">
-                <div class="icon">
-                    <i class="material-icons">computer</i>
-                </div>
-                <div class="content">
-                    <div class="text">NODES</div>
-                    <div class="number count-to" data-from="0" v-text="dashboard.nodeTotalCount" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-orange hover-expand-effect">
-                <div class="icon">
-                    <i class="material-icons">computer</i>
-                </div>
-                <div class="content">
-                    <div class="text">ONLINE NODES</div>
-                    <div class="number count-to" data-from="0" v-text="dashboard.nodeOnlineCount" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box bg-green hover-expand-effect">
-                <div class="icon">
-                    <i class="material-icons">playlist_add_check</i>
-                </div>
-                <div class="content">
-                    <div class="text">RUNNING TASKS</div>
-                    <div class="number count-to" data-from="0" v-text="dashboard.runningTaskCount" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- #END# Widgets -->
-    <div class="row clearfix">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="card">
-                <div class="header">
-                    <div class="row clearfix">
-                        <div class="col-xs-12 col-sm-6">
-                            <h2>ONLINE NODES</h2>
-                        </div>
-                        <div class="col-xs-12 col-sm-6 align-right">
-                        </div>
+    <div class="row">
+        <div class="col s12 m2">
+            <div class="card horizontal">
+                <i class="material-icons large">playlist_add_check</i>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <h5 v-text="taskCount">0</h5>
+                    </div>
+                    <div class="card-action">
+                        <a href="#">TASKS</a>
                     </div>
                 </div>
-                <div class="body">
-                    <div class="table-responsive">
-                         <table class="table table-bordered table-striped table-hover dataTable">
-                            <thead>
-                                <tr>
-                                    <th style="width:5px;">#</th>
-                                    <th style="width: 80px">NODE</th>
-                                    <th>ENABLE</th>
-                                    <th>ONLINE</th>
-                                    <th>CPU | CORE</th>
-                                    <th>MEM(M)</th>
-                                    <th>TYPE</th>
-                                    <th>OS</th>
-                                    <th>PROCESS</th>
-                                    <th>VERSION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-show="dashboard.nodes.length==0">
-                                    <td colspan="12">
-                                        No data to display...
-                                    </td>
-                                </tr>
-                                <tr v-for="node in dashboard.nodes" :node-id="node.nodeId">
-                                    <td><span :style="{'background-color': node.isOnline?'green':'red'}"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </td>
-                                    <td><span v-text="node.nodeId"></span></td>
-                                    <td><span v-text="node.isEnable"></span></td>
-                                    <td><span v-text="node.isOnline" :style="{'color': node.isOnline?'green':'red', 'font-weight' : '700'}"></span></td>
-                                    <td><span v-text="node.cpuLoad"></span> | <span v-text="node.cpuCoreCount"></span></td>
-                                    <td><span v-text="node.freeMemory"></span> / <span v-text="node.totalMemory"></span></td>
-                                    <td><span v-text="node.type==1?'default':'vps'"></span></td>
-                                    <td><span v-text="node.os"></span></td>
-                                    <td><span v-text="node.processCount"></span></td>
-                                    <td><span v-text="node.version"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+            </div>
+        </div>
+        <div class="col s12 m2">
+            <div class="card horizontal">
+                <i class="material-icons large">dvr</i>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <h5 v-text="logSize">0</h5>
                     </div>
-
+                    <div class="card-action">
+                        <a href="#">LOGS</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m2">
+            <div class="card horizontal">
+                <i class="material-icons large">computer</i>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <h5 v-text="nodeTotalCount">0</h5>
+                    </div>
+                    <div class="card-action">
+                        <a href="#">NODES</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m2">
+            <div class="card horizontal">
+                <i class="material-icons large">autorenew</i>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <h5 v-text="nodeOnlineCount">0</h5>
+                    </div>
+                    <div class="card-action">
+                        <a href="#">ONLINE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m2">
+            <div class="card horizontal">
+                <i class="material-icons large">directions_run</i>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <h5 v-text="runningTaskCount">0</h5>
+                    </div>
+                    <div class="card-action">
+                        <a href="#">RUNNING</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <table class="card bordered highlight responsive-table centered">
+        <thead>
+            <tr>
+                <th width="8">#</th>
+                <th>NODE</th>
+                <th width="80">ENABLE</th>
+                <th>ONLINE</th>
+                <th>CPU | CORE</th>
+                <th>MEM(M)</th>
+                <th>TYPE</th>
+                <th>OS</th>
+                <th>PROCESS</th>
+                <th>VERSION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-show="nodes.length==0">
+                <td colspan="12">
+                    No data to display...
+                </td>
+            </tr>
+            <tr v-for="node in nodes" :node-id="node.nodeId">
+                <td><span :style="{'background-color': node.isOnline?'green':'red'}"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </td>
+                <td><span v-text="node.nodeId"></span></td>
+                <td><span v-text="node.isEnable"></span></td>
+                <td><span v-text="node.isOnline" :style="{'color': node.isOnline?'green':'red', 'font-weight' : '700'}"></span></td>
+                <td><span v-text="node.cpuLoad"></span> | <span v-text="node.cpuCoreCount"></span></td>
+                <td><span v-text="node.freeMemory"></span> / <span v-text="node.totalMemory"></span></td>
+                <td><span v-text="node.type==1?'default':'vps'"></span></td>
+                <td><span v-text="node.os"></span></td>
+                <td><span v-text="node.processCount"></span></td>
+                <td><span v-text="node.version"></span></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 @section scripts{
-    <environment names="Development">
-        <script src="~/js/home/index.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/js/home/index.min.js" asp-append-version="true"></script>
-    </environment>
+    <script src="~/js/home.js" asp-append-version="true"></script>
 }

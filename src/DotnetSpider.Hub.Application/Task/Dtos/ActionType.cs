@@ -6,6 +6,7 @@ namespace DotnetSpider.Hub.Application.Task.Dtos
 	[JsonConverter(typeof(StringEnumConverter))]
 	public enum ActionType
 	{
+		Query,
 		Disable,
 		Enable,
 		Exit,

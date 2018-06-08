@@ -32,8 +32,8 @@ namespace DotnetSpider.Hub.Application.Task
 		public TaskAppService(ISchedulerAppService schedulerAppService, ISystemAppService systemAppService,
 			ITaskHistoryAppService taskHistoryAppService,
 			IMessageAppService messageAppService,
-			INodeAppService nodeAppService, ICommonConfiguration configuration, IAppSession appSession, UserManager<ApplicationUser> userManager,
-			ApplicationDbContext dbcontext) : base(dbcontext, configuration, appSession, userManager)
+			INodeAppService nodeAppService, ICommonConfiguration configuration, UserManager<ApplicationUser> userManager,
+			ApplicationDbContext dbcontext) : base(dbcontext, configuration, userManager)
 		{
 			_schedulerAppService = schedulerAppService;
 			_systemAppService = systemAppService;
@@ -42,7 +42,7 @@ namespace DotnetSpider.Hub.Application.Task
 			_nodeAppService = nodeAppService;
 		}
 
-		public PaginationQueryDto Find(PaginationQueryInput input)
+		public PaginationQueryDto Query(PaginationQueryTaskInput input)
 		{
 			if (input == null)
 			{
@@ -53,17 +53,18 @@ namespace DotnetSpider.Hub.Application.Task
 
 			Expression<Func<Core.Entities.Task, bool>> where = t => !t.IsDeleted;
 
-			var keyword = input.GetFilterValue("keyword");
+			var keyword = input.Keyword;
 
 			if (!string.IsNullOrWhiteSpace(keyword))
 			{
 				where = where.AndAlso(t => t.Name.Contains(keyword));
 			}
 
-			var isRunning = input.GetFilterValue("isrunning");
-			if (!string.IsNullOrWhiteSpace(isRunning))
+
+			var isRunning = input.IsRunning;
+			if (isRunning.HasValue)
 			{
-				if ("true" == isRunning.ToLower())
+				if (isRunning.Value)
 				{
 					where = where.AndAlso(t => t.IsRunning);
 				}
@@ -111,11 +112,11 @@ namespace DotnetSpider.Hub.Application.Task
 			input.Name = input.Name.Trim();
 
 			var cron = task.Cron;
-			task.Cron = DotnetSpiderConsts.UnTriggerCron;
+			task.Cron = DotnetSpiderHubConsts.IngoreCron;
 			DbContext.Task.Add(task);
 			DbContext.SaveChanges();
 
-			if (cron != DotnetSpiderConsts.UnTriggerCron)
+			if (cron != DotnetSpiderHubConsts.IngoreCron)
 			{
 
 				var taskId = task.Id.ToString();
@@ -164,7 +165,7 @@ namespace DotnetSpider.Hub.Application.Task
 			task.Version = input.Version?.Trim();
 			task.IsSingle = input.IsSingle;
 
-			if (!input.IsEnabled && task.IsEnabled && task.Cron == DotnetSpiderConsts.UnTriggerCron)
+			if (!input.IsEnabled && task.IsEnabled && task.Cron == DotnetSpiderHubConsts.IngoreCron)
 			{
 				_schedulerAppService.Delete(task.Id.ToString());
 			}
@@ -194,7 +195,7 @@ namespace DotnetSpider.Hub.Application.Task
 			if (msg == null)
 			{
 				var task = CheckStatusOfTask(taskId);
-				if (task.Name.StartsWith(DotnetSpiderConsts.SystemJobPrefix))
+				if (task.Name.StartsWith(DotnetSpiderHubConsts.JobPrefix))
 				{
 					_systemAppService.Execute(task.Name, task.Arguments);
 					Logger.Warning($"Run task {taskId}.");
@@ -234,7 +235,7 @@ namespace DotnetSpider.Hub.Application.Task
 				return;
 			}
 
-			TaskUtil.ExitTask(_nodeAppService, _messageAppService, task, Logger);
+			ExitTask(task);
 
 			DbContext.SaveChanges();
 		}
@@ -256,7 +257,7 @@ namespace DotnetSpider.Hub.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
-				throw new DotnetSpiderException("任务不存在!");
+				throw new DotnetSpiderHubException("任务不存在!");
 			}
 			task.IsEnabled = false;
 
@@ -271,7 +272,7 @@ namespace DotnetSpider.Hub.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
-				throw new DotnetSpiderException("任务不存在!");
+				throw new DotnetSpiderHubException("任务不存在!");
 			}
 			task.IsEnabled = true;
 
@@ -295,7 +296,7 @@ namespace DotnetSpider.Hub.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
-				throw new DotnetSpiderException("任务不存在!");
+				throw new DotnetSpiderHubException("任务不存在!");
 			}
 			task.NodeRunningCount += 1;
 			DbContext.SaveChanges();
@@ -307,7 +308,7 @@ namespace DotnetSpider.Hub.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
-				throw new DotnetSpiderException("任务不存在!");
+				throw new DotnetSpiderHubException("任务不存在!");
 			}
 			if (task.NodeRunningCount > 0)
 			{
@@ -338,7 +339,7 @@ namespace DotnetSpider.Hub.Application.Task
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
 			{
-				throw new DotnetSpiderException("任务不存在.");
+				throw new DotnetSpiderHubException("任务不存在.");
 			}
 
 			return Mapper.Map<CreateTaskInput>(task);
@@ -356,29 +357,29 @@ namespace DotnetSpider.Hub.Application.Task
 
 			if (task == null)
 			{
-				throw new DotnetSpiderException("任务不存在");
+				throw new DotnetSpiderHubException("任务不存在");
 			}
-			if (task.Name.StartsWith(DotnetSpiderConsts.SystemJobPrefix))
+			if (task.Name.StartsWith(DotnetSpiderHubConsts.JobPrefix))
 			{
 				return task;
 			}
 			if (task.IsDeleted)
 			{
-				throw new DotnetSpiderException("任务已被删除");
+				throw new DotnetSpiderHubException("任务已被删除");
 			}
 			if (!task.IsEnabled)
 			{
-				throw new DotnetSpiderException("任务已被禁用");
+				throw new DotnetSpiderHubException("任务已被禁用");
 			}
 			if (task.NodeRunningCount > 0)
 			{
-				throw new DotnetSpiderException("任务正在运行中");
+				throw new DotnetSpiderHubException("任务正在运行中");
 			}
 
 			var runMessage = DbContext.Message.FirstOrDefault(m => m.TaskId == taskId && m.Name == Core.Entities.Message.RunMessageName);
 			if (runMessage != null)
 			{
-				throw new DotnetSpiderException("已发送运行命令");
+				throw new DotnetSpiderHubException("已发送运行命令");
 			}
 			if (!string.IsNullOrEmpty(task.LastIdentity))
 			{
@@ -387,7 +388,7 @@ namespace DotnetSpider.Hub.Application.Task
 					&& a.LastModificationTime.HasValue
 					&& (DateTime.Now - a.LastModificationTime).Value.TotalSeconds < 120))
 				{
-					throw new DotnetSpiderException("任务正在运行中");
+					throw new DotnetSpiderHubException("任务正在运行中");
 				}
 			}
 			return task;
@@ -431,6 +432,29 @@ namespace DotnetSpider.Hub.Application.Task
 			return identity;
 		}
 
+		private void ExitTask(Core.Entities.Task task)
+		{
+			var runningNodes = _nodeAppService.GetAllOnline();
+
+			var messages = new List<CreateMessageInput>();
+			foreach (var status in runningNodes)
+			{
+				var msg = new CreateMessageInput
+				{
+					ApplicationName = "NULL",
+					TaskId = task.Id,
+					Name = Core.Entities.Message.CanleMessageName,
+					NodeId = status.NodeId
+				};
+				Logger.Warning($"Add CANCLE message: {JsonConvert.SerializeObject(msg)}.");
+				messages.Add(msg);
+			}
+			_messageAppService.Create(messages);
+
+			task.IsRunning = false;
+			task.NodeRunningCount = 0;
+		}
+
 		public void Control(long taskId, ActionType action)
 		{
 			switch (action)
@@ -466,6 +490,16 @@ namespace DotnetSpider.Hub.Application.Task
 						break;
 					}
 			}
+		}
+
+		public TaskDto GetTask(long taskId)
+		{
+			var task = DbContext.Task.FirstOrDefault(t => t.Id == taskId);
+			if (task != null)
+			{
+				return Mapper.Map<TaskDto>(task);
+			}
+			return null;
 		}
 	}
 }

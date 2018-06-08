@@ -2,13 +2,14 @@
 using System.Security.Claims;
 using DotnetSpider.Hub.Core.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace DotnetSpider.Hub.EntityFrameworkCore
 {
-	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, long>
+	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 	{
 		public DbSet<Message> Message { get; set; }
 		public DbSet<MessageHistory> MessageHistory { get; set; }
@@ -35,28 +36,21 @@ namespace DotnetSpider.Hub.EntityFrameworkCore
 			// For example, you can rename the ASP.NET Identity table names and more.
 			// Add your customizations after calling base.OnModelCreating(builder);
 
-			builder.Entity<ApplicationUserClaim>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Claims).HasForeignKey(pt => pt.UserId);
-			builder.Entity<ApplicationUserRole>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Roles).HasForeignKey(pt => pt.UserId);
-			builder.Entity<ApplicationUserLogin>().HasOne(pt => pt.ApplicationUser).WithMany(t => t.Logins).HasForeignKey(pt => pt.UserId);
 			builder.Entity<Node>().HasAlternateKey(c => c.NodeId).HasName("AlternateKey_NodeId");
 			builder.Entity<TaskLog>().HasAlternateKey(c => c.Identity).HasName("AlternateKey_Identity");
 		}
 
 		public override int SaveChanges()
 		{
-			ApplyConcepts();
+			ApplyAudited();
 			return base.SaveChanges();
 		}
 
-		private void ApplyConcepts()
+		private void ApplyAudited()
 		{
 			var value = _accessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-			long? userId = null;
-			long id;
-			if (long.TryParse(value, out id))
-			{
-				userId = id;
-			}
+			long userId = 0;
+			long.TryParse(value, out userId);
 			var entries = ChangeTracker.Entries();
 			foreach (var entry in entries)
 			{

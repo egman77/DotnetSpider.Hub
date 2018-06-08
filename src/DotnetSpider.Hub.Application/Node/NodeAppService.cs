@@ -21,8 +21,8 @@ namespace DotnetSpider.Hub.Application.Node
 
 		public NodeAppService(ApplicationDbContext dbcontext, IMessageAppService messageAppService,
 			ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+			UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, userManager)
 		{
 			_messageAppService = messageAppService;
 		}
@@ -110,13 +110,13 @@ namespace DotnetSpider.Hub.Application.Node
 				{
 					nodeOutput.CPULoad = 0;
 					nodeOutput.FreeMemory = 0;
-					nodeOutput.Ip = "UNKONW";
-					nodeOutput.Os = "UNKONW";
+					nodeOutput.Ip = "unkonw";
+					nodeOutput.Os = "unkonw";
 					nodeOutput.ProcessCount = 0;
 					nodeOutput.CPUCoreCount = 0;
 					nodeOutput.TotalMemory = 0;
-					nodeOutput.Type = 1;
-					nodeOutput.Version = "UNKONW";
+					nodeOutput.Type = "default";
+					nodeOutput.Version = "unkonw";
 				}
 
 				nodeOutputs.Add(nodeOutput);
@@ -126,7 +126,7 @@ namespace DotnetSpider.Hub.Application.Node
 			return output;
 		}
 
-		public List<NodeDto> GetAvailable(string os, int type, int nodeCount)
+		public List<NodeDto> GetAvailable(string os, string type, int nodeCount)
 		{
 			List<Core.Entities.Node> nodes;
 			var compareTime = DateTime.Now.AddSeconds(-60);
@@ -206,15 +206,23 @@ namespace DotnetSpider.Hub.Application.Node
 
 		public void Exit(string nodeId)
 		{
-			var message = new CreateMessageInput
+			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
+			if (node != null)
 			{
-				ApplicationName = "NULL",
-				Name = Core.Entities.Message.ExitMessageName,
-				NodeId = nodeId,
-				TaskId = 0
-			};
-			Logger.Information($"Exit node: {nodeId}.");
-			_messageAppService.Create(message);
+				var message = new CreateMessageInput
+				{
+					ApplicationName = "NULL",
+					Name = Core.Entities.Message.ExitMessageName,
+					NodeId = nodeId,
+					TaskId = 0
+				};
+				Logger.Information($"Exit node: {nodeId}.");
+				_messageAppService.Create(message);
+			}
+			else
+			{
+				throw new DotnetSpiderHubException("Node unfound.");
+			}
 		}
 
 		public void Delete(string nodeId)

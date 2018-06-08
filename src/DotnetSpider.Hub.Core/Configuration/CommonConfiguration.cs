@@ -2,9 +2,7 @@
 {
 	public class CommonConfiguration : ICommonConfiguration
 	{
-		public string MsSqlConnectionString { get; set; }
-
-		public string MySqlConnectionString { get; set; }
+		public string ConnectionString { get; set; }
 
 		public string SchedulerUrl { get; set; }
 
@@ -12,10 +10,8 @@
 
 		public string[] Tokens { get; set; }
 
-		public string[] AgentTypes { get; set; }
+		public string[] NodeTypes { get; set; }
 
-		public bool AuthorizeApi { get; set; }
-
-		public bool RecordGloabException { get; set; }
+		public bool RequireToken { get; set; }
 	}
 }

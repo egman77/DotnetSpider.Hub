@@ -11,7 +11,7 @@ namespace DotnetSpider.Hub.Controllers.Api
 	{
 		private readonly INodeAppService _nodeAppService;
 
-		public NodeController(INodeAppService nodeAppService, IAppSession appSession, ICommonConfiguration commonConfiguration) : base(appSession, commonConfiguration)
+		public NodeController(INodeAppService nodeAppService, ICommonConfiguration commonConfiguration) : base(commonConfiguration)
 		{
 			_nodeAppService = nodeAppService;
 		}

@@ -2,7 +2,7 @@
 
 namespace DotnetSpider.Hub.Core
 {
-	public class PaginationQueryInput : FilterQueryInput
+	public class PaginationQueryInput
 	{
 		public virtual int? Page { get; set; }
 		public virtual int? Size { get; set; }
@@ -16,14 +16,14 @@ namespace DotnetSpider.Hub.Core
 				Page = 1;
 			}
 
-			if (Size == null || Size > 60)
+			if (Size == null || Size > 30)
 			{
-				Size = 60;
+				Size = 30;
 			}
 
 			if (Size <= 0)
 			{
-				Size = 40;
+				Size = 30;
 			}
 		}
 	}

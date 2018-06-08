@@ -9,7 +9,7 @@ namespace DotnetSpider.Hub.Application.Node
 		void Enable(string nodeId);
 		void Disable(string nodeId);
 		PaginationQueryDto Query(PaginationQueryInput input);
-		List<NodeDto> GetAvailable(string os, int type, int nodeCount);
+		List<NodeDto> GetAvailable(string os, string type, int nodeCount);
 		List<NodeDto> GetAllOnline();
 		void Exit(string nodeId);
 		void Delete(string nodeId);

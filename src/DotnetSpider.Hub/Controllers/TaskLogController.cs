@@ -6,12 +6,11 @@ namespace DotnetSpider.Hub.Controllers
 {
 	public class TaskLogController : BaseController
 	{
-		public TaskLogController(IAppSession appSession, ICommonConfiguration commonConfiguration)
-			: base(appSession, commonConfiguration)
+		public TaskLogController(ICommonConfiguration commonConfiguration)
+			: base(commonConfiguration)
 		{
 		}
 
-		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();

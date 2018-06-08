@@ -1,87 +1,51 @@
-﻿@section styles{
-    <environment names="Development">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
-        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
-    <environment names="Staging,Production">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
-        <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
-}
-<div class="container-fluid">
-    <div class="row clearfix">
-        <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                    <div class="header">
-                        <h2>
-                            AGENT NODES
-                        </h2>
-                        <ul class="header-dropdown m-r--5"></ul>
-                    </div>
-                    <div class="body">
-                        <div id="nodesView" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover dataTable">
-                                    <thead>
-                                        <tr>
-                                            <th width="5">#</th>
-                                            <th width="80">NODE</th>
-                                            <th>ENABLE</th>
-                                            <th>ONLINE</th>
-                                            <th>CPU | CORE</th>
-                                            <th>MEM(M)</th>
-                                            <th width="60">TYPE</th>
-                                            <th width="60">OS</th>
-                                            <th width="40">PROCESS</th>
-                                            <th>VERSION</th>
-                                            <th>ACTION</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-show="nodes.length==0">
-                                            <td colspan="13">
-                                                No data to display...
-                                            </td>
-                                        </tr>
-                                        <tr v-for="node in nodes" :node-id="node.nodeId">
-                                            <td><span :style="{'background-color': node.isOnline?'green':'red'}"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </td>
-                                            <td><span v-text="node.nodeId"></span></td>
-                                            <td><span v-text="node.isEnable"></span></td>
-                                            <td><span v-text="node.isOnline" :style="{'color': node.isOnline?'green':'red', 'font-weight' : '700'}"></span></td>
-                                            <td><span v-text="node.cpuLoad"></span> | <span v-text="node.cpuCoreCount"></span></td>
-                                            <td><span v-text="node.freeMemory"></span> / <span v-text="node.totalMemory"></span></td>
-                                            <td><span v-text="node.type==1?'default':'vps'"></span></td>
-                                            <td><span v-text="node.os"></span></td>
-                                            <td><span v-text="node.processCount"></span></td>
-                                            <td><span v-text="node.version"></span></td>
-                                            <td>
-                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="disable(node.nodeId)" :disabled="!node.isEnable">Disable</button>
-                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="enable(node.nodeId)" :disabled="node.isEnable"> Enable</button>
-                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="exit(node.nodeId)">Exit</button>
-                                                <button class="btn btn-sm bg-blue waves-effect m-b-15" @@click.stop="remove(node.nodeId)">Remove</button>
-                                                <a class="btn btn-sm bg-blue waves-effect m-b-15" :href="'/Node/Dashboard?NodeId=' + node.nodeId">Dashboard</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div v-show="total>size" class="dataTables_info">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
-                            <div v-show="total>size" class="dataTables_paginate paging_simple_numbers" id="pagination">
-                                <ul class="pagination"></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+﻿<h4>
+AGENT NODES
+</h4>
+<table class="card bordered highlight responsive-table centered" id="view">
+    <thead>
+        <tr>
+            <th width="5">#</th>
+            <th width="80">NODE</th>
+            <th>ENABLE</th>
+            <th>ONLINE</th>
+            <th>CPU | CORE</th>
+            <th>MEM(M)</th>
+            <th width="60">TYPE</th>
+            <th width="60">OS</th>
+            <th width="40">PROCESS</th>
+            <th>VERSION</th>
+            <th>ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-show="nodes.length==0">
+            <td colspan="13">
+                No data to display...
+            </td>
+        </tr>
+        <tr v-for="node in nodes" :node-id="node.nodeId">
+            <td><span :style="{'background-color': node.isOnline?'green':'red'}"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </td>
+            <td><span v-text="node.nodeId"></span></td>
+            <td><span v-text="node.isEnable"></span></td>
+            <td><span v-text="node.isOnline" :style="{'color': node.isOnline?'green':'red', 'font-weight' : '700'}"></span></td>
+            <td><span v-text="node.cpuLoad"></span> | <span v-text="node.cpuCoreCount"></span></td>
+            <td><span v-text="node.freeMemory"></span> / <span v-text="node.totalMemory"></span></td>
+            <td><span v-text="node.type"></span></td>
+            <td><span v-text="node.os"></span></td>
+            <td><span v-text="node.processCount"></span></td>
+            <td><span v-text="node.version"></span></td>
+            <td>
+                <button class="waves-effect waves-light btn-small" @@click.stop="disable(node.nodeId)" :disabled="!node.isEnable">Disable</button>
+                <button class="waves-effect waves-light btn-small" @@click.stop="enable(node.nodeId)" :disabled="node.isEnable"> Enable</button>
+                <button class="waves-effect waves-light btn-small" @@click.stop="exit(node.nodeId)">Exit</button>
+                <button class="waves-effect waves-light btn-small" @@click.stop="remove(node.nodeId)">Remove</button>
+                <a class="waves-effect waves-light btn-small" :href="'/node/dashboard?nodeId=' + node.nodeId">Dashboard</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
 @section scripts{
     <environment names="Development">
-        <script src="~/js/node/index.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/js/node/index.min.js" asp-append-version="true"></script>
+        <script src="~/js/node.js" asp-append-version="true"></script>
     </environment>
 }

@@ -1,118 +1,64 @@
-﻿@section styles{
-    <environment names="Development">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet" asp-append-version="true" />
-        <link href="~/lib/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
-    <environment names="Staging,Production">
-        <link href="~/lib/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
-        <link href="~/lib/bootstrap-select/css/bootstrap-select.min.css" rel="stylesheet" asp-append-version="true" />
-    </environment>
-    <style type="text/css">
-        td {
-            word-break: break-all;
-        }
+﻿<div id="view">
+    <h4>TASK HISTORY - {{ taskName }}</h4>
+    <div class="card" v-for="(batch, idx) in histories">
+        <div class="card-content">
+            <span class="card-title">
+                <span>Identity:</span> <span v-text="batch.identity"></span>
+                <span style="margin-left:40px;">Start:</span> <span v-text="batch.creationTime"></span>
+            </span>
+            <table class="table" style="margin-bottom:1px;">
+                <thead>
+                    <tr role="row">
+                        <th>#</th>
+                        <th>NODE</th>
+                        <th>TIME</th>
+                        <th>STATUS</th>
+                        <th>THREAD</th>
+                        <th>LEFT</th>
+                        <th>SUCCESS</th>
+                        <th>ERROR</th>
+                        <th>TOTAL</th>
+                        <th>AVG DOWNLOAD</th>
+                        <th>AVG PROCESS</th>
+                        <th>AVG PIPELINE</th>
+                        <th>
+                            <a :href="'/tasklog?identity=' + batch.identity +'&taskName='+ taskName">VIEW LOGS</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-show="batch.statuses.length==0"></tr>
+                    <tr role="row" v-for="(status,index) in batch.statuses">
+                        <td v-text="index+1"></td>
+                        <td v-text="status.nodeId"></td>
+                        <td v-text="status.lastModificationTime"></td>
+                        <td v-text="status.status" :style="{'color':status.status=='Running'?'green':'#000'}"></td>
+                        <td v-text="status.thread"></td>
+                        <td v-text="status.left"></td>
+                        <td v-text="status.success"></td>
+                        <td v-text="status.error"></td>
+                        <td v-text="status.total"></td>
+                        <td v-text="status.avgDownloadSpeed"></td>
+                        <td v-text="status.avgProcessorSpeed"></td>
+                        <td v-text="status.avgPipelineSpeed"></td>
+                        <td><a :href="'/tasklog?identity='+batch.identity+'&nodeId='+status.nodeId+'&taskName='+ taskName"><i title="node log">VIEW LOGS</i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-        .logWarnning {
-            color: #ff9800;
-        }
-
-        .logError {
-            color: red;
-        }
-    </style>
-}
-
-<div id="taskHistory" class="container-fluid">
-    <!-- Tasks -->
-    <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card">
-                <div class="header">
-                    <h2>
-                        RUN HISTORY - {{ taskName }}
-                    </h2>
-                    @*<button class="pull-right btn bg-blue btn-lg waves-effect waves-float" data-toggle="modal" data-target="#CreateNewTaskModal">New task</button>*@
-                </div>
-                <div class="body">
-                    <div id="bodyContent" class="dataTables_wrapper form-inline dt-bootstrap">
-                        <div id="batchDiv" class="panel-group" role="tablist" aria-multiselectable="true">
-                            <div class="panel panel-primary" v-for="(batch, idx) in histories">
-                                <div class="panel-heading" role="tab" :id="'headingOne_'+idx">
-                                    <h3 class="panel-title">
-                                        <span>Identity:</span> <span v-text="batch.identity"></span>
-                                        <span style="margin-left:20px;">Start:</span> <span v-text="batch.creationTime"></span>
-                                    </h3>
-                                </div>
-                                <div :id="'collapseOne_'+idx" class="panel-collapse collapse in" role="tabpanel" :aria-labelledby="'headingOne_'+idx" :aria-expanded="idx==0?'true':'false'">
-                                    <div class="panel-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-striped table-hover no-footer" style="margin-bottom:1px;">
-                                                <thead>
-                                                    <tr role="row">
-                                                        <th>#</th>
-                                                        <th>NODE</th>
-                                                        <th>TIME</th>
-                                                        <th>STATUS</th>
-                                                        <th>THREAD</th>
-                                                        <th>LEFT</th>
-                                                        <th>SUCCESS</th>
-                                                        <th>ERROR</th>
-                                                        <th>TOTAL</th>
-                                                        <th>AVG DOWNLOAD</th>
-                                                        <th>AVG PROCESS</th>
-                                                        <th>AVG PIPELINE</th>
-                                                        <th>
-                                                            <a :href="'/taskLog?filter=identity::' + batch.identity +'|taskName::'+ taskName">VIEW LOGS</a>
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr v-show="batch.statuses.length==0"></tr>
-                                                    <tr role="row" v-for="(status,index) in batch.statuses">
-                                                        <td v-text="index+1"></td>
-                                                        <td v-text="status.nodeId"></td>
-                                                        <td v-text="status.lastModificationTime"></td>
-                                                        <td v-text="status.status" :style="{'color':status.status=='Running'?'green':'#000'}"></td>
-                                                        <td v-text="status.thread"></td>
-                                                        <td v-text="status.left"></td>
-                                                        <td v-text="status.success"></td>
-                                                        <td v-text="status.error"></td>
-                                                        <td v-text="status.total"></td>
-                                                        <td v-text="status.avgDownloadSpeed"></td>
-                                                        <td v-text="status.avgProcessorSpeed"></td>
-                                                        <td v-text="status.avgPipelineSpeed"></td>
-                                                        <td><a :href="'/taskLog?filter=identity::'+batch.identity+'|nodeId::'+status.nodeId+'|taskName::'+ taskName"><i title="node log">VIEW LOGS</i></a></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div v-show="histories.length==0">There is no data to display for this task...</div>
-                        <div v-show="histories.length>0" class="row" style="margin-left:0;margin-right:0;">
-                            <div class="dataTables_info" style="float:left;">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
-                            <div class="dataTables_paginate paging_simple_numbers" id="pagination" style="float:right;">
-                                <ul class="pagination"></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div v-show="histories.length==0">There is no data to display for this task...</div>
+    <div v-show="histories.length>0" class="row" style="margin-left:0;margin-right:0;">
+        <div class="right">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
+        <div id="pagination" class="left">
+            <ul class="pagination"></ul>
         </div>
     </div>
 </div>
 
 @section scripts {
     <environment names="Development">
-        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js" asp-append-version="true"></script>
-        <script src="~/js/taskHistory/index.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="~/lib/jquery-datatable/jquery.dataTables.js" asp-append-version="true"></script>
-        <script src="~/lib/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js" asp-append-version="true"></script>
-        <script src="~/js/taskHistory/index.min.js" asp-append-version="true"></script>
+        <script src="~/js/taskhistory.js" asp-append-version="true"></script>
     </environment>
 }

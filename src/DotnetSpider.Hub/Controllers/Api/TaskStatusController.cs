@@ -12,13 +12,13 @@ namespace DotnetSpider.Hub.Controllers.Api
 	{
 		private readonly ITaskStatusAppService _taskStatusAppService;
 
-		public TaskStatusController(ITaskStatusAppService taskStatusAppService, IAppSession appSession, ICommonConfiguration commonConfiguration) : base(appSession, commonConfiguration)
+		public TaskStatusController(ITaskStatusAppService taskStatusAppService, ICommonConfiguration commonConfiguration) : base(commonConfiguration)
 		{
 			_taskStatusAppService = taskStatusAppService;
 		}
 
 		[HttpGet]
-		public IActionResult Find([FromQuery]PaginationQueryInput input)
+		public IActionResult Find([FromQuery]PaginationQueryTaskStatusInput input)
 		{
 			return Success(_taskStatusAppService.Find(input));
 		}

@@ -6,19 +6,28 @@ namespace DotnetSpider.Hub.Controllers
 {
 	public class TaskController : BaseController
 	{
-		public TaskController(IAppSession appSession, ICommonConfiguration commonConfiguration)
-			: base(appSession, commonConfiguration)
+		public TaskController(ICommonConfiguration commonConfiguration)
+			: base(commonConfiguration)
 		{
 		}
 
-		[HttpGet]
 		public IActionResult Index()
 		{
-			ViewBag.AgentTypes = Configuration.AgentTypes;
 			return View();
 		}
 
-		[HttpGet]
+		public IActionResult Create()
+		{
+			ViewBag.NodeTypes = Configuration.NodeTypes;
+			return View();
+		}
+
+		public IActionResult Edit()
+		{
+			ViewBag.NodeTypes = Configuration.NodeTypes;
+			return View();
+		}
+
 		public IActionResult RunHistory()
 		{
 			return View();

@@ -6,12 +6,11 @@ namespace DotnetSpider.Hub.Controllers
 {
 	public class TaskHistoryController : BaseController
 	{
-		public TaskHistoryController(IAppSession appSession, ICommonConfiguration commonConfiguration)
-			: base(appSession, commonConfiguration)
+		public TaskHistoryController(ICommonConfiguration commonConfiguration)
+			: base( commonConfiguration)
 		{
 		}
 
-		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();

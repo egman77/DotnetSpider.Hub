@@ -28,7 +28,7 @@ namespace DotnetSpider.Hub.Agent
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
-				Console.Title = $"DotnetSpider Agent v{Env.Version}";
+				Console.Title = $"DotnetSpider Hub Agent v{Env.Version}";
 			}
 		}
 

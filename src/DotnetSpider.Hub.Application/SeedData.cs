@@ -2,7 +2,7 @@
 using System.Linq;
 using DotnetSpider.Hub.Application.System;
 using DotnetSpider.Hub.Application.Task;
-using DotnetSpider.Hub.Application.User;
+using DotnetSpider.Hub.Core;
 using DotnetSpider.Hub.Core.Entities;
 using DotnetSpider.Hub.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -13,22 +13,22 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DotnetSpider.Hub.Application
 {
-	public class SeedData
+	public class SeedData : ISeedData
 	{
 		private readonly ApplicationDbContext _context;
 		private readonly IConfiguration _configuration;
 		private readonly UserManager<ApplicationUser> _userManager;
-		private readonly IUserAppService _userAppService;
 		private readonly ITaskAppService _taskAppService;
 		private readonly ISystemAppService _systemAppService;
 
-		public SeedData(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IUserAppService userAppService, ITaskAppService taskAppService,
-		ISystemAppService systemAppService, IConfiguration configuration)
+		public SeedData(ApplicationDbContext context,
+			UserManager<ApplicationUser> userManager,
+			ITaskAppService taskAppService,
+			ISystemAppService systemAppService, IConfiguration configuration)
 		{
 			_context = context;
 			_configuration = configuration;
 			_userManager = userManager;
-			_userAppService = userAppService;
 			_taskAppService = taskAppService;
 			_systemAppService = systemAppService;
 		}
@@ -84,7 +84,7 @@ namespace DotnetSpider.Hub.Application
 					Analysts = "刘菲",
 					Name = $"360指数采集",
 					Version = "abcd",
-					NodeType = 1
+					NodeType = "default"
 				};
 				_context.Task.Add(task);
 			}
@@ -115,16 +115,18 @@ namespace DotnetSpider.Hub.Application
 
 		private void CreateAdmin()
 		{
+			_context.Roles.Add(new IdentityRole { Name = "Admin", NormalizedName = "ADMIN", Id = Guid.NewGuid().ToString("N"), ConcurrencyStamp = Guid.NewGuid().ToString() });
 			//增加一个超级管理员用户
 			var superAdmin = new ApplicationUser
 			{
-				IsActive = true,
 				UserName = "service@dotnetspider.org",
 				Email = "service@dotnetspider.org",
 				EmailConfirmed = true,
-				PhoneNumber = "17701696558"
+				PhoneNumber = "18701698558"
 			};
 			_userManager.CreateAsync(superAdmin, "1qazZAQ!").Wait();
+
+			_userManager.AddToRoleAsync(superAdmin, "Admin").Wait();
 			_context.SaveChanges();
 		}
 	}

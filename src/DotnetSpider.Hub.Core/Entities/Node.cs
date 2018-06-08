@@ -16,7 +16,7 @@ namespace DotnetSpider.Hub.Core.Entities
 		/// 1: 内部节点  2: VPS节点
 		/// </summary>
 		[Required]
-		public virtual int Type { get; set; }
+		public virtual string Type { get; set; }
 
 		public virtual string Os { get; set; }
 

@@ -1,0 +1,81 @@
+﻿<h4>Create new task</h4>
+<div id="view" class="card">
+    <div class="row">
+        <div class="input-field col s12 m3">
+            <select v-model="task.nodeType">
+                <option selected disabled>NodeType</option>
+                @for (int i = 0; i < ViewBag.NodeTypes.Length; ++i)
+                {
+                    <option value="@i">@ViewBag.NodeTypes[i]</option>
+                }
+            </select>
+        </div>
+        <div class="input-field col s12 m3">
+            <select v-model="task.os">
+                <option disabled>os</option>
+                <option selected>all</option>
+                <option>linux</option>
+                <option>windows</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            <div>
+                <input type="text" v-model="task.name" placeholder="Name">
+            </div>
+            <label class="red-text">{{errorText["name"]}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            <div>
+                <input type="text" v-model="task.applicationName" placeholder="Application name">
+            </div>
+            <label class="red-text">{{errorText["applicationName"]}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            <div>
+                <input type="text" v-model="task.version" placeholder="Version">
+            </div>
+            <label class="red-text">{{errorText["version"]}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            <div>
+                <input type="text" name="arguments" v-model="task.arguments" placeholder="Arguments">
+            </div>
+            <label class="red-text">{{errorText["arguments"]}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            <input type="text" v-model="task.cron" name="cron" placeholder="Cron Expression">
+            <label class="red-text">{{errorText["cron"]}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            <input type="number" value="1" v-model="task.nodeCount" />
+            <label class="red-text">{{errorText["nodeCount"]}}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
+            <input type="text" name="tags" v-model="task.tags" placeholder="Tags">
+        </div>
+    </div>
+
+    <div class="card-action">
+        <button type="button" :class="['btn','bg-light-green','btn-link','waves-effect',{'disabled':!validate}]" @@click="create()">SUBMIT</button>
+        <a class="btn waves-effect" href="/task">BACK</a>
+    </div>
+</div>
+@section scripts{
+    <environment names="Development">
+        <script src="~/js/createtask.js" asp-append-version="true"></script>
+    </environment>
+}

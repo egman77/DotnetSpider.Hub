@@ -13,9 +13,9 @@ namespace DotnetSpider.Hub.Application.TaskLog
 {
 	public class TaskLogAppService : AppServiceBase, ITaskLogAppService
 	{
-		public TaskLogAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration, IAppSession appSession,
+		public TaskLogAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
 			UserManager<ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+			: base(dbcontext, configuration, userManager)
 		{
 		}
 
@@ -32,29 +32,25 @@ namespace DotnetSpider.Hub.Application.TaskLog
 			DbContext.SaveChanges();
 		}
 
-		public PaginationQueryDto Find(PaginationQueryInput input)
+		public PaginationQueryDto Find(PaginationQueryTaskLogInput input)
 		{
 			if (input == null)
 			{
 				throw new ArgumentNullException($"{nameof(input)} should not be null.");
 			}
 
-			var identity = input.GetFilterValue("identity")?.Trim();
-			if (string.IsNullOrWhiteSpace(identity))
-			{
-				return new PaginationQueryDto { Page = input.Page.Value, Size = input.Size.Value, Total = 0, Result = null };
-			}
+			var identity = input.Identity;
 
 			Expression<Func<Core.Entities.TaskLog, bool>> where = t => t.Identity == identity;
 
-			var nodeId = input.GetFilterValue("nodeid")?.Trim();
+			var nodeId = input.NodeId;
 
 			if (!string.IsNullOrWhiteSpace(nodeId))
 			{
 				where = where.AndAlso(t => t.NodeId == nodeId);
 			}
 
-			var logType = input.GetFilterValue("logtype");
+			var logType = input.LogType;
 			if (!string.IsNullOrWhiteSpace(logType) && "all" != logType.Trim().ToLower())
 			{
 				where = where.AndAlso(t => t.Level.ToLower() == logType.ToLower());

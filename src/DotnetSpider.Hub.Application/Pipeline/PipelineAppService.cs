@@ -10,8 +10,8 @@ namespace DotnetSpider.Hub.Application.Pipeline
 	public class PipelineAppService : AppServiceBase, IPipelineAppService
 	{
 		public PipelineAppService(ApplicationDbContext dbcontext, ICommonConfiguration configuration,
-			IAppSession appSession, UserManager<ApplicationUser> userManager)
-			: base(dbcontext, configuration, appSession, userManager)
+			UserManager<ApplicationUser> userManager)
+			: base(dbcontext, configuration, userManager)
 		{
 		}
 
@@ -22,7 +22,7 @@ namespace DotnetSpider.Hub.Application.Pipeline
 
 		public int Process(string database, string table, string[] values)
 		{
-			throw new NotImplementedException();
+			return 0;
 		}
 	}
 }

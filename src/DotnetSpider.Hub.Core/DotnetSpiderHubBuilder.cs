@@ -18,9 +18,8 @@ namespace DotnetSpider.Hub.Core
 
 		public void UseConfiguration(IConfiguration configuration)
 		{
-			var config = configuration.GetSection(DotnetSpiderConsts.Settings).Get<CommonConfiguration>();
-			config.MsSqlConnectionString = configuration.GetConnectionString(DotnetSpiderConsts.DefaultConnection);
-			config.MySqlConnectionString = configuration.GetConnectionString(DotnetSpiderConsts.MySqlConnection);
+			var config = configuration.GetSection(DotnetSpiderHubConsts.Settings).Get<CommonConfiguration>();
+			config.ConnectionString = configuration.GetConnectionString(DotnetSpiderHubConsts.DotnetSpiderHub);
 			config.SchedulerCallback = new Uri(new Uri(configuration["Urls"]), "api/task/{0}?action=run").ToString();
 			Services.AddSingleton<ICommonConfiguration>(config);
 		}

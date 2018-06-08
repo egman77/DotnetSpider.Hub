@@ -16,7 +16,7 @@ namespace DotnetSpider.Hub.Controllers.Api
 	{
 		private readonly ITaskLogAppService _logAppService;
 
-		public TaskLogController(ITaskLogAppService logAppService, IAppSession appSession, ICommonConfiguration commonConfiguration) : base(appSession, commonConfiguration)
+		public TaskLogController(ITaskLogAppService logAppService, ICommonConfiguration commonConfiguration) : base(commonConfiguration)
 		{
 			_logAppService = logAppService;
 		}
@@ -30,7 +30,7 @@ namespace DotnetSpider.Hub.Controllers.Api
 		}
 
 		[HttpGet]
-		public IActionResult Find(PaginationQueryInput input)
+		public IActionResult Find(PaginationQueryTaskLogInput input)
 		{
 			return Success(_logAppService.Find(input));
 		}

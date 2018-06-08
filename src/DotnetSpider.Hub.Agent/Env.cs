@@ -31,7 +31,7 @@ namespace DotnetSpider.Hub.Agent
 		public static string HeartbeatUrl { get; set; }
 		public static int HeartbeatInterval { get; set; }
 		public static string ApiToken { get; set; }
-		public static int NodeType { get; set; }
+		public static string NodeType { get; set; }
 
 		public static readonly HttpClient HttpClient = new HttpClient(new HttpClientHandler
 		{
@@ -95,7 +95,7 @@ namespace DotnetSpider.Hub.Agent
 			HeartbeatInterval = _configuration.GetValue<int>("heartbeatInterval");
 			HeartbeatUrl = $"{ServerUrl}api/v1.0/nodeheartbeat";
 			ApiToken = _configuration.GetValue<string>("apiToken");
-			NodeType = _configuration.GetValue<int>("type");
+			NodeType = _configuration.GetValue<string>("type");
 		}
 	}
 }
