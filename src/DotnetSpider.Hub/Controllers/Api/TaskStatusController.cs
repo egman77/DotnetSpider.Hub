@@ -20,7 +20,7 @@ namespace DotnetSpider.Hub.Controllers.Api
 		[HttpGet]
 		public IActionResult Find([FromQuery]PaginationQueryTaskStatusInput input)
 		{
-			return Success(_taskStatusAppService.Find(input));
+			return Success(_taskStatusAppService.Query(input));
 		}
 
 		[HttpPost]

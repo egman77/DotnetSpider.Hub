@@ -6,20 +6,19 @@ namespace DotnetSpider.Hub.Application.Task
 {
 	public interface ITaskAppService
 	{
-		void Control(long taskId, ActionType type);
+		void Control(string taskId, ActionType type);
 		PaginationQueryDto Query(PaginationQueryTaskInput input);
 		void Create(CreateTaskInput item);
 		void Update(UpdateTaskInput item);
-		void Delete(long taskId);
-		CreateTaskInput Find(long taskId);
+		void Delete(string taskId);
 
-		void Run(long taskId);
-		void Exit(long taskId);
-		void Disable(long taskId);
-		void Enable(long taskId);
+		void Run(string taskId);
+		void Exit(string taskId);
+		void Disable(string taskId);
+		void Enable(string taskId);
 
-		void IncreaseRunning(long taskId);
-		void ReduceRunning(long taskId);
-		TaskDto GetTask(long taskId);
+		void IncreaseRunning(string taskId);
+		void ReduceRunning(string taskId);
+		TaskDto GetTask(string taskId);
 	}
 }

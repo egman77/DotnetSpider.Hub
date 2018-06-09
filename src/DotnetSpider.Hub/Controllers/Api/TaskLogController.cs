@@ -32,7 +32,7 @@ namespace DotnetSpider.Hub.Controllers.Api
 		[HttpGet]
 		public IActionResult Find(PaginationQueryTaskLogInput input)
 		{
-			return Success(_logAppService.Find(input));
+			return Success(_logAppService.Query(input));
 		}
 	}
 }

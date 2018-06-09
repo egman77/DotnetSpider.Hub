@@ -1,9 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DotnetSpider.Hub.Core.Entities
 {
-	public class Task : AuditedEntity
+	public class Task : AuditedEntity<string>
 	{
+		public Task()
+		{
+			Id = Guid.NewGuid().ToString("N");
+		}
+
 		/// <summary>
 		/// 程序集名称
 		/// </summary>

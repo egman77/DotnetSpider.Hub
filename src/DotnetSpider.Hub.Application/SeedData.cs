@@ -74,7 +74,7 @@ namespace DotnetSpider.Hub.Application
 				Core.Entities.Task task = new Core.Entities.Task
 				{
 					ApplicationName = "dotnet",
-					Cron = $"* * * {i} *",
+					Cron = $"* * * * *",
 					IsEnabled = true,
 					Developers = "沈威",
 					Owners = "刘菲",
@@ -84,6 +84,7 @@ namespace DotnetSpider.Hub.Application
 					Analysts = "刘菲",
 					Name = $"360指数采集",
 					Version = "abcd",
+					Os = "windows",
 					NodeType = "default"
 				};
 				_context.Task.Add(task);

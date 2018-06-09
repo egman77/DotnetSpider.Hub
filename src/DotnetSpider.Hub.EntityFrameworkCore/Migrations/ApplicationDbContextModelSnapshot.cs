@@ -98,7 +98,8 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(32);
 
-                    b.Property<long>("TaskId");
+                    b.Property<string>("TaskId")
+                        .IsRequired();
 
                     b.Property<string>("Version")
                         .HasMaxLength(100);
@@ -136,7 +137,8 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(32);
 
-                    b.Property<long>("TaskId");
+                    b.Property<string>("TaskId")
+                        .IsRequired();
 
                     b.Property<string>("Version")
                         .HasMaxLength(100);
@@ -228,9 +230,8 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("DotnetSpider.Hub.Core.Entities.Task", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Analysts")
                         .HasMaxLength(100);
@@ -318,7 +319,8 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
 
                     b.Property<string>("NodeIds");
 
-                    b.Property<long>("TaskId");
+                    b.Property<string>("TaskId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -392,7 +394,8 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
 
                     b.Property<long>("Success");
 
-                    b.Property<long>("TaskId");
+                    b.Property<string>("TaskId")
+                        .IsRequired();
 
                     b.Property<int>("Thread");
 

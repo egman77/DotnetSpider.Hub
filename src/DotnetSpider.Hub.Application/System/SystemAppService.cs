@@ -20,8 +20,8 @@ namespace DotnetSpider.Hub.Application.System
 		private readonly IMessageAppService _messageAppService;
 		private readonly INodeAppService _nodeAppService;
 
-		public static string ScanRunningTaskJobName = $"{DotnetSpiderHubConsts.JobPrefix}.ScanRunningTask";
-		public static string UpgradeTaskSchedulerTaskName = $"{DotnetSpiderHubConsts.JobPrefix}.UpgradeTaskScheduler";
+		public static string ScanRunningTaskJobName = $"{DotnetSpiderHubConsts.JobPrefix}ScanRunningTask";
+		public static string UpgradeTaskSchedulerTaskName = $"{DotnetSpiderHubConsts.JobPrefix}UpgradeTaskScheduler";
 
 		public SystemAppService(INodeAppService nodeAppService, IMessageAppService messageAppService,
 			ISchedulerAppService schedulerAppService,
@@ -56,7 +56,7 @@ namespace DotnetSpider.Hub.Application.System
 		{
 			foreach (var task in DbContext.Task)
 			{
-				if (task.Cron == DotnetSpiderHubConsts.IngoreCron)
+				if (task.Cron == Configuration.IngoreCron)
 				{
 					_schedulerAppService.Delete(task.Id.ToString());
 				}
@@ -119,7 +119,7 @@ namespace DotnetSpider.Hub.Application.System
 				upgradeScheduler = new Core.Entities.Task
 				{
 					ApplicationName = "DotnetSpider.Hub",
-					Cron = $"* * * * 2999",
+					Cron = "* * * * *",
 					IsEnabled = true,
 					IsDeleted = true,
 					Developers = "DotnetSpider.Hub",
@@ -139,7 +139,7 @@ namespace DotnetSpider.Hub.Application.System
 			{
 				Id = taskId,
 				Name = upgradeScheduler.Name,
-				Cron = "* * * * 2999",
+				Cron = "* * * * *",
 				Url = string.Format(Configuration.SchedulerCallback, taskId),
 				Data = JsonConvert.SerializeObject(new { TaskId = taskId })
 			};

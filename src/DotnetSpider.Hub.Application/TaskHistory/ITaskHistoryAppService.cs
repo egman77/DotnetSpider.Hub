@@ -5,7 +5,7 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 {
 	public interface ITaskHistoryAppService
 	{
-		PaginationQueryDto Find(PaginationQueryTaskHistoryInput input);
+		PaginationQueryDto Query(PaginationQueryTaskHistoryInput input);
 		void Add(AddTaskHistoryInput taskHistory);
 	}
 }

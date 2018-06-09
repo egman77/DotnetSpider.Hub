@@ -13,5 +13,7 @@
 		public string[] NodeTypes { get; set; }
 
 		public bool RequireToken { get; set; }
+
+		public string IngoreCron { get; set; }
 	}
 }

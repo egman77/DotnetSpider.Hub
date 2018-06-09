@@ -32,7 +32,7 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 			DbContext.SaveChanges();
 		}
 
-		public PaginationQueryDto Find(PaginationQueryTaskHistoryInput input)
+		public PaginationQueryDto Query(PaginationQueryTaskHistoryInput input)
 		{
 			if (input == null)
 			{
@@ -43,11 +43,11 @@ namespace DotnetSpider.Hub.Application.TaskHistory
 				Page = input.Page.Value,
 				Size = input.Size.Value
 			};
-			var taskId = input.TaskId;
-			var taskHistoryOutput = DbContext.TaskHistory.PageList(input, a => a.TaskId == taskId, t => t.CreationTime);
+
+			var taskHistoryOutput = DbContext.TaskHistory.PageList<Core.Entities.TaskHistory, long, DateTime>(input, a => a.TaskId == input.TaskId, t => t.CreationTime);
 
 			output.Total = taskHistoryOutput.Total;
-			var taskHistories =(List<Core.Entities.TaskHistory>) taskHistoryOutput.Result;
+			var taskHistories = (List<Core.Entities.TaskHistory>)taskHistoryOutput.Result;
 			List<Core.Entities.TaskStatus> statuses;
 			if (taskHistories.Count > 0)
 			{

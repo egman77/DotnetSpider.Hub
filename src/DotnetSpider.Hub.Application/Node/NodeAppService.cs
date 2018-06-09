@@ -32,9 +32,13 @@ namespace DotnetSpider.Hub.Application.Node
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
 			{
+				Logger.Information($"Enable node {nodeId}.");
 				node.IsEnable = true;
 				DbContext.SaveChanges();
-				Logger.Information($"Enable node {nodeId}.");
+			}
+			else
+			{
+				Logger.Information($"Node {nodeId} unfound.");
 			}
 		}
 
@@ -43,9 +47,13 @@ namespace DotnetSpider.Hub.Application.Node
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
 			if (node != null)
 			{
+				Logger.Information($"Disable node {nodeId}.");
 				node.IsEnable = false;
 				DbContext.SaveChanges();
-				Logger.Information($"Disable node {nodeId}.");
+			}
+			else
+			{
+				Logger.Information($"Node {nodeId} unfound.");
 			}
 		}
 
@@ -53,30 +61,35 @@ namespace DotnetSpider.Hub.Application.Node
 		{
 			if (input == null)
 			{
-				throw new ArgumentNullException($"{nameof(input)} should not be null.");
+				throw new DotnetSpiderHubException($"{nameof(input)} should not be null.");
 			}
 
 			PaginationQueryDto output;
-			switch (input.Sort)
+			switch (input.Sort?.ToLower())
 			{
 				case "enable":
 					{
-						output = DbContext.Node.PageList(input, null, d => d.IsEnable);
+						output = DbContext.Node.PageList<Core.Entities.Node, long, bool>(input, null, d => d.IsEnable);
 						break;
 					}
 				case "nodeid":
 					{
-						output = DbContext.Node.PageList(input, null, d => d.NodeId);
+						output = DbContext.Node.PageList<Core.Entities.Node, long, string>(input, null, d => d.NodeId);
 						break;
 					}
 				case "createtime":
 					{
-						output = DbContext.Node.PageList(input, null, d => d.CreationTime);
+						output = DbContext.Node.PageList<Core.Entities.Node, long, DateTime>(input, null, d => d.CreationTime);
+						break;
+					}
+				case "type":
+					{
+						output = DbContext.Node.PageList<Core.Entities.Node, long, string>(input, null, d => d.Type);
 						break;
 					}
 				default:
 					{
-						output = DbContext.Node.PageList(input, null, d => d.IsOnline);
+						output = DbContext.Node.PageList<Core.Entities.Node, long, bool>(input, null, d => d.IsOnline);
 						break;
 					}
 			}
@@ -214,7 +227,7 @@ namespace DotnetSpider.Hub.Application.Node
 					ApplicationName = "NULL",
 					Name = Core.Entities.Message.ExitMessageName,
 					NodeId = nodeId,
-					TaskId = 0
+					TaskId = string.Empty
 				};
 				Logger.Information($"Exit node: {nodeId}.");
 				_messageAppService.Create(message);

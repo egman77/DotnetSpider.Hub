@@ -13,7 +13,7 @@
 		public const string Tokens = "Tokens";
 		public const string RequireToken = "RequireToken";
 		public const string NodeTypes = "NodeTypes";
-		public const string IngoreCron = "* * * * 2999";
+		public const string IngoreCron = "IngoreCron";
 		public const string JobPrefix = "DOTNETSPIDER.HUB.";
 	}
 }

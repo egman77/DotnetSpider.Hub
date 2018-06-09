@@ -5,7 +5,7 @@ namespace DotnetSpider.Hub.Application.TaskStatus.Dtos
 	public class AddOrUpdateTaskStatusInput
 	{
 		[Required]
-		public virtual long TaskId { get; set; }
+		public virtual string TaskId { get; set; }
 		[Required]
 		[StringLength(32)]
 		public virtual string Identity { get; set; }

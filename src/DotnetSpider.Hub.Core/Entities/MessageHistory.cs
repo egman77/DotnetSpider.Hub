@@ -16,7 +16,7 @@ namespace DotnetSpider.Hub.Core.Entities
 		public virtual string ApplicationName { get; set; }
 
 		[Required]
-		public virtual long TaskId { get; set; }
+		public virtual string TaskId { get; set; }
 
 		/// <summary>
 		/// 版本信息

@@ -5,7 +5,8 @@ namespace DotnetSpider.Hub.Application.Task.Dtos
 	public class UpdateTaskInput
 	{
 		[Required]
-		public long Id { get; set; }
+		[StringLength(32)]
+		public string Id { get; set; }
 
 		/// <summary>
 		/// 程序集名称

@@ -33,7 +33,7 @@ namespace DotnetSpider.Hub.Controllers.Api
 		}
 
 		[HttpDelete("{taskId}")]
-		public IActionResult Delele(long taskId)
+		public IActionResult Delele(string taskId)
 		{
 			_taskAppService.Delete(taskId);
 			return Success();
@@ -48,7 +48,7 @@ namespace DotnetSpider.Hub.Controllers.Api
 
 		[HttpGet("{taskId}")]
 		[AllowAnonymous]
-		public IActionResult Action(long taskId, [FromQuery] ActionType action = ActionType.Query)
+		public IActionResult Action(string taskId, [FromQuery] ActionType action = ActionType.Query)
 		{
 			if (action == ActionType.Query)
 			{

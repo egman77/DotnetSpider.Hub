@@ -9,7 +9,7 @@ using Serilog;
 
 namespace DotnetSpider.Hub.Controllers
 {
-	//[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin")]
 	public abstract class BaseController : Controller
 	{
 		protected readonly ILogger Logger;

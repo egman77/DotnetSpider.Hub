@@ -15,6 +15,6 @@
 		public virtual float AvgProcessorSpeed { get; set; }
 		public virtual float AvgPipelineSpeed { get; set; }
 		public virtual string LastModificationTime { get; set; }
-		public virtual long TaskId { get; set; }
+		public virtual string TaskId { get; set; }
 	}
 }

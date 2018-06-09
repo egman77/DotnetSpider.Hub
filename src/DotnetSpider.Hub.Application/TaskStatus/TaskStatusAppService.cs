@@ -28,7 +28,7 @@ namespace DotnetSpider.Hub.Application.TaskStatus
 				return;
 			}
 
-			var oldRecord = DbContext.TaskStatus.FirstOrDefault(ts => ts.Identity == input.Identity && ts.NodeId == input.NodeId);//
+			var oldRecord = DbContext.TaskStatus.FirstOrDefault(ts => ts.Identity == input.Identity && ts.NodeId == input.NodeId);
 			if (oldRecord == null)
 			{
 				var taskStatus = Mapper.Map<Core.Entities.TaskStatus>(input);
@@ -49,30 +49,33 @@ namespace DotnetSpider.Hub.Application.TaskStatus
 				oldRecord.Total = input.Total;
 				oldRecord.LastModificationTime = DateTime.Now;
 			}
-			//Logger.LogWarning($"AddOrUpdate task statuse: {JsonConvert.SerializeObject(input)}");
 			DbContext.SaveChanges();
 		}
 
-		public PaginationQueryDto Find(PaginationQueryTaskStatusInput input)
+		public PaginationQueryDto Query(PaginationQueryTaskStatusInput input)
 		{
 			if (input == null)
 			{
 				throw new ArgumentNullException($"{nameof(input)} should not be null.");
 			}
 			PaginationQueryDto output;
-			Expression<Func<Core.Entities.TaskStatus, bool>> where = null;
-			var status = input.Status?.Trim();
-			var keyword = input.Keyword?.Trim();
+
+			var status = input.Status?.ToLower();
+			var keyword = input.Keyword?.ToLower();
+
 			List<Core.Entities.Task> tasks;
-			List<long> taskIds;
+			List<string> taskIds;
 			List<Core.Entities.TaskStatus> taskStatuses;
+
+			Expression<Func<Core.Entities.TaskStatus, bool>> where = null;
+
 			if (string.IsNullOrWhiteSpace(keyword))
 			{
 				if (!string.IsNullOrEmpty(status) && "all" != status)
 				{
 					where = d => d.Status.ToLower() == status;
 				}
-				output = DbContext.TaskStatus.PageList(input, where, d => d.Id);
+				output = DbContext.TaskStatus.PageList<Core.Entities.TaskStatus, long, long>(input, where, d => d.Id);
 				taskStatuses = (List<Core.Entities.TaskStatus>)output.Result;
 				taskIds = taskStatuses.Select(t => t.TaskId).ToList();
 				var ids = taskIds;
@@ -92,7 +95,7 @@ namespace DotnetSpider.Hub.Application.TaskStatus
 					var ids = taskIds;
 					where = d => ids.Contains(d.TaskId);
 				}
-				output = DbContext.TaskStatus.PageList(input, where, d => d.Id);
+				output = DbContext.TaskStatus.PageList<Core.Entities.TaskStatus, long, long>(input, where, d => d.Id);
 				taskStatuses = (List<Core.Entities.TaskStatus>)output.Result;
 			}
 			var taskStatusOutputs = new List<TaskStatusDto>();

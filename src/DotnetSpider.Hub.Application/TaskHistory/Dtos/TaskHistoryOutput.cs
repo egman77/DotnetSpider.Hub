@@ -5,7 +5,7 @@ namespace DotnetSpider.Hub.Application.TaskHistory.Dtos
 {
 	public class TaskHistoryOutput
 	{
-		public long TaskId { get; set; }
+		public string TaskId { get; set; }
 
 		public string Identity { get; set; }
 

@@ -58,7 +58,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(nullable: false),
                     CreatorUserId = table.Column<long>(nullable: true),
                     NodeId = table.Column<string>(maxLength: 32, nullable: false),
-                    TaskId = table.Column<long>(nullable: false),
+                    TaskId = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: true),
                     ApplicationName = table.Column<string>(maxLength: 100, nullable: false),
                     Version = table.Column<string>(maxLength: 100, nullable: true),
@@ -82,7 +82,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     NodeId = table.Column<string>(maxLength: 32, nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: true),
                     ApplicationName = table.Column<string>(maxLength: 100, nullable: false),
-                    TaskId = table.Column<long>(nullable: false),
+                    TaskId = table.Column<string>(nullable: false),
                     Version = table.Column<string>(maxLength: 100, nullable: true),
                     Arguments = table.Column<string>(maxLength: 500, nullable: true)
                 },
@@ -143,8 +143,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                 name: "Task",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<string>(nullable: false),
                     LastModificationTime = table.Column<DateTime>(nullable: true),
                     LastModifierUserId = table.Column<long>(nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
@@ -184,7 +183,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     LastModifierUserId = table.Column<long>(nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     CreatorUserId = table.Column<long>(nullable: true),
-                    TaskId = table.Column<long>(nullable: false),
+                    TaskId = table.Column<string>(nullable: false),
                     Identity = table.Column<string>(maxLength: 32, nullable: false),
                     NodeIds = table.Column<string>(nullable: true)
                 },
@@ -222,7 +221,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     LastModifierUserId = table.Column<long>(nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     CreatorUserId = table.Column<long>(nullable: true),
-                    TaskId = table.Column<long>(nullable: false),
+                    TaskId = table.Column<string>(nullable: false),
                     Identity = table.Column<string>(maxLength: 32, nullable: false),
                     NodeId = table.Column<string>(maxLength: 32, nullable: false),
                     Status = table.Column<string>(maxLength: 20, nullable: true),

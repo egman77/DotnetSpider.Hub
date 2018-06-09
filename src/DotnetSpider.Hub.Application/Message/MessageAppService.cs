@@ -26,10 +26,10 @@ namespace DotnetSpider.Hub.Application.Message
 				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
+			Logger.Warning($"Crate message {JsonConvert.SerializeObject(input)}.");
 			var message = Mapper.Map<Core.Entities.Message>(input);
 			DbContext.Message.Add(message);
 			DbContext.SaveChanges();
-			Logger.Warning($"Crate message {JsonConvert.SerializeObject(input)} success.");
 		}
 
 		public void Create(IEnumerable<CreateMessageInput> input)
@@ -39,29 +39,31 @@ namespace DotnetSpider.Hub.Application.Message
 				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
+			Logger.Warning($"Create messages {JsonConvert.SerializeObject(input)}.");
 			var messages = Mapper.Map<List<Core.Entities.Message>>(input);
 			DbContext.Message.AddRange(messages);
 			DbContext.SaveChanges();
-			Logger.Warning($"Create messages {JsonConvert.SerializeObject(input)} success.");
 		}
 
 		public IEnumerable<MessageDto> Consume(string nodeId)
 		{
 			var messages = DbContext.Message.Where(m => m.NodeId == nodeId);
 			var result = Mapper.Map<List<MessageDto>>(messages);
-			var messageHistories = Mapper.Map<List<MessageHistory>>(messages);
-			foreach (var messageHistory in messageHistories)
+			if (result.Count == 0)
 			{
-				messageHistory.Id = 0;
+				Logger.Warning($"No messages to node: {nodeId}");
+				return result;
 			}
-			DbContext.MessageHistory.AddRange(messageHistories);
-			DbContext.Message.RemoveRange(messages);
-			DbContext.SaveChanges();
-			if (result.Count > 0)
+			else
 			{
 				Logger.Warning($"Consume messages: {JsonConvert.SerializeObject(result)}.");
+				var messageHistories = Mapper.Map<List<MessageHistory>>(messages);
+				messageHistories.ForEach(m => m.Id = 0);
+				DbContext.MessageHistory.AddRange(messageHistories);
+				DbContext.Message.RemoveRange(messages);
+				DbContext.SaveChanges();
+				return result;
 			}
-			return result;
 		}
 	}
 }

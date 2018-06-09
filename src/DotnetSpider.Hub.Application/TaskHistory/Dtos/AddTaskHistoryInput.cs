@@ -5,7 +5,7 @@ namespace DotnetSpider.Hub.Application.TaskHistory.Dtos
 	public class AddTaskHistoryInput
 	{
 		[Required]
-		public virtual long TaskId { get; set; }
+		public virtual string TaskId { get; set; }
 
 		[Required]
 		[StringLength(32)]

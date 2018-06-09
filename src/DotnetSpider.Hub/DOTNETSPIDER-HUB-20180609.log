@@ -1,0 +1,365 @@
+2018-06-09 10:14:38.165 +08:00 [Error] Request scheduler.net failed [1]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in C:\solutions\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2018-06-09 10:14:40.216 +08:00 [Error] Request scheduler.net failed [2]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in C:\solutions\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2018-06-09 10:14:42.221 +08:00 [Error] Request scheduler.net failed [3]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in C:\solutions\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2018-06-09 10:14:44.233 +08:00 [Error] Request scheduler.net failed [4]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in C:\solutions\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2018-06-09 10:14:46.273 +08:00 [Error] Request scheduler.net failed [5]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in C:\solutions\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2018-06-09 20:34:28.272 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:34:33.071 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:34:38.342 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:34:43.616 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:34:48.909 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:34:53.030 +08:00 [Information] Disable node 192.168.31.78.
+2018-06-09 20:34:53.905 +08:00 [Information] Enable node 192.168.31.78.
+2018-06-09 20:34:54.179 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:35:09.234 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:35:09.240 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:35:10.005 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:35:15.276 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:35:27.400 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:35:27.407 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:36:05.189 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:36:05.194 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:36:05.234 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:36:05.237 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:36:05.256 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:36:05.266 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:36:05.290 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:36:08.047 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:39:24.911 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:39:28.657 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:39:33.921 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:39:39.199 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:39:44.482 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:39:49.759 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:39:55.026 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:40:00.302 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:40:05.572 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:40:10.864 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:40:16.134 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:40:21.474 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:41:32.785 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:41:35.343 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:41:40.619 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:41:45.890 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:41:51.166 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:41:56.460 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:01.769 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:06.999 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:12.275 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:17.554 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:23.862 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:29.167 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:34.434 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:39.698 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:44.984 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:50.254 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:42:55.523 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:00.812 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:06.087 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:11.361 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:16.637 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:22.068 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:27.206 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:32.481 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:37.765 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:43.068 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:48.317 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:53.586 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:43:58.883 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:04.152 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:09.421 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:14.701 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:19.967 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:25.292 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:30.534 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:35.804 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:41.077 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:46.370 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:51.640 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:44:56.936 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:02.230 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:07.470 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:12.747 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:18.018 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:23.302 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:28.585 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:49.583 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:49.618 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:49.652 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:49.747 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:45:54.980 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:46:00.268 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:46:05.532 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:46:10.805 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:46:16.094 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:46:27.176 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:46:27.181 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:46:27.301 +08:00 [Information] Disable task 35421de9b4ef45c6a14717d400ce8410.
+2018-06-09 20:46:31.298 +08:00 [Information] Enable task 35421de9b4ef45c6a14717d400ce8410.
+2018-06-09 20:46:31.968 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:46:34.631 +08:00 [Information] Remove task 35421de9b4ef45c6a14717d400ce8410.
+2018-06-09 20:46:37.252 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:46:41.952 +08:00 [Warning] Create messages [{"NodeId":"192.168.31.78","TaskId":"7d05a99addcf47d1ba5be03c885f7310","Name":"RUN","ApplicationName":"dotnet","Version":"abcd","Arguments":"-a:1,2 -tid:7d05a99addcf47d1ba5be03c885f7310 -i:18f77667be4b4ed3a99f7fdfaa0c3754"}].
+2018-06-09 20:46:42.084 +08:00 [Warning] Run task 7d05a99addcf47d1ba5be03c885f7310.
+2018-06-09 20:50:10.384 +08:00 [Warning] Consume messages: [{"NodeId":"192.168.31.78","Task":null,"Name":"RUN","Arguments":"-a:1,2 -tid:7d05a99addcf47d1ba5be03c885f7310 -i:18f77667be4b4ed3a99f7fdfaa0c3754","ApplicationName":"dotnet","Version":"abcd","TaskId":"7d05a99addcf47d1ba5be03c885f7310","CreationTime":"2018-06-09T20:46:41.9884704"}].
+2018-06-09 20:50:14.118 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:50:19.411 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:50:24.666 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:50:31.499 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:50:36.780 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:50:42.053 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:50:47.329 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:50:52.608 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:50:57.884 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:51:03.158 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:51:08.460 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:51:13.806 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:51:19.074 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:51:24.364 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:51:29.640 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:51:34.906 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:51:40.176 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:51:45.484 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:53:37.723 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:53:41.815 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:53:47.074 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:53:52.365 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:53:57.631 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:54:02.902 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:54:08.186 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:54:13.466 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:54:35.272 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:54:39.900 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:54:45.160 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:54:50.428 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:54:55.699 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:00.978 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:06.252 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:11.530 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:16.832 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:22.114 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:27.422 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:32.659 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:37.928 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:43.218 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:48.499 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:53.765 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:55:59.065 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:04.322 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:09.601 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:14.883 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:20.150 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:25.431 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:30.705 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:33.817 +08:00 [Warning] Create messages [{"NodeId":"192.168.31.78","TaskId":"5e927f12f08947e6a4686f34401260fb","Name":"RUN","ApplicationName":"dotnet","Version":"abcd","Arguments":"-a:1,2 -tid:5e927f12f08947e6a4686f34401260fb -i:77de0ae3fbbb45ffba3edf8c7d6515d4"}].
+2018-06-09 20:56:33.927 +08:00 [Warning] Run task 5e927f12f08947e6a4686f34401260fb.
+2018-06-09 20:56:36.007 +08:00 [Warning] Consume messages: [{"NodeId":"192.168.31.78","Task":null,"Name":"RUN","Arguments":"-a:1,2 -tid:5e927f12f08947e6a4686f34401260fb -i:77de0ae3fbbb45ffba3edf8c7d6515d4","ApplicationName":"dotnet","Version":"abcd","TaskId":"5e927f12f08947e6a4686f34401260fb","CreationTime":"2018-06-09T20:56:33.8559356"}].
+2018-06-09 20:56:41.267 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:46.548 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:51.837 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:56:57.116 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:57:02.398 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:57:03.949 +08:00 [Warning] Add CANCLE message: {"NodeId":"192.168.31.78","TaskId":"5e927f12f08947e6a4686f34401260fb","Name":"CANCEL","ApplicationName":"NULL","Version":null,"Arguments":null}.
+2018-06-09 20:57:03.953 +08:00 [Warning] Create messages [{"NodeId":"192.168.31.78","TaskId":"5e927f12f08947e6a4686f34401260fb","Name":"CANCEL","ApplicationName":"NULL","Version":null,"Arguments":null}].
+2018-06-09 20:57:07.665 +08:00 [Warning] Consume messages: [{"NodeId":"192.168.31.78","Task":null,"Name":"CANCEL","Arguments":null,"ApplicationName":"NULL","Version":null,"TaskId":"5e927f12f08947e6a4686f34401260fb","CreationTime":"2018-06-09T20:57:03.9550099"}].
+2018-06-09 20:57:12.947 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:57:18.226 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:57:23.519 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:57:28.772 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:57:34.085 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:58:53.512 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:58:58.580 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:03.837 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:09.106 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:14.381 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:19.652 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:24.939 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:30.227 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:35.494 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:40.791 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:46.055 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:51.336 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 20:59:56.630 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 21:00:01.915 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 21:00:07.177 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 21:00:12.472 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 21:00:17.725 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 21:00:23.019 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 21:00:28.281 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 21:00:33.563 +08:00 [Warning] No messages to node: 192.168.31.78
+2018-06-09 21:00:38.836 +08:00 [Warning] No messages to node: 192.168.31.78

@@ -2,7 +2,7 @@
 {
 	public class TaskDto
 	{
-		public long Id { get; set; }
+		public string Id { get; set; }
 
 		/// <summary>
 		/// 程序集名称

@@ -60,7 +60,6 @@ namespace DotnetSpider.Hub.Application.Task
 				where = where.AndAlso(t => t.Name.Contains(keyword));
 			}
 
-
 			var isRunning = input.IsRunning;
 			if (isRunning.HasValue)
 			{
@@ -74,21 +73,21 @@ namespace DotnetSpider.Hub.Application.Task
 				}
 			}
 
-			switch (input.Sort)
+			switch (input.Sort?.ToLower())
 			{
 				case "name":
 					{
-						output = DbContext.Task.PageList(input, where, t => t.Name);
+						output = DbContext.Task.PageList<Core.Entities.Task, string, string>(input, where, t => t.Name);
 						break;
 					}
 				case "nodecount":
 					{
-						output = DbContext.Task.PageList(input, where, t => t.NodeCount);
+						output = DbContext.Task.PageList<Core.Entities.Task, string, int>(input, where, t => t.NodeCount);
 						break;
 					}
 				default:
 					{
-						output = DbContext.Task.PageList(input, where, t => t.CreationTime);
+						output = DbContext.Task.PageList<Core.Entities.Task, string, DateTime>(input, where, t => t.CreationTime);
 						break;
 					}
 			}
@@ -111,28 +110,21 @@ namespace DotnetSpider.Hub.Application.Task
 			input.Version = input.Version.Trim();
 			input.Name = input.Name.Trim();
 
-			var cron = task.Cron;
-			task.Cron = DotnetSpiderHubConsts.IngoreCron;
-			DbContext.Task.Add(task);
-			DbContext.SaveChanges();
-
-			if (cron != DotnetSpiderHubConsts.IngoreCron)
+			if (input.Cron != Configuration.IngoreCron)
 			{
-
-				var taskId = task.Id.ToString();
 				var job = new SchedulerJobDto
 				{
-					Id = taskId,
+					Id = task.Id,
 					Name = task.Name,
-					Cron = cron,
-					Url = string.Format(Configuration.SchedulerCallback, taskId),
-					Data = JsonConvert.SerializeObject(new { TaskId = taskId })
+					Cron = input.Cron,
+					Url = string.Format(Configuration.SchedulerCallback, task.Id),
+					Data = JsonConvert.SerializeObject(new { TaskId = task.Id })
 				};
 				_schedulerAppService.Create(job);
-				task.Cron = cron;
-				DbContext.Task.Update(task);
-				DbContext.SaveChanges();
 			}
+
+			DbContext.Task.Add(task);
+			DbContext.SaveChanges();
 		}
 
 		public void Update(UpdateTaskInput input)
@@ -165,7 +157,7 @@ namespace DotnetSpider.Hub.Application.Task
 			task.Version = input.Version?.Trim();
 			task.IsSingle = input.IsSingle;
 
-			if (!input.IsEnabled && task.IsEnabled && task.Cron == DotnetSpiderHubConsts.IngoreCron)
+			if (!input.IsEnabled && task.IsEnabled && task.Cron == Configuration.IngoreCron)
 			{
 				_schedulerAppService.Delete(task.Id.ToString());
 			}
@@ -189,7 +181,7 @@ namespace DotnetSpider.Hub.Application.Task
 			DbContext.SaveChanges();
 		}
 
-		public void Run(long taskId)
+		public void Run(string taskId)
 		{
 			var msg = DbContext.Message.FirstOrDefault(a => a.TaskId == taskId && Core.Entities.Message.RunMessageName == a.Name);
 			if (msg == null)
@@ -214,7 +206,7 @@ namespace DotnetSpider.Hub.Application.Task
 			}
 		}
 
-		public void Exit(long taskId)
+		public void Exit(string taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -240,7 +232,7 @@ namespace DotnetSpider.Hub.Application.Task
 			DbContext.SaveChanges();
 		}
 
-		public void Delete(long taskId)
+		public void Delete(string taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task != null)
@@ -252,7 +244,7 @@ namespace DotnetSpider.Hub.Application.Task
 			}
 		}
 
-		public void Disable(long taskId)
+		public void Disable(string taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -267,7 +259,7 @@ namespace DotnetSpider.Hub.Application.Task
 			Logger.Information($"Disable task {taskId}.");
 		}
 
-		public void Enable(long taskId)
+		public void Enable(string taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -291,7 +283,7 @@ namespace DotnetSpider.Hub.Application.Task
 			Logger.Information($"Enable task {taskId}.");
 		}
 
-		public void IncreaseRunning(long taskId)
+		public void IncreaseRunning(string taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -303,7 +295,7 @@ namespace DotnetSpider.Hub.Application.Task
 			Logger.Information($"IncreaseRunning task { taskId}.");
 		}
 
-		public void ReduceRunning(long taskId)
+		public void ReduceRunning(string taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 			if (task == null)
@@ -320,7 +312,6 @@ namespace DotnetSpider.Hub.Application.Task
 			}
 			Logger.Information($"ReduceRunning task { taskId}.");
 			DbContext.SaveChanges();
-
 		}
 
 		public PaginationQueryDto QueryRunning(PaginationQueryInput input)
@@ -329,20 +320,19 @@ namespace DotnetSpider.Hub.Application.Task
 			{
 				throw new ArgumentNullException($"{nameof(input)} should not be null.");
 			}
-			PaginationQueryDto output = DbContext.Task.PageList(input, d => d.IsRunning, d => d.Id);
+			PaginationQueryDto output = DbContext.Task.PageList<Core.Entities.Task, string, string>(input, d => d.IsRunning, d => d.Id);
 			output.Result = Mapper.Map<List<TaskDto>>(output.Result);
 			return output;
 		}
 
-		public CreateTaskInput Find(long taskId)
+		public TaskDto GetTask(string taskId)
 		{
-			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
-			if (task == null)
+			var task = DbContext.Task.FirstOrDefault(t => t.Id == taskId);
+			if (task != null)
 			{
-				throw new DotnetSpiderHubException("任务不存在.");
+				return Mapper.Map<TaskDto>(task);
 			}
-
-			return Mapper.Map<CreateTaskInput>(task);
+			return null;
 		}
 
 		/// <summary>
@@ -351,7 +341,7 @@ namespace DotnetSpider.Hub.Application.Task
 		/// </summary>
 		/// <param name="taskId">任务ID</param>
 		/// <returns>任务对象</returns>
-		private Core.Entities.Task CheckStatusOfTask(long taskId)
+		private Core.Entities.Task CheckStatusOfTask(string taskId)
 		{
 			var task = DbContext.Task.FirstOrDefault(a => a.Id == taskId);
 
@@ -455,7 +445,7 @@ namespace DotnetSpider.Hub.Application.Task
 			task.NodeRunningCount = 0;
 		}
 
-		public void Control(long taskId, ActionType action)
+		public void Control(string taskId, ActionType action)
 		{
 			switch (action)
 			{
@@ -490,16 +480,6 @@ namespace DotnetSpider.Hub.Application.Task
 						break;
 					}
 			}
-		}
-
-		public TaskDto GetTask(long taskId)
-		{
-			var task = DbContext.Task.FirstOrDefault(t => t.Id == taskId);
-			if (task != null)
-			{
-				return Mapper.Map<TaskDto>(task);
-			}
-			return null;
 		}
 	}
 }

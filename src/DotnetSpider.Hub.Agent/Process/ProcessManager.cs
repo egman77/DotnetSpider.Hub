@@ -7,16 +7,16 @@ namespace DotnetSpider.Hub.Agent.Process
 	public class ProcessManager
 	{
 		protected readonly static ILogger Logger = LogManager.GetCurrentClassLogger();
-		private static readonly ConcurrentDictionary<long, ProcessInfo> Processes = new ConcurrentDictionary<long, ProcessInfo>();
+		private static readonly ConcurrentDictionary<string, ProcessInfo> Processes = new ConcurrentDictionary<string, ProcessInfo>();
 
 		public static int ProcessCount => Processes.Count;
 
-		public static bool IsTaskExsits(long taskId)
+		public static bool IsTaskExsits(string taskId)
 		{
 			return Processes.ContainsKey(taskId);
 		}
 
-		public static void StartProcess(long taskId, string app, string arguments, string workingDirectory)
+		public static void StartProcess(string taskId, string app, string arguments, string workingDirectory)
 		{
 			Logger.Info($"Start process for task: {taskId}, app: {app}, arguments: {arguments}, workingDirectory: {workingDirectory}.");
 			var path = Path.Combine(workingDirectory, app);
@@ -49,7 +49,7 @@ namespace DotnetSpider.Hub.Agent.Process
 			});
 		}
 
-		public static ProcessInfo GetProcessDetail(long taskId)
+		public static ProcessInfo GetProcessDetail(string taskId)
 		{
 			ProcessInfo processDetail;
 			if (Processes.TryGetValue(taskId, out processDetail))

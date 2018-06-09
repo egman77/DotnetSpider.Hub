@@ -28,7 +28,6 @@ namespace DotnetSpider.Hub.Application.Report
 			HomePageDashboardDto output = new HomePageDashboardDto();
 
 			long storageSize = 0;
-
 			using (var conn = new SqlConnection(Configuration.ConnectionString))
 			{
 				var dbSpaceUsed = conn.Query<DbSpaceUsedDto>(" exec  sp_spaceused 'TaskLog'").First();

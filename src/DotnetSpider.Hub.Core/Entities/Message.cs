@@ -13,7 +13,7 @@ namespace DotnetSpider.Hub.Core.Entities
 		public virtual string NodeId { get; set; }
 
 		[Required]
-		public virtual long TaskId { get; set; }
+		public virtual string TaskId { get; set; }
 
 		[StringLength(100)]
 		public virtual string Name { get; set; }

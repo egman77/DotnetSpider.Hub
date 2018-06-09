@@ -8,5 +8,6 @@
 		string[] Tokens { get; }
 		bool RequireToken { get; }
 		string[] NodeTypes { get; }
+		string IngoreCron { get; }
 	}
 }

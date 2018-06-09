@@ -96,7 +96,7 @@ namespace DotnetSpider.Hub.Application.Scheduler
 			var json = JsonConvert.DeserializeObject<StandardResult>(str);
 			if (json.Status != Status.Success)
 			{
-				throw new Exception(json.Message);
+				throw new DotnetSpiderHubException(json.Message);
 			}
 		}
 	}

@@ -32,7 +32,7 @@ namespace DotnetSpider.Hub.Application.TaskLog
 			DbContext.SaveChanges();
 		}
 
-		public PaginationQueryDto Find(PaginationQueryTaskLogInput input)
+		public PaginationQueryDto Query(PaginationQueryTaskLogInput input)
 		{
 			if (input == null)
 			{
@@ -50,12 +50,12 @@ namespace DotnetSpider.Hub.Application.TaskLog
 				where = where.AndAlso(t => t.NodeId == nodeId);
 			}
 
-			var logType = input.LogType;
-			if (!string.IsNullOrWhiteSpace(logType) && "all" != logType.Trim().ToLower())
+			var logType = input.LogType.Trim().ToLower();
+			if (!string.IsNullOrWhiteSpace(logType) && "all" != logType)
 			{
-				where = where.AndAlso(t => t.Level.ToLower() == logType.ToLower());
+				where = where.AndAlso(t => t.Level.ToLower() == logType);
 			}
-			var output = DbContext.TaskLog.PageList(input, where, t => t.Logged);
+			var output = DbContext.TaskLog.PageList<Core.Entities.TaskLog, long, DateTime?>(input, where, t => t.Logged);
 			output.Result = Mapper.Map<List<TaskLogOutput>>(output.Result);
 			return output;
 		}
