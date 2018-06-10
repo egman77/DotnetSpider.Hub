@@ -93,7 +93,7 @@ namespace DotnetSpider.Hub.Application.System
 					NodeCount = 1,
 					NodeRunningCount = 0,
 					Name = ScanRunningTaskJobName,
-					Version = "0001",
+					Package = "0001",
 					NodeType = "HUB"
 				};
 				DbContext.Task.Add(scanRunningTask);
@@ -128,7 +128,7 @@ namespace DotnetSpider.Hub.Application.System
 					NodeCount = 1,
 					NodeRunningCount = 0,
 					Name = UpgradeTaskSchedulerTaskName,
-					Version = "0001",
+					Package = "0001",
 					NodeType = "HUB"
 				};
 				DbContext.Task.Add(upgradeScheduler);

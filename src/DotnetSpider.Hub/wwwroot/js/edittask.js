@@ -12,7 +12,7 @@ $(function () {
 			task: {
 				id: taskId,
 				name: '',
-				version: '',
+				package: '',
 				os: 'all',
 				applicationName: 'dotnet',
 				isEnabled: true,
@@ -27,7 +27,7 @@ $(function () {
 				isSingle: true
 			},
 			errorText: {
-				name: '', applicationName: '', version: '', arguments: '', nodeCount: ''
+				name: '', applicationName: '', package: '', arguments: '', nodeCount: ''
 			}
 		},
 		beforeMount: function () {
@@ -44,7 +44,7 @@ $(function () {
 		computed: {
 			validate: function () {
 				var nv = this.notEmpty('name')
-				var vv = this.notEmpty('version');
+				var vv = this.notEmpty('package');
 				var av1 = this.notContains('arguments', '--tid');
 				var av2 = this.notContains('arguments', '--identity');
 				var av3 = this.notContains('arguments', '-i');
@@ -66,7 +66,7 @@ $(function () {
 			notContains: function (name, contains) {
 				var value = this.$data.task[name];
 				if (value && (value.indexOf(contains) >= 0)) {
-					errorText[name] = name + ' should not contains ' + contains;
+					this.$data.errorText[name] = name + ' should not contains ' + contains;
 					return false;
 				}
 				delete this.$data.errorText[name];
@@ -75,7 +75,7 @@ $(function () {
 			notEmpty: function (name) {
 				var value = this.$data.task[name];
 				if (value === '') {
-					this.errorText[name] = '';
+					this.$data.errorText[name] = '';
 					return null;
 				}
 				else if ($.trim(value) === '') {

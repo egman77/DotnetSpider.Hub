@@ -49,19 +49,22 @@ namespace DotnetSpider.Hub
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
-			Action<ApplicationOptions> application = options =>
+			if (!_env.IsDevelopment())
 			{
-				options.ApplicationName = _env.ApplicationName;
-				options.Environment = _env.EnvironmentName;
-			};
+				Action<ApplicationOptions> application = options =>
+				{
+					options.ApplicationName = _env.ApplicationName;
+					options.Environment = _env.EnvironmentName;
+				};
 
-			services.AddAspectCoreAPM(component =>
-			{
-				component.AddLineProtocolCollector(options => Configuration.GetLineProtocolSection().Bind(options))
-						.AddHttpProfiler()
-						.AddApplicationProfiler();
-			}, application);
+				services.AddAspectCoreAPM(component =>
+				{
+					component.AddLineProtocolCollector(options => Configuration.GetLineProtocolSection().Bind(options))
+							.AddHttpProfiler()
+							.AddApplicationProfiler();
+				}, application);
 
+			}
 			services.AddResponseCaching();
 			services.AddResponseCompression();
 

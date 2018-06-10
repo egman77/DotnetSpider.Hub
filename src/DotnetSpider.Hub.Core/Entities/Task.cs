@@ -89,7 +89,7 @@ namespace DotnetSpider.Hub.Core.Entities
 		/// 版本信息
 		/// </summary>
 		[StringLength(100)]
-		public virtual string Version { get; set; }
+		public virtual string Package { get; set; }
 
 		public virtual bool IsSingle { get; set; } = true;
 

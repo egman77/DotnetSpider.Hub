@@ -64,7 +64,7 @@
 		/// <summary>
 		/// 版本信息
 		/// </summary>
-		public virtual string Version { get; set; }
+		public virtual string Package { get; set; }
 
 		public virtual string Os { get; set; }
 

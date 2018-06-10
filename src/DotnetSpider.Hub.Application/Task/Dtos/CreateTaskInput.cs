@@ -75,7 +75,7 @@ namespace DotnetSpider.Hub.Application.Task.Dtos
 		/// 版本信息
 		/// </summary>
 		[StringLength(100)]
-		public virtual string Version { get; set; }
+		public virtual string Package { get; set; }
 
 		public virtual bool IsSingle { get; set; }
 

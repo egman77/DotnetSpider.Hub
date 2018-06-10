@@ -37,7 +37,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore
 			// Add your customizations after calling base.OnModelCreating(builder);
 
 			builder.Entity<Node>().HasAlternateKey(c => c.NodeId).HasName("AlternateKey_NodeId");
-			builder.Entity<TaskLog>().HasAlternateKey(c => c.Identity).HasName("AlternateKey_Identity");
+			builder.Entity<TaskLog>().HasIndex(c => c.Identity).HasName("Index_Identity");
 		}
 
 		public override int SaveChanges()

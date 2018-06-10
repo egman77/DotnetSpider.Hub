@@ -61,7 +61,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     TaskId = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: true),
                     ApplicationName = table.Column<string>(maxLength: 100, nullable: false),
-                    Version = table.Column<string>(maxLength: 100, nullable: true),
+                    Package = table.Column<string>(maxLength: 100, nullable: true),
                     Arguments = table.Column<string>(maxLength: 500, nullable: true)
                 },
                 constraints: table =>
@@ -83,7 +83,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     Name = table.Column<string>(maxLength: 100, nullable: true),
                     ApplicationName = table.Column<string>(maxLength: 100, nullable: false),
                     TaskId = table.Column<string>(nullable: false),
-                    Version = table.Column<string>(maxLength: 100, nullable: true),
+                    Package = table.Column<string>(maxLength: 100, nullable: true),
                     Arguments = table.Column<string>(maxLength: 500, nullable: true)
                 },
                 constraints: table =>
@@ -161,7 +161,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     Owners = table.Column<string>(maxLength: 100, nullable: true),
                     Developers = table.Column<string>(maxLength: 100, nullable: true),
                     Analysts = table.Column<string>(maxLength: 100, nullable: true),
-                    Version = table.Column<string>(maxLength: 100, nullable: true),
+                    Package = table.Column<string>(maxLength: 100, nullable: true),
                     IsSingle = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
                     Os = table.Column<string>(maxLength: 20, nullable: true),
@@ -208,7 +208,6 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TaskLog", x => x.Id);
-                    table.UniqueConstraint("AlternateKey_Identity", x => x.Identity);
                 });
 
             migrationBuilder.CreateTable(
@@ -383,6 +382,11 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "Index_Identity",
+                table: "TaskLog",
+                column: "Identity");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

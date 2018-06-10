@@ -107,7 +107,7 @@ namespace DotnetSpider.Hub.Application.Task
 			input.ApplicationName = input.ApplicationName.Trim();
 			input.Arguments = input.Arguments?.Trim();
 			input.Cron = input.Cron.Trim();
-			input.Version = input.Version.Trim();
+			input.Package = input.Package.Trim();
 			input.Name = input.Name.Trim();
 
 			if (input.Cron != Configuration.IngoreCron)
@@ -154,7 +154,7 @@ namespace DotnetSpider.Hub.Application.Task
 			task.Owners = input.Owners?.Trim();
 			task.Tags = input.Tags?.Trim();
 			task.NodeType = input.NodeType;
-			task.Version = input.Version?.Trim();
+			task.Package = input.Package?.Trim();
 			task.IsSingle = input.IsSingle;
 
 			if (!input.IsEnabled && task.IsEnabled && task.Cron == Configuration.IngoreCron)
@@ -398,14 +398,14 @@ namespace DotnetSpider.Hub.Application.Task
 			var messages = new List<CreateMessageInput>();
 			foreach (var node in nodes)
 			{
-				var arguments = string.Concat(task.Arguments, task.IsSingle ? " -tid:" : " ", task.Id, task.IsSingle ? " -i:" : " ", identity);
+				var arguments = string.Concat(task.Arguments, task.IsSingle ? " --tid:" : " ", task.Id, task.IsSingle ? " -i:" : " ", identity);
 				var msg = new CreateMessageInput
 				{
 					TaskId = task.Id,
 					ApplicationName = task.ApplicationName,
 					Name = Core.Entities.Message.RunMessageName,
 					NodeId = node.NodeId,
-					Version = task.Version,
+					Package = task.Package,
 					Arguments = arguments
 				};
 				messages.Add(msg);

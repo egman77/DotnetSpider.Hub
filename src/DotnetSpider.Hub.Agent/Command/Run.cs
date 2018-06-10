@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using DotnetSpider.Hub.Agent.Process;
+using Newtonsoft.Json;
 
 namespace DotnetSpider.Hub.Agent.Command
 {
@@ -11,15 +12,19 @@ namespace DotnetSpider.Hub.Agent.Command
 
 		public override void Execute(Messsage command, AgentClient client)
 		{
+			if (string.IsNullOrWhiteSpace(command.Package))
+			{
+				Logger.Error($"Package should not be empty.");
+				return;
+			}
+			if (!command.Package.ToLower().EndsWith(".zip"))
+			{
+				Logger.Error($"Package must be a zip.");
+				return;
+			}
 			if (ProcessManager.IsTaskExsits(command.TaskId))
 			{
 				Logger.Error($"Task {command.TaskId} is already running.");
-				return;
-			}
-
-			if (string.IsNullOrEmpty(command.Version) || string.IsNullOrWhiteSpace(command.Version))
-			{
-				Logger.Error($"Version should not be empty.");
 				return;
 			}
 			Logger.Info($"Start prepare workdirectory...");
@@ -29,32 +34,19 @@ namespace DotnetSpider.Hub.Agent.Command
 				Directory.CreateDirectory(taskDirectory);
 				Logger.Info($"Create task directory {taskDirectory} success.");
 			}
+			var packageName = Path.GetFileName(command.Package);
+			string workingDirectory = Path.Combine(taskDirectory, packageName);
 
-			string workingDirectory = Path.Combine(taskDirectory, command.Version);
-			try
+			if (!Directory.Exists(workingDirectory))
 			{
-				if (!Directory.Exists(workingDirectory))
-				{
-					var packageUrl = $"{Env.PackageUrl}{command.Version}.zip";
-					try
-					{
-						var localPackageFilePath = Path.Combine(Env.PackagesDirectory, $"{command.Version}.zip");
-						var bytes = Env.HttpClient.GetByteArrayAsync(packageUrl).Result;
-						File.WriteAllBytes(localPackageFilePath, bytes);
-						ZipFile.ExtractToDirectory(localPackageFilePath, workingDirectory);
-					}
-					catch (Exception e)
-					{
-						Logger.Error($"Download package {packageUrl} failed: {e}.");
-						throw;
-					}
-				}
-				ProcessManager.StartProcess(command.TaskId, command.ApplicationName, command.Arguments, workingDirectory);
-			}
-			catch (Exception e)
-			{
+				var localPackageFilePath = Path.Combine(Env.PackagesDirectory, Path.GetFileName(packageName));
+				var bytes = Env.HttpClient.GetByteArrayAsync(command.Package).Result;
+				File.WriteAllBytes(localPackageFilePath, bytes);
+				ZipFile.ExtractToDirectory(localPackageFilePath, workingDirectory);
 
 			}
+			ProcessManager.StartProcess(command.TaskId, command.ApplicationName, command.Arguments, workingDirectory);
+
 		}
 	}
 }

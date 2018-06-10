@@ -21,7 +21,7 @@
       "environmentVariables": {
         "clear": "true",
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "initestdata": "true"
+        "initestdata": "false"
       },
       "applicationUrl": "http://localhost:30013"
     }

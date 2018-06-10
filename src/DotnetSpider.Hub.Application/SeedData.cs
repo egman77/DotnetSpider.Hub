@@ -83,7 +83,7 @@ namespace DotnetSpider.Hub.Application
 					NodeRunningCount = 0,
 					Analysts = "刘菲",
 					Name = $"360指数采集",
-					Version = "abcd",
+					Package = "abcd",
 					Os = "windows",
 					NodeType = "default"
 				};

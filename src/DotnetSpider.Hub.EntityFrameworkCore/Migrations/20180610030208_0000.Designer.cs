@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180609122326_0000")]
+    [Migration("20180610030208_0000")]
     partial class _0000
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,11 +100,11 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(32);
 
+                    b.Property<string>("Package")
+                        .HasMaxLength(100);
+
                     b.Property<string>("TaskId")
                         .IsRequired();
-
-                    b.Property<string>("Version")
-                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -139,11 +139,11 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(32);
 
+                    b.Property<string>("Package")
+                        .HasMaxLength(100);
+
                     b.Property<string>("TaskId")
                         .IsRequired();
-
-                    b.Property<string>("Version")
-                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
@@ -290,10 +290,10 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.Property<string>("Owners")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Tags")
+                    b.Property<string>("Package")
                         .HasMaxLength(100);
 
-                    b.Property<string>("Version")
+                    b.Property<string>("Tags")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
@@ -353,8 +353,8 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Identity")
-                        .HasName("AlternateKey_Identity");
+                    b.HasIndex("Identity")
+                        .HasName("Index_Identity");
 
                     b.ToTable("TaskLog");
                 });

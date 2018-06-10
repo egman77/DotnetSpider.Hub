@@ -1,50 +1,50 @@
 ﻿<div id="view">
-    <h4>RUNNING LOGS: &nbsp;<span v-text="taskName + ' ' + identity"></span></h4>
-    <div class="row">
-        <div class="input-field col s12 m2">
-            <select v-model="logType">
-                <option disabled selected>All</option>
-                <option>Info</option>
-                <option>Warn</option>
-                <option>Error</option>
-            </select>
-        </div>
-        <div class="input-field col s12 m2">
-            <button class="btn btn-small" v-on:click="search()">Search</button>
-        </div>
-    </div>
-    <table class="card bordered highlight responsive-table centered">
-        <thead>
-            <tr role="row">
-                <th>NODEID</th>
-                <th>TIME</th>
-                <th>LEVEL</th>
-                <th>MESSAGE</th>
-                <th>EXCEPTION</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-show="logs.length==0">
-                <td colspan="13">
-                    No data to display...
-                </td>
-            </tr>
-            <tr role="row" v-for="(log,index) in logs">
-                <td><span v-text="log.nodeId"></span></td>
-                <td><span v-text="log.logged"></span></td>
-                <td><span v-text="log.level"></span></td>
-                <td><span v-text="log.message"></span></td>
-                <td><span v-text="log.exception"></span></td>
-            </tr>
-        </tbody>
-    </table>
-    <div v-show="logs.length>0">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
-    <div v-show="logs.length>0" id="pagination">
-    </div>
+	<h4>RUNNING LOGS: &nbsp;<span v-text="taskName + ' ' + identity"></span></h4>
+	<div class="row">
+		<div class="input-field col s12 m2">
+			<select v-model="logType">
+				<option selected>All</option>
+				<option>Information</option>
+				<option>Warn</option>
+				<option>Error</option>
+			</select>
+		</div>
+		<div class="input-field col s12 m2">
+			<button class="btn btn-small" v-on:click="search()">Search</button>
+		</div>
+	</div>
+	<table class="card bordered highlight responsive-table centered">
+		<thead>
+			<tr role="row">
+				<th>NODEID</th>
+				<th>TIME</th>
+				<th>LEVEL</th>
+				<th>MESSAGE</th>
+				<th>EXCEPTION</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-show="logs.length==0">
+				<td colspan="13">
+					No data to display...
+				</td>
+			</tr>
+			<tr role="row" v-for="(log,index) in logs">
+				<td><span v-text="log.nodeId"></span></td>
+				<td><span v-text="log.logged"></span></td>
+				<td><span v-text="log.level"></span></td>
+				<td><span v-text="log.message"></span></td>
+				<td><span v-text="log.exception"></span></td>
+			</tr>
+		</tbody>
+	</table>
+	<div v-show="logs.length>0">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
+	<div v-show="logs.length>0" id="pagination">
+	</div>
 </div>
 
 @section scripts{
-    <environment names="Development">
-        <script src="~/js/tasklog.js" asp-append-version="true"></script>
-    </environment>
+	<environment names="Development">
+		<script src="~/js/tasklog.js" asp-append-version="true"></script>
+	</environment>
 }
