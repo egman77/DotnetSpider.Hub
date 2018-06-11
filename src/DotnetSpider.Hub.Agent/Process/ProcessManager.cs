@@ -1,12 +1,11 @@
-﻿using System.Collections.Concurrent;
+﻿using Serilog;
+using System.Collections.Concurrent;
 using System.IO;
-using NLog;
 
 namespace DotnetSpider.Hub.Agent.Process
 {
 	public class ProcessManager
 	{
-		protected readonly static ILogger Logger = LogManager.GetCurrentClassLogger();
 		private static readonly ConcurrentDictionary<string, ProcessInfo> Processes = new ConcurrentDictionary<string, ProcessInfo>();
 
 		public static int ProcessCount => Processes.Count;
@@ -18,7 +17,7 @@ namespace DotnetSpider.Hub.Agent.Process
 
 		public static void StartProcess(string taskId, string app, string arguments, string workingDirectory)
 		{
-			Logger.Info($"Start process for task: {taskId}, app: {app}, arguments: {arguments}, workingDirectory: {workingDirectory}.");
+			Log.Logger.Information($"Start process for task: {taskId}, app: {app}, arguments: {arguments}, workingDirectory: {workingDirectory}.");
 			var path = Path.Combine(workingDirectory, app);
 			path = File.Exists(path) ? path : app;
 			System.Diagnostics.Process process = new System.Diagnostics.Process
@@ -34,10 +33,10 @@ namespace DotnetSpider.Hub.Agent.Process
 				EnableRaisingEvents = true
 			};
 			process.Start();
-			Logger.Info($"Start process for task: {taskId} success.");
+			Log.Logger.Information($"Start process for task: {taskId} success.");
 			process.Exited += (a, b) =>
 			{
-				Logger.Info($"Process of task {taskId} exited.");
+				Log.Logger.Information($"Process of task {taskId} exited.");
 				ProcessInfo p;
 				Processes.TryRemove(taskId, out p);
 			};

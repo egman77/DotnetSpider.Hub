@@ -1,11 +1,46 @@
-﻿namespace DotnetSpider.Hub.Agent
+﻿using CommandLine;
+using Serilog;
+using Serilog.Events;
+using System.IO;
+
+namespace DotnetSpider.Hub.Agent
 {
+	public class Options
+	{
+		[Option('c', "config", Required = false, HelpText = "Config file")]
+		public string Config { get; set; }
+	}
+
 	public class Program
 	{
 		static void Main(string[] args)
 		{
-			var agent = new AgentClient();
-			agent.Run();
+			Log.Logger = new LoggerConfiguration()
+				.MinimumLevel.Verbose()
+				.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+				.WriteTo.RollingFile(Path.Combine(Directory.GetCurrentDirectory(), "{Date}.log"))
+				.WriteTo.Console()
+				.CreateLogger();
+
+
+			Parser parser = new Parser(config =>
+			{
+				config.CaseSensitive = false;
+				config.EnableDashDash = false;
+				config.CaseInsensitiveEnumValues = false;
+			});
+
+			var result = parser.ParseArguments<Options>(args);
+			if (result.Tag == ParserResultType.Parsed)
+			{
+				var options = result as Parsed<Options>;
+				var agent = new AgentClient(options.Value.Config);
+				agent.Run();
+			}
+			else
+			{
+				Log.Logger.Error("Arguments uncorrect.");
+			}
 		}
 	}
 }

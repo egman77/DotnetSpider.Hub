@@ -35,13 +35,6 @@ namespace DotnetSpider.Hub
 		{
 			_env = env;
 			Configuration = configuration;
-
-			Log.Logger = new LoggerConfiguration()
-				.MinimumLevel.Information()
-				.MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
-				.WriteTo.RollingFile(Path.Combine(Directory.GetCurrentDirectory(), "DOTNETSPIDER-HUB-{Date}.log"))
-				.WriteTo.Console()
-				.CreateLogger();
 		}
 
 		public IConfiguration Configuration { get; }

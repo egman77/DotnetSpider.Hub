@@ -70,6 +70,35 @@ namespace DotnetSpider.Hub.EntityFrameworkCore.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("DotnetSpider.Hub.Core.Entities.Config", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<DateTime?>("LastModificationTime");
+
+                    b.Property<long?>("LastModifierUserId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32);
+
+                    b.Property<string>("Value")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Name")
+                        .HasName("AlternateKey_Name");
+
+                    b.ToTable("Config");
+                });
+
             modelBuilder.Entity("DotnetSpider.Hub.Core.Entities.Message", b =>
                 {
                     b.Property<long>("Id")

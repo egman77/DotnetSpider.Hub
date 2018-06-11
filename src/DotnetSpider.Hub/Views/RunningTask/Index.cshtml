@@ -31,13 +31,11 @@
             </tr>
         </tbody>
     </table>
-    <div v-show="total>size" >Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
+    <div v-show="total>size">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</div>
     <div v-show="total>size" id="pagination">
         <ul class="pagination"></ul>
     </div>
 </div>
 @section scripts{
-    <environment names="Development">
-        <script src="~/js/runningtask.js" asp-append-version="true"></script>
-    </environment>
+    <script src="~/js/runningtask.js" asp-append-version="true"></script>
 }

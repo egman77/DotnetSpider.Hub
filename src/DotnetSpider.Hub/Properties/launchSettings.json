@@ -19,7 +19,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "clear": "true",
+        "clear": "false",
         "ASPNETCORE_ENVIRONMENT": "Development",
         "initestdata": "false"
       },

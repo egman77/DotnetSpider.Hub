@@ -42,7 +42,12 @@ namespace DotnetSpider.Hub.Controllers
 
 		protected void CheckAuth()
 		{
-			if (!Configuration.RequireToken)
+			CheckAuth(Configuration.RequireToken);
+		}
+
+		protected void CheckAuth(bool require)
+		{
+			if (!require)
 			{
 				return;
 			}

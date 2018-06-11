@@ -9,26 +9,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using DotnetSpider.Hub.Agent.Command;
 using Newtonsoft.Json;
-using NLog;
-using NLog.Config;
+using Serilog;
 
 namespace DotnetSpider.Hub.Agent
 {
 	public class AgentClient : IDisposable
 	{
-		private static ILogger _logger;
 		private Task _task;
 		private int _step;
 		private FileStream _singletonLock;
 		private readonly Ping _ping = new Ping();
+		private readonly string _config;
+		private static string _configPath = Path.Combine(AppContext.BaseDirectory, "config.ini");
 
 		public bool HasExited { get; private set; }
 
-		public AgentClient()
+		public AgentClient(string config)
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
 				Console.Title = $"DotnetSpider Hub Agent v{Env.Version}";
+			}
+
+			if (Uri.TryCreate(config, UriKind.RelativeOrAbsolute, out _))
+			{
+				_config = config;
 			}
 		}
 
@@ -67,7 +72,7 @@ namespace DotnetSpider.Hub.Agent
 			}
 			catch (Exception e)
 			{
-				_logger.Info($"Delete process lock failed: {e}");
+				Log.Logger.Information($"Delete process lock failed: {e}");
 			}
 		}
 
@@ -94,21 +99,18 @@ namespace DotnetSpider.Hub.Agent
 		/// </summary>
 		private void CheckConfig()
 		{
-			string nlogConfigPath = Path.Combine(AppContext.BaseDirectory, "nlog.config");
-			if (!File.Exists(nlogConfigPath))
+			if (!string.IsNullOrWhiteSpace(_config))
 			{
-				Console.WriteLine("NLog configuraiton file nlog.config unfound.");
-				Environment.Exit(1);
+				var bytes = Env.HttpClient.GetByteArrayAsync(_config).Result;
+				File.WriteAllBytes(_configPath, bytes);
 			}
-			_logger = LogManager.GetCurrentClassLogger();
-			string configPath = Path.Combine(AppContext.BaseDirectory, "config.ini");
-			if (!File.Exists(configPath))
+			if (!File.Exists(_configPath))
 			{
-				_logger.Error("Agent configuration file config.ini unfound.");
+				Log.Logger.Error("Agent configuration file config.ini unfound.");
 				Environment.Exit(1);
 			}
 
-			_logger.Info($"[{++_step}] Check configuration exists success.");
+			Log.Logger.Information($"[{++_step}] Check configuration exists success.");
 		}
 
 		/// <summary>
@@ -116,12 +118,9 @@ namespace DotnetSpider.Hub.Agent
 		/// </summary>
 		private void LoadConfig()
 		{
-			string nlogConfigPath = Path.Combine(AppContext.BaseDirectory, "nlog.config");
-			LogManager.Configuration = new XmlLoggingConfiguration(nlogConfigPath);
-
 			Env.Load();
 
-			_logger.Info($"[{++_step}] Load configuration success.");
+			Log.Logger.Information($"[{++_step}] Load configuration success.");
 		}
 
 		/// <summary>
@@ -151,7 +150,7 @@ namespace DotnetSpider.Hub.Agent
 				var hearbeat = HeartBeat.Create();
 				var json = JsonConvert.SerializeObject(hearbeat);
 				HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, Env.HeartbeatUrl);
-				httpRequestMessage.Headers.Add("DotnetSpiderToken", Env.ApiToken);
+				httpRequestMessage.Headers.Add("HubToken", Env.HubToken);
 				httpRequestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
 				await Env.HttpClient.SendAsync(httpRequestMessage).ContinueWith((task) =>
@@ -171,16 +170,16 @@ namespace DotnetSpider.Hub.Agent
 						}
 						else
 						{
-							_logger.Error($"Heartbeart failed: {jobj.Message}");
+							Log.Logger.Error($"Heartbeart failed: {jobj.Message}");
 						}
 					}
 				});
 
-				_logger.Trace(hearbeat);
+				Log.Logger.Verbose(hearbeat.ToString());
 			}
 			catch (Exception e)
 			{
-				_logger.Error($"Heartbeart failed: {e}");
+				Log.Logger.Error($"Heartbeart failed: {e}");
 			}
 		}
 
@@ -188,7 +187,7 @@ namespace DotnetSpider.Hub.Agent
 		{
 			if (Env.IsRunningOnWindows)
 			{
-				_logger.Info($"[{++_step}] Start monitor error dialog.");
+				Log.Logger.Information($"[{++_step}] Start monitor error dialog.");
 
 				Task.Factory.StartNew(() =>
 				{
@@ -204,7 +203,7 @@ namespace DotnetSpider.Hub.Agent
 						}
 						catch (Exception e)
 						{
-							_logger.Info($"Kill error dialog failed: {e}");
+							Log.Logger.Information($"Kill error dialog failed: {e}");
 						}
 						Thread.Sleep(1500);
 					}

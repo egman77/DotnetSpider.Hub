@@ -7,18 +7,37 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace DotnetSpider.Hub
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			var configurationFile = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development" ?
+							 "appsettings.Development.json" : "appsettings.json";
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
-    }
+			Log.Logger = new LoggerConfiguration()
+				.MinimumLevel.Information()
+				.MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+				.WriteTo.RollingFile(Path.Combine(Directory.GetCurrentDirectory(), "{Date}.log"))
+				.WriteTo.Console()
+				.CreateLogger();
+
+			Log.Information("Welcome to DotentSpider.Hub!");
+
+			var config = new ConfigurationBuilder()
+				.SetBasePath(Directory.GetCurrentDirectory())
+				.AddEnvironmentVariables()
+				.AddJsonFile(configurationFile, optional: true)
+				.Build();
+
+			var host = WebHost.CreateDefaultBuilder(args).UseConfiguration(config)
+				.UseContentRoot(Directory.GetCurrentDirectory())
+				.UseStartup<Startup>().UseSerilog().Build();
+			host.Run();
+		}
+	}
 }

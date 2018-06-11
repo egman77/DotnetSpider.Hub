@@ -19,6 +19,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore
 		public DbSet<TaskHistory> TaskHistory { get; set; }
 		public DbSet<TaskStatus> TaskStatus { get; set; }
 		public DbSet<TaskLog> TaskLog { get; set; }
+		public DbSet<Config> Config { get; set; }
 
 		private readonly IHttpContextAccessor _accessor;
 
@@ -37,6 +38,7 @@ namespace DotnetSpider.Hub.EntityFrameworkCore
 			// Add your customizations after calling base.OnModelCreating(builder);
 
 			builder.Entity<Node>().HasAlternateKey(c => c.NodeId).HasName("AlternateKey_NodeId");
+			builder.Entity<Config>().HasAlternateKey(c => c.Name).HasName("AlternateKey_Name");
 			builder.Entity<TaskLog>().HasIndex(c => c.Identity).HasName("Index_Identity");
 		}
 

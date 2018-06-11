@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using DotnetSpider.Hub.Agent.Process;
+using Serilog;
 
 namespace DotnetSpider.Hub.Agent.Command
 {
@@ -14,7 +15,7 @@ namespace DotnetSpider.Hub.Agent.Command
 		{
 			if (!ProcessManager.IsTaskExsits(command.TaskId))
 			{
-				Logger.Warn($"Task {command.TaskId} is not running.");
+				Log.Logger.Warning($"Task {command.TaskId} is not running.");
 				return;
 			}
 
@@ -38,19 +39,19 @@ namespace DotnetSpider.Hub.Agent.Command
 				}
 				catch (NotSupportedException nse)
 				{
-					Logger.Info($"Kill task {command.TaskId} success: {nse.Message}.");
+					Log.Logger.Information($"Kill task {command.TaskId} success: {nse.Message}.");
 				}
 				catch (Win32Exception we)
 				{
-					Logger.Info($"Kill task {command.TaskId} success: {we.Message}.");
+					Log.Logger.Information($"Kill task {command.TaskId} success: {we.Message}.");
 				}
 				catch (InvalidOperationException ioe)
 				{
-					Logger.Info($"Kill task {command.TaskId} success: {ioe.Message}.");
+					Log.Logger.Information($"Kill task {command.TaskId} success: {ioe.Message}.");
 				}
 				catch (Exception e)
 				{
-					Logger.Error($"Kill task {command.TaskId} failed: {e}.");
+					Log.Logger.Error($"Kill task {command.TaskId} failed: {e}.");
 				}
 			}
 		}

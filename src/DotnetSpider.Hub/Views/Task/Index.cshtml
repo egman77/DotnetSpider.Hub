@@ -1,71 +1,69 @@
 ﻿<h4>TASKS</h4>
 <div id="view" class="row card">
-	<div class="row">
-		<div class="col s12 m1  input-field">
-			<a class="btn btn left" href="/task/create">Create</a>
-		</div>
-		<div class="col s12 m11 input-field">
-			<i class="material-icons prefix">search</i>
-			<input id="queryKeyword" type="text" class="validate" v-model="keyword" v-on:keypress="onKeyPress($event)">
-			<label for="queryKeyword">Keyword</label>
-		</div>
-	</div>
-	<table class="bordered highlight responsive-table centered">
-		<thead>
-			<tr role="row">
-				<th>NAME</th>
-				<th>APPLICATION</th>
-				<th width="80">OS</th>
-				<th width="60">NODE</th>
-				<th width="70">TYPE</th>
-				<th width="80">RUNNING</th>
-				<th width="120">CRON</th>
-				<th width="60">SINGLE</th>
-				<th width="60">ENABLE</th>
-				<th>ACTION</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-show="tasks.length==0">
-				<td colspan="11">
-					No tasks to display...
-				</td>
-			</tr>
-			<tr role="row" v-for="task in tasks">
-				<td v-text="task.name"></td>
-				<td v-text="task.applicationName"></td>
-				<td v-text="task.os"></td>
-				<td v-text="task.nodeCount"></td>
-				<td v-text="task.nodeType"></td>
-				<td v-text="task.nodeRunningCount"></td>
-				<td v-text="task.cron"></td>
-				<td v-text="task.isSingle"></td>
-				<td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
-				<td>
-					<a class="btn btn-small" :href="'task/edit?taskid='+ task.id">Modify</a>
-					<button class="btn  btn-small" @@click.stop="disable(task)" :disabled="!task.isEnabled">Disable</button>
-					<button class="btn  btn-small" @@click.stop="enable(task)" :disabled="task.isEnabled">Enable</button>
-					<button class="btn  btn-small" @@click.stop="remove(task)">Remove</button>
-					<a class="btn  btn-small" :href="'taskhistory?taskId='+ task.id + '&taskName=' +task.name">History</a>
-					<button class="btn  btn-small" @@click.stop="run(task)" :disabled="task.isRunning||!task.isEnabled">Run</button>
-					<button class="btn  btn-small" @@click.stop="exit(task.id)" :disabled="!task.isEnabled">Exit</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<div class="row">
-		<div class="col s12 m6 left">
-			<div v-show="total>size" id="pagination">
-			</div>
-		</div>
-		<div class="col s12 m6 right ">
-			<h6 class="right" v-show="total>size">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</h6>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col s12 m1  input-field">
+            <a class="btn btn left" href="/task/create">Create</a>
+        </div>
+        <div class="col s12 m11 input-field">
+            <i class="material-icons prefix">search</i>
+            <input id="queryKeyword" type="text" class="validate" v-model="keyword" v-on:keypress="onKeyPress($event)">
+            <label for="queryKeyword">Keyword</label>
+        </div>
+    </div>
+    <table class="bordered highlight responsive-table centered">
+        <thead>
+            <tr role="row">
+                <th>NAME</th>
+                <th>APPLICATION</th>
+                <th width="80">OS</th>
+                <th width="60">NODE</th>
+                <th width="70">TYPE</th>
+                <th width="80">RUNNING</th>
+                <th width="120">CRON</th>
+                <th width="60">SINGLE</th>
+                <th width="60">ENABLE</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-show="tasks.length==0">
+                <td colspan="11">
+                    No tasks to display...
+                </td>
+            </tr>
+            <tr role="row" v-for="task in tasks">
+                <td v-text="task.name"></td>
+                <td v-text="task.applicationName"></td>
+                <td v-text="task.os"></td>
+                <td v-text="task.nodeCount"></td>
+                <td v-text="task.nodeType"></td>
+                <td v-text="task.nodeRunningCount"></td>
+                <td v-text="task.cron"></td>
+                <td v-text="task.isSingle"></td>
+                <td v-text="task.isEnabled" :style="{'color':task.isEnabled?'green':'red','text-transform':'capitalize'}"></td>
+                <td>
+                    <a class="btn btn-small" :href="'task/edit?taskid='+ task.id">Modify</a>
+                    <button class="btn  btn-small" @@click.stop="disable(task)" :disabled="!task.isEnabled">Disable</button>
+                    <button class="btn  btn-small" @@click.stop="enable(task)" :disabled="task.isEnabled">Enable</button>
+                    <button class="btn  btn-small" @@click.stop="remove(task)">Remove</button>
+                    <a class="btn  btn-small" :href="'taskhistory?taskId='+ task.id + '&taskName=' +task.name">History</a>
+                    <button class="btn  btn-small" @@click.stop="run(task)" :disabled="task.isRunning||!task.isEnabled">Run</button>
+                    <button class="btn  btn-small" @@click.stop="exit(task.id)" :disabled="!task.isEnabled">Exit</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col s12 m6 left">
+            <div v-show="total>size" id="pagination">
+            </div>
+        </div>
+        <div class="col s12 m6 right ">
+            <h6 class="right" v-show="total>size">Showing <span v-text="page"></span> to <span v-text="size"></span> of <span v-text="total"></span> entries</h6>
+        </div>
+    </div>
 </div>
 
 @section scripts{
-	<environment names="Development">
-		<script src="~/js/task.js" asp-append-version="true"></script>
-	</environment>
+    <script src="~/js/task.js" asp-append-version="true"></script>
 }

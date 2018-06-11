@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
-using NLog;
+using Serilog;
 
 namespace DotnetSpider.Hub.Agent.Command
 {
 	public static class CommandExecutor
 	{
-		private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
 		private static readonly Dictionary<string, ICommand> Commands = new Dictionary<string, ICommand>();
 
 		static CommandExecutor()
@@ -27,11 +26,11 @@ namespace DotnetSpider.Hub.Agent.Command
 			}
 			if (command.NodeId != Env.NodeId)
 			{
-				Logger.Error($"Command error: {JsonConvert.SerializeObject(command)}.");
+				Log.Logger.Error($"Command error: {JsonConvert.SerializeObject(command)}.");
 				return;
 			}
 
-			Logger.Info($"Consume message: {JsonConvert.SerializeObject(command)}.");
+			Log.Logger.Information($"Consume message: {JsonConvert.SerializeObject(command)}.");
 
 			try
 			{
@@ -42,7 +41,7 @@ namespace DotnetSpider.Hub.Agent.Command
 			}
 			catch (Exception e)
 			{
-				Logger.Error($"Execute command {JsonConvert.SerializeObject(command)} failed: {e}");
+				Log.Logger.Error($"Execute command {JsonConvert.SerializeObject(command)} failed: {e}");
 			}
 		}
 
