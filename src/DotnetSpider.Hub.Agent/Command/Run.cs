@@ -18,7 +18,7 @@ namespace DotnetSpider.Hub.Agent.Command
 				Log.Logger.Error($"Package should not be empty.");
 				return;
 			}
-			if (!command.Package.ToLower().EndsWith(".zip"))
+			if (!command.Package.ToLower().Contains(".zip"))
 			{
 				Log.Logger.Error($"Package must be a zip.");
 				return;
@@ -35,19 +35,26 @@ namespace DotnetSpider.Hub.Agent.Command
 				Directory.CreateDirectory(taskDirectory);
 				Log.Logger.Information($"Create task directory {taskDirectory} success.");
 			}
-			var packageName = Path.GetFileNameWithoutExtension(command.Package);
-			string workingDirectory = Path.Combine(taskDirectory, packageName);
-
-			if (!Directory.Exists(workingDirectory))
+			Uri uri;
+			if (Uri.TryCreate(command.Package, UriKind.RelativeOrAbsolute, out uri))
 			{
-				var localPackageFilePath = Path.Combine(Env.PackagesDirectory, Path.GetFileName(command.Package));
-				var bytes = Env.HttpClient.GetByteArrayAsync(command.Package).Result;
-				File.WriteAllBytes(localPackageFilePath, bytes);
-				ZipFile.ExtractToDirectory(localPackageFilePath, workingDirectory);
+				var packageName = Path.GetFileNameWithoutExtension(uri.AbsolutePath);
+				string workingDirectory = Path.Combine(taskDirectory, packageName);
 
+				if (!Directory.Exists(workingDirectory))
+				{
+					var localPackageFilePath = Path.Combine(Env.PackagesDirectory, Path.GetFileName(uri.AbsolutePath));
+					var bytes = Env.HttpClient.GetByteArrayAsync(uri).Result;
+					File.WriteAllBytes(localPackageFilePath, bytes);
+					ZipFile.ExtractToDirectory(localPackageFilePath, workingDirectory);
+
+				}
+				ProcessManager.StartProcess(command.TaskId, command.ApplicationName, command.Arguments, workingDirectory);
 			}
-			ProcessManager.StartProcess(command.TaskId, command.ApplicationName, command.Arguments, workingDirectory);
-
+			else
+			{
+				Log.Logger.Error("Package is not a correct url.");
+			}
 		}
 	}
 }
