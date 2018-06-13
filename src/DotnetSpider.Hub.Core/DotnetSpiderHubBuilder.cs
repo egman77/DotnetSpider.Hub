@@ -20,7 +20,7 @@ namespace DotnetSpider.Hub.Core
 		{
 			var config = configuration.GetSection(DotnetSpiderHubConsts.Settings).Get<CommonConfiguration>();
 			config.ConnectionString = configuration.GetConnectionString(DotnetSpiderHubConsts.DotnetSpiderHub);
-			config.SchedulerCallback = new Uri(new Uri(configuration["urls"]), "api/task/{0}?action=run").ToString();
+			config.SchedulerCallback = new Uri(new Uri(configuration["urls"]), "api/v1.0/task/{0}?action=run").ToString();
 			Services.AddSingleton<ICommonConfiguration>(config);
 		}
 	}
