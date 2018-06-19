@@ -28,7 +28,9 @@
                 that.$data.size = result.data.size;
 
                 hub.ui.initPagination('#pagination', result.data, function (page) {
-                    window.location.href = url;
+                    window.location.href = 'tasklog?identity=' + that.$data.identity + '&nodeid=' + that.$data.nodeId
+                        + '&logType=' + that.$data.logType + '&taskname=' + that.$data.taskName +
+                        '&page=' + that.$data.page + '&size=' + that.$data.size;
                 });
             });
 
