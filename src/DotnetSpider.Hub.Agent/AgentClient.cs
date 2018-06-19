@@ -20,30 +20,33 @@ namespace DotnetSpider.Hub.Agent
 		private FileStream _singletonLock;
 		private readonly Ping _ping = new Ping();
 		private readonly string _config;
+		private readonly bool _daemon = false;
 		private static string _configPath = Path.Combine(AppContext.BaseDirectory, "config.ini");
 
 		public bool HasExited { get; private set; }
 
-		public AgentClient(string config)
+		public AgentClient(Options config)
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 			{
 				Console.Title = $"DotnetSpider Hub Agent v{Env.Version}";
 			}
 
-			if (Uri.TryCreate(config, UriKind.RelativeOrAbsolute, out _))
+			if (Uri.TryCreate(config.Config, UriKind.RelativeOrAbsolute, out _))
 			{
-				_config = config;
+				_config = config.Config;
 			}
+
+			_daemon = config.Daemon;
 		}
 
-		public void Run(params string[] args)
+		public void Run()
 		{
 			CheckIfOtherProcessIsRunning();
 			CheckConfig();
 			LoadConfig();
 			MonitorErrorDialogOnWindows();
-			if (args.Contains("--daemon"))
+			if (_daemon)
 			{
 				Start();
 			}

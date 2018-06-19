@@ -1,6 +1,7 @@
 ﻿using CommandLine;
 using Serilog;
 using Serilog.Events;
+using System;
 using System.IO;
 
 namespace DotnetSpider.Hub.Agent
@@ -9,6 +10,9 @@ namespace DotnetSpider.Hub.Agent
 	{
 		[Option('c', "config", Required = false, HelpText = "Config file")]
 		public string Config { get; set; }
+
+		[Option('d', "daemon", Required = false, HelpText = "Run as daemon")]
+		public bool Daemon { get; set; }
 	}
 
 	public class Program
@@ -34,7 +38,7 @@ namespace DotnetSpider.Hub.Agent
 			if (result.Tag == ParserResultType.Parsed)
 			{
 				var options = result as Parsed<Options>;
-				var agent = new AgentClient(options.Value.Config);
+				var agent = new AgentClient(options.Value);
 				agent.Run();
 			}
 			else
