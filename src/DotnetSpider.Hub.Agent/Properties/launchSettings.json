@@ -2,7 +2,7 @@
   "profiles": {
     "DotnetSpider.Hub.Agent": {
       "commandName": "Project",
-      "commandLineArgs": "-c http://nasabigdata.com:30012/contents/dotnetspider.hub.agent/default.ini"
+      "commandLineArgs": ""
     }
   }
 }
