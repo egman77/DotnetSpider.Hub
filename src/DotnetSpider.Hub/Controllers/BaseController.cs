@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace DotnetSpider.Hub.Controllers
@@ -25,7 +26,8 @@ namespace DotnetSpider.Hub.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				throw new DotnetSpiderHubException("Arguments uncorrect.");
+				var kv = context.ActionArguments.FirstOrDefault();
+				throw new DotnetSpiderHubException($"ModelState is invalid: {context.HttpContext.Request.Path}, values: {JsonConvert.SerializeObject(kv.Value)}.");
 			}
 			base.OnActionExecuting(context);
 		}
