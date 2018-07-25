@@ -146,7 +146,7 @@ namespace DotnetSpider.Hub.Agent
 			_task = Task.Factory.StartNew(Start);
 		}
 
-		private async void Heartbeat()
+		private void Heartbeat()
 		{
 			try
 			{
@@ -156,7 +156,7 @@ namespace DotnetSpider.Hub.Agent
 				httpRequestMessage.Headers.Add("HubToken", Env.HubToken);
 				httpRequestMessage.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
-				await Env.HttpClient.SendAsync(httpRequestMessage).ContinueWith((task) =>
+				Env.HttpClient.SendAsync(httpRequestMessage).ContinueWith((task) =>
 				{
 					HttpResponseMessage response = task.Result;
 					response.EnsureSuccessStatusCode();
@@ -168,7 +168,10 @@ namespace DotnetSpider.Hub.Agent
 						{
 							foreach (var command in jobj.Data.ToObject<Messsage[]>())
 							{
-								CommandExecutor.Execute(command, this);
+								ThreadPool.QueueUserWorkItem((obj) =>
+								{
+									CommandExecutor.Execute(command, this);
+								});
 							}
 						}
 						else
@@ -176,7 +179,7 @@ namespace DotnetSpider.Hub.Agent
 							Log.Logger.Error($"Heartbeart failed: {jobj.Message}");
 						}
 					}
-				});
+				}).Wait();
 
 				Log.Logger.Verbose(hearbeat.ToString());
 			}
@@ -219,7 +222,6 @@ namespace DotnetSpider.Hub.Agent
 			try
 			{
 				PingReply pr = _ping.Send("www.baidu.com", 5000);
-
 				return pr != null && pr.Status == IPStatus.Success;
 			}
 			catch

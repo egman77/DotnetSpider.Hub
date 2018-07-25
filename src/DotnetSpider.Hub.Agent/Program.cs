@@ -3,6 +3,7 @@ using Serilog;
 using Serilog.Events;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace DotnetSpider.Hub.Agent
 {
@@ -37,6 +38,7 @@ namespace DotnetSpider.Hub.Agent
 			var result = parser.ParseArguments<Options>(args);
 			if (result.Tag == ParserResultType.Parsed)
 			{
+				ThreadPool.SetMaxThreads(256, 256);
 				var options = result as Parsed<Options>;
 				var agent = new AgentClient(options.Value);
 				agent.Run();

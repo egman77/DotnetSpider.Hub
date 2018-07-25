@@ -36,6 +36,7 @@ namespace DotnetSpider.Hub.Agent.Command
 			{
 				if (Commands.ContainsKey(command.Name))
 				{
+
 					Commands[command.Name].Execute(command, client);
 				}
 			}
@@ -44,7 +45,5 @@ namespace DotnetSpider.Hub.Agent.Command
 				Log.Logger.Error($"Execute command {JsonConvert.SerializeObject(command)} failed: {e}");
 			}
 		}
-
-
 	}
 }
