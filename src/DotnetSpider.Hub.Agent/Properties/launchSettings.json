@@ -1,7 +1,8 @@
 {
   "profiles": {
     "DotnetSpider.Hub.Agent": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": ""
     }
   }
 }

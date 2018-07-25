@@ -1,1 +1,1 @@
-nohup dotnet DotnetSpider.Enterprise.Agent.dll --daemon &
+nohup dotnet DotnetSpider.Hub.Agent.dll --daemon &

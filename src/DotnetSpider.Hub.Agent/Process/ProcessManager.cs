@@ -25,7 +25,7 @@ namespace DotnetSpider.Hub.Agent.Process
 				StartInfo =
 				{
 					FileName = path,
-					UseShellExecute = true,
+					UseShellExecute = false,
 					CreateNoWindow = true,
 					WorkingDirectory = workingDirectory,
 					Arguments = arguments

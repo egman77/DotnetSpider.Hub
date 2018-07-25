@@ -26,7 +26,7 @@ namespace DotnetSpider.Hub.Agent.Command
 			}
 			if (command.NodeId != Env.NodeId)
 			{
-				Log.Logger.Error($"Command error: {JsonConvert.SerializeObject(command)}.");
+				Log.Logger.Error($"NodeId not match: {JsonConvert.SerializeObject(command)}.");
 				return;
 			}
 
