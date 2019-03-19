@@ -120,12 +120,14 @@ namespace DotnetSpider.Hub.Application
 			//增加一个超级管理员用户
 			var superAdmin = new ApplicationUser
 			{
-				UserName = "service@dotnetspider.org",
-				Email = "service@dotnetspider.org",
+				UserName = "hdh@cvoit.com", //这个必须写成邮箱名,否则登录界面验证会导致无法正确传向后台
+				Email = "hdh@cvoit.com",
 				EmailConfirmed = true,
 				PhoneNumber = "18701698558"
 			};
-			_userManager.CreateAsync(superAdmin, "1qazZAQ!").Wait();
+
+            //要复杂密码(startup.cs的ConfigureServices方法中有指定),否则创建不成功!
+            _userManager.CreateAsync(superAdmin, "1qazZAQ!").Wait();
 
 			_userManager.AddToRoleAsync(superAdmin, "Admin").Wait();
 			_context.SaveChanges();
