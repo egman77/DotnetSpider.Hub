@@ -69,7 +69,7 @@ namespace DotnetSpider.Hub
             //添加响应压缩
 			services.AddResponseCompression();
 
-            //添加数据持久层
+            //添加数据持久层上下文
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DotnetSpiderHub")));
@@ -82,8 +82,8 @@ namespace DotnetSpider.Hub
                 options.Password.RequireDigit = false;//必须含有数字
 				options.Password.RequiredUniqueChars =6;//必须至少唯一字符串字数
 			})
-			.AddEntityFrameworkStores<ApplicationDbContext>() //应用程序数据库
-			.AddErrorDescriber<CustomIdentityErrorDescriber>()//自定义错误描述
+			.AddEntityFrameworkStores<ApplicationDbContext>() //添加实体模型持久层
+			.AddErrorDescriber<CustomIdentityErrorDescriber>()//添加自定义错误描述
 			.AddDefaultUI();
 
             //添加http客户端
