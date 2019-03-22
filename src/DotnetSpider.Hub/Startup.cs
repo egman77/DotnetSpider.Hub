@@ -110,7 +110,7 @@ namespace DotnetSpider.Hub
 
 			app.UseAuthentication(); //使用验证
 
-			app.UseSeeData(); //使用初始化数据
+			app.UseSeeData(); //使用初始化数据 (自定义的扩展方法)
 
 			app.UseMvc(routes =>
 			{

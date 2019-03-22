@@ -25,22 +25,28 @@ namespace DotnetSpider.Hub.Application
 		/// <param name="builderAction"></param>
 		public static void UseDotnetSpiderHubServices(this IDotnetSpiderHubBuilder builder)
 		{
+            //创建映射关系
 			AutoMapperConfiguration.CreateMap();
 
-			builder.Services.AddScoped<ITaskLogAppService, TaskLogAppService>();
-			builder.Services.AddScoped<ITaskAppService, TaskAppService>();
-			builder.Services.AddScoped<INodeAppService, NodeAppService>();
-			builder.Services.AddScoped<IMessageAppService, MessageAppService>();
-			builder.Services.AddScoped<ITaskStatusAppService, TaskStatusAppService>();
-			builder.Services.AddScoped<ITaskHistoryAppService, TaskHistoryAppService>();
-			builder.Services.AddScoped<IDashboardAppService, DashboardAppService>();
-			builder.Services.AddScoped<IPipelineAppService, PipelineAppService>();
-			builder.Services.AddScoped<ISchedulerAppService, SchedulerAppService>();
-			builder.Services.AddScoped<ISystemAppService, SystemAppService>();
-			builder.Services.AddScoped<INodeHeartbeatAppService, NodeHeartbeatAppService>();
-			builder.Services.AddScoped<ISeedData, SeedData>();
+
+			builder.Services.AddScoped<ITaskLogAppService, TaskLogAppService>(); //任务日志应用服务
+			builder.Services.AddScoped<ITaskAppService, TaskAppService>();//任务应用服务
+			builder.Services.AddScoped<INodeAppService, NodeAppService>();//节点应用服务
+			builder.Services.AddScoped<IMessageAppService, MessageAppService>();//消息应用服务
+			builder.Services.AddScoped<ITaskStatusAppService, TaskStatusAppService>();//任务状态应用服务
+			builder.Services.AddScoped<ITaskHistoryAppService, TaskHistoryAppService>();//任务历史应用服务
+			builder.Services.AddScoped<IDashboardAppService, DashboardAppService>();//故事板应用服务
+			builder.Services.AddScoped<IPipelineAppService, PipelineAppService>();//管道应用服务
+			builder.Services.AddScoped<ISchedulerAppService, SchedulerAppService>();//计划应用服务
+			builder.Services.AddScoped<ISystemAppService, SystemAppService>();//系统应用服务
+			builder.Services.AddScoped<INodeHeartbeatAppService, NodeHeartbeatAppService>();//节点心跳应用服务
+			builder.Services.AddScoped<ISeedData, SeedData>();//初始化数据服务
 		}
 
+        /// <summary>
+        /// 扩展方法
+        /// </summary>
+        /// <param name="app"></param>
 		public static void UseSeeData(this IApplicationBuilder app)
 		{
 			var seedata = app.ApplicationServices.GetRequiredService<ISeedData>();
