@@ -67,6 +67,7 @@ namespace DotnetSpider.Hub.Application.System
 					{
 						Id = taskId,
 						Name = task.Name,
+                       // Groupt=task.
 						Cron = task.Cron,
 						Url = string.Format(Configuration.SchedulerCallback, taskId),
 						Data = JsonConvert.SerializeObject(new { TaskId = taskId })

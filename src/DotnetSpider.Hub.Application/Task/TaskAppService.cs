@@ -127,7 +127,13 @@ namespace DotnetSpider.Hub.Application.Task
 					Url = string.Format(Configuration.SchedulerCallback, task.Id), //设置回调
 					Data = JsonConvert.SerializeObject(new { TaskId = task.Id })
 				};
-				_schedulerAppService.Create(job); //创建计划
+
+                if (!task.Name.StartsWith(job.Group))
+                {
+                    task.Name = $"[{job.Group}]{task.Name}";
+                }
+
+                _schedulerAppService.Create(job); //创建计划
 			}
 
 			DbContext.Task.Add(task); //添加任务
@@ -180,6 +186,12 @@ namespace DotnetSpider.Hub.Application.Task
 					Url = string.Format(Configuration.SchedulerCallback, taskId),
 					Data = JsonConvert.SerializeObject(new { TaskId = taskId })
 				};
+
+                if(!task.Name.StartsWith(job.Group))
+                {
+                    task.Name = $"[{job.Group}]{task.Name}";
+                }
+
 				_schedulerAppService.Update(job);
 			}
 
@@ -194,8 +206,9 @@ namespace DotnetSpider.Hub.Application.Task
 			if (msg == null)
 			{
 				var task = CheckStatusOfTask(taskId);
-				if (task.Name.StartsWith(DotnetSpiderHubConsts.JobPrefix))
-				{
+               
+                if (task.Name.StartsWith($"[{DotnetSpiderHubConsts.JobPrefix}]"))
+                {
 					_systemAppService.Execute(task.Name, task.Arguments);
 					Logger.Warning($"Run task {taskId}.");
 				}
@@ -356,7 +369,7 @@ namespace DotnetSpider.Hub.Application.Task
 			{
 				throw new DotnetSpiderHubException("任务不存在");
 			}
-			if (task.Name.StartsWith(DotnetSpiderHubConsts.JobPrefix))
+			if (task.Name.StartsWith($"[{DotnetSpiderHubConsts.JobPrefix}]"))
 			{
 				return task;
 			}
