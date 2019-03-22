@@ -10,9 +10,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace DotnetSpider.Hub.Agent
 {
-	public class Env
-	{
-		private static IConfigurationRoot _configuration;
+    public class Env
+    {
+        private static IConfigurationRoot _configuration;
         /// <summary>
         /// 基础数据目录
         /// </summary>
@@ -82,75 +82,173 @@ namespace DotnetSpider.Hub.Agent
         /// </summary>
 		public static string NodeType { get; set; }
 
-		public static readonly HttpClient HttpClient = new HttpClient(new HttpClientHandler
-		{
-			AllowAutoRedirect = true,
-			AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
-			UseProxy = true,
-			UseCookies = false
-		});
+        public static readonly HttpClient HttpClient = new HttpClient(new HttpClientHandler
+        {
+            AllowAutoRedirect = true,
+            AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip,
+            UseProxy = true,
+            UseCookies = false
+        });
 
-        
+
         /// <summary>
         /// 构造环境信息
         /// </summary>
-		static Env()
-		{
-			IsRunningOnWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        static Env()
+        {
+            IsRunningOnWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
-			RunningLockPath = Path.Combine(AppContext.BaseDirectory, "agent.lock");
-			NodeIdPath = Path.Combine(AppContext.BaseDirectory, "nodeId");
-			ProjectsDirectory = Path.Combine(AppContext.BaseDirectory, "projects");
-			PackagesDirectory = Path.Combine(AppContext.BaseDirectory, "packages");
-			ProcessesDirectory = Path.Combine(AppContext.BaseDirectory, "proc");
+            RunningLockPath = Path.Combine(AppContext.BaseDirectory, "agent.lock");
+            NodeIdPath = Path.Combine(AppContext.BaseDirectory, "nodeId");
+            ProjectsDirectory = Path.Combine(AppContext.BaseDirectory, "projects");
+            PackagesDirectory = Path.Combine(AppContext.BaseDirectory, "packages");
+            ProcessesDirectory = Path.Combine(AppContext.BaseDirectory, "proc");
 
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-			{
-				Os = "Linux";
-			}
-			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-			{
-				Os = "Windows";
-			}
-			else
-			{
-				Os = "OSX";
-			}
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Os = "Linux";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Os = "Windows";
+            }
+            else
+            {
+                Os = "OSX";
+            }
 
-			if (!Directory.Exists(ProjectsDirectory))
-			{
-				Directory.CreateDirectory(ProjectsDirectory);
-			}
-			if (!Directory.Exists(PackagesDirectory))
-			{
-				Directory.CreateDirectory(PackagesDirectory);
-			}
-			if (!Directory.Exists(ProcessesDirectory))
-			{
-				Directory.CreateDirectory(ProcessesDirectory);
-			}
-			HostName = Dns.GetHostName(); //获得主机名
-			var interf = NetworkInterface.GetAllNetworkInterfaces().First(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet);
-			var unicastAddresses = interf.GetIPProperties().UnicastAddresses;
-			Ip = unicastAddresses.First(a => a.IPv4Mask.ToString() != "255.255.255.255" && a.Address.AddressFamily == AddressFamily.InterNetwork).Address.ToString();
-			NodeId = Ip; //获得ip地址
-		}
+            if (!Directory.Exists(ProjectsDirectory))
+            {
+                Directory.CreateDirectory(ProjectsDirectory);
+            }
+            if (!Directory.Exists(PackagesDirectory))
+            {
+                Directory.CreateDirectory(PackagesDirectory);
+            }
+            if (!Directory.Exists(ProcessesDirectory))
+            {
+                Directory.CreateDirectory(ProcessesDirectory);
+            }
+            HostName = Dns.GetHostName(); //获得主机名
+
+
+        }
+
+
 
         /// <summary>
         /// 从配置中加载环境信息
         /// </summary>
 		public static void Load()
-		{
-			var builder = new ConfigurationBuilder();
-			builder.AddIniFile("config.ini");
+        {
+            var builder = new ConfigurationBuilder();
+            builder.AddIniFile("config.ini");
 
-			_configuration = builder.Build();
+            _configuration = builder.Build();
 
-			ServerUrl = _configuration.GetValue<string>("serverUrl");
-			HeartbeatInterval = _configuration.GetValue<int>("heartbeatInterval");
-			HeartbeatUrl = $"{ServerUrl}api/v1.0/nodeheartbeat";
-			HubToken = _configuration.GetValue<string>("hubToken");
-			NodeType = _configuration.GetValue<string>("type");
-		}
-	}
+            ServerUrl = _configuration.GetValue<string>("serverUrl");
+            HeartbeatInterval = _configuration.GetValue<int>("heartbeatInterval");
+            HeartbeatUrl = $"{ServerUrl}api/v1.0/nodeheartbeat";
+            HubToken = _configuration.GetValue<string>("hubToken");
+            NodeType = _configuration.GetValue<string>("type");
+
+            NodeId = GetHostIpv4(_configuration.GetValue<string>("HostInterfaceName")); //获得ip地址
+        }
+
+        /// <summary>
+        /// 获取宿主的ip地址
+        /// </summary>
+        /// <returns></returns>
+        static string GetHostIpv4(string hostInterfaceName)
+        {
+            //string[] names = { "本地", "local", };
+
+            //如果没有设置,猜测
+            if (string.IsNullOrWhiteSpace(hostInterfaceName))
+            {
+               return  GuessHostIpv4();
+            }
+
+            var interfs = NetworkInterface.GetAllNetworkInterfaces();
+
+
+            //var interf = NetworkInterface.GetAllNetworkInterfaces().First(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet);
+            //精确匹配
+            var interf= interfs.First(i => i.Name.Contains(hostInterfaceName));
+            if(interf==null)
+            {
+                //模糊匹配
+                interf = interfs.First(i => i.Name.IndexOf(hostInterfaceName)!=-1);
+            }
+            else if(interf==null)
+            {
+                //猜测
+                return GuessHostIpv4();
+            }
+
+
+            var unicastAddresses = interf.GetIPProperties().UnicastAddresses;
+            var ip = unicastAddresses.First(a => a.IPv4Mask.ToString() != "255.255.255.255" && a.Address.AddressFamily == AddressFamily.InterNetwork).Address.ToString();
+
+            return ip;
+        }
+
+        /// <summary>
+        /// 猜测宿主的ip地址
+        /// </summary>
+        /// <returns></returns>
+        static string GuessHostIpv4()
+        {
+            NetworkInterface interf = null;
+
+            var interfs = NetworkInterface.GetAllNetworkInterfaces();
+
+            if(interfs.Count()==1)
+            {
+                interf = interfs[0];
+                return GetHostIpv4(interf);
+            }
+           
+           //猜接上网络的   
+           var interfs2 = interfs.Where(i => i.OperationalStatus == OperationalStatus.Up );
+
+            if(interfs2.Count()==1)
+            {
+                interf = interfs2.First();
+                return GetHostIpv4(interf);
+            }
+           
+            //猜发包数最大的
+            var max = interfs2.Max(j => j.GetIPv4Statistics().UnicastPacketsSent);
+            var interfs3= interfs2.Where(i=>i.GetIPv4Statistics().UnicastPacketsSent >= max);
+
+            if(interfs3.Count()==1)
+            {
+                interf = interfs3.First();
+                return GetHostIpv4(interf);
+            }
+
+            //猜接口类型
+            interf = interfs3.First(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet||
+                i.NetworkInterfaceType==NetworkInterfaceType.Wireless80211);
+
+            //取环回接口
+            if(interf==null)
+            {
+                interf = interfs.First(i => i.NetworkInterfaceType == NetworkInterfaceType.Loopback );
+            }
+            return GetHostIpv4(interf);
+        }
+
+           
+          
+        
+
+    static string GetHostIpv4(NetworkInterface interf)
+    {
+        var unicastAddresses = interf.GetIPProperties().UnicastAddresses;
+        var ip = unicastAddresses.First(a => a.IPv4Mask.ToString() != "255.255.255.255" && a.Address.AddressFamily == AddressFamily.InterNetwork).Address.ToString();
+        return ip;
+    }
+    }
 }

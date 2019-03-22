@@ -15,6 +15,13 @@ namespace DotnetSpider.Hub.Agent.Process
 			return Processes.ContainsKey(taskId);
 		}
 
+        /// <summary>
+        /// 处理例程
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <param name="app"></param>
+        /// <param name="arguments"></param>
+        /// <param name="workingDirectory"></param>
 		public static void StartProcess(string taskId, string app, string arguments, string workingDirectory)
 		{
 			Log.Logger.Information($"Start process for task: {taskId}, app: {app}, arguments: {arguments}, workingDirectory: {workingDirectory}.");

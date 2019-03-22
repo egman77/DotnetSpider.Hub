@@ -17,6 +17,11 @@ namespace DotnetSpider.Hub.Agent.Command
 			Commands.Add(CommandNames.RunName, new Run());//运行
 		}
 
+        /// <summary>
+        /// 同步线程, 执行例程
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="client"></param>
 		[MethodImpl(MethodImplOptions.Synchronized)]
 		public static void Execute(Messsage command, AgentClient client)
 		{

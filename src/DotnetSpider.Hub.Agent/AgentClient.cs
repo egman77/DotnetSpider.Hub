@@ -52,6 +52,7 @@ namespace DotnetSpider.Hub.Agent
 			}
 			else//前台交互运行
 			{
+                //真正的运行
 				StartAysnc();
 				Console.WriteLine("Enter q: to exit:");
 				while (Console.ReadLine() != "q:")
@@ -141,8 +142,12 @@ namespace DotnetSpider.Hub.Agent
 			}
 		}
 
+        /// <summary>
+        /// 异步运行
+        /// </summary>
 		private void StartAysnc()
 		{
+            //运行
 			_task = Task.Factory.StartNew(Start);
 		}
 

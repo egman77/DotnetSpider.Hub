@@ -98,7 +98,7 @@
                 <td><span v-text="node.isOnline" :style="{'color': node.isOnline?'green':'red', 'font-weight' : '700'}"></span></td>
                 <td><span v-text="node.cpuLoad"></span> | <span v-text="node.cpuCoreCount"></span></td>
                 <td><span v-text="node.freeMemory"></span> / <span v-text="node.totalMemory"></span></td>
-                <td><span v-text="node.type==1?'default':'vps'"></span></td>
+                <td><span v-text="node.type"></span></td>
                 <td><span v-text="node.os"></span></td>
                 <td><span v-text="node.processCount"></span></td>
                 <td><span v-text="node.version"></span></td>
