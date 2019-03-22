@@ -1,0 +1,1653 @@
+2019-03-22 09:44:14.203 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 09:54:51.242 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 10:16:29.474 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 10:18:04.472 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 10:51:21.954 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 11:12:19.550 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 11:13:20.651 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:20.675 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:23.063 +08:00 [Error] Request scheduler.net failed [1]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:23.063 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:23.064 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:24.661 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:24.661 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:25.078 +08:00 [Error] Request scheduler.net failed [2]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:25.078 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:25.079 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:26.674 +08:00 [Error] Request scheduler.net failed [1]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:26.675 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:26.675 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:27.100 +08:00 [Error] Request scheduler.net failed [3]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:27.100 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:27.100 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:28.487 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:28.494 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:28.685 +08:00 [Error] Request scheduler.net failed [2]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:28.686 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:28.686 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:29.115 +08:00 [Error] Request scheduler.net failed [4]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:29.115 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:29.115 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:30.509 +08:00 [Error] Request scheduler.net failed [1]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:30.510 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:30.511 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:30.704 +08:00 [Error] Request scheduler.net failed [3]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:30.704 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:30.704 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:30.768 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:30.768 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:31.126 +08:00 [Error] Request scheduler.net failed [5]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:31.126 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:31.126 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:31.579 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:31.579 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:32.446 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:32.446 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:32.526 +08:00 [Error] Request scheduler.net failed [2]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:32.527 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:32.527 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:32.761 +08:00 [Error] Request scheduler.net failed [4]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:32.761 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:32.761 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:33.448 +08:00 [Error] Request scheduler.net failed [1]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:33.448 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:33.449 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:33.467 +08:00 [Error] DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。).
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.Create(SchedulerJobDto job) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 47
+   at DotnetSpider.Hub.Application.Task.TaskAppService.Create(CreateTaskInput input) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Task\TaskAppService.cs:line 123
+   at DotnetSpider.Hub.Controllers.Api.TaskController.Create(CreateTaskInput item) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub\Controllers\Api\TaskController.cs:line 31
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+2019-03-22 11:13:34.450 +08:00 [Error] Request scheduler.net failed [1]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:34.450 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:34.450 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:35.470 +08:00 [Error] Request scheduler.net failed [5]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:35.471 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:35.471 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:35.473 +08:00 [Error] Request scheduler.net failed [3]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:35.479 +08:00 [Error] Request scheduler.net failed [1]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:35.487 +08:00 [Error] Request scheduler.net failed [2]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:35.498 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:35.515 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:35.530 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:35.530 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:35.530 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:35.530 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:36.465 +08:00 [Error] Request scheduler.net failed [2]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:36.466 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:36.466 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:37.490 +08:00 [Error] DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。).
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.Create(SchedulerJobDto job) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 47
+   at DotnetSpider.Hub.Application.Task.TaskAppService.Create(CreateTaskInput input) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Task\TaskAppService.cs:line 123
+   at DotnetSpider.Hub.Controllers.Api.TaskController.Create(CreateTaskInput item) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub\Controllers\Api\TaskController.cs:line 31
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+2019-03-22 11:13:37.545 +08:00 [Error] Request scheduler.net failed [2]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:37.545 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:37.546 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:37.550 +08:00 [Error] Request scheduler.net failed [4]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:37.551 +08:00 [Error] Request scheduler.net failed [3]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:37.562 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:37.573 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:37.573 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:37.573 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:38.482 +08:00 [Error] Request scheduler.net failed [3]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:38.482 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:38.483 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:39.569 +08:00 [Error] Request scheduler.net failed [3]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:39.570 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:39.571 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:39.583 +08:00 [Error] Request scheduler.net failed [5]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:39.583 +08:00 [Error] Request scheduler.net failed [4]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:39.593 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:39.609 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:39.609 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:39.610 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:40.493 +08:00 [Error] Request scheduler.net failed [4]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:40.493 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:40.494 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:41.591 +08:00 [Error] Request scheduler.net failed [4]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:41.592 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:41.592 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:41.623 +08:00 [Error] DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。).
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.Create(SchedulerJobDto job) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 47
+   at DotnetSpider.Hub.Application.Task.TaskAppService.Create(CreateTaskInput input) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Task\TaskAppService.cs:line 123
+   at DotnetSpider.Hub.Controllers.Api.TaskController.Create(CreateTaskInput item) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub\Controllers\Api\TaskController.cs:line 31
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+2019-03-22 11:13:41.624 +08:00 [Error] Request scheduler.net failed [5]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:41.628 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:41.628 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:42.513 +08:00 [Error] Request scheduler.net failed [5]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:42.514 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:42.515 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:43.605 +08:00 [Error] Request scheduler.net failed [5]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:13:43.605 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:43.605 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:13:43.645 +08:00 [Error] DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。).
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.Create(SchedulerJobDto job) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 47
+   at DotnetSpider.Hub.Application.Task.TaskAppService.Create(CreateTaskInput input) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Task\TaskAppService.cs:line 123
+   at DotnetSpider.Hub.Controllers.Api.TaskController.Create(CreateTaskInput item) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub\Controllers\Api\TaskController.cs:line 31
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+2019-03-22 11:13:44.549 +08:00 [Error] DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。).
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.Create(SchedulerJobDto job) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 47
+   at DotnetSpider.Hub.Application.Task.TaskAppService.Create(CreateTaskInput input) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Task\TaskAppService.cs:line 123
+   at DotnetSpider.Hub.Controllers.Api.TaskController.Create(CreateTaskInput item) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub\Controllers\Api\TaskController.cs:line 31
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+2019-03-22 11:13:45.613 +08:00 [Error] DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。).
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.Create(SchedulerJobDto job) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 47
+   at DotnetSpider.Hub.Application.Task.TaskAppService.Create(CreateTaskInput input) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Task\TaskAppService.cs:line 123
+   at DotnetSpider.Hub.Controllers.Api.TaskController.Create(CreateTaskInput item) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub\Controllers\Api\TaskController.cs:line 31
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+2019-03-22 11:16:33.543 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:33.545 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:35.562 +08:00 [Error] Request scheduler.net failed [1]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:16:35.563 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:35.563 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:37.585 +08:00 [Error] Request scheduler.net failed [2]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:16:37.585 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:37.585 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:39.597 +08:00 [Error] Request scheduler.net failed [3]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:16:39.598 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:39.598 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:41.609 +08:00 [Error] Request scheduler.net failed [4]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:16:41.609 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:41.610 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:43.619 +08:00 [Error] Request scheduler.net failed [5]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 11:16:43.620 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:43.620 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 11:16:45.628 +08:00 [Error] DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。).
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.Create(SchedulerJobDto job) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 47
+   at DotnetSpider.Hub.Application.Task.TaskAppService.Create(CreateTaskInput input) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Task\TaskAppService.cs:line 123
+   at DotnetSpider.Hub.Controllers.Api.TaskController.Create(CreateTaskInput item) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub\Controllers\Api\TaskController.cs:line 31
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.Execute(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.SyncActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextExceptionFilterAsync()
+2019-03-22 11:21:05.030 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 11:35:30.336 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 11:38:57.538 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 12:04:00.290 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 12:06:40.323 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 12:07:47.839 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 12:07:51.379 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:07:51.392 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:07:53.699 +08:00 [Error] Request scheduler.net failed [1]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 12:07:53.699 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:07:53.700 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:07:55.710 +08:00 [Error] Request scheduler.net failed [2]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 12:07:55.710 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:07:55.710 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:07:57.721 +08:00 [Error] Request scheduler.net failed [3]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 12:07:57.721 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:07:57.721 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:07:59.747 +08:00 [Error] Request scheduler.net failed [4]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 12:07:59.748 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:07:59.748 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:08:01.761 +08:00 [Error] Request scheduler.net failed [5]: System.AggregateException: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。) ---> System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.<>c__DisplayClass3_0.<Create>b__0() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 38
+   at Polly.Policy.<>c__DisplayClass150_0`1.<Execute>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.ExecuteOverloads.cs:line 96
+   at Polly.Policy.<>c__DisplayClass143_0`1.<ExecuteInternal>b__0(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Policy.cs:line 59
+   at Polly.RetrySyntax.<>c__DisplayClass5_1.<Retry>b__1(Context ctx, CancellationToken ct) in C:\projects\polly\src\Polly.Shared\Retry\RetrySyntax.cs:line 98
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, IEnumerable`1 shouldRetryExceptionPredicates, IEnumerable`1 shouldRetryResultPredicates, Func`1 policyStateFactory) in C:\projects\polly\src\Polly.Shared\Retry\RetryEngine.cs:line 31
+---> (Inner Exception #0) System.Net.Http.HttpRequestException: 由于目标计算机积极拒绝，无法连接。 ---> System.Net.Sockets.SocketException: 由于目标计算机积极拒绝，无法连接。
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.ConnectHelper.ConnectAsync(String host, Int32 port, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.CreateConnectionAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.WaitForCreatedConnectionAsync(ValueTask`1 creationTask)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at System.Net.Http.HttpConnectionPool.SendWithRetryAsync(HttpRequestMessage request, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.FinishSendAsyncBuffered(Task`1 sendTask, HttpRequestMessage request, CancellationTokenSource cts, Boolean disposeCts)<---
+
+2019-03-22 12:08:01.762 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:08:01.762 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 12:08:03.808 +08:00 [Fatal] Application startup exception
+DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or more errors occurred. (由于目标计算机积极拒绝，无法连接。).
+   at DotnetSpider.Hub.Application.Scheduler.SchedulerAppService.Create(SchedulerJobDto job) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\Scheduler\SchedulerAppService.cs:line 47
+   at DotnetSpider.Hub.Application.System.SystemAppService.AddScanRunningTaskJob() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\System\SystemAppService.cs:line 111
+   at DotnetSpider.Hub.Application.System.SystemAppService.Register() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\System\SystemAppService.cs:line 39
+   at DotnetSpider.Hub.Application.SeedData.Init() in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\SeedData.cs:line 60
+   at DotnetSpider.Hub.Application.ServiceCollectionExtensions.UseSeeData(IApplicationBuilder app) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub.Application\ServiceCollectionExtensions.cs:line 47
+   at DotnetSpider.Hub.Startup.Configure(IApplicationBuilder app, IHostingEnvironment env) in E:\hdh_github_workspaces\DotnetSpider.Hub\src\DotnetSpider.Hub\Startup.cs:line 111
+--- End of stack trace from previous location where exception was thrown ---
+   at Microsoft.AspNetCore.Hosting.ConventionBasedStartup.Configure(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Server.IISIntegration.IISSetupFilter.<>c__DisplayClass4_0.<Configure>b__0(IApplicationBuilder app)
+   at Microsoft.AspNetCore.HostFilteringStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder app)
+   at Microsoft.AspNetCore.Hosting.Internal.AutoRequestServicesStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder builder)
+   at Microsoft.AspNetCore.Hosting.Internal.WebHost.BuildApplication()
