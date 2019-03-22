@@ -125,7 +125,7 @@ namespace DotnetSpider.Hub.Application.Task
 					Name = task.Name,
 					Cron = input.Cron,
 					Url = string.Format(Configuration.SchedulerCallback, task.Id), //设置回调
-					Data = JsonConvert.SerializeObject(new { TaskId = task.Id })
+					Content = JsonConvert.SerializeObject(new { TaskId = task.Id })
 				};
 
                 if (!task.Name.StartsWith(job.Group))
@@ -184,7 +184,7 @@ namespace DotnetSpider.Hub.Application.Task
 					Name = task.Name,
 					Cron = task.Cron,
 					Url = string.Format(Configuration.SchedulerCallback, taskId),
-					Data = JsonConvert.SerializeObject(new { TaskId = taskId })
+					Content = JsonConvert.SerializeObject(new { TaskId = taskId })
 				};
 
                 if(!task.Name.StartsWith(job.Group))
@@ -207,7 +207,7 @@ namespace DotnetSpider.Hub.Application.Task
 			{
 				var task = CheckStatusOfTask(taskId);
                
-                if (task.Name.StartsWith($"[{DotnetSpiderHubConsts.JobPrefix}]"))
+                if (task.Name.StartsWith(DotnetSpiderHubConsts.JobPrefix))
                 {
 					_systemAppService.Execute(task.Name, task.Arguments);
 					Logger.Warning($"Run task {taskId}.");
@@ -295,7 +295,7 @@ namespace DotnetSpider.Hub.Application.Task
 				Name = task.Name,
 				Cron = task.Cron,
 				Url = string.Format(Configuration.SchedulerCallback, taskId),
-				Data = JsonConvert.SerializeObject(new { TaskId = taskIdStr })
+				Content = JsonConvert.SerializeObject(new { TaskId = taskIdStr })
 			};
 			_schedulerAppService.Create(job);
 			DbContext.Task.Update(task);
@@ -369,7 +369,7 @@ namespace DotnetSpider.Hub.Application.Task
 			{
 				throw new DotnetSpiderHubException("任务不存在");
 			}
-			if (task.Name.StartsWith($"[{DotnetSpiderHubConsts.JobPrefix}]"))
+			if (task.Name.StartsWith(DotnetSpiderHubConsts.JobPrefix))
 			{
 				return task;
 			}

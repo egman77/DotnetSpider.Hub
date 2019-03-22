@@ -23,7 +23,8 @@ namespace DotnetSpider.Hub.Controllers.Api
 		{
 			CheckAuth();
 
-			return Success(_heartbeatAppService.Create(input));
+            //在此插入代理需要执行的命令消息,如爬网命令
+			return Success(_heartbeatAppService.Create(input),null);
 		}
 	}
 }

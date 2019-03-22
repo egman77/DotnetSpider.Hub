@@ -17,8 +17,9 @@ namespace DotnetSpider.Hub.Application.Scheduler.Dtos
         /// </summary>
         public virtual HttpMethod Method { get; set; } = HttpMethod.Get;
 
-
-		public virtual string Data { get; set; }
+        //改名为内容
+		//public virtual string Data { get; set; }
+        public virtual string Content { get; set; }
 
         /// <summary>
         /// 组名?

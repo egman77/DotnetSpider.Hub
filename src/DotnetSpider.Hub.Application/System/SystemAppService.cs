@@ -70,7 +70,7 @@ namespace DotnetSpider.Hub.Application.System
                        // Groupt=task.
 						Cron = task.Cron,
 						Url = string.Format(Configuration.SchedulerCallback, taskId),
-						Data = JsonConvert.SerializeObject(new { TaskId = taskId })
+						Content = JsonConvert.SerializeObject(new { TaskId = taskId })
 					};
 					_schedulerAppService.Create(job);
 				}
@@ -107,7 +107,7 @@ namespace DotnetSpider.Hub.Application.System
 				Name = scanRunningTask.Name,
 				Cron = "0/15 * * * *",
 				Url = string.Format(Configuration.SchedulerCallback, taskId),
-				Data = JsonConvert.SerializeObject(new { TaskId = taskId })
+				Content = JsonConvert.SerializeObject(new { TaskId = taskId })
 			};
 			_schedulerAppService.Create(job);
 		}
@@ -142,7 +142,7 @@ namespace DotnetSpider.Hub.Application.System
 				Name = upgradeScheduler.Name,
 				Cron = "* * * * *",
 				Url = string.Format(Configuration.SchedulerCallback, taskId),
-				Data = JsonConvert.SerializeObject(new { TaskId = taskId })
+				Content = JsonConvert.SerializeObject(new { TaskId = taskId })
 			};
 			_schedulerAppService.Create(job);
 		}
