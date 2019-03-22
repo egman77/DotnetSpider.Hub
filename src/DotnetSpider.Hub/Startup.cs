@@ -92,30 +92,32 @@ namespace DotnetSpider.Hub
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 		{
+            //开发环境下
 			if (env.IsDevelopment())
 			{
-				app.UseDeveloperExceptionPage();
-				app.UseDatabaseErrorPage();
+				app.UseDeveloperExceptionPage(); //使用开发者异常页 
+				app.UseDatabaseErrorPage(); //使用数据库错误页
 			}
-			else
+			else //生产环境下
 			{
-				app.UseExceptionHandler("/Home/Error");
-				app.UseHsts();
+
+				app.UseExceptionHandler("/Home/Error");  //使用错误处理
+				app.UseHsts(); //使用HSTS 安全协议
 			}
 
-			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+			app.UseHttpsRedirection(); //使用https重定向
+			app.UseStaticFiles(); //使用静态文件
 
-			app.UseAuthentication();
+			app.UseAuthentication(); //使用验证
 
-			app.UseSeeData();
+			app.UseSeeData(); //使用初始化数据
 
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(
 					name: "default",
 					template: "{controller=Home}/{action=Index}/{id?}");
-			});
+			}); //使用mvc功能
 		}
 	}
 }

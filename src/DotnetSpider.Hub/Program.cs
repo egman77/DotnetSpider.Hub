@@ -28,6 +28,7 @@ namespace DotnetSpider.Hub
 
 			Log.Information("Welcome to DotentSpider.Hub!");
 
+            //构建配置对象
 			var config = new ConfigurationBuilder()
 				.SetBasePath(Directory.GetCurrentDirectory())
 				.AddEnvironmentVariables()
