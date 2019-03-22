@@ -95,6 +95,10 @@ namespace DotnetSpider.Hub.Application.Task
 			return output;
 		}
 
+        /// <summary>
+        /// 添加一个任务
+        /// </summary>
+        /// <param name="input"></param>
 		public void Create(CreateTaskInput input)
 		{
 			if (input == null)
@@ -102,6 +106,7 @@ namespace DotnetSpider.Hub.Application.Task
 				Logger.Error($"{nameof(input)} should not be null.");
 				return;
 			}
+            //映射到任务对象
 			var task = Mapper.Map<Core.Entities.Task>(input);
 
 			input.ApplicationName = input.ApplicationName.Trim();
@@ -110,20 +115,22 @@ namespace DotnetSpider.Hub.Application.Task
 			input.Package = input.Package.Trim();
 			input.Name = input.Name.Trim();
 
+            //表示要创建议计划?
 			if (input.Cron != Configuration.IngoreCron)
 			{
+                //计划工作
 				var job = new SchedulerJobDto
 				{
 					Id = task.Id,
 					Name = task.Name,
 					Cron = input.Cron,
-					Url = string.Format(Configuration.SchedulerCallback, task.Id),
+					Url = string.Format(Configuration.SchedulerCallback, task.Id), //设置回调
 					Data = JsonConvert.SerializeObject(new { TaskId = task.Id })
 				};
-				_schedulerAppService.Create(job);
+				_schedulerAppService.Create(job); //创建计划
 			}
 
-			DbContext.Task.Add(task);
+			DbContext.Task.Add(task); //添加任务
 			DbContext.SaveChanges();
 		}
 

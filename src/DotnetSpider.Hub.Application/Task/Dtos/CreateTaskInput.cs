@@ -12,7 +12,7 @@ namespace DotnetSpider.Hub.Application.Task.Dtos
 		public virtual string ApplicationName { get; set; }
 
 		/// <summary>
-		/// Cron表达式
+		/// Cron表达式 (计划任务--cron)
 		/// </summary>
 		[StringLength(50)]
 		[Required]
