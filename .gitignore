@@ -207,3 +207,4 @@ FakesAssemblies/
 /src/DotnetSpider.Enterprise.Common/Utils/RestConnection.cs
 /src/DotnetSpider.Enterprise.Common/Entities/HttpContentTypes.cs
 /src/DotnetSpider.Hub/*.log
+/src/DotnetSpider.Hub.Agent/*.log
