@@ -46,11 +46,11 @@ namespace DotnetSpider.Hub.Agent
 			CheckConfig();
 			LoadConfig();
 			MonitorErrorDialogOnWindows();
-			if (_daemon)
-			{
-				Start();
+			if (_daemon) //后台
+            {
+				Start(); 
 			}
-			else
+			else//前台交互运行
 			{
 				StartAysnc();
 				Console.WriteLine("Enter q: to exit:");
@@ -146,6 +146,9 @@ namespace DotnetSpider.Hub.Agent
 			_task = Task.Factory.StartNew(Start);
 		}
 
+        /// <summary>
+        /// 心跳
+        /// </summary>
 		private void Heartbeat()
 		{
 			try
@@ -189,6 +192,9 @@ namespace DotnetSpider.Hub.Agent
 			}
 		}
 
+        /// <summary>
+        /// 监控windows上的错误对话
+        /// </summary>
 		private void MonitorErrorDialogOnWindows()
 		{
 			if (Env.IsRunningOnWindows)

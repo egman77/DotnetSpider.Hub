@@ -12,9 +12,9 @@ namespace DotnetSpider.Hub.Agent.Command
 
 		static CommandExecutor()
 		{
-			Commands.Add(CommandNames.CancelName, new Cancel());
-			Commands.Add(CommandNames.ExitName, new Exit());
-			Commands.Add(CommandNames.RunName, new Run());
+			Commands.Add(CommandNames.CancelName, new Cancel());//取消
+			Commands.Add(CommandNames.ExitName, new Exit());//退出
+			Commands.Add(CommandNames.RunName, new Run());//运行
 		}
 
 		[MethodImpl(MethodImplOptions.Synchronized)]

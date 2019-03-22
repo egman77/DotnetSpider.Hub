@@ -13,23 +13,73 @@ namespace DotnetSpider.Hub.Agent
 	public class Env
 	{
 		private static IConfigurationRoot _configuration;
-
+        /// <summary>
+        /// 基础数据目录
+        /// </summary>
 		public static string BaseDataDirectory { get; set; }
+        /// <summary>
+        /// 运行锁路径
+        /// </summary>
 		public static string RunningLockPath { get; set; }
+        /// <summary>
+        /// 节点ID路径
+        /// </summary>
 		public static string NodeIdPath { get; set; }
+        /// <summary>
+        /// 项目目录
+        /// </summary>
 		public static string ProjectsDirectory { get; set; }
+        /// <summary>
+        /// 包目录
+        /// </summary>
 		public static string PackagesDirectory { get; set; }
+        /// <summary>
+        /// 处理器目录
+        /// </summary>
 		public static string ProcessesDirectory { get; set; }
+        /// <summary>
+        /// 是否运行在windows下
+        /// </summary>
 		public static bool IsRunningOnWindows { get; }
+        /// <summary>
+        /// 节点id
+        /// </summary>
 		public static string NodeId { get; set; }
+        /// <summary>
+        /// 节点ip
+        /// </summary>
 		public static string Ip { get; set; }
+        /// <summary>
+        /// 节点主机名
+        /// </summary>
 		public static string HostName { get; set; }
+        /// <summary>
+        /// 节点操作系统
+        /// </summary>
 		public static string Os { get; set; }
+        /// <summary>
+        /// 版本
+        /// </summary>
 		public const string Version = "1.0.0";
+        /// <summary>
+        /// 服务器url
+        /// </summary>
 		public static string ServerUrl { get; set; }
+        /// <summary>
+        /// 心跳url
+        /// </summary>
 		public static string HeartbeatUrl { get; set; }
+        /// <summary>
+        /// 心跳间隔
+        /// </summary>
 		public static int HeartbeatInterval { get; set; }
+        /// <summary>
+        /// 集线器(调度系统)令牌
+        /// </summary>
 		public static string HubToken { get; set; }
+        /// <summary>
+        /// 节点类型
+        /// </summary>
 		public static string NodeType { get; set; }
 
 		public static readonly HttpClient HttpClient = new HttpClient(new HttpClientHandler
@@ -40,6 +90,10 @@ namespace DotnetSpider.Hub.Agent
 			UseCookies = false
 		});
 
+        
+        /// <summary>
+        /// 构造环境信息
+        /// </summary>
 		static Env()
 		{
 			IsRunningOnWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -75,13 +129,16 @@ namespace DotnetSpider.Hub.Agent
 			{
 				Directory.CreateDirectory(ProcessesDirectory);
 			}
-			HostName = Dns.GetHostName();
+			HostName = Dns.GetHostName(); //获得主机名
 			var interf = NetworkInterface.GetAllNetworkInterfaces().First(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet);
 			var unicastAddresses = interf.GetIPProperties().UnicastAddresses;
 			Ip = unicastAddresses.First(a => a.IPv4Mask.ToString() != "255.255.255.255" && a.Address.AddressFamily == AddressFamily.InterNetwork).Address.ToString();
-			NodeId = Ip;
+			NodeId = Ip; //获得ip地址
 		}
 
+        /// <summary>
+        /// 从配置中加载环境信息
+        /// </summary>
 		public static void Load()
 		{
 			var builder = new ConfigurationBuilder();
