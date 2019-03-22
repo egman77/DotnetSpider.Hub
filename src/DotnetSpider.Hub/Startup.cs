@@ -86,9 +86,12 @@ namespace DotnetSpider.Hub
 				config.UseConfiguration(Configuration);
 				config.UseDotnetSpiderHubServices();//使用程序服务(自定义扩展方法)
 			});
+
+            //添加mvc
 			services.AddMvc(options => { options.Filters.Add<HttpGlobalExceptionFilter>(); })
 				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            //构建服务提供者
 			return services.BuildAspectCoreServiceProvider();
 		}
 
