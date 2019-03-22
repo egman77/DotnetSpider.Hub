@@ -1651,3 +1651,4 @@ DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or 
    at Microsoft.AspNetCore.HostFilteringStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder app)
    at Microsoft.AspNetCore.Hosting.Internal.AutoRequestServicesStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder builder)
    at Microsoft.AspNetCore.Hosting.Internal.WebHost.BuildApplication()
+2019-03-22 14:16:44.108 +08:00 [Information] Welcome to DotentSpider.Hub!

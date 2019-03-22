@@ -33,8 +33,12 @@ namespace DotnetSpider.Hub.EntityFrameworkCore
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
+
+            //如果需要,可以自定义 标识符模型和重写默认值
 			// Customize the ASP.NET Identity model and override the defaults if needed.
+            //这个示例,重命名了 标识符表字段的名称
 			// For example, you can rename the ASP.NET Identity table names and more.
+            //需要在base.OnModelCreating(builder)之后再定制它.
 			// Add your customizations after calling base.OnModelCreating(builder);
 
 			builder.Entity<Node>().HasAlternateKey(c => c.NodeId).HasName("AlternateKey_NodeId");
@@ -48,6 +52,9 @@ namespace DotnetSpider.Hub.EntityFrameworkCore
 			return base.SaveChanges();
 		}
 
+        /// <summary>
+        /// 自动审计
+        /// </summary>
 		private void ApplyAudited()
 		{
 			var value = _accessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;

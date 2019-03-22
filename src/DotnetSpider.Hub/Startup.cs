@@ -42,25 +42,34 @@ namespace DotnetSpider.Hub
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
+            //如果不是开发环境
 			if (!_env.IsDevelopment())
 			{
+                
 				Action<ApplicationOptions> application = options =>
 				{
-					options.ApplicationName = _env.ApplicationName;
-					options.Environment = _env.EnvironmentName;
+					options.ApplicationName = _env.ApplicationName; //应用程序名
+					options.Environment = _env.EnvironmentName; //环境名(机器名)
 				};
 
+                //添加APM,APM是什么?
 				services.AddAspectCoreAPM(component =>
 				{
-					component.AddLineProtocolCollector(options => Configuration.GetLineProtocolSection().Bind(options))
-							.AddHttpProfiler()
-							.AddApplicationProfiler();
+					component.AddLineProtocolCollector(options => 
+                        Configuration.GetLineProtocolSection()
+                            .Bind(options)) //选项
+							.AddHttpProfiler() //http配置
+							.AddApplicationProfiler();//应用程序配置
 				}, application);
 
 			}
+
+            //添加响应快取
 			services.AddResponseCaching();
+            //添加响应压缩
 			services.AddResponseCompression();
 
+            //添加数据持久层
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DotnetSpiderHub")));
