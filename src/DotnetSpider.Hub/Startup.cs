@@ -65,23 +65,26 @@ namespace DotnetSpider.Hub
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DotnetSpiderHub")));
 
+            //添加标识符关系
 			services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
-				options.Password.RequireNonAlphanumeric = false;
-				options.Password.RequireUppercase = false;
-				options.Password.RequireDigit = false;
-				options.Password.RequiredUniqueChars = 6;
+				options.Password.RequireNonAlphanumeric = false; //必须含有特殊字母
+				options.Password.RequireUppercase = false;//必须含有大写
+                options.Password.RequireDigit = false;//必须含有数字
+				options.Password.RequiredUniqueChars =6;//必须至少唯一字符串字数
 			})
-			.AddEntityFrameworkStores<ApplicationDbContext>()
-			.AddErrorDescriber<CustomIdentityErrorDescriber>()
+			.AddEntityFrameworkStores<ApplicationDbContext>() //应用程序数据库
+			.AddErrorDescriber<CustomIdentityErrorDescriber>()//自定义错误描述
 			.AddDefaultUI();
 
+            //添加http客户端
 			services.AddHttpClient();
 
+            //添加程序构建
 			services.AddDotnetSpiderHub(config =>
 			{
 				config.UseConfiguration(Configuration);
-				config.UseDotnetSpiderHubServices();
+				config.UseDotnetSpiderHubServices();//使用程序服务(自定义扩展方法)
 			});
 			services.AddMvc(options => { options.Filters.Add<HttpGlobalExceptionFilter>(); })
 				.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
