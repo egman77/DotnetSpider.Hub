@@ -1652,3 +1652,13 @@ DotnetSpider.Hub.Core.DotnetSpiderHubException: Create scheduler failed: One or 
    at Microsoft.AspNetCore.Hosting.Internal.AutoRequestServicesStartupFilter.<>c__DisplayClass0_0.<Configure>b__0(IApplicationBuilder builder)
    at Microsoft.AspNetCore.Hosting.Internal.WebHost.BuildApplication()
 2019-03-22 14:16:44.108 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 14:38:01.745 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 14:45:50.487 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 14:47:15.810 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 14:50:00.620 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 14:51:10.575 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 14:52:25.361 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 14:53:43.310 +08:00 [Information] Start processing HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 14:53:43.329 +08:00 [Information] Sending HTTP request "POST" http://localhost:5001/api/v1.0/callbackjob
+2019-03-22 14:54:44.762 +08:00 [Information] Welcome to DotentSpider.Hub!
+2019-03-22 14:56:40.854 +08:00 [Information] Welcome to DotentSpider.Hub!
