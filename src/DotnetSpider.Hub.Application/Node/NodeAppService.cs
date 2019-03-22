@@ -27,6 +27,10 @@ namespace DotnetSpider.Hub.Application.Node
 			_messageAppService = messageAppService;
 		}
 
+        /// <summary>
+        /// 启用节点
+        /// </summary>
+        /// <param name="nodeId"></param>
 		public void Enable(string nodeId)
 		{
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
@@ -42,6 +46,10 @@ namespace DotnetSpider.Hub.Application.Node
 			}
 		}
 
+        /// <summary>
+        /// 禁用节点
+        /// </summary>
+        /// <param name="nodeId"></param>
 		public void Disable(string nodeId)
 		{
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
@@ -57,6 +65,11 @@ namespace DotnetSpider.Hub.Application.Node
 			}
 		}
 
+        /// <summary>
+        /// 搜索节点
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
 		public PaginationQueryDto Query(PaginationQueryInput input)
 		{
 			if (input == null)
@@ -139,6 +152,13 @@ namespace DotnetSpider.Hub.Application.Node
 			return output;
 		}
 
+        /// <summary>
+        /// 返回可用节点
+        /// </summary>
+        /// <param name="os"></param>
+        /// <param name="type"></param>
+        /// <param name="nodeCount"></param>
+        /// <returns></returns>
 		public List<NodeDto> GetAvailable(string os, string type, int nodeCount)
 		{
 			List<Core.Entities.Node> nodes;
@@ -192,6 +212,11 @@ namespace DotnetSpider.Hub.Application.Node
 			}
 		}
 
+        /// <summary>
+        /// 节点是否在线
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
 		private bool IsOnlineNode(Core.Entities.Node node)
 		{
 			if (node.LastModificationTime != null)
@@ -203,7 +228,10 @@ namespace DotnetSpider.Hub.Application.Node
 			return false;
 		}
 
-
+        /// <summary>
+        /// 返回所有在线节点
+        /// </summary>
+        /// <returns></returns>
 		public List<NodeDto> GetAllOnline()
 		{
 			var compareTime = DateTime.Now.AddSeconds(-60);
@@ -211,12 +239,20 @@ namespace DotnetSpider.Hub.Application.Node
 			return Mapper.Map<List<NodeDto>>(nodes);
 		}
 
+        /// <summary>
+        /// 返回在线节点数量
+        /// </summary>
+        /// <returns></returns>
 		public int GetOnlineNodeCount()
 		{
 			var compareTime = DateTime.Now.AddSeconds(-60);
 			return DbContext.Node.Count(a => a.IsOnline && a.LastModificationTime > compareTime);
 		}
 
+        /// <summary>
+        /// 结束节点(作用??)
+        /// </summary>
+        /// <param name="nodeId"></param>
 		public void Exit(string nodeId)
 		{
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
@@ -238,6 +274,10 @@ namespace DotnetSpider.Hub.Application.Node
 			}
 		}
 
+        /// <summary>
+        /// 删除节点
+        /// </summary>
+        /// <param name="nodeId"></param>
 		public void Delete(string nodeId)
 		{
 			var node = DbContext.Node.FirstOrDefault(n => n.NodeId == nodeId);
@@ -252,6 +292,11 @@ namespace DotnetSpider.Hub.Application.Node
 			}
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodeId"></param>
+        /// <param name="action"></param>
 		public void Control(string nodeId, ActionType action)
 		{
 			switch (action)
